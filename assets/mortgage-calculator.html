@@ -259,6 +259,116 @@
         color: rgba(226, 232, 240, 0.38);
       }
 
+      .slider-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-top: 10px;
+      }
+
+      .slider-row input[type="range"] {
+        flex: 1;
+        appearance: none;
+        height: 4px;
+        border-radius: 999px;
+        background: linear-gradient(90deg, rgba(14,165,233,0.45), rgba(56,189,248,0.35));
+        outline: none;
+      }
+
+      .slider-row input[type="range"]::-webkit-slider-thumb {
+        appearance: none;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #22d3ee;
+        border: 2px solid rgba(15,23,42,0.85);
+        box-shadow: 0 4px 10px rgba(14,165,233,0.45);
+        cursor: pointer;
+      }
+
+      .slider-row input[type="range"]::-moz-range-thumb {
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        background: #22d3ee;
+        border: 2px solid rgba(15,23,42,0.85);
+        box-shadow: 0 4px 10px rgba(14,165,233,0.45);
+        cursor: pointer;
+      }
+
+      .slider-value {
+        font-size: 12px;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        color: rgba(148, 163, 184, 0.9);
+        min-width: 54px;
+        text-align: right;
+        text-transform: uppercase;
+      }
+
+      .scenario-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 14px;
+      }
+
+      .scenario-chip {
+        padding: 8px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(45, 64, 118, 0.55);
+        background: rgba(20, 23, 42, 0.85);
+        color: rgba(226, 232, 240, 0.85);
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .scenario-chip:hover,
+      .scenario-chip:focus-visible {
+        background: rgba(14, 165, 233, 0.14);
+        border-color: rgba(14, 165, 233, 0.65);
+        color: #0ea5e9;
+        outline: none;
+        box-shadow: 0 6px 20px rgba(14, 165, 233, 0.25);
+      }
+
+      .scenario-chip.active {
+        background: linear-gradient(135deg, rgba(14,165,233,0.32), rgba(34,211,238,0.18));
+        border-color: rgba(14, 165, 233, 0.8);
+        color: #22d3ee;
+        box-shadow: 0 10px 28px rgba(14,165,233,0.28);
+      }
+
+      .card-controls {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .icon-btn {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        border: 1px solid rgba(34, 211, 238, 0.35);
+        background: rgba(15, 23, 42, 0.85);
+        color: #22d3ee;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: all 0.18s ease;
+      }
+
+      .icon-btn:hover,
+      .icon-btn:focus-visible {
+        border-color: rgba(14, 165, 233, 0.8);
+        color: #0ea5e9;
+        box-shadow: 0 8px 20px rgba(14,165,233,0.35);
+        outline: none;
+      }
+
       input[type="checkbox"] {
         width: 18px;
         height: 18px;
@@ -1037,6 +1147,11 @@
 
                 <section class="section-block" data-openai-component="loan-input-form">
                   <div class="section-title">Loan basics</div>
+                  <div class="scenario-bar" id="scenarioBar">
+                    <button type="button" class="scenario-chip" data-scenario="first-time">First-time buyer 3% down</button>
+                    <button type="button" class="scenario-chip" data-scenario="conventional">20% down conventional</button>
+                    <button type="button" class="scenario-chip" data-scenario="va">VA zero-down</button>
+                  </div>
                   <div class="grid">
                     <label>
                       Loan program
@@ -1056,16 +1171,28 @@
                       Down payment ($)
                       <input type="number" id="down_payment_value" min="0" step="1000" />
                       <span class="field-message" data-field-error="down_payment_value"></span>
+                      <div class="slider-row">
+                        <input type="range" id="down_payment_slider" min="0" max="80" step="1" aria-label="Down payment percent" />
+                        <span class="slider-value" id="down_payment_slider_display">0%</span>
+                      </div>
                     </label>
                     <label class="percent-field">
                       Rate (APR %)
                       <input type="number" id="rate_apr" min="0" step="0.01" />
                       <span class="field-message" data-field-error="rate_apr"></span>
+                      <div class="slider-row">
+                        <input type="range" id="rate_slider" min="0" max="12" step="0.05" aria-label="Rate percent" />
+                        <span class="slider-value" id="rate_slider_display">0%</span>
+                      </div>
                     </label>
                     <label>
                       Term (years)
                       <input type="number" id="term_years" min="1" step="1" />
                       <span class="field-message" data-field-error="term_years"></span>
+                      <div class="slider-row">
+                        <input type="range" id="term_slider" min="5" max="40" step="1" aria-label="Term years" />
+                        <span class="slider-value" id="term_slider_display">30y</span>
+                      </div>
                     </label>
                   </div>
                 </section>
@@ -1177,7 +1304,12 @@
                   <div class="result-card primary" id="monthlyPaymentCard" data-openai-component="monthly-summary-card">
                     <div class="card-header">
                       <span class="label">Monthly payment (month 0)</span>
-                      <span class="badge">All-in payment</span>
+                      <div class="card-controls">
+                        <span class="badge">All-in payment</span>
+                        <button type="button" id="copyPaymentBtn" class="icon-btn" aria-label="Copy monthly payment" title="Copy monthly payment">
+                          <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M19 3H9c-1.1 0-2 .9-2 2v12h2V5h10V3zm-3 4H5c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm0 14H5V9h11v12z"/></svg>
+                        </button>
+                      </div>
                     </div>
                     <span class="value" id="total_monthly_0" aria-live="polite">$0</span>
                     <span class="hint">Includes P&I, MI, taxes, insurance, HOA (excludes extra principal).</span>
@@ -1759,6 +1891,21 @@
           extra_start_month_index: $("extra_start_month_index"),
         };
 
+        const sliders = {
+          down_payment: $("down_payment_slider"),
+          rate: $("rate_slider"),
+          term: $("term_slider"),
+        };
+
+        const sliderDisplays = {
+          down_payment: $("down_payment_slider_display"),
+          rate: $("rate_slider_display"),
+          term: $("term_slider_display"),
+        };
+
+        const scenarioBar = document.getElementById("scenarioBar");
+        const copyPaymentBtn = document.getElementById("copyPaymentBtn");
+
         const miVisibilityPrograms = new Set(["FHA", "USDA"]);
         const miOnlyElements = Array.from(document.querySelectorAll("[data-mi-only]"));
 
@@ -1914,6 +2061,26 @@
           return true;
         };
 
+        const updateSliderPositions = () => {
+          const hv = toNumber(inputs.home_value.value);
+          if (sliders.down_payment) {
+            const dpValue = toNumber(inputs.down_payment_value.value);
+            const percent = hv > 0 ? Math.round((dpValue / hv) * 100) : 0;
+            sliders.down_payment.value = String(Math.min(80, Math.max(0, percent)));
+            if (sliderDisplays.down_payment) sliderDisplays.down_payment.textContent = `${sliders.down_payment.value}%`;
+          }
+          if (sliders.rate) {
+            const rawRate = toNumber(inputs.rate_apr.value);
+            sliders.rate.value = String(Math.min(12, Math.max(0, rawRate)));
+            if (sliderDisplays.rate) sliderDisplays.rate.textContent = `${Number(sliders.rate.value).toFixed(2)}%`;
+          }
+          if (sliders.term) {
+            const term = Math.round(toNumber(inputs.term_years.value) || 30);
+            sliders.term.value = String(Math.min(40, Math.max(5, term)));
+            if (sliderDisplays.term) sliderDisplays.term.textContent = `${sliders.term.value}y`;
+          }
+        };
+
         const setDefaults = (preset = baseDefaults) => {
           Object.entries(preset).forEach(([key, value]) => {
             if (!(key in inputs)) return;
@@ -1926,6 +2093,7 @@
           normalizePercentInputs();
           updateMiVisibility();
           clearFieldErrors();
+          updateSliderPositions();
         };
 
         const mergeProgramDefaults = () => {
@@ -2210,6 +2378,7 @@
           renderSummary(calc);
           renderBreakdown(calc);
           updateCarousel();
+          updateSliderPositions();
         };
 
         const CAROUSEL_STORAGE_KEY = "mortgage-carousel-index";
@@ -2470,6 +2639,113 @@
             moveCarousel(1);
           }
         });
+
+        const scenarioConfigs = {
+          "first-time": (current) => {
+            const hv = Math.max(100000, toNumber(current.home_value.value) || baseDefaults.home_value);
+            return {
+              loan_type: "conventional",
+              down_payment_value: Math.round(hv * 0.03),
+              rate_apr: Math.max(4.5, toNumber(current.rate_apr.value) || baseDefaults.rate_apr),
+              term_years: 30,
+            };
+          },
+          conventional: (current) => {
+            const hv = Math.max(100000, toNumber(current.home_value.value) || baseDefaults.home_value);
+            return {
+              loan_type: "conventional",
+              down_payment_value: Math.round(hv * 0.2),
+              rate_apr: toNumber(current.rate_apr.value) || baseDefaults.rate_apr,
+              term_years: 30,
+            };
+          },
+          va: () => ({
+            loan_type: "VA",
+            down_payment_value: 0,
+            term_years: 30,
+          }),
+        };
+
+        const applyScenario = (scenarioKey) => {
+          const configFn = scenarioConfigs[scenarioKey];
+          if (!configFn) return;
+          const overrides = configFn(inputs);
+          Object.entries(overrides).forEach(([key, value]) => {
+            if (!(key in inputs)) return;
+            if (inputs[key].type === "checkbox") {
+              inputs[key].checked = Boolean(value);
+            } else {
+              inputs[key].value = percentInputSet.has(key) ? formatPercentValue(value) : value;
+            }
+          });
+          if (overrides.loan_type) {
+            mergeProgramDefaults();
+          }
+          updateSliderPositions();
+          calculateAndRender();
+        };
+
+        const markActiveScenario = (target) => {
+          if (!scenarioBar) return;
+          scenarioBar.querySelectorAll(".scenario-chip").forEach((chip) => {
+            chip.classList.toggle("active", chip === target);
+          });
+        };
+
+        if (scenarioBar) {
+          scenarioBar.addEventListener("click", (event) => {
+            const chip = event.target.closest(".scenario-chip");
+            if (!chip) return;
+            const key = chip.getAttribute("data-scenario");
+            if (!key) return;
+            markActiveScenario(chip);
+            applyScenario(key);
+            emitTelemetry("scenario_applied", { scenario: key });
+          });
+        }
+
+        const attachSlider = (slider, onChange) => {
+          if (!slider) return;
+          slider.addEventListener("input", onChange);
+          slider.addEventListener("change", onChange);
+        };
+
+        attachSlider(sliders.down_payment, () => {
+          const hv = toNumber(inputs.home_value.value) || baseDefaults.home_value;
+          const pct = Number(sliders.down_payment.value) / 100;
+          inputs.down_payment_value.value = Math.round(hv * pct);
+          if (sliderDisplays.down_payment) sliderDisplays.down_payment.textContent = `${sliders.down_payment.value}%`;
+          calculateAndRender();
+        });
+
+        attachSlider(sliders.rate, () => {
+          const val = Number(sliders.rate.value);
+          inputs.rate_apr.value = val.toFixed(2);
+          if (sliderDisplays.rate) sliderDisplays.rate.textContent = `${inputs.rate_apr.value}%`;
+          calculateAndRender();
+        });
+
+        attachSlider(sliders.term, () => {
+          const val = Math.round(Number(sliders.term.value));
+          inputs.term_years.value = val;
+          if (sliderDisplays.term) sliderDisplays.term.textContent = `${val}y`;
+          calculateAndRender();
+        });
+
+        if (copyPaymentBtn) {
+          copyPaymentBtn.addEventListener("click", async () => {
+            const text = outputs.total_monthly_0?.textContent?.trim();
+            if (!text) return;
+            try {
+              await navigator.clipboard.writeText(text);
+              showToast("success", "Monthly payment copied");
+              emitTelemetry("copy_monthly_payment", { value: text });
+            } catch (err) {
+              showToast("error", "Copy failed");
+              console.error("Clipboard write failed", err);
+            }
+          });
+        }
 
         Object.values(inputs).forEach((el) => {
           const handler = () => {
