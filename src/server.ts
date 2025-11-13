@@ -60,8 +60,15 @@ async function handleExportPdf(req: IncomingMessage, res: ServerResponse) {
     return;
   }
 
+  if (req.method === "HEAD") {
+    // Some environments probe with HEAD; respond OK with no body
+    res.writeHead(204).end();
+    return;
+  }
+
   if (req.method !== "POST") {
-    res.writeHead(405).end(JSON.stringify({ error: "Method not allowed" }));
+    try { console.warn(`[ExportPDF] 405 Method not allowed: ${req.method}`); } catch (_) {}
+    res.writeHead(405, { "Content-Type": "application/json" }).end(JSON.stringify({ error: "Method not allowed" }));
     return;
   }
 
