@@ -1408,6 +1408,7 @@
                   <div class="actions">
                     <span>Updates automatically as you edit.</span>
                     <button class="secondary" id="resetBtn" type="button">Reset defaults</button>
+                    <button class="secondary" id="notifyRatesBtnBottom" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 22a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Z"/></svg>Get notified of rate drops</button>
                     <button class="secondary" id="feedbackBtn" type="button"><svg viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M5 3h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H9l-4 4v-4H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"/></svg>Feedback</button>
                   </div>
                 </div>
@@ -2630,12 +2631,13 @@
               if (ok) {
                 if (fbStatusEl) fbStatusEl.textContent = 'Thanks for your feedback!';
                 fbOverlay.style.display = 'none';
-                showToast('success', 'Feedback success');
+                window.setTimeout(() => window.alert('Thanks for your feedback!'), 50);
               } else {
                 if (fbStatusEl) fbStatusEl.textContent = 'Failed to send feedback. Please try again.';
                 showToast('error', 'Feedback failed');
               }
             } catch (err) {
+              console.error('Notify subscription error', err);
               if (fbStatusEl) fbStatusEl.textContent = 'Failed to send feedback. Please try again.';
               showToast('error', 'Feedback failed');
             }
@@ -2785,7 +2787,7 @@
         };
 
         attachSlider(sliders.down_payment, () => {
-          const hv = toNumber(inputs.home_value.value) || baseDefaults.home_value;
+          const hv = toNumber(inputs.home_value.value);
           const pct = Number(sliders.down_payment.value) / 100;
           inputs.down_payment_value.value = Math.round(hv * pct);
           if (sliderDisplays.down_payment) sliderDisplays.down_payment.textContent = `${sliders.down_payment.value}%`;
@@ -2840,6 +2842,7 @@
 
         // Notify Me When Rates Drop
         const notifyBtn = document.getElementById("notifyRatesBtn");
+        const notifyBtnBottom = document.getElementById("notifyRatesBtnBottom");
 
         const SUBSCRIBE_KEY = "mc_rates_subscribed";
         const markSubscribed = () => {
@@ -2851,6 +2854,7 @@
             }
           } catch (_) {}
           if (notifyBtn) notifyBtn.style.display = "none";
+          if (notifyBtnBottom) notifyBtnBottom.style.display = "none";
         };
         const isSubscribed = (() => {
           try {
@@ -2860,6 +2864,7 @@
           } catch (_) { return false; }
         })();
         if (notifyBtn && isSubscribed) { notifyBtn.style.display = "none"; }
+  if (notifyBtnBottom && isSubscribed) { notifyBtnBottom.style.display = "none"; }
 
         const centerNotifyUnderRate = () => {
           const header = document.querySelector('.carousel-slide[data-card="summary"] .slide-header');
@@ -2982,6 +2987,9 @@
           };
 
           notifyBtn.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    if (notifyBtnBottom) {
+      notifyBtnBottom.addEventListener('click', (e) => { e.preventDefault(); openModal(); });
+    }
 
           requestAnimationFrame(centerNotifyUnderRate);
           window.addEventListener('resize', centerNotifyUnderRate);
