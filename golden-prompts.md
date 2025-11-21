@@ -1,6 +1,6 @@
-# Golden Prompt Set - Rental Property Calculator
+# Golden Prompt Set - Auto Loan Calculator
 
-This document contains test prompts to validate the Rental Property Calculator connector's metadata and behavior.
+This document contains test prompts to validate the Auto Loan Calculator connector's metadata and behavior.
 
 ## Purpose
 Use these prompts to test:
@@ -14,27 +14,27 @@ Use these prompts to test:
 
 ### 1. Explicit Tool Name
 **Prompt**: "Calculate my mortgage payment"
-**Expected**: ✅ Calls `rental-property-calculator` with default values
+**Expected**: ✅ Calls `auto-loan-calculator` with default values
 **Status**: [ ] Pass / [ ] Fail
 
 ### 2. Specific Amount
 **Prompt**: "Calculate mortgage for a $350,000 house"
-**Expected**: ✅ Calls `rental-property-calculator` with homePrice=350000
+**Expected**: ✅ Calls `auto-loan-calculator` with homePrice=350000
 **Status**: [ ] Pass / [ ] Fail
 
 ### 3. Monthly Payment Query
 **Prompt**: "What's my monthly payment for a $400k home?"
-**Expected**: ✅ Calls `rental-property-calculator` with homePrice=400000
+**Expected**: ✅ Calls `auto-loan-calculator` with homePrice=400000
 **Status**: [ ] Pass / [ ] Fail
 
 ### 4. Detailed Parameters
 **Prompt**: "Calculate mortgage for $500k home with $100k down and 7% interest"
-**Expected**: ✅ Calls `rental-property-calculator` with all parameters
+**Expected**: ✅ Calls `auto-loan-calculator` with all parameters
 **Status**: [ ] Pass / [ ] Fail
 
 ### 5. Budget Planning
 **Prompt**: "Help me plan my home purchase budget"
-**Expected**: ✅ Calls `rental-property-calculator` with default values
+**Expected**: ✅ Calls `auto-loan-calculator` with default values
 **Status**: [ ] Pass / [ ] Fail
 
 ---
@@ -43,27 +43,27 @@ Use these prompts to test:
 
 ### 6. Affordability Question
 **Prompt**: "How much house can I afford?"
-**Expected**: ✅ Calls `rental-property-calculator` to help estimate
+**Expected**: ✅ Calls `auto-loan-calculator` to help estimate
 **Status**: [ ] Pass / [ ] Fail
 
 ### 7. Total Cost Query
 **Prompt**: "What's the total cost of a 30-year mortgage?"
-**Expected**: ✅ Calls `rental-property-calculator` with loanTerm=30
+**Expected**: ✅ Calls `auto-loan-calculator` with loanTerm=30
 **Status**: [ ] Pass / [ ] Fail
 
 ### 8. Rate Comparison
 **Prompt**: "Compare mortgage rates at 6% vs 7%"
-**Expected**: ✅ Calls `rental-property-calculator` twice or shows comparison
+**Expected**: ✅ Calls `auto-loan-calculator` twice or shows comparison
 **Status**: [ ] Pass / [ ] Fail
 
 ### 9. Payment Breakdown
 **Prompt**: "Break down my monthly mortgage costs"
-**Expected**: ✅ Calls `rental-property-calculator`
+**Expected**: ✅ Calls `auto-loan-calculator`
 **Status**: [ ] Pass / [ ] Fail
 
 ### 10. Loan Term Comparison
 **Prompt**: "Should I get a 15 or 30 year mortgage?"
-**Expected**: ✅ Calls `rental-property-calculator` to compare
+**Expected**: ✅ Calls `auto-loan-calculator` to compare
 **Status**: [ ] Pass / [ ] Fail
 
 ---
@@ -72,27 +72,27 @@ Use these prompts to test:
 
 ### 11. Real Estate Search
 **Prompt**: "Find me a house in California"
-**Expected**: ❌ Does NOT call `rental-property-calculator` (use web search)
+**Expected**: ❌ Does NOT call `auto-loan-calculator` (use web search)
 **Status**: [ ] Pass / [ ] Fail
 
 ### 12. Legal Advice
 **Prompt**: "Can I break my mortgage contract?"
-**Expected**: ❌ Does NOT call `rental-property-calculator` (legal advice)
+**Expected**: ❌ Does NOT call `auto-loan-calculator` (legal advice)
 **Status**: [ ] Pass / [ ] Fail
 
 ### 13. Refinancing Details
 **Prompt**: "Should I refinance my existing mortgage?"
-**Expected**: ❌ Does NOT call `rental-property-calculator` (general advice)
+**Expected**: ❌ Does NOT call `auto-loan-calculator` (general advice)
 **Status**: [ ] Pass / [ ] Fail
 
 ### 14. Unrelated Topics
 **Prompt**: "What's the weather today?"
-**Expected**: ❌ Does NOT call `rental-property-calculator` (unrelated)
+**Expected**: ❌ Does NOT call `auto-loan-calculator` (unrelated)
 **Status**: [ ] Pass / [ ] Fail
 
 ### 15. Credit Score
 **Prompt**: "What credit score do I need for a mortgage?"
-**Expected**: ❌ Does NOT call `rental-property-calculator` (general knowledge)
+**Expected**: ❌ Does NOT call `auto-loan-calculator` (general knowledge)
 **Status**: [ ] Pass / [ ] Fail
 
 ---

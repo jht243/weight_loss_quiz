@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: rental-property-calculator
+    name: auto-loan-calculator
     env: node
     plan: free
     region: oregon

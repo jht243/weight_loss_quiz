@@ -230,11 +230,36 @@ function classifyDevice(userAgent?: string | null): string {
 }
 
 function computeSummary(args: any) {
-  const hv = typeof args.home_value === "number" && args.home_value > 0 ? args.home_value : null;
-  const dpv = typeof args.down_payment_value === "number" && args.down_payment_value >= 0 ? args.down_payment_value : 0;
-  const principal = hv != null ? Math.max(0, hv - dpv) : null;
-  const apr = typeof args.rate_apr === "number" && args.rate_apr > 0 ? args.rate_apr : null;
-  const years = typeof args.term_years === "number" && args.term_years > 0 ? args.term_years : null;
+  // Prefer auto-loan fields when present, otherwise fall back to generic mortgage fields
+  const autoPrice = typeof (args as any).auto_price === "number" && (args as any).auto_price > 0 ? (args as any).auto_price : null;
+  const loanMonths = typeof (args as any).loan_term_months === "number" && (args as any).loan_term_months > 0 ? (args as any).loan_term_months : null;
+  const ratePctAuto = typeof (args as any).interest_rate_pct === "number" && (args as any).interest_rate_pct >= 0 ? (args as any).interest_rate_pct : null;
+  const cashIncentives = Math.max(0, Number((args as any).cash_incentives ?? 0));
+  const downPaymentValAuto = Math.max(0, Number((args as any).down_payment_value ?? 0));
+  const tradeInValue = Math.max(0, Number((args as any).trade_in_value ?? 0));
+  const tradeInOwed = Math.max(0, Number((args as any).trade_in_owed ?? 0));
+  const salesTaxPct = Math.max(0, Number((args as any).sales_tax_pct ?? 0));
+  const titleFees = Math.max(0, Number((args as any).title_fees ?? 0));
+  const includeTaxesFees = Boolean((args as any).include_taxes_fees);
+
+  // Map auto-loan into principal if auto fields are available
+  let principalAuto: number | null = null;
+  if (autoPrice != null) {
+    const priceAfterIncentives = Math.max(0, autoPrice - cashIncentives);
+    const netTrade = Math.max(0, tradeInValue - tradeInOwed) - Math.max(0, tradeInOwed - tradeInValue); // signed net is tradeValue - tradeOwed
+    const signedNetTrade = tradeInValue - tradeInOwed; // positive reduces principal, negative increases
+    const taxableBase = Math.max(0, priceAfterIncentives - Math.max(0, tradeInValue));
+    const taxes = (salesTaxPct / 100) * taxableBase;
+    const financedExtras = includeTaxesFees ? (taxes + titleFees) : 0;
+    const baseToFinance = Math.max(0, priceAfterIncentives - downPaymentValAuto - signedNetTrade);
+    principalAuto = Math.max(0, baseToFinance + financedExtras);
+  }
+
+  const hv = autoPrice != null ? autoPrice : (typeof args.home_value === "number" && args.home_value > 0 ? args.home_value : null);
+  const dpv = autoPrice != null ? downPaymentValAuto : (typeof args.down_payment_value === "number" && args.down_payment_value >= 0 ? args.down_payment_value : 0);
+  const apr = ratePctAuto != null ? ratePctAuto : (typeof args.rate_apr === "number" && args.rate_apr > 0 ? args.rate_apr : null);
+  const years = loanMonths != null ? (loanMonths / 12) : (typeof args.term_years === "number" && args.term_years > 0 ? args.term_years : null);
+  const principal = principalAuto != null ? principalAuto : (hv != null ? Math.max(0, hv - dpv) : null);
   if (principal == null || apr == null || years == null) {
     return {
       loan_amount: principal,
@@ -369,38 +394,38 @@ const VERSION = (process.env.RENDER_GIT_COMMIT?.slice(0, 7) || Date.now().toStri
 
 function widgetMeta(widget: MortgageWidget, bustCache: boolean = false) {
   const templateUri = bustCache
-    ? `ui://widget/rental-property-calculator.html?v=${VERSION}`
+    ? `ui://widget/auto-loan-calculator.html?v=${VERSION}`
     : widget.templateUri;
 
   return {
     "openai/outputTemplate": templateUri,
     "openai/widgetDescription":
-      "Rental Property Calculator widget for analyzing single‑family and multi‑family rentals. Enter purchase, financing, rent, and expenses to calculate return on rental properties: ROI on rental property, cash‑on‑cash return, internal rate of return (IRR), capitalization rate (cap rate), net operating income (NOI), mortgage P&I, annual cash flow, equity, and a 20‑year investment summary including profit when sold. Includes Year‑1 KPIs, an expense donut, and a year‑by‑year breakdown.",
+      "Auto Loan Calculator widget for analyzing auto loans. Enter purchase, financing, and expenses to calculate return on investment: ROI, cash-on-cash return, internal rate of return (IRR), capitalization rate (cap rate), net operating income (NOI), mortgage P&I, annual cash flow, equity, and a 20-year investment summary including profit when sold. Includes Year-1 KPIs, an expense donut, and a year-by-year breakdown.",
     "openai/componentDescriptions": {
-      "rate-indicator": "Header indicator for rental analysis showing today’s mortgage rate reference to contextualize ROI on rental property and cash‑on‑cash return; includes a refresh control for current rates.",
-      "rate-badge": "Badge showing the most recent mortgage rate reference to inform rental property returns (cash‑on‑cash, IRR, cap rate); updates when refreshed.",
-      "manual-refresh-button": "Refresh to pull a new mortgage rate reference so rental property ROI, cash‑on‑cash return, and IRR reflect current rates.",
-      "loan-input-form": "Rental financing inputs—loan program, down payment, interest rate, and term—used to compute mortgage P&I for the rental property calculator and drive cash flow/NOI.",
-      "monthly-summary-card": "Year‑1 rental summary showing income after vacancy and monthly/annual cash flow to support ROI on rental property analysis.",
-      "quick-metrics": "Rental KPIs including cap rate, cash‑on‑cash return, NOI, and mortgage P&I totals for quick insight.",
-      "breakdown-chart": "Rental expense donut showing operating expenses and vacancy mix to explain NOI and cash flow.",
-      "amortization-section": "20‑year investment summary for rentals: income, expenses, cash flow, equity, cash if sold, and IRR at the chosen horizon.",
-      "notification-cta": "Optional call‑to‑action for rate‑drop updates to revisit rental property returns when interest rates move.",
+      "rate-indicator": "Header indicator for auto loan analysis showing today’s mortgage rate reference to contextualize ROI and cash-on-cash return; includes a refresh control for current rates.",
+      "rate-badge": "Badge showing the most recent mortgage rate reference to inform auto loan returns (cash-on-cash, IRR, cap rate); updates when refreshed.",
+      "manual-refresh-button": "Refresh to pull a new mortgage rate reference so auto loan ROI, cash-on-cash return, and IRR reflect current rates.",
+      "loan-input-form": "Auto loan financing inputs—loan program, down payment, interest rate, and term—used to compute mortgage P&I for the auto loan calculator and drive cash flow/NOI.",
+      "monthly-summary-card": "Year-1 auto loan summary showing income after expenses and monthly/annual cash flow to support ROI analysis.",
+      "quick-metrics": "Auto loan KPIs including cap rate, cash-on-cash return, NOI, and mortgage P&I totals for quick insight.",
+      "breakdown-chart": "Auto loan expense donut showing operating expenses and mix to explain NOI and cash flow.",
+      "amortization-section": "20-year investment summary for auto loans: income, expenses, cash flow, equity, cash if sold, and IRR at the chosen horizon.",
+      "notification-cta": "Optional call-to-action for rate-drop updates to revisit auto loan returns when interest rates move.",
     },
     "openai/widgetKeywords": [
-      "rental property calculator",
-      "ROI on rental property",
-      "calculate return on rental properties",
-      "rental property cash on cash return",
-      "rental property IRR",
+      "auto loan calculator",
+      "ROI on auto loan",
+      "calculate return on auto loan",
+      "auto loan cash on cash return",
+      "auto loan IRR",
       "investment property cap rate",
-      "multi family NOI",
-      "rental property mortgage P&I",
-      "multi family returns",
-      "rental analysis",
-      "20 year rental projections",
-      "rental property profit when sold",
-      "rental property equity growth",
+      "auto loan NOI",
+      "auto loan mortgage P&I",
+      "auto loan returns",
+      "auto loan analysis",
+      "20 year auto loan projections",
+      "auto loan profit when sold",
+      "auto loan equity growth",
     ],
     "openai/widgetPrefersBorder": true,
     "openai/widgetCSP": {
@@ -417,29 +442,29 @@ function widgetMeta(widget: MortgageWidget, bustCache: boolean = false) {
     "openai/widgetAccessible": true,
     "openai/resultCanProduceWidget": true,
     "openai/starterPrompts": [
-      "Show a rental property calculator.",
-      "Analyze the return of a multifamily property.",
-      "Calculate cashflow on this triplex.",
-      "Analyze a duplex: purchase $520,000, 20% down, 6.25% APR, rent $3,800, vacancy 6%, taxes $6,200, insurance $1,800, maintenance 8%.",
-      "Show me the ROI on a $450,000 rental with 25% down, rent $3,200, monthly expenses $1,150, over 20 years.",
+      "Show an auto loan calculator.",
+      "Analyze the return of a car loan.",
+      "Calculate cashflow on this auto loan.",
+      "Analyze a car loan: purchase $30,000, 20% down, 6.25% APR, monthly expenses $500, over 5 years.",
+      "Show me the ROI on a $25,000 car loan with 25% down, monthly expenses $400, over 5 years.",
     ],
     "openai/sampleConversations": [
-      { "user": "Calculate cash‑on‑cash return and IRR for a duplex with $520k purchase, 15% down, 6.25% for 30y, rent $3,800, vacancy 6%, taxes $6,200, insurance $1,800, maintenance 8%.", "assistant": "Here are the rental property metrics: ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, P&I totals, and a 20‑year investment summary including equity and profit when sold. Year‑1 KPIs and the expense donut are included." },
-      { "user": "How does 3% vs 4% appreciation affect profit when sold and IRR?", "assistant": "I’ll compute two scenarios and compare 20‑year ROI on rental property, IRR, cash‑on‑cash return, cap rate, NOI, annual cash flow, equity, and profit when sold." }
+      { "user": "Calculate cash-on-cash return and IRR for a car loan with $30k purchase, 15% down, 6.25% for 5y, monthly expenses $500.", "assistant": "Here are the auto loan metrics: ROI, cash-on-cash return, IRR, cap rate, NOI, P&I totals, and a 20-year investment summary including equity and profit when sold. Year-1 KPIs and the expense donut are included." },
+      { "user": "How does 3% vs 4% appreciation affect profit when sold and IRR?", "assistant": "I’ll compute two scenarios and compare 20-year ROI, IRR, cash-on-cash return, cap rate, NOI, annual cash flow, equity, and profit when sold." }
     ],
   } as const;
 }
 
 const widgets: MortgageWidget[] = [
   {
-    id: "rental-property-calculator",
-    title: "Rental Property Calculator — calculate ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, and 20‑year projections for single‑family and multi‑family rentals",
-    templateUri: `ui://widget/rental-property-calculator.html?v=${VERSION}`,
+    id: "auto-loan-calculator",
+    title: "Auto Loan Calculator — calculate ROI, cash-on-cash return, IRR, cap rate, NOI, and 20-year projections for auto loans",
+    templateUri: `ui://widget/auto-loan-calculator.html?v=${VERSION}`,
     invoking:
-      "Opening the Rental Property Calculator with inputs for purchase, financing, income, and expenses to compute ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, cash flow, and 20‑year projections...",
+      "Opening the Auto Loan Calculator with inputs for purchase, financing, income, and expenses to compute ROI, cash-on-cash return, IRR, cap rate, NOI, cash flow, and 20-year projections...",
     invoked:
-      "Here is the Rental Property Calculator with Year‑1 KPIs, an expense donut, and a 20‑year investment summary (ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, cash flow, equity, and profit when sold).",
-    html: readWidgetHtml("rental-property-calculator"),
+      "Here is the Auto Loan Calculator with Year-1 KPIs, an expense donut, and a 20-year investment summary (ROI, cash-on-cash return, IRR, cap rate, NOI, cash flow, equity, and profit when sold).",
+    html: readWidgetHtml("auto-loan-calculator"),
   },
 ];
 
@@ -485,6 +510,17 @@ const toolInputSchema = {
       description: "Optional ZIP/postal code. Prefer 5-digit US ZIP if present in the user text.",
       examples: ["94110", "11215"],
     },
+    // Auto-loan specific inputs
+    auto_price: { type: "number", description: "Vehicle price (e.g., 50000)." },
+    loan_term_months: { type: "number", description: "Loan term in months (e.g., 60)." },
+    interest_rate_pct: { type: "number", description: "APR as percent (e.g., 5 for 5%)." },
+    cash_incentives: { type: "number", description: "Cash rebates/incentives applied to price." },
+    trade_in_value: { type: "number", description: "Trade-in value in dollars." },
+    trade_in_owed: { type: "number", description: "Amount still owed on trade-in in dollars." },
+    state: { type: "string", description: "Two-letter state code." },
+    sales_tax_pct: { type: "number", description: "Sales tax percent applied to taxable base." },
+    title_fees: { type: "number", description: "Title/registration/other fees in dollars." },
+    include_taxes_fees: { type: "boolean", description: "If true, include taxes and fees in the financed amount." },
     // Rental-specific inputs (accepted from prompts for widget hydration)
     purchase_price: { type: "number", description: "Rental property purchase price (e.g., $700,000)." },
     closing_cost: { type: "number", description: "Estimated closing costs in dollars." },
@@ -497,7 +533,6 @@ const toolInputSchema = {
     exp_maintenance_annual: { type: "number", description: "Annual maintenance cost in dollars." },
     exp_other_annual: { type: "number", description: "Annual other operating costs in dollars." },
     down_payment_pct: { type: "number", description: "Down payment percent (e.g., 20 for 20%)." },
-    interest_rate_pct: { type: "number", description: "Interest rate APR as a percent (e.g., 6.5)." },
     loan_term_years: { type: "number", description: "Loan term in years (e.g., 30)." },
     monthly_rent_increase_pct: { type: "number", description: "Annual rent increase percent." },
     other_monthly_income_increase_pct: { type: "number", description: "Annual other income increase percent." },
@@ -534,7 +569,19 @@ const toolInputParser = z.object({
   start_year: z.number().optional(),
   extra_principal_monthly: z.number().optional(),
   extra_start_month_index: z.number().optional(),
-  // Rental-specific fields (optional for hydration)
+  // Auto-loan specific (preferred)
+  auto_price: z.number().optional(),
+  loan_term_months: z.number().optional(),
+  interest_rate_pct: z.number().optional(),
+  cash_incentives: z.number().optional(),
+  trade_in_value: z.number().optional(),
+  trade_in_owed: z.number().optional(),
+  state: z.string().optional(),
+  sales_tax_pct: z.number().optional(),
+  title_fees: z.number().optional(),
+  include_taxes_fees: z.boolean().optional(),
+
+  // Rental-specific fields (optional for hydration; retained for backward-compat)
   purchase_price: z.number().optional(),
   closing_cost: z.number().optional(),
   monthly_rent: z.number().optional(),
@@ -546,7 +593,6 @@ const toolInputParser = z.object({
   exp_maintenance_annual: z.number().optional(),
   exp_other_annual: z.number().optional(),
   down_payment_pct: z.number().optional(),
-  interest_rate_pct: z.number().optional(),
   loan_term_years: z.number().optional(),
   monthly_rent_increase_pct: z.number().optional(),
   other_monthly_income_increase_pct: z.number().optional(),
@@ -564,7 +610,7 @@ const toolInputParser = z.object({
 const tools: Tool[] = widgets.map((widget) => ({
   name: widget.id,
   description:
-    "Use this for rental property analysis. The calculator opens with sensible default values and does NOT require explicit numbers to run—users can adjust inputs interactively in the widget. If the user provides specific values (purchase price, rent, expenses, etc.), pass them to pre-populate the calculator. Calculates return on rental properties: ROI on rental property, cash‑on‑cash return, internal rate of return (IRR), capitalization rate (cap rate), net operating income (NOI), mortgage P&I totals, annual cash flow, equity, and a 20‑year investment summary including profit when sold. Supports single‑family and multi‑family rentals.",
+    "Use this for auto loan analysis. The calculator opens with sensible default values and does NOT require explicit numbers to run—users can adjust inputs interactively in the widget. If the user provides specific values (purchase price, loan term, interest rate, etc.), pass them to pre-populate the calculator. Calculates return on investment: ROI, cash-on-cash return, internal rate of return (IRR), capitalization rate (cap rate), net operating income (NOI), mortgage P&I totals, annual cash flow, equity, and a 20-year investment summary including profit when sold.",
   inputSchema: toolInputSchema,
   outputSchema: {
     type: "object",
@@ -633,7 +679,7 @@ const resources: Resource[] = widgets.map((widget) => ({
   uri: widget.templateUri,
   name: widget.title,
   description:
-    "HTML template for the Rental Property Calculator widget. Presents inputs for purchase, financing, rent, vacancy, taxes, insurance, HOA, and maintenance, with Year‑1 KPIs, expense donut, and a 20‑year investment summary showing ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, cash flow, equity, and profit when sold.",
+    "HTML template for the Auto Loan Calculator widget. Presents inputs for purchase, financing, and expenses, with Year-1 KPIs, expense donut, and a 20-year investment summary showing ROI, cash-on-cash return, IRR, cap rate, NOI, cash flow, equity, and profit when sold.",
   mimeType: "text/html+skybridge",
   _meta: widgetMeta(widget),
 }));
@@ -642,7 +688,7 @@ const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
   uriTemplate: widget.templateUri,
   name: widget.title,
   description:
-    "Template descriptor for the Rental Property Calculator widget that analyzes single‑family and multi‑family rentals. Includes inputs for purchase, financing, rent, and operating expenses, plus Year‑1 KPIs, an expense donut, and a 20‑year investment summary including ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, cash flow, equity, and profit when sold.",
+    "Template descriptor for the Auto Loan Calculator widget that analyzes auto loans. Includes inputs for purchase, financing, and operating expenses, plus Year-1 KPIs, an expense donut, and a 20-year investment summary including ROI, cash-on-cash return, IRR, cap rate, NOI, cash flow, equity, and profit when sold.",
   mimeType: "text/html+skybridge",
   _meta: widgetMeta(widget),
 }));
@@ -650,10 +696,10 @@ const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
 function createMortgageCalculatorServer(): Server {
   const server = new Server(
     {
-      name: "rental-property-calculator",
+      name: "auto-loan-calculator",
       version: "0.1.0",
       description:
-        "Rental Property Calculator is a comprehensive app for analyzing single‑family and multi‑family rentals. It calculates return on rental properties including cash‑on‑cash return, IRR, cap rate, NOI, mortgage P&I totals, annual cash flow, equity growth, and a 20‑year investment summary with profit when sold. It opens with sensible defaults and supports general prompts like ‘show a rental property calculator’.",
+        "Auto Loan Calculator is a comprehensive app for analyzing auto loans. It calculates return on investment including cash-on-cash return, IRR, cap rate, NOI, mortgage P&I totals, annual cash flow, equity growth, and a 20-year investment summary with profit when sold. It opens with sensible defaults and supports general prompts like ‘show an auto loan calculator’.",
     },
     {
       capabilities: {
@@ -922,7 +968,7 @@ function createMortgageCalculatorServer(): Server {
         logAnalytics("tool_call_success", {
           toolName: request.params.name,
           params: args,
-          inferredQuery: inferredQuery.length > 0 ? inferredQuery.join(", ") : "rental property calculator",
+          inferredQuery: inferredQuery.length > 0 ? inferredQuery.join(", ") : "Auto Loan Calculator",
           responseTime,
           device: deviceCategory,
           userLocation: userLocation
@@ -1199,7 +1245,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[]): string {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Rental Property Calculator Analytics</title>
+  <title>Auto Loan Calculator Analytics</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; }
@@ -1226,7 +1272,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[]): string {
 </head>
 <body>
   <div class="container">
-    <h1>📊 Rental Property Calculator Analytics</h1>
+    <h1>📊 Auto Loan Calculator Analytics</h1>
     <p class="subtitle">Last 7 days • Auto-refresh every 60s</p>
     
     <div class="grid">
@@ -1917,7 +1963,7 @@ const httpServer = createServer(
 
     // Serve alias for legacy loader path -> our main widget HTML
     if (req.method === "GET" && url.pathname === "/assets/mortgage-calculator-2d2b.html") {
-      const mainAssetPath = path.join(ASSETS_DIR, "rental-property-calculator.html");
+      const mainAssetPath = path.join(ASSETS_DIR, "auto-loan-calculator.html");
       if (fs.existsSync(mainAssetPath) && fs.statSync(mainAssetPath).isFile()) {
         res.writeHead(200, {
           "Content-Type": "text/html",
@@ -1944,7 +1990,7 @@ const httpServer = createServer(
         });
 
         // If serving the main widget HTML, inject the current rate into the badge
-        if (ext === ".html" && path.basename(assetPath) === "rental-property-calculator.html") {
+        if (ext === ".html" && path.basename(assetPath) === "auto-loan-calculator.html") {
           try {
             let html = fs.readFileSync(assetPath, "utf8");
             // Compute the current rate (prefer cache, otherwise fetch)
@@ -1987,7 +2033,7 @@ httpServer.on("clientError", (err: Error, socket) => {
 });
 
 httpServer.listen(port, () => {
-  console.log(`Rental Property Calculator MCP server listening on http://localhost:${port}`);
+  console.log(`Auto Loan Calculator MCP server listening on http://localhost:${port}`);
   console.log(`  SSE stream: GET http://localhost:${port}${ssePath}`);
   console.log(
     `  Message post endpoint: POST http://localhost:${port}${postPath}?sessionId=...`

@@ -1,21 +1,21 @@
 {
-  "name": "rental-property-calculator-mcp-node",
+  "name": "auto-loan-calculator-mcp-node",
   "version": "0.1.0",
   "type": "module",
   "private": true,
-  "description": "Rental Property Calculator — calculate return on rental properties with long‑form, human‑readable analysis. Computes ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, mortgage P&I, cash flow, equity, and a 20‑year investment summary for single‑family and multi‑family rentals. Accepts purchase, financing, rent, vacancy, taxes, insurance, HOA, maintenance, appreciation, and cost‑to‑sell assumptions to calculate multi‑family returns and single‑family ROI.",
+  "description": "Auto Loan Calculator — calculate auto loan monthly payments with long‑form, human‑readable analysis. Computes monthly payment (P&I), total interest, payoff date, and amortization schedule. Accepts vehicle price, down payment, interest rate (APR), term, taxes/fees, and extra principal to explore scenarios.",
   "keywords": [
-    "rental property calculator",
-    "calculate return on rental properties",
-    "ROI on rental property",
-    "cash on cash return",
-    "IRR",
-    "cap rate",
-    "NOI",
-    "multi family returns",
-    "rental analysis",
-    "investment property",
-    "20 year projections"
+    "auto loan calculator",
+    "car loan calculator",
+    "auto loan monthly payment",
+    "APR",
+    "interest",
+    "auto financing",
+    "amortization",
+    "payoff date",
+    "total interest",
+    "vehicle price",
+    "down payment"
   ],
   "scripts": {
     "start": "tsx src/server.ts"
@@ -27,6 +27,7 @@
     "zod": "^3.25.76"
   },
   "devDependencies": {
+    "@types/node": "^24.10.1",
     "esbuild": "^0.27.0",
     "typescript": "^5.6.3"
   }

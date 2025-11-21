@@ -3,10 +3,10 @@ import { createRoot } from "react-dom/client";
 
 import RentalPropertyHelloWorld from "./component";
 
-const container = document.getElementById("rental-property-calculator-root");
+const container = document.getElementById("auto-loan-calculator-root");
 
 if (!container) {
-  throw new Error("rental-property-calculator-root element not found");
+  throw new Error("auto-loan-calculator-root element not found");
 }
 
 const root = createRoot(container);

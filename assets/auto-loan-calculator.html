@@ -2,11 +2,11 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Rental Property Calculator — calculate ROI on rental property, cash‑on‑cash return, IRR, cap rate for single‑family and multi‑family rentals</title>
-    <meta name="description" content="Rental property calculator to calculate return on rental properties. Analyze single‑family and multi‑family rentals: ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, mortgage P&I, expenses, and a 20‑year investment summary with profit when sold." />
-    <meta property="og:title" content="Rental Property Calculator — calculate return on rental properties (ROI), cash‑on‑cash, IRR, cap rate" />
-    <meta property="og:description" content="Human‑readable rental property calculator that helps you calculate multi‑family returns and single‑family ROI: cash‑on‑cash return, internal rate of return (IRR), capitalization rate (cap rate), NOI, expenses, and 20‑year projections." />
-    <meta name="keywords" content="rental property calculator, calculate return on rental properties, ROI on rental property, calculate multi family returns, cash on cash return, IRR, cap rate, net operating income, rental analysis, 20 year investment summary" />
+    <title>Auto Loan Calculator — calculate ROI on rental property, cash‑on‑cash return, IRR, cap rate for single‑family and multi‑family rentals</title>
+    <meta name="description" content="Auto Loan Calculator to calculate return on rental properties. Analyze single‑family and multi‑family rentals: ROI on rental property, cash‑on‑cash return, IRR, cap rate, NOI, mortgage P&I, expenses, and a 20‑year investment summary with profit when sold." />
+    <meta property="og:title" content="Auto Loan Calculator — calculate return on rental properties (ROI), cash‑on‑cash, IRR, cap rate" />
+    <meta property="og:description" content="Human‑readable Auto Loan Calculator that helps you calculate multi‑family returns and single‑family ROI: cash‑on‑cash return, internal rate of return (IRR), capitalization rate (cap rate), NOI, expenses, and 20‑year projections." />
+    <meta name="keywords" content="auto loan calculator, calculate return on rental properties, ROI on rental property, calculate multi family returns, cash on cash return, IRR, cap rate, net operating income, rental analysis, 20 year investment summary" />
     <style>
       *, *::before, *::after {
         box-sizing: border-box;
@@ -1461,7 +1461,7 @@
 
 
             <header class="slide-header">
-              <h1>Rental Property Calculator</h1>
+              <h1>Auto Loan Calculator</h1>
               <p>Compare loan programs and see monthly costs.<br />Preview payoff timing and adjust the inputs to explore scenarios.</p>
               <div class="rate-cta-stack">
                 <span class="rate-badge" data-openai-component="rate-badge">
@@ -1475,35 +1475,22 @@
               </div>
             </header>
 
-  <!-- Rental Property Calculator: New Input Sections -->
+  <!-- Auto Loan Calculator: New Input Sections -->
   <details class="section-block collapsible" data-openai-component="purchase-details" open>
     <summary class="section-summary">
       <span class="summary-title">🏠 Purchase Details</span>
       <div class="summary-spacer"></div>
       <div class="purchase-header-toggles" aria-label="Purchase toggles">
         <div class="row">
-          <p class="label">Use Loan?</p>
-          <div class="yesno-toggle" role="group" aria-label="Use Loan">
+          <p class="label">Purchase Type</p>
+          <div class="yesno-toggle" role="group" aria-label="Purchase Type">
             <label class="yesno-option">
-              <input type="radio" id="use_loan_yes" name="use_loan" value="yes" />
-              <span>Yes</span>
+              <input type="radio" id="purchase_type_loan" name="purchase_type" value="loan" checked />
+              <span>Loan</span>
             </label>
             <label class="yesno-option">
-              <input type="radio" id="use_loan_no" name="use_loan" value="no" checked />
-              <span>No</span>
-            </label>
-          </div>
-        </div>
-        <div class="row">
-          <p class="label">Need Repairs?</p>
-          <div class="yesno-toggle" role="group" aria-label="Need Repairs">
-            <label class="yesno-option">
-              <input type="radio" id="need_repairs_yes" name="need_repairs" value="yes" />
-              <span>Yes</span>
-            </label>
-            <label class="yesno-option">
-              <input type="radio" id="need_repairs_no" name="need_repairs" value="no" checked />
-              <span>No</span>
+              <input type="radio" id="purchase_type_lease" name="purchase_type" value="lease" />
+              <span>Lease</span>
             </label>
           </div>
         </div>
@@ -1512,211 +1499,119 @@
     <div class="collapsible-content">
       <div class="grid duo-columns" id="purchase_inputs_row">
         <label>
-          Purchase Price ($)
-          <input type="number" id="purchase_price" min="0" step="1000" />
+          Auto Price ($)
+          <input type="number" id="auto_price" min="0" step="100" />
         </label>
         <label>
-          Additional Closing Cost ($)
-          <input type="number" id="closing_cost" min="0" step="100" />
+          Title, Registration, and Other Fees ($)
+          <input type="number" id="title_fees" min="0" step="50" />
         </label>
       </div>
 
       <div class="field-group" id="loan_field_group">
-        <div class="field-group-header">
-          <div class="loan-field preset-inline">
-            <select id="loan_preset" aria-label="Preset loan" class="preset-select">
-              <option value="">Choose Preset Loan</option>
-              <option value="first-time">First-time buyer 3% down</option>
-              <option value="conventional-20">20% down conventional</option>
-              <option value="va-zero">VA zero-down</option>
-            </select>
-          </div>
-        </div>
         <div class="grid trio-columns">
-          <label class="percent-field loan-field">
-            Down Payment (%)
-            <input type="number" id="down_payment_pct" min="0" max="75" step="0.1" />
-            <div class="slider-row">
-              <input type="range" id="loan_dp_slider" min="0" max="75" step="1" aria-label="Down payment percent" />
-              <span class="slider-value" id="loan_dp_slider_display">0%</span>
-            </div>
+          <label class="loan-field">
+            Down Payment ($)
+            <input type="number" id="down_payment_value" min="0" step="100" />
           </label>
           <label class="percent-field loan-field">
             Interest Rate (%)
             <input type="number" id="interest_rate_pct" min="0" step="0.01" />
-            <div class="slider-row">
-              <input type="range" id="loan_rate_slider" min="0" max="15" step="0.05" aria-label="Interest rate percent" />
-              <span class="slider-value" id="loan_rate_slider_display">0%</span>
-            </div>
           </label>
           <label class="loan-field">
-            Loan Term (years)
-            <input type="number" id="loan_term_years" min="0" step="1" />
-            <div class="slider-row">
-              <input type="range" id="loan_term_slider" min="5" max="40" step="1" aria-label="Loan term years" />
-              <span class="slider-value" id="loan_term_slider_display">30y</span>
-            </div>
+            Loan Term (months)
+            <input type="number" id="loan_term_months" min="1" step="1" />
+          </label>
+        </div>
+
+        <div class="grid trio-columns">
+          <label class="loan-field">
+            Cash Incentives ($)
+            <input type="number" id="cash_incentives" min="0" step="50" />
+          </label>
+          <label class="loan-field">
+            Trade-in Value ($)
+            <input type="number" id="trade_in_value" min="0" step="100" />
+          </label>
+          <label class="loan-field">
+            Amount Owed on Trade-in ($)
+            <input type="number" id="trade_in_owed" min="0" step="100" />
+          </label>
+        </div>
+
+        <div class="grid trio-columns">
+          <label class="loan-field">
+            Your State
+            <select id="state">
+              <option value="">-- Select --</option>
+              <option value="AL">Alabama</option>
+              <option value="AK">Alaska</option>
+              <option value="AZ">Arizona</option>
+              <option value="AR">Arkansas</option>
+              <option value="CA">California</option>
+              <option value="CO">Colorado</option>
+              <option value="CT">Connecticut</option>
+              <option value="DE">Delaware</option>
+              <option value="DC">District of Columbia</option>
+              <option value="FL">Florida</option>
+              <option value="GA">Georgia</option>
+              <option value="HI">Hawaii</option>
+              <option value="ID">Idaho</option>
+              <option value="IL">Illinois</option>
+              <option value="IN">Indiana</option>
+              <option value="IA">Iowa</option>
+              <option value="KS">Kansas</option>
+              <option value="KY">Kentucky</option>
+              <option value="LA">Louisiana</option>
+              <option value="ME">Maine</option>
+              <option value="MD">Maryland</option>
+              <option value="MA">Massachusetts</option>
+              <option value="MI">Michigan</option>
+              <option value="MN">Minnesota</option>
+              <option value="MS">Mississippi</option>
+              <option value="MO">Missouri</option>
+              <option value="MT">Montana</option>
+              <option value="NE">Nebraska</option>
+              <option value="NV">Nevada</option>
+              <option value="NH">New Hampshire</option>
+              <option value="NJ">New Jersey</option>
+              <option value="NM">New Mexico</option>
+              <option value="NY">New York</option>
+              <option value="NC">North Carolina</option>
+              <option value="ND">North Dakota</option>
+              <option value="OH">Ohio</option>
+              <option value="OK">Oklahoma</option>
+              <option value="OR">Oregon</option>
+              <option value="PA">Pennsylvania</option>
+              <option value="RI">Rhode Island</option>
+              <option value="SC">South Carolina</option>
+              <option value="SD">South Dakota</option>
+              <option value="TN">Tennessee</option>
+              <option value="TX">Texas</option>
+              <option value="UT">Utah</option>
+              <option value="VT">Vermont</option>
+              <option value="VA">Virginia</option>
+              <option value="WA">Washington</option>
+              <option value="WV">West Virginia</option>
+              <option value="WI">Wisconsin</option>
+              <option value="WY">Wyoming</option>
+            </select>
+          </label>
+          <label class="percent-field loan-field">
+            Sales Tax (%)
+            <input type="number" id="sales_tax_pct" min="0" step="0.01" />
+          </label>
+          <label class="loan-field checkbox-row" style="align-items:center;">
+            <input type="checkbox" id="include_taxes_fees" />
+            <span>Include taxes and fees in loan</span>
           </label>
         </div>
       </div>
 
-      <div class="field-group" id="repairs_field_group">
-        <div class="grid duo-columns">
-          <label class="repair-field">
-            Repair Cost ($)
-            <input type="number" id="repair_cost" min="0" step="100" />
-          </label>
-          <label class="repair-field">
-            Value After Repairs ($)
-            <input type="number" id="after_repair_value" min="0" step="1000" />
-          </label>
-        </div>
-      </div>
+      
     </div>
   </details>
 
-  <details class="section-block collapsible" data-openai-component="income-details">
-    <summary class="section-summary">💰 Income</summary>
-    <div class="collapsible-content">
-      <div class="grid trio-columns" style="align-items: end;">
-        <div class="inline-pair">
-          <label class="pair-col">
-            Monthly Rent ($)
-            <input type="number" id="monthly_rent" min="0" step="50" />
-          </label>
-          <label class="pair-col percent-compact">
-            <span class="field-helper">Annual Increase</span>
-            <input type="number" id="monthly_rent_increase_pct" min="0" step="0.1" />
-          </label>
-        </div>
-        <div class="inline-pair">
-          <label class="pair-col">
-            Other income ($/month)
-            <input type="number" id="other_monthly_income" min="0" step="25" />
-          </label>
-          <label class="pair-col percent-compact">
-            <span class="field-helper">Annual Increase</span>
-            <input type="number" id="other_monthly_income_increase_pct" min="0" step="0.1" />
-          </label>
-        </div>
-        <label class="percent-field">
-          Vacancy Rate (%)
-          <input type="number" id="vacancy_rate_pct" min="0" max="100" step="0.1" />
-        </label>
-      </div>
-    </div>
-  </details>
-
-  <details class="section-block collapsible" data-openai-component="operating-expenses">
-    <summary class="section-summary">🔁 Recurring Operating Expenses</summary>
-    <div class="collapsible-content">
-      <div class="grid trio-columns">
-        <div class="inline-pair">
-          <label class="pair-col">
-            <span class="label-row">Property Tax</span>
-            <span class="field-helper">Annual amount ($)</span>
-            <input type="number" id="exp_property_tax_annual" min="0" step="100" />
-          </label>
-          <label class="pair-col percent-compact">
-            <span class="field-helper">Annual Increase</span>
-            <input type="number" id="exp_property_tax_increase_pct" min="0" step="0.1" />
-          </label>
-        </div>
-        <div class="inline-pair">
-          <label class="pair-col">
-            <span class="label-row">Total Insurance</span>
-            <span class="field-helper">Annual amount ($)</span>
-            <input type="number" id="exp_insurance_annual" min="0" step="100" />
-          </label>
-          <label class="pair-col percent-compact">
-            <span class="field-helper">Annual Increase</span>
-            <input type="number" id="exp_insurance_increase_pct" min="0" step="0.1" />
-          </label>
-        </div>
-        <div class="inline-pair">
-          <label class="pair-col">
-            <span class="label-row">HOA Fee</span>
-            <span class="field-helper">Annual amount ($)</span>
-            <input type="number" id="exp_hoa_annual" min="0" step="50" />
-          </label>
-          <label class="pair-col percent-compact">
-            <span class="field-helper">Annual Increase</span>
-            <input type="number" id="exp_hoa_increase_pct" min="0" step="0.1" />
-          </label>
-        </div>
-      </div>
-      <div class="grid duo-columns">
-        <div class="inline-pair">
-          <label class="pair-col">
-            <span class="label-row">Maintenance</span>
-            <span class="field-helper">Annual amount ($)</span>
-            <input type="number" id="exp_maintenance_annual" min="0" step="50" />
-          </label>
-          <label class="pair-col percent-compact">
-            <span class="field-helper">Annual Increase</span>
-            <input type="number" id="exp_maintenance_increase_pct" min="0" step="0.1" />
-          </label>
-        </div>
-        <div class="inline-pair">
-          <label class="pair-col">
-            <span class="label-row">Other Costs</span>
-            <span class="field-helper">Annual amount ($)</span>
-            <input type="number" id="exp_other_annual" min="0" step="50" />
-          </label>
-          <label class="pair-col percent-compact">
-            <span class="field-helper">Annual Increase</span>
-            <input type="number" id="exp_other_increase_pct" min="0" step="0.1" />
-          </label>
-        </div>
-      </div>
-    </div>
-  </details>
-
-  <details class="section-block collapsible" data-openai-component="sell-exit-assumptions">
-    <summary class="section-summary">
-      <span class="summary-title">🚪 Sell / Exit Assumptions</span>
-      <div class="summary-spacer"></div>
-      <div class="sell-header-toggle" aria-label="Price or Appreciation">
-        <div class="yesno-toggle" role="group" aria-label="Price or Appreciation">
-          <label class="yesno-option">
-            <input type="radio" id="price_mode_price" name="price_mode" value="price" />
-            <span>Price</span>
-          </label>
-          <label class="yesno-option">
-            <input type="radio" id="price_mode_appreciation" name="price_mode" value="appreciation" checked />
-            <span>Appreciation</span>
-          </label>
-        </div>
-      </div>
-    </summary>
-    <div class="collapsible-content">
-      <div class="grid trio-columns" style="align-items: end; padding-top: 12px;">
-        <!-- Column 1 -->
-        <div style="position: relative; display: flex; flex-direction: column; justify-content: flex-end; margin-top: 0;">
-          <label class="sell-price-field" style="margin-top: 0;">
-            Sale Price ($)
-            <input type="number" id="sell_price" min="0" step="1000" />
-          </label>
-          <label class="percent-field appreciation-field" style="margin-top: 0;">
-            Value Appreciation (% per year)
-            <input type="number" id="value_appreciation_pct" min="0" step="0.1" />
-          </label>
-        </div>
-
-        <!-- Column 2 -->
-        <label>
-          Holding Length (years)
-          <input type="number" id="holding_length_years" min="0" step="1" />
-        </label>
-
-        <!-- Column 3 -->
-        <label class="percent-field">
-          Cost to Sell (%)
-          <input type="number" id="cost_to_sell_pct" min="0" step="0.1" />
-        </label>
-      </div>
-    </div>
-  </details>
 
   <!-- Restore original loan basics block -->
   <section class="section-block is-hidden" data-openai-component="loan-input-form" aria-hidden="true">
@@ -1898,16 +1793,16 @@
                     </div>
                     <div class="result-split">
                       <div class="split-col">
-                        <span class="label">Year 1 Income</span>
+                        <span class="label">Monthly Payment (P&I)</span>
                         <span class="value" id="year1_income_value" aria-live="polite">$0</span>
-                        <span class="sub" id="year1_income_monthly_sub">— /mo</span>
-                        <span class="hint">Gross rent + other income after vacancy</span>
+                        <span class="sub" id="year1_income_monthly_sub">/mo</span>
+                        <span class="hint">Calculated from loan amount, APR, and term</span>
                       </div>
                       <div class="split-col">
-                        <span class="label">Year 1 Cashflow</span>
+                        <span class="label">Loan Amount</span>
                         <span class="value" id="year1_cashflow_value" aria-live="polite">—</span>
-                        <span class="sub" id="year1_cashflow_monthly_sub">— /mo</span>
-                        <span class="hint">Income − expenses − debt</span>
+                        <span class="sub" id="year1_cashflow_monthly_sub">Payoff date</span>
+                        <span class="hint">Principal financed at origination</span>
                       </div>
                     </div>
                     <span id="total_monthly_0" style="display:none"></span>
@@ -1933,23 +1828,23 @@
                   <button type="button" class="cta-button secondary">&larr; Back to Inputs</button>
                 </div>
               </div>
-              <p>Key performance metrics with first-year details.</p>
+              <p>Key loan metrics and year-one totals.</p>
             </header>
             <div class="section-block">
               <div class="outputs-vertical">
                 <section class="section-block">
-                  <div class="section-title">First-Year Income & Expenses</div>
+                  <div class="section-title">Payment and Loan Summary</div>
                   <div class="year1-grid">
                     <div class="kpi-main">
                       <div class="kpi-item">
-                        <span class="kpi-label">Year 1 Cash Flow</span>
+                        <span class="kpi-label">Monthly Payment</span>
                         <span class="kpi-number" id="kpi_cashflow_annual">$0</span>
-                        <span class="kpi-sub" id="kpi_cashflow_monthly">— /mo</span>
+                        <span class="kpi-sub" id="kpi_cashflow_monthly">/mo</span>
                       </div>
                       <div class="kpi-item">
-                        <span class="kpi-label">Year 1 Income</span>
+                        <span class="kpi-label">Loan Amount</span>
                         <span class="kpi-number" id="kpi_income_annual">$0</span>
-                        <span class="kpi-sub" id="kpi_income_monthly">— /mo</span>
+                        <span class="kpi-sub" id="kpi_income_monthly">Months to payoff</span>
                       </div>
                     </div>
                     <div class="donut-row">
@@ -1960,56 +1855,31 @@
                       <table class="metrics-table">
                         <thead>
                           <tr>
-                            <th>Year 1 Data</th>
+                            <th>Year 1</th>
                             <th>Monthly</th>
                             <th>Annual</th>
                           </tr>
                         </thead>
                         <tbody>
                           <tr>
-                            <td>Income</td>
-                            <td id="y1_income_monthly">$0</td>
-                            <td id="y1_income_annual">$0</td>
-                          </tr>
-                          <tr>
-                            <td>Mortgage (P&I)</td>
+                            <td>Payment (P&I)</td>
                             <td id="y1_mortgage_monthly">$0</td>
                             <td id="y1_mortgage_annual">$0</td>
                           </tr>
                           <tr>
-                            <td>Vacancy</td>
-                            <td id="y1_vacancy_monthly">$0</td>
-                            <td id="y1_vacancy_annual">$0</td>
+                            <td>Principal paid</td>
+                            <td>—</td>
+                            <td id="y1_principal_annual">$0</td>
                           </tr>
                           <tr>
-                            <td>Property tax</td>
-                            <td id="y1_tax_monthly">$0</td>
-                            <td id="y1_tax_annual">$0</td>
+                            <td>Interest paid</td>
+                            <td>—</td>
+                            <td id="y1_interest_annual">$0</td>
                           </tr>
                           <tr>
-                            <td>Insurance</td>
-                            <td id="y1_insurance_monthly">$0</td>
-                            <td id="y1_insurance_annual">$0</td>
-                          </tr>
-                          <tr>
-                            <td>Maintenance</td>
-                            <td id="y1_maintenance_monthly">$0</td>
-                            <td id="y1_maintenance_annual">$0</td>
-                          </tr>
-                          <tr>
-                            <td>Other expenses</td>
-                            <td id="y1_other_monthly">$0</td>
-                            <td id="y1_other_annual">$0</td>
-                          </tr>
-                          <tr>
-                            <td>Cash flow</td>
-                            <td id="y1_cashflow_monthly">$0</td>
-                            <td id="y1_cashflow_annual">$0</td>
-                          </tr>
-                          <tr>
-                            <td>NOI</td>
-                            <td id="y1_noi_monthly">$0</td>
-                            <td id="y1_noi_annual">$0</td>
+                            <td>Ending balance</td>
+                            <td>—</td>
+                            <td id="y1_ending_balance">$0</td>
                           </tr>
                         </tbody>
                       </table>
@@ -2017,16 +1887,18 @@
                   </div>
                 </section>
                 <section class="section-block">
-                  <div class="section-title">20-Year Investment Summary</div>
+                  <div class="section-title">Loan Totals</div>
                   <div class="grid three-col">
-                    <div class="metric"><span class="label">Total rent collected</span><span class="value" id="out_total_rent">$0</span></div>
-                    <div class="metric"><span class="label">Total mortgage paid (P&I)</span><span class="value" id="out_total_mortgage">$0</span></div>
-                    <div class="metric"><span class="label">Total operating expenses</span><span class="value" id="out_total_expenses">$0</span></div>
-                    <div class="metric"><span class="label">Total NOI</span><span class="value" id="out_total_noi">$0</span></div>
-                    <div class="metric"><span class="label">Total profit when sold</span><span class="value" id="out_total_profit">$0</span></div>
-                    <div class="metric"><span class="label">Cash-on-cash return</span><span class="value" id="out_coc">0%</span></div>
-                    <div class="metric"><span class="label">Cap rate</span><span class="value" id="out_cap_rate">0%</span></div>
-                    <div class="metric"><span class="label">IRR</span><span class="value" id="out_irr">0%</span></div>
+                    <div class="metric"><span class="label">Total paid (P&I)</span><span class="value" id="out_total_paid">$0</span></div>
+                    <div class="metric"><span class="label">Total interest paid</span><span class="value" id="out_total_interest">$0</span></div>
+                    <div class="metric"><span class="label">Months to payoff</span><span class="value" id="out_months_to_payoff">0</span></div>
+                    <div class="metric"><span class="label">Payoff date</span><span class="value" id="out_payoff_date">—</span></div>
+                  </div>
+                </section>
+                <section class="section-block">
+                  <div class="section-title">Monthly Schedule (Cumulative)</div>
+                  <div class="breakdown-chart" style="position:relative;">
+                    <canvas id="monthlyScheduleChart"></canvas>
                   </div>
                 </section>
                 <div class="button-row">
@@ -2055,14 +1927,10 @@
                 <thead>
                   <tr>
                     <th>Year</th>
-                    <th>Income</th>
-                    <th>Expenses</th>
-                    <th>Cash Flow</th>
-                    <th>Cap Rate</th>
-                    <th>CoC Return</th>
-                    <th>Equity</th>
-                    <th>Loan Bal</th>
-                    <th>Prop Value</th>
+                    <th>Payment</th>
+                    <th>Principal</th>
+                    <th>Interest</th>
+                    <th>Ending Balance</th>
                   </tr>
                 </thead>
                 <tbody></tbody>
@@ -2085,6 +1953,7 @@
         let taxEdited = false;
         let closingEdited = false;
         let rateEdited = false;
+        let autoSalesTaxEdited = false; // tracks manual edits to sales_tax_pct
 
         const clampNonNegative = (value) => {
           const num = toNumber(value);
@@ -2540,6 +2409,73 @@
           USDA: { pmi_pct: 0, upfront_fee_pct: 1.0, annual_mi_pct: 0.35, finance_upfront_fee: true },
         };
 
+        const getRateFromPill = () => {
+          try {
+            const el = document.querySelector('.rate-badge .rate-num');
+            if (!el) return null;
+            const t = String(el.textContent || '').replace(/[^0-9.]/g, '');
+            const n = parseFloat(t);
+            return Number.isFinite(n) ? n : null;
+          } catch (_) { return null; }
+        };
+
+        const autoDefaults = {
+          auto_price: 50000,
+          down_payment_value: 5000,
+          interest_rate_pct: null,
+          loan_term_months: 60,
+          cash_incentives: 0,
+          trade_in_value: 0,
+          trade_in_owed: 0,
+          sales_tax_pct: 8.0,
+          title_fees: 400,
+          include_taxes_fees: false,
+          state: '',
+        };
+
+        const setAutoDefaultsIfEmpty = (force = false) => {
+          const rateFromPill = getRateFromPill();
+          if (rateFromPill != null) autoDefaults.interest_rate_pct = rateFromPill;
+          const setIfEmpty = (id, val) => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (el.type === 'checkbox') {
+              if (force || el.checked === false) el.checked = Boolean(val);
+              return;
+            }
+            const cur = String(el.value || '').trim();
+            const asNum = Number(cur);
+            if (force || cur === '' || (!Number.isNaN(asNum) && asNum === 0)) {
+              el.value = String(val ?? '');
+            }
+          };
+          Object.entries(autoDefaults).forEach(([k,v]) => setIfEmpty(k, v));
+        };
+
+        // State -> baseline statewide general sales tax (%) (source: Tax Foundation 2024)
+        const STATE_SALES_TAX = Object.freeze({
+          AL: 4.0, AK: 0.0, AZ: 5.6, AR: 6.5, CA: 7.25, CO: 2.9, CT: 6.35, DE: 0.0, DC: 6.0,
+          FL: 6.0, GA: 4.0, HI: 4.0, ID: 6.0, IL: 6.25, IN: 7.0, IA: 6.0, KS: 6.5, KY: 6.0,
+          LA: 4.45, ME: 5.5, MD: 6.0, MA: 6.25, MI: 6.0, MN: 6.875, MS: 7.0, MO: 4.225, MT: 0.0,
+          NE: 5.5, NV: 6.85, NH: 0.0, NJ: 6.625, NM: 5.125, NY: 4.0, NC: 4.75, ND: 5.0, OH: 5.75,
+          OK: 4.5, OR: 0.0, PA: 6.0, RI: 7.0, SC: 6.0, SD: 4.2, TN: 7.0, TX: 6.25, UT: 4.85,
+          VT: 6.0, VA: 4.3, WA: 6.5, WV: 6.0, WI: 5.0, WY: 4.0,
+        });
+
+        const setSalesTaxFromState = (force = false) => {
+          try {
+            const st = document.getElementById('state');
+            const taxEl = document.getElementById('sales_tax_pct');
+            if (!st || !taxEl) return;
+            const code = String(st.value || '').toUpperCase();
+            if (!code || !(code in STATE_SALES_TAX)) return;
+            const hasMeaningful = taxEl.value !== '' && Number(taxEl.value) > 0;
+            if (force || !autoSalesTaxEdited || !hasMeaningful) {
+              taxEl.value = String(STATE_SALES_TAX[code]);
+            }
+          } catch (_) { /* ignore */ }
+        };
+
         // Defaults for Rental Calculator fields (used if user did not provide values)
         const rentalDefaults = {
           purchase_price: 450000,
@@ -2690,53 +2626,34 @@
 
         const outputs = {
           total_monthly_0: $("total_monthly_0"),
-          p_and_i: $("p_and_i"),
-          total_interest: $("total_interest"),
-          payoff_date: $("payoff_date"),
-          interest_hint: $("interest_hint"),
-          term_hint: $("term_hint"),
-          totalsBreakdown: $("totalsBreakdown"),
-          schedulePreview: $("schedulePreview"),
-          scheduleNote: $("scheduleNote"),
-          // Year 1 Summary card (slide 1)
-          year1_income_value: $("year1_income_value"),
-          year1_cashflow_value: $("year1_cashflow_value"),
-          // Outputs slide KPIs and table
-          kpi_cashflow_annual: $("kpi_cashflow_annual"),
-          kpi_cashflow_monthly: $("kpi_cashflow_monthly"),
-          kpi_income_annual: $("kpi_income_annual"),
-          kpi_income_monthly: $("kpi_income_monthly"),
-          y1_income_monthly: $("y1_income_monthly"),
-          y1_income_annual: $("y1_income_annual"),
+          // Overview card
+          year1_income_value: $("year1_income_value"), // Monthly payment (P&I)
+          year1_cashflow_value: $("year1_cashflow_value"), // Loan amount
+          year1_income_monthly_sub: $("year1_income_monthly_sub"),
+          year1_cashflow_monthly_sub: $("year1_cashflow_monthly_sub"), // Payoff date label
+          // KPIs on Outputs slide
+          kpi_cashflow_annual: $("kpi_cashflow_annual"), // Monthly payment number
+          kpi_cashflow_monthly: $("kpi_cashflow_monthly"), // "/mo"
+          kpi_income_annual: $("kpi_income_annual"), // Loan amount
+          kpi_income_monthly: $("kpi_income_monthly"), // Months to payoff
+          // Year 1 table
           y1_mortgage_monthly: $("y1_mortgage_monthly"),
           y1_mortgage_annual: $("y1_mortgage_annual"),
-          y1_vacancy_monthly: $("y1_vacancy_monthly"),
-          y1_vacancy_annual: $("y1_vacancy_annual"),
-          y1_tax_monthly: $("y1_tax_monthly"),
-          y1_tax_annual: $("y1_tax_annual"),
-          y1_insurance_monthly: $("y1_insurance_monthly"),
-          y1_insurance_annual: $("y1_insurance_annual"),
-          y1_maintenance_monthly: $("y1_maintenance_monthly"),
-          y1_maintenance_annual: $("y1_maintenance_annual"),
-          y1_other_monthly: $("y1_other_monthly"),
-          y1_other_annual: $("y1_other_annual"),
-          y1_cashflow_monthly: $("y1_cashflow_monthly"),
-          y1_cashflow_annual: $("y1_cashflow_annual"),
-          y1_noi_monthly: $("y1_noi_monthly"),
-          y1_noi_annual: $("y1_noi_annual"),
-          // Investment summary outputs
-          out_irr: $("out_irr"),
-          out_total_profit: $("out_total_profit"),
-          out_coc: $("out_coc"),
-          out_cap_rate: $("out_cap_rate"),
-          out_total_rent: $("out_total_rent"),
-          out_total_mortgage: $("out_total_mortgage"),
-          out_total_expenses: $("out_total_expenses"),
-          out_total_noi: $("out_total_noi"),
+          y1_principal_annual: $("y1_principal_annual"),
+          y1_interest_annual: $("y1_interest_annual"),
+          y1_ending_balance: $("y1_ending_balance"),
+          // Loan Totals
+          out_total_paid: $("out_total_paid"),
+          out_total_interest: $("out_total_interest"),
+          out_months_to_payoff: $("out_months_to_payoff"),
+          out_payoff_date: $("out_payoff_date"),
+          // Amortization table body
           overTimeTableBody: (document.querySelector('#overTimeTable tbody')),
-          // Donut
+          // Donut (principal vs interest)
           expenseDonut: $("expenseDonut"),
           expenseLegend: $("expenseLegend"),
+          // Monthly cumulative chart
+          monthlyScheduleChart: $("monthlyScheduleChart"),
         };
         const monthlyPaymentCard = $("monthlyPaymentCard");
         const carousel = {
@@ -2929,52 +2846,51 @@
         };
 
         const readParams = () => {
-          // Prefer new Purchase Details values if present
-          const purchasePriceEl = document.getElementById('purchase_price');
-          const dpPctEl = document.getElementById('down_payment_pct');
-          const ratePctEl = document.getElementById('interest_rate_pct');
-          const termYearsEl = document.getElementById('loan_term_years');
-          const useLoanYes = document.getElementById('use_loan_yes');
+          // New Auto Loan inputs
+          const price = toNumber(document.getElementById('auto_price')?.value || 0);
+          const ratePct = toNumber(document.getElementById('interest_rate_pct')?.value || 0);
+          const termMonths = Math.max(1, Math.round(toNumber(document.getElementById('loan_term_months')?.value || 60)));
+          const downPayment = Math.max(0, toNumber(document.getElementById('down_payment_value')?.value || 0));
+          const incentives = Math.max(0, toNumber(document.getElementById('cash_incentives')?.value || 0));
+          const tradeValue = Math.max(0, toNumber(document.getElementById('trade_in_value')?.value || 0));
+          const tradeOwed = Math.max(0, toNumber(document.getElementById('trade_in_owed')?.value || 0));
+          const salesTaxPct = Math.max(0, toNumber(document.getElementById('sales_tax_pct')?.value || 0));
+          const titleFees = Math.max(0, toNumber(document.getElementById('title_fees')?.value || 0));
+          const includeTaxesFees = Boolean((document.getElementById('include_taxes_fees')||{}).checked);
+          const loanRadio = document.getElementById('purchase_type_loan');
+          const usingLoan = !!(loanRadio && loanRadio.checked);
 
-          const hv = toNumber(purchasePriceEl?.value ?? inputs.home_value.value);
-          const dpPct = toNumber(dpPctEl?.value ?? 0);
-          const dpValueNew = Math.round(hv * (dpPct / 100));
-          const rateAprNew = toNumber(ratePctEl?.value ?? 0) / 100;
-          const termYearsNew = toNumber(termYearsEl?.value ?? inputs.term_years.value);
+          // Compute financed principal according to auto rules
+          const priceAfterIncentives = Math.max(0, price - incentives);
+          const signedNetTrade = tradeValue - tradeOwed; // positive reduces principal
+          const taxableBase = Math.max(0, priceAfterIncentives - Math.max(0, tradeValue));
+          const taxes = (salesTaxPct / 100) * taxableBase;
+          const financedExtras = usingLoan && includeTaxesFees ? (taxes + titleFees) : 0;
+          const baseToFinance = usingLoan ? Math.max(0, priceAfterIncentives - downPayment - signedNetTrade) : 0;
+          const principal = usingLoan ? Math.max(0, baseToFinance + financedExtras) : 0;
 
-          const usingLoan = !!(useLoanYes && useLoanYes.checked);
-          let downPaymentValue;
-          if (usingLoan) {
-            // If percentage input is present, honor it even when it's exactly 0%
-            if (dpPctEl) {
-              const v = Number.isFinite(dpValueNew) ? dpValueNew : 0;
-              downPaymentValue = Math.max(0, Math.min(hv, v));
-            } else {
-              downPaymentValue = Math.max(0, Math.min(hv, toNumber(inputs.down_payment_value.value)));
-            }
-          } else {
-            // No loan: DP equals purchase price so nothing is financed
-            downPaymentValue = hv;
-          }
+          // Map into existing calculation fields
+          const rateAprDec = Math.max(0, ratePct) / 100;
+          const termYears = Math.max(0.1, termMonths / 12);
 
           return {
-            loan_type: inputs.loan_type.value,
-            home_value: hv > 0 ? hv : toNumber(inputs.home_value.value),
-            down_payment_value: downPaymentValue,
-            down_payment_pct: hv > 0 ? (downPaymentValue / hv) : 0,
-            rate_apr: Number.isFinite(rateAprNew) && rateAprNew > 0 ? rateAprNew : toNumber(inputs.rate_apr.value) / 100,
-            term_years: Number.isFinite(termYearsNew) && termYearsNew > 0 ? termYearsNew : toNumber(inputs.term_years.value),
+            loan_type: 'conventional',
+            home_value: principal, // treat principal as home_value to reuse engine
+            down_payment_value: 0,
+            down_payment_pct: 0,
+            rate_apr: rateAprDec,
+            term_years: termYears,
             start_month: toNumber(inputs.start_month.value),
             start_year: toNumber(inputs.start_year.value),
-            property_tax_input: toNumber(inputs.property_tax_input.value),
-            homeowners_insurance_yearly: toNumber(inputs.homeowners_insurance_yearly.value),
-            hoa_monthly: toNumber(inputs.hoa_monthly.value),
-            upfront_fee_pct: toNumber(inputs.upfront_fee_pct.value) / 100,
-            annual_mi_pct: toNumber(inputs.annual_mi_pct.value) / 100,
-            finance_upfront_fee: Boolean(inputs.finance_upfront_fee.checked),
-            extra_principal_monthly: toNumber(inputs.extra_principal_monthly.value),
-            extra_start_month_index: toNumber(inputs.extra_start_month_index.value),
-            pmi_pct: toNumber(inputs.pmi_pct.value) / 100,
+            property_tax_input: 0,
+            homeowners_insurance_yearly: 0,
+            hoa_monthly: 0,
+            upfront_fee_pct: 0,
+            annual_mi_pct: 0,
+            finance_upfront_fee: false,
+            extra_principal_monthly: 0,
+            extra_start_month_index: 0,
+            pmi_pct: 0,
           };
         };
 
@@ -2998,160 +2914,44 @@
           denominator === 0 ? 0 : numerator / denominator;
 
         const renderSummary = (calc) => {
-          console.log('[DEBUG] renderSummary START');
-          const { inputs: normalized, derived, totals, payoff_date } = calc;
-          console.log('[DEBUG] renderSummary destructured calc');
-          console.log('[DEBUG] About to update legacy outputs...');
-          const monthsElapsed = totals.payments_made || 0;
-          const yearsElapsed = divideSafe(monthsElapsed, 12);
-          const payoffLabel = payoff_date
-            ? `${monthNames[normalizeMonth(payoff_date.month) - 1]} ${payoff_date.year}`
-            : "—";
-
-          const monthlyPaymentEl = outputs.total_monthly_0;
-          if (monthlyPaymentEl) monthlyPaymentEl.textContent = formatCurrency(derived.total_monthly_0);
-          if (monthlyPaymentCard) {
-            monthlyPaymentCard.classList.remove("glow-animate");
-            void monthlyPaymentCard.offsetWidth;
-            monthlyPaymentCard.classList.add("glow-animate");
-          }
-
-const totalExtraPrincipal = calc.schedule.reduce((sum, row) => sum + row.extra_principal, 0);
-
-if (outputs.interest_hint) outputs.interest_hint.textContent = `Totals include ${formatCurrency(
-  totals.total_principal - totalExtraPrincipal
-)} scheduled principal and ${formatCurrency(totalExtraPrincipal)} extra payments.`;
-
-if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normalized.term_years} yrs — paid off in ${yearsElapsed.toFixed(
-  1
-)} yrs (${monthsElapsed} months).`;
-
-          if (outputs.totalsBreakdown) outputs.totalsBreakdown.innerHTML = `
-            <div class="totals-item">
-              <span class="label">Tax & insurance</span>
-              <span class="value">${formatCurrency(totals.total_tax + totals.total_ins)}</span>
-            </div>
-            <div class="totals-item">
-              <span class="label">Mortgage insurance</span>
-              <span class="value">${formatCurrency(totals.total_mi)}</span>
-            </div>
-            <div class="totals-item">
-              <span class="label">HOA dues</span>
-              <span class="value">${formatCurrency(totals.total_hoa)}</span>
-            </div>
-            <div class="totals-item">
-              <span class="label">Total paid</span>
-              <span class="value">${formatCurrency(totals.total_of_payments)}</span>
-            </div>
-          `;
-
-          const previewRows = calc.schedule.slice(0, 12);
-          if (previewRows.length) {
-            const rows = previewRows
-              .map((row) => {
-                const monthLabel = `${monthNames[row.date.month - 1].slice(0, 3)} ${row.date.year}`;
-                return `
-                  <tr>
-                    <td class="label">${row.index + 1}</td>
-                    <td>${monthLabel}</td>
-                    <td>${formatCurrency(row.total_payment)}</td>
-                    <td>${formatCurrency(row.principal_scheduled + row.extra_principal)}</td>
-                    <td>${formatCurrency(row.interest)}</td>
-                    <td>${formatCurrency(row.closing_balance)}</td>
-                  </tr>`;
-              })
-              .join("");
-
-            if (outputs.schedulePreview) outputs.schedulePreview.innerHTML = `
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th class="label">Month</th>
-                    <th>Payment</th>
-                    <th>Principal</th>
-                    <th>Interest</th>
-                    <th>Balance</th>
-                  </tr>
-                </thead>
-                <tbody>${rows}</tbody>
-              </table>
-            `;
-            if (outputs.scheduleNote) outputs.scheduleNote.textContent = `Showing first ${previewRows.length} of ${calc.schedule.length} months.`;
-          } else {
-            if (outputs.schedulePreview) outputs.schedulePreview.innerHTML = "";
-            if (outputs.scheduleNote) outputs.scheduleNote.textContent = "Enter loan details to view amortization.";
-          }
-          // ---------- Rental outputs wiring (Year 1) ----------
-          const r = readRentalInputs();
-          const grossMonthlyIncome = Math.max((r.rent || 0) + (r.other || 0), 0);
-          const vacancyMonthly = Math.max(grossMonthlyIncome * Math.max(r.vacPct || 0, 0), 0);
-          const incomeMonthly = grossMonthlyIncome;
-          const incomeAnnual = incomeMonthly * 12;
-          const taxMonthly = (r.taxAnnual || 0) / 12;
-          const insMonthly = (r.insAnnual || 0) / 12;
-          const hoaMonthly = (r.hoaAnnual || 0) / 12;
-          const maintMonthly = (r.maintAnnual || 0) / 12;
-          const otherMonthly = (r.otherAnnual || 0) / 12;
-          const opExMonthly = taxMonthly + insMonthly + hoaMonthly + maintMonthly + otherMonthly;
-          const noiMonthly = incomeMonthly - vacancyMonthly - opExMonthly;
-          const noiAnnual = noiMonthly * 12;
-          // Compute simple P&I from rental loan inputs to match the reference calculator
-          const hvY1 = toNumber(document.getElementById('purchase_price')?.value || 0);
-          const dpPctY1 = Math.max(0, toNumber(document.getElementById('down_payment_pct')?.value || 0)) / 100;
-          const loanAmtY1 = r.usingLoan ? Math.max(0, hvY1 * (1 - dpPctY1)) : 0;
-          const rateDecY1 = Math.max(0, toNumber(document.getElementById('interest_rate_pct')?.value || 0)) / 100;
-          const termYrsY1 = Math.max(1, Math.round(toNumber(document.getElementById('loan_term_years')?.value || 30)));
-          const mortgageMonthly = r.usingLoan ? monthly_p_and_i(loanAmtY1, rateDecY1, termYrsY1) : 0;
-          const mortgageAnnual = mortgageMonthly * 12;
-          const cashflowAnnual = noiAnnual - mortgageAnnual;
-          const cashflowMonthly = cashflowAnnual / 12;
-
-          console.log('[DEBUG Year 1 Income]', {
-            grossMonthlyIncome,
-            vacancyMonthly,
-            incomeMonthly,
-            incomeAnnual,
-            incomeAfterVacAnnual: (incomeMonthly - vacancyMonthly) * 12,
-            element: outputs.year1_income_value
-          });
+          const { derived, totals, payoff_date } = calc;
+          const payment = derived.p_and_i || 0;
+          const principal0 = derived.principal_0 || 0;
+          const months = calc.schedule.length || 0;
+          const payoffLabel = payoff_date ? `${monthNames[normalizeMonth(payoff_date.month) - 1]} ${payoff_date.year}` : '—';
 
           const safeSet = (el, val) => { if (el) el.textContent = val; };
-          // KPIs (Outputs slide)
-          safeSet(outputs.kpi_cashflow_annual, formatCurrencySigned(cashflowAnnual));
-          if (outputs.kpi_cashflow_annual) outputs.kpi_cashflow_annual.classList.toggle('neg', cashflowAnnual < 0);
-          safeSet(outputs.kpi_cashflow_monthly, `${formatCurrencySigned(cashflowMonthly)} /mo`);
-          if (outputs.kpi_cashflow_monthly) outputs.kpi_cashflow_monthly.classList.toggle('neg', cashflowMonthly < 0);
-          safeSet(outputs.kpi_income_annual, formatCurrency(incomeAnnual));
-          safeSet(outputs.kpi_income_monthly, `${formatCurrency(incomeMonthly)} /mo`);
 
-          // Year 1 Summary card
-          const incomeAfterVacAnnual = (incomeMonthly - vacancyMonthly) * 12;
-          safeSet(outputs.year1_income_value, formatCurrency(Math.max(incomeAfterVacAnnual, 0)));
-          safeSet($("year1_income_monthly_sub"), `${formatCurrency(Math.max(incomeMonthly - vacancyMonthly, 0))} /mo`);
-          safeSet(outputs.year1_cashflow_value, formatCurrencySigned(cashflowAnnual));
-          safeSet($("year1_cashflow_monthly_sub"), `${formatCurrencySigned(cashflowMonthly)} /mo`);
-          if (outputs.year1_cashflow_value) outputs.year1_cashflow_value.classList.toggle('neg', cashflowAnnual < 0);
+          // Overview card
+          safeSet(outputs.year1_income_value, formatCurrency(payment));
+          safeSet(outputs.year1_income_monthly_sub, '/mo');
+          safeSet(outputs.year1_cashflow_value, formatCurrency(principal0));
+          safeSet(outputs.year1_cashflow_monthly_sub, payoffLabel);
 
-            // Year 1 table values
-          safeSet(outputs.y1_income_monthly, formatCurrency(incomeMonthly));
-          safeSet(outputs.y1_income_annual, formatCurrency(incomeAnnual));
-          safeSet(outputs.y1_mortgage_monthly, formatCurrency(mortgageMonthly));
-          safeSet(outputs.y1_mortgage_annual, formatCurrency(mortgageAnnual));
-          safeSet(outputs.y1_vacancy_monthly, formatCurrency(vacancyMonthly));
-          safeSet(outputs.y1_vacancy_annual, formatCurrency(vacancyMonthly * 12));
-          safeSet(outputs.y1_tax_monthly, formatCurrency(taxMonthly));
-          safeSet(outputs.y1_tax_annual, formatCurrency(r.taxAnnual || 0));
-          safeSet(outputs.y1_insurance_monthly, formatCurrency(insMonthly));
-          safeSet(outputs.y1_insurance_annual, formatCurrency(r.insAnnual || 0));
-          safeSet(outputs.y1_maintenance_monthly, formatCurrency(maintMonthly));
-          safeSet(outputs.y1_maintenance_annual, formatCurrency(r.maintAnnual || 0));
-          safeSet(outputs.y1_other_monthly, formatCurrency(otherMonthly));
-          safeSet(outputs.y1_other_annual, formatCurrency(r.otherAnnual || 0));
-          safeSet(outputs.y1_cashflow_monthly, formatCurrencySigned(cashflowMonthly));
-          safeSet(outputs.y1_cashflow_annual, formatCurrencySigned(cashflowAnnual));
-          safeSet(outputs.y1_noi_monthly, formatCurrencySigned(noiMonthly));
-          safeSet(outputs.y1_noi_annual, formatCurrencySigned(noiAnnual));
+          if (monthlyPaymentCard) {
+            monthlyPaymentCard.classList.remove('glow-animate');
+            void monthlyPaymentCard.offsetWidth;
+            monthlyPaymentCard.classList.add('glow-animate');
+          }
+
+          // KPIs on Outputs slide
+          safeSet(outputs.kpi_cashflow_annual, formatCurrency(payment));
+          safeSet(outputs.kpi_cashflow_monthly, '/mo');
+          safeSet(outputs.kpi_income_annual, formatCurrency(principal0));
+          safeSet(outputs.kpi_income_monthly, `${months}`);
+
+          // Year 1 aggregates from schedule
+          const y1 = calc.schedule.slice(0, 12);
+          const y1Principal = y1.reduce((s, r) => s + (r.principal_scheduled + r.extra_principal), 0);
+          const y1Interest = y1.reduce((s, r) => s + r.interest, 0);
+          const y1PaymentAnnual = y1.reduce((s, r) => s + r.p_and_i, 0);
+          const y1EndingBal = y1.length ? y1[y1.length - 1].closing_balance : principal0;
+
+          safeSet(outputs.y1_mortgage_monthly, formatCurrency(payment));
+          safeSet(outputs.y1_mortgage_annual, formatCurrency(y1PaymentAnnual));
+          safeSet(outputs.y1_principal_annual, formatCurrency(y1Principal));
+          safeSet(outputs.y1_interest_annual, formatCurrency(y1Interest));
+          safeSet(outputs.y1_ending_balance, formatCurrency(y1EndingBal));
         };
 
         // ---------- Investment summary & Over Time ----------
@@ -3286,75 +3086,161 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
         };
 
         const renderInvestmentSummary = (calc) => {
-          const pf = computeProForma(calc);
-          const t = pf.totals;
           const safeSet = (el, v) => { if (el) el.textContent = v; };
-          safeSet(outputs.out_total_rent, formatCurrency(t.totalRent));
-          safeSet(outputs.out_total_mortgage, formatCurrency(t.totalMort));
-          safeSet(outputs.out_total_expenses, formatCurrency(t.totalExp));
-          safeSet(outputs.out_total_noi, formatCurrency(t.totalNOI));
-          safeSet(outputs.out_total_profit, formatCurrencySigned(t.profitWhenSold));
-          safeSet(outputs.out_cap_rate, t.capRate == null ? '—' : formatPercent(t.capRate));
-          // Display CoC including sale proceeds to align with your reference (~2000%)
-          safeSet(outputs.out_coc, t.coc_incl_sale == null ? '—' : formatPercent(t.coc_incl_sale));
-          safeSet(outputs.out_irr, t.irrPct == null ? '—' : formatPercent(t.irrPct));
-          return pf;
+          // Use correct totals fields from calculate_mortgage()
+          const totalPaid = calc.totals?.total_of_payments || 0;
+          const totalInterest = calc.totals?.total_interest || 0;
+          const monthsToPayoff = calc.totals?.payments_made || (calc.schedule?.length || 0);
+          const pd = calc.payoff_date ? `${monthNames[normalizeMonth(calc.payoff_date.month) - 1]} ${calc.payoff_date.year}` : '—';
+          safeSet(outputs.out_total_paid, formatCurrency(totalPaid));
+          safeSet(outputs.out_total_interest, formatCurrency(totalInterest));
+          safeSet(outputs.out_months_to_payoff, String(monthsToPayoff));
+          safeSet(outputs.out_payoff_date, pd);
+          return calc; // for downstream calls
         };
 
-        const renderOverTimeTable = (pf) => {
+        const renderOverTimeTable = (calc) => {
           const tbody = outputs.overTimeTableBody;
           if (!tbody) return;
-          const rows = pf.perYear.map((r) => `
-            <tr>
-              <td>${r.y}</td>
-              <td>${formatCurrency(r.incomeAnnual)}</td>
-              <td>${formatCurrency(r.mortA)}</td>
-              <td>${formatCurrency(r.opExA)}</td>
-              <td>${formatCurrencySigned(r.cfA)}</td>
-              <td>${r.y === pf.perYear.length && pf.totals.coc_incl_sale != null ? formatPercent(pf.totals.coc_incl_sale) : '—'}</td>
-              <td>${formatCurrency(r.equity)}</td>
-              <td>${formatCurrency(r.cashIfSold)}</td>
-              <td>${r.y === pf.perYear.length && pf.totals.irrPct != null ? formatPercent(pf.totals.irrPct) : '—'}</td>
-            </tr>
-          `).join('');
-          tbody.innerHTML = rows;
+          const byYear = new Map();
+          (calc.schedule || []).forEach((row) => {
+            const y = row.date.year;
+            const agg = byYear.get(y) || { pay: 0, prin: 0, int: 0, end: 0 };
+            agg.pay += row.p_and_i;
+            agg.prin += (row.principal_scheduled + row.extra_principal);
+            agg.int += row.interest;
+            agg.end = row.closing_balance;
+            byYear.set(y, agg);
+          });
+          const years = Array.from(byYear.keys()).sort((a,b)=>a-b);
+          const rowsHtml = years.map((y) => {
+            const r = byYear.get(y);
+            return `
+              <tr>
+                <td>${y}</td>
+                <td>${formatCurrency(r.pay)}</td>
+                <td>${formatCurrency(r.prin)}</td>
+                <td>${formatCurrency(r.int)}</td>
+                <td>${formatCurrency(r.end)}</td>
+              </tr>`;
+          }).join('');
+          tbody.innerHTML = rowsHtml;
         };
 
         const renderExpenseDonut = (calc) => {
-          const r = readRentalInputs();
-          const tax = (r.taxAnnual || 0);
-          const ins = (r.insAnnual || 0);
-          const hoa = (r.hoaAnnual || 0);
-          const maint = (r.maintAnnual || 0);
-          const other = (r.otherAnnual || 0);
-          const vacancy = ((r.rent || 0) + (r.other || 0)) * 12 * (r.vacPct || 0);
-          const data = [tax, ins, hoa, maint, other, vacancy];
-          const labels = ['Tax', 'Insurance', 'HOA', 'Maintenance', 'Other', 'Vacancy'];
-          // Solid colors for clearer legend mapping
-          const colors = ['#60a5fa', '#34d399', '#fbbf24', '#f472b6', '#a78bfa', '#94a3b8'];
           const canvas = outputs.expenseDonut;
           if (!canvas) return;
-          // Match the chart's visual size to the height of the Year‑1 table
-          const tableEl = document.getElementById('y1_income_monthly')?.closest('table');
+          // Show life-of-loan split to match the reference calculator
+          const totalPrin = calc.totals?.total_principal ?? (calc.schedule || []).reduce((s, r) => s + (r.principal_scheduled + r.extra_principal), 0);
+          const totalInt = calc.totals?.total_interest ?? (calc.schedule || []).reduce((s, r) => s + r.interest, 0);
+          const data = [totalPrin, totalInt];
+          const labels = ['Principal', 'Interest'];
+          const colors = ['#22d3ee', '#94a3b8'];
+          const tableEl = document.getElementById('y1_mortgage_monthly')?.closest('table');
           const tableH = tableEl ? tableEl.getBoundingClientRect().height : null;
           fitCanvasToParent(canvas, tableH);
           const ctx = canvas.getContext('2d');
-          const draw = (hi = -1) => drawDonutChart(ctx, data, colors, hi);
-          draw();
+          drawDonutChart(ctx, data, colors, -1);
           const total = data.reduce((s, v) => s + v, 0) || 1;
           const legend = outputs.expenseLegend;
           if (legend) {
             legend.innerHTML = labels.map((l, i) => {
               const pct = (data[i] / total) * 100;
-              return `<div class="legend-item" data-index="${i}"><span class="swatch" style="background:${colors[i]}"></span><span class="name">${l}</span> <span class="pct">${pct.toFixed(0)}%</span></div>`;
+              return `<div class="legend-item"><span class="swatch" style="background:${colors[i]}"></span><span class="name">${l}</span><span class="pct">${pct.toFixed(1)}%</span></div>`;
             }).join('');
-            // Hover highlight from legend
-            Array.from(legend.querySelectorAll('.legend-item')).forEach((el) => {
-              const idx = Number(el.getAttribute('data-index'));
-              el.addEventListener('mouseenter', () => draw(idx));
-              el.addEventListener('mouseleave', () => draw(-1));
-            });
           }
+        };
+
+        const renderMonthlyScheduleChart = (calc) => {
+          const canvas = outputs.monthlyScheduleChart;
+          if (!canvas) return;
+          const sched = calc.schedule || [];
+          const months = sched.length;
+          // Build cumulative series
+          let cumPay = 0;
+          let cumInt = 0;
+          const paySeries = [];
+          const intSeries = [];
+          const balSeries = [];
+          for (let i = 0; i < months; i++) {
+            const row = sched[i];
+            cumPay += (row?.p_and_i || 0);
+            cumInt += (row?.interest || 0);
+            paySeries.push(cumPay);
+            intSeries.push(cumInt);
+            balSeries.push(row?.closing_balance || 0);
+          }
+
+          // Prepare canvas size
+          const fitLineCanvas = (c) => {
+            const parent = c.parentElement || c;
+            const rect = parent.getBoundingClientRect();
+            const dpr = Math.max(1, Math.min(window.devicePixelRatio || 1, 2));
+            const w = Math.max(280, Math.round(rect.width));
+            const h = Math.max(160, Math.round(rect.width * 0.42));
+            c.style.width = `${w}px`; c.style.height = `${h}px`;
+            c.width = Math.round(w * dpr); c.height = Math.round(h * dpr);
+            return { w: c.width, h: c.height, dpr };
+          };
+          const { w, h } = fitLineCanvas(canvas);
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, w, h);
+
+          // Axis and scales
+          const padL = 56, padR = 14, padT = 14, padB = 28;
+          const plotW = w - padL - padR;
+          const plotH = h - padT - padB;
+          const maxY = Math.max(
+            paySeries[months-1] || 0,
+            intSeries[months-1] || 0,
+            calc.derived?.principal_0 || 0
+          ) * 1.05;
+          const toX = (i) => padL + (months <= 1 ? 0 : (i / (months - 1)) * plotW);
+          const toY = (v) => padT + (plotH * (1 - (v / (maxY || 1))));
+
+          // helpers
+          const drawSeries = (vals, color, width=2) => {
+            if (!vals.length) return;
+            ctx.beginPath();
+            ctx.lineWidth = width;
+            ctx.strokeStyle = color;
+            ctx.moveTo(toX(0), toY(vals[0]));
+            for (let i = 1; i < vals.length; i++) ctx.lineTo(toX(i), toY(vals[i]));
+            ctx.stroke();
+          };
+
+          // Grid
+          ctx.strokeStyle = 'rgba(148,163,184,0.18)';
+          ctx.lineWidth = 1;
+          ctx.beginPath();
+          for (let g = 0; g <= 4; g++) {
+            const y = padT + (plotH * g / 4);
+            ctx.moveTo(padL, y); ctx.lineTo(padL + plotW, y);
+          }
+          ctx.stroke();
+
+          // Draw lines: Payment (cumulative), Interest (cumulative), Balance (remaining)
+          drawSeries(paySeries, '#ea580c', 2.2);     // orange-ish
+          drawSeries(intSeries, '#16a34a', 2);       // green
+          drawSeries(balSeries, '#60a5fa', 2);       // blue
+
+          // Simple legend
+          const labels = [
+            { name: 'Payment', color: '#ea580c' },
+            { name: 'Interest', color: '#16a34a' },
+            { name: 'Balance', color: '#60a5fa' },
+          ];
+          const lw = 18, lh = 10, gap = 10;
+          let lx = padL, ly = h - padB + 8;
+          ctx.font = '12px system-ui, -apple-system, Segoe UI, sans-serif';
+          ctx.textBaseline = 'middle';
+          labels.forEach(({name, color}) => {
+            ctx.fillStyle = color;
+            ctx.fillRect(lx, ly - lh/2, lw, lh);
+            ctx.fillStyle = 'rgba(226,232,240,0.9)';
+            ctx.fillText(name, lx + lw + 6, ly);
+            lx += lw + ctx.measureText(name).width + gap + 12;
+          });
         };
 
         const breakdownInputs = {
@@ -3548,10 +3434,11 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
             console.error('[DEBUG] ERROR in renderSummary:', err);
             console.error('[DEBUG] Stack:', err.stack);
           }
-          // New outputs: investment summary, over-time table, expense donut
-          const pf = renderInvestmentSummary(calc);
-          renderOverTimeTable(pf);
+          // New outputs: loan totals, over-time table, PI donut
+          renderInvestmentSummary(calc);
+          renderOverTimeTable(calc);
           renderExpenseDonut(calc);
+          renderMonthlyScheduleChart(calc);
           // Keep legacy hook if present
           if (typeof renderBreakdown === 'function') {
             try { renderBreakdown(calc); } catch (_) {}
@@ -3653,14 +3540,8 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
             setDefaults(baseDefaults);
             mergeProgramDefaults();
             setRentalDefaultsIfEmpty(true);
-            // Reset price/appreciation toggle to default (Appreciation)
-            const pmPrice = document.getElementById('price_mode_price');
-            const pmApp = document.getElementById('price_mode_appreciation');
-            if (pmPrice && pmApp) { pmPrice.checked = false; pmApp.checked = true; }
+            setAutoDefaultsIfEmpty(true);
             toggleLoanFields();
-            toggleRepairFields();
-            toggleSellFields();
-            updatePriceAppHeader?.();
             adjustPurchaseDetailsSpacing?.();
             calculateAndRender();
             saveUserInputsState();
@@ -3788,7 +3669,10 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
           // Repairs
           'repair_cost','after_repair_value',
           // Sell / exit
-          'sell_price','holding_length_years','cost_to_sell_pct','value_appreciation_pct'
+          'sell_price','holding_length_years','cost_to_sell_pct','value_appreciation_pct',
+          // Auto loan inputs
+          'auto_price','title_fees','down_payment_value','interest_rate_pct','loan_term_months',
+          'cash_incentives','trade_in_value','trade_in_owed','sales_tax_pct','state'
         ];
 
         const readToggleValue = (yesId, noId) => {
@@ -3910,6 +3794,7 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
             if (id === 'interest_rate_pct' || id === 'loan_rate_slider') rateEdited = true;
             if (id === 'exp_property_tax_annual') taxEdited = true;
             if (id === 'closing_cost') closingEdited = true;
+            if (id === 'sales_tax_pct') autoSalesTaxEdited = true;
             calculateAndRender();
             saveUserInputsState();
           });
@@ -3926,10 +3811,13 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
           // Repairs
           'repair_cost','after_repair_value',
           // Sell / exit
-          'sell_price','holding_length_years','cost_to_sell_pct','value_appreciation_pct'
+          'sell_price','holding_length_years','cost_to_sell_pct','value_appreciation_pct',
+          // Auto loan inputs (new)
+          'auto_price','down_payment_value','interest_rate_pct','loan_term_months','cash_incentives',
+          'trade_in_value','trade_in_owed','sales_tax_pct','title_fees','state'
         ].forEach((id) => bindRecalc(id, 'input'));
         // Radios / toggles
-        ['use_loan_yes','use_loan_no','need_repairs_yes','need_repairs_no','know_sell_price_yes','know_sell_price_no','price_mode_price','price_mode_appreciation']
+        ['use_loan_yes','use_loan_no','need_repairs_yes','need_repairs_no','know_sell_price_yes','know_sell_price_no','price_mode_price','price_mode_appreciation','purchase_type_loan','purchase_type_lease','include_taxes_fees']
           .forEach((id) => bindRecalc(id, 'change'));
 
         // Explicit listeners for rate slider to set the edited flag immediately
@@ -3937,6 +3825,18 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
         if (rateSlider) rateSlider.addEventListener('input', () => { didUserEdit = true; rateEdited = true; });
         updateMiVisibility();
         updateCarousel();
+        setAutoDefaultsIfEmpty(false);
+        // If a state is already selected, seed sales tax accordingly (without overriding manual edits)
+        setSalesTaxFromState(false);
+        // React to state changes to auto-fill sales tax if user hasn't edited it
+        const stateEl = document.getElementById('state');
+        if (stateEl) {
+          stateEl.addEventListener('change', () => {
+            setSalesTaxFromState(false);
+            calculateAndRender();
+            saveUserInputsState();
+          });
+        }
         let resizeRaf = 0;
         window.addEventListener("resize", () => {
           if (resizeRaf) cancelAnimationFrame(resizeRaf);
@@ -3946,10 +3846,11 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
             const isBreakdownVisible = breakdownSlide && breakdownSlide.getAttribute('aria-hidden') === 'false';
             if (isBreakdownVisible) {
               if (breakdownOutputs.canvas) fitCanvasToParent(breakdownOutputs.canvas);
-              const params = readParams();
-              const calc = mortgageCalculator.calculate_mortgage(params);
-              renderBreakdown(calc);
             }
+            const params = readParams();
+            const calc = mortgageCalculator.calculate_mortgage(params);
+            try { renderBreakdown(calc); } catch(_) {}
+            try { renderMonthlyScheduleChart(calc); } catch(_) {}
           });
         });
 
@@ -4204,17 +4105,16 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
         const qsa = (sel) => Array.from(document.querySelectorAll(sel));
 
         const adjustPurchaseDetailsSpacing = () => {
-          const loanOn = !!(document.getElementById('use_loan_yes') && document.getElementById('use_loan_yes').checked);
-          const repairsOn = !!(document.getElementById('need_repairs_yes') && document.getElementById('need_repairs_yes').checked);
+          const loanOn = !!(document.getElementById('purchase_type_loan') && document.getElementById('purchase_type_loan').checked);
           const row = document.getElementById('purchase_inputs_row');
           if (!row) return;
-          const compact = !loanOn && !repairsOn;
+          const compact = !loanOn;
           row.style.marginBottom = compact ? '8px' : '16px';
         };
 
         const toggleLoanFields = () => {
-          const yes = document.getElementById('use_loan_yes');
-          const show = !!(yes && yes.checked);
+          const loan = document.getElementById('purchase_type_loan');
+          const show = !!(loan && loan.checked);
           // Hide/show individual loan fields
           qsa('.loan-field').forEach((el) => el.classList.toggle('is-hidden', !show));
           // Collapse/expand the entire group to remove extra whitespace
@@ -4222,58 +4122,19 @@ if (outputs.term_hint) outputs.term_hint.textContent = `Original term ${normaliz
           if (group) group.classList.toggle('is-hidden', !show);
         };
 
-        const toggleRepairFields = () => {
-          const yes = document.getElementById('need_repairs_yes');
-          const show = !!(yes && yes.checked);
-          // Hide/show individual repair fields
-          qsa('.repair-field').forEach((el) => el.classList.toggle('is-hidden', !show));
-          // Collapse/expand the entire group to remove extra whitespace
-          const group = document.getElementById('repairs_field_group');
-          if (group) group.classList.toggle('is-hidden', !show);
-        };
-
-        const updatePriceAppHeader = () => {
-          const header = document.getElementById('price_app_header');
-          if (!header) return;
-          const modePrice = document.getElementById('price_mode_price');
-          if (modePrice && modePrice.checked) {
-            header.textContent = 'Sale Price ($)';
-          } else {
-            header.textContent = 'Value Appreciation (% per year)';
-          }
-        };
-
-        const toggleSellFields = () => {
-          const modePrice = document.getElementById('price_mode_price');
-          let showPrice;
-          if (modePrice) {
-            showPrice = !!modePrice.checked;
-          } else {
-            const knowYes = document.getElementById('know_sell_price_yes');
-            showPrice = !!(knowYes && knowYes.checked);
-          }
-          qsa('.sell-price-field').forEach((el) => el.classList.toggle('is-hidden', !showPrice));
-          qsa('.appreciation-field').forEach((el) => el.classList.toggle('is-hidden', showPrice));
-          updatePriceAppHeader();
-        };
-
-        ['use_loan_yes','use_loan_no','need_repairs_yes','need_repairs_no','know_sell_price_yes','know_sell_price_no','price_mode_price','price_mode_appreciation']
+        ['purchase_type_loan','purchase_type_lease']
           .forEach((id) => {
             const el = document.getElementById(id);
             if (!el) return;
             el.addEventListener('change', () => {
-              if (id.startsWith('use_loan')) toggleLoanFields();
-              else if (id.startsWith('need_repairs')) toggleRepairFields();
-              else toggleSellFields();
+              toggleLoanFields();
               adjustPurchaseDetailsSpacing();
+              calculateAndRender();
             });
           });
 
         // Initialize visibility on load
         toggleLoanFields();
-        toggleRepairFields();
-        toggleSellFields();
-        updatePriceAppHeader();
         adjustPurchaseDetailsSpacing();
 
         // Breakdown list is read-only; no input listeners needed.

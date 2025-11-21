@@ -1,10 +1,10 @@
-# Rental Property Calculator - ChatGPT MCP Connector
+# Auto Loan Calculator - ChatGPT MCP Connector
 
-A Model Context Protocol (MCP) server that provides an interactive rental property calculator widget for ChatGPT. Helps users estimate monthly payments for financed rentals, analyze scenarios, and plan cash flow.
+A Model Context Protocol (MCP) server that provides an interactive auto loan calculator widget for ChatGPT. Helps users estimate monthly payments for financed vehicles, analyze scenarios, and plan costs.
 
 ## Features
 
-- 💰 Calculate monthly payments for rental properties
+- 💰 Calculate monthly payments for auto loans
 - 📊 Simple inputs: purchase price, interest rate, loan term
 - 🔄 Interactive widget that appears directly in ChatGPT
 - 📈 Shows principal, interest, and total payment breakdown
@@ -43,7 +43,7 @@ Your permanent URL: `https://your-app.onrender.com/mcp`
 
 1. Open ChatGPT in **Developer Mode**
 2. Add MCP Connector with URL: `https://your-app.onrender.com/mcp`
-3. Say: **"show me a rental property calculator"**
+3. Say: **"show me an auto loan calculator"**
 4. The interactive widget appears!
 
 ## Tech Stack
