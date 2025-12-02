@@ -27492,12 +27492,16 @@ var __iconNode = [
 ];
 var ArrowRight = createLucideIcon("arrow-right", __iconNode);
 
+// node_modules/lucide-react/dist/esm/icons/check.js
+var __iconNode2 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
+var Check = createLucideIcon("check", __iconNode2);
+
 // node_modules/lucide-react/dist/esm/icons/chevron-down.js
-var __iconNode2 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-var ChevronDown = createLucideIcon("chevron-down", __iconNode2);
+var __iconNode3 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+var ChevronDown = createLucideIcon("chevron-down", __iconNode3);
 
 // node_modules/lucide-react/dist/esm/icons/heart.js
-var __iconNode3 = [
+var __iconNode4 = [
   [
     "path",
     {
@@ -27506,10 +27510,10 @@ var __iconNode3 = [
     }
   ]
 ];
-var Heart = createLucideIcon("heart", __iconNode3);
+var Heart = createLucideIcon("heart", __iconNode4);
 
 // node_modules/lucide-react/dist/esm/icons/loader.js
-var __iconNode4 = [
+var __iconNode5 = [
   ["path", { d: "M12 2v4", key: "3427ic" }],
   ["path", { d: "m16.2 7.8 2.9-2.9", key: "r700ao" }],
   ["path", { d: "M18 12h4", key: "wj9ykh" }],
@@ -27519,17 +27523,17 @@ var __iconNode4 = [
   ["path", { d: "M2 12h4", key: "j09sii" }],
   ["path", { d: "m4.9 4.9 2.9 2.9", key: "giyufr" }]
 ];
-var Loader = createLucideIcon("loader", __iconNode4);
+var Loader = createLucideIcon("loader", __iconNode5);
 
 // node_modules/lucide-react/dist/esm/icons/mail.js
-var __iconNode5 = [
+var __iconNode6 = [
   ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
   ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
 ];
-var Mail = createLucideIcon("mail", __iconNode5);
+var Mail = createLucideIcon("mail", __iconNode6);
 
 // node_modules/lucide-react/dist/esm/icons/message-square.js
-var __iconNode6 = [
+var __iconNode7 = [
   [
     "path",
     {
@@ -27538,14 +27542,14 @@ var __iconNode6 = [
     }
   ]
 ];
-var MessageSquare = createLucideIcon("message-square", __iconNode6);
+var MessageSquare = createLucideIcon("message-square", __iconNode7);
 
 // node_modules/lucide-react/dist/esm/icons/minus.js
-var __iconNode7 = [["path", { d: "M5 12h14", key: "1ays0h" }]];
-var Minus = createLucideIcon("minus", __iconNode7);
+var __iconNode8 = [["path", { d: "M5 12h14", key: "1ays0h" }]];
+var Minus = createLucideIcon("minus", __iconNode8);
 
 // node_modules/lucide-react/dist/esm/icons/play.js
-var __iconNode8 = [
+var __iconNode9 = [
   [
     "path",
     {
@@ -27554,17 +27558,17 @@ var __iconNode8 = [
     }
   ]
 ];
-var Play = createLucideIcon("play", __iconNode8);
+var Play = createLucideIcon("play", __iconNode9);
 
 // node_modules/lucide-react/dist/esm/icons/plus.js
-var __iconNode9 = [
+var __iconNode10 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "M12 5v14", key: "s699le" }]
 ];
-var Plus = createLucideIcon("plus", __iconNode9);
+var Plus = createLucideIcon("plus", __iconNode10);
 
 // node_modules/lucide-react/dist/esm/icons/printer.js
-var __iconNode10 = [
+var __iconNode11 = [
   [
     "path",
     {
@@ -27575,14 +27579,21 @@ var __iconNode10 = [
   ["path", { d: "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6", key: "1itne7" }],
   ["rect", { x: "6", y: "14", width: "12", height: "8", rx: "1", key: "1ue0tg" }]
 ];
-var Printer = createLucideIcon("printer", __iconNode10);
+var Printer = createLucideIcon("printer", __iconNode11);
 
 // node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
-var __iconNode11 = [
+var __iconNode12 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
-var RotateCcw = createLucideIcon("rotate-ccw", __iconNode11);
+var RotateCcw = createLucideIcon("rotate-ccw", __iconNode12);
+
+// node_modules/lucide-react/dist/esm/icons/x.js
+var __iconNode13 = [
+  ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
+  ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
+];
+var X = createLucideIcon("x", __iconNode13);
 
 // node_modules/recharts/es6/container/Surface.js
 var React = __toESM(require_react());
@@ -48792,36 +48803,16 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
   });
   const [showSubscribeModal, setShowSubscribeModal] = (0, import_react52.useState)(false);
   const [email, setEmail] = (0, import_react52.useState)("");
-  const [turnstileToken, setTurnstileToken] = (0, import_react52.useState)(null);
   const [subscribeStatus, setSubscribeStatus] = (0, import_react52.useState)("idle");
   const [subscribeMessage, setSubscribeMessage] = (0, import_react52.useState)("");
+  const [showBanner, setShowBanner] = (0, import_react52.useState)(true);
   const [personalNotes, setPersonalNotes] = (0, import_react52.useState)("");
   const [showFeedbackModal, setShowFeedbackModal] = (0, import_react52.useState)(false);
   const [feedbackText, setFeedbackText] = (0, import_react52.useState)("");
   const [feedbackStatus, setFeedbackStatus] = (0, import_react52.useState)("idle");
-  (0, import_react52.useEffect)(() => {
-    if (showSubscribeModal && window.turnstile) {
-      setTimeout(() => {
-        try {
-          window.turnstile.render("#turnstile-widget", {
-            sitekey: window.TURNSTILE_SITE_KEY,
-            callback: function(token) {
-              setTurnstileToken(token);
-            }
-          });
-        } catch (e) {
-        }
-      }, 100);
-    }
-  }, [showSubscribeModal]);
   const handleSubscribe = async () => {
     if (!email || !email.includes("@")) {
       setSubscribeMessage("Please enter a valid email.");
-      setSubscribeStatus("error");
-      return;
-    }
-    if (!turnstileToken) {
-      setSubscribeMessage("Please complete the security check.");
       setSubscribeStatus("error");
       return;
     }
@@ -48833,8 +48824,7 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
         body: JSON.stringify({
           email,
           topicId: "retirement-news",
-          topicName: "Retirement Calculator Updates",
-          turnstileToken
+          topicName: "Retirement Calculator Updates"
         })
       });
       const data = await response.json();
@@ -48846,7 +48836,6 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
           setEmail("");
           setSubscribeStatus("idle");
           setSubscribeMessage("");
-          setTurnstileToken(null);
         }, 3e3);
       } else {
         setSubscribeStatus("error");
@@ -49036,7 +49025,11 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
       }
     }
     const whatYouHaveLiquid = Math.round(fvInitial + fvContributions);
-    const totalWealthAtRetirement = whatYouHaveLiquid + incomeValueAtRetirement + savingsAdj;
+    let collegeCost = 0;
+    if (helpWithCollege && familyPlan !== "none") {
+      collegeCost = familyPlan === "small" ? 3e5 : 6e5;
+    }
+    const totalWealthAtRetirement = whatYouHaveLiquid + incomeValueAtRetirement + savingsAdj - collegeCost;
     const graphData = [];
     let simCurrent = savingsNum;
     let simIdeal = savingsNum;
@@ -49156,6 +49149,7 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
     });
   };
   const resetToDefaults = () => {
+    localStorage.removeItem(STORAGE_KEY);
     setCalculators((prev) => {
       const next = { ...prev };
       next[calculatorType] = {
@@ -49175,6 +49169,7 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
     setHelpWithCollege(false);
     setSavingsDetails({ savings: "", checking: "", crypto: "", retirement: "", stockPortfolio: "" });
     setIncomeDetails({ socialSecurity: "", realEstate: "", trust: "", investments: "", other: "" });
+    setPersonalNotes("");
   };
   const [travelPlan, setTravelPlan] = (0, import_react52.useState)("moderate");
   const [familyPlan, setFamilyPlan] = (0, import_react52.useState)("none");
@@ -49209,24 +49204,10 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
     const budgetDiff = newCost - oldCost;
     const currentBudget = parseFloat(budget) || 0;
     const newBudget = Math.max(0, currentBudget + budgetDiff);
-    if (helpWithCollege) {
-      const oldReduction = getCollegeContribReduction(familyPlan);
-      const newReduction = getCollegeContribReduction(newPlan);
-      const contribDiff = newReduction - oldReduction;
-      const currentContrib = parseFloat(contributions) || 0;
-      updateVal("contributions", String(Math.max(0, Math.round(currentContrib - contribDiff))));
-    }
     setFamilyPlan(newPlan);
     updateVal("budget", String(Math.round(newBudget)));
   };
   const handleCollegeToggle = (checked) => {
-    const reduction = getCollegeContribReduction(familyPlan);
-    const currentContrib = parseFloat(contributions) || 0;
-    if (checked) {
-      updateVal("contributions", String(Math.max(0, Math.round(currentContrib - reduction))));
-    } else {
-      updateVal("contributions", String(Math.round(currentContrib + reduction)));
-    }
     setHelpWithCollege(checked);
   };
   const applySmartBudget = () => {
@@ -49570,13 +49551,16 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
     },
     modalClose: {
       position: "absolute",
-      top: "20px",
-      right: "20px",
+      top: "16px",
+      right: "16px",
       background: "none",
       border: "none",
       cursor: "pointer",
       color: COLORS.textSecondary,
-      padding: "4px"
+      padding: "8px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
     },
     input: {
       width: "100%",
@@ -49611,28 +49595,56 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
     subscribeBtn: {
       display: "flex",
       alignItems: "center",
-      gap: "6px",
-      padding: "8px 12px",
-      backgroundColor: COLORS.inputBg,
-      color: COLORS.primary,
-      borderRadius: "8px",
+      gap: "8px",
+      padding: "10px 16px",
+      backgroundColor: COLORS.primary,
+      color: "white",
+      borderRadius: "24px",
       border: "none",
-      fontSize: "12px",
-      fontWeight: 600,
+      fontSize: "13px",
+      fontWeight: 700,
       cursor: "pointer",
       textDecoration: "none",
-      transition: "background-color 0.2s"
+      transition: "transform 0.2s, box-shadow 0.2s",
+      boxShadow: "0 4px 12px rgba(86, 197, 150, 0.25)",
+      whiteSpace: "nowrap"
     }
   };
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.container, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.headerRow, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.title, children: "Retirement Calculator" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: styles.subscribeBtn, className: "btn-press", onClick: () => setShowSubscribeModal(true), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
-        "Subscribe"
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.headerRow, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.title, children: "The Retirement Planner Pro" }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...styles.subheader, display: "flex", alignItems: "center", gap: 6 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 16, color: COLORS.primary }),
+      " Aligned with Certified Financial Planner\u2122 (CFP\xAE) principles"
+    ] }),
+    showBanner && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+      backgroundColor: COLORS.accentLight,
+      borderRadius: "16px",
+      padding: "16px",
+      marginBottom: "24px",
+      marginTop: "16px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+      flexWrap: "wrap",
+      gap: "12px",
+      position: "relative"
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "14px", fontWeight: 600, color: COLORS.primaryDark, paddingRight: "24px" }, children: "Want expert tips to reach your goals faster?" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 12 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: { ...styles.subscribeBtn, marginRight: 24 }, className: "btn-press", onClick: () => setShowSubscribeModal(true), children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
+          "Subscribe"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "div",
+          {
+            style: { cursor: "pointer", padding: 4, position: "absolute", top: 8, right: 8, color: COLORS.textSecondary },
+            onClick: () => setShowBanner(false),
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 16 })
+          }
+        )
       ] })
     ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.subheader, children: "Plan your financial future." }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.card, children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.row, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.column, children: [
@@ -50119,6 +50131,10 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
       ] })
     ] }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.footer, className: "no-print", children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: styles.footerBtn, onClick: () => setShowSubscribeModal(true), className: "btn-press", children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 16 }),
+        " Subscribe"
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: styles.footerBtn, onClick: resetToDefaults, className: "btn-press", children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 16 }),
         " Reset"
@@ -50137,7 +50153,7 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
       ] })
     ] }),
     showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.bottomModalOverlay, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.modalContent, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Minus, { size: 24, style: { transform: "rotate(45deg)" } }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "24px", fontWeight: 800, marginBottom: "8px", color: COLORS.textMain }, children: "Feedback" }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "14px", color: COLORS.textSecondary, marginBottom: "24px" }, children: "Help us improve the calculator." }),
       feedbackStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { textAlign: "center", padding: "20px", color: COLORS.primary, fontWeight: 600 }, children: "Thanks for your feedback!" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
@@ -50164,7 +50180,7 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
       ] })
     ] }) }),
     showSavingsModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.modalOverlay, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.modalContent, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowSavingsModal(false), children: "\u2715" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowSavingsModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginBottom: 24, textAlign: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 20, fontWeight: 800, color: COLORS.textMain, marginBottom: 8 }, children: "Current Savings Breakdown" }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
@@ -50244,7 +50260,7 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
       )
     ] }) }),
     showIncomeModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.modalOverlay, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.modalContent, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowIncomeModal(false), children: "\u2715" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowIncomeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 24, textAlign: "center" }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 20, fontWeight: 800, color: COLORS.textMain, marginBottom: 8 }, children: "Other Monthly Income" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary }, children: "Enter monthly income amounts" })
@@ -50335,9 +50351,9 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
       )
     ] }) }),
     showSubscribeModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: styles.modalOverlay, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.modalContent, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Minus, { size: 24, style: { transform: "rotate(45deg)" } }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "24px", fontWeight: 800, marginBottom: "8px", color: COLORS.textMain }, children: "Stay Updated" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "14px", color: COLORS.textSecondary, marginBottom: "24px" }, children: "Get the latest updates delivered to your inbox." }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: styles.modalClose, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "24px", fontWeight: 800, marginBottom: "8px", color: COLORS.textMain }, children: "Sign Up For Retirement Tips" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "14px", color: COLORS.textSecondary, marginBottom: "24px" }, children: "Get personalized recommendations to improve your retirement planning." }),
       subscribeStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "center", padding: "20px", color: COLORS.primary, fontWeight: 600 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "40px", marginBottom: "10px" }, children: "\u{1F389}" }),
         subscribeMessage
@@ -50354,7 +50370,6 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
             }
           )
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginBottom: "20px", minHeight: "120px", display: "flex", justifyContent: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { id: "turnstile-widget" }) }),
         subscribeStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.red, fontSize: "14px", marginBottom: "16px", textAlign: "center" }, children: subscribeMessage }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           "button",
@@ -50365,7 +50380,8 @@ function RetirementCalculatorHelloWorld({ initialData: initialData2 }) {
             className: "btn-press",
             children: subscribeStatus === "loading" ? "Subscribing..." : "Subscribe"
           }
-        )
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: "11px", color: COLORS.textSecondary, textAlign: "center", marginTop: "12px", lineHeight: 1.4 }, children: "By subscribing, you agree to receive emails. Unsubscribe anytime. We retain your email until you unsubscribe." })
       ] })
     ] }) }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("style", { children: `
@@ -50642,6 +50658,14 @@ lucide-react/dist/esm/icons/arrow-right.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
+lucide-react/dist/esm/icons/check.js:
+  (**
+   * @license lucide-react v0.554.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
 lucide-react/dist/esm/icons/chevron-down.js:
   (**
    * @license lucide-react v0.554.0 - ISC
@@ -50715,6 +50739,14 @@ lucide-react/dist/esm/icons/printer.js:
    *)
 
 lucide-react/dist/esm/icons/rotate-ccw.js:
+  (**
+   * @license lucide-react v0.554.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+lucide-react/dist/esm/icons/x.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *

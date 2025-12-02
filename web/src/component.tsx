@@ -11,7 +11,9 @@ import {
   Mail,
   MessageSquare,
   HelpCircle,
-  ArrowRight
+  ArrowRight,
+  Check,
+  X
 } from "lucide-react";
 import { 
   AreaChart, 
@@ -246,9 +248,9 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
   // Subscription State
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [email, setEmail] = useState("");
-  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [subscribeMessage, setSubscribeMessage] = useState("");
+  const [showBanner, setShowBanner] = useState(true);
 
   // Personal Notes State
   const [personalNotes, setPersonalNotes] = useState("");
@@ -258,31 +260,9 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
-  useEffect(() => {
-    if (showSubscribeModal && (window as any).turnstile) {
-      setTimeout(() => {
-          try {
-            (window as any).turnstile.render('#turnstile-widget', {
-              sitekey: (window as any).TURNSTILE_SITE_KEY,
-              callback: function(token: string) {
-                setTurnstileToken(token);
-              },
-            });
-          } catch (e) {
-            // Turnstile might already be rendered
-          }
-      }, 100);
-    }
-  }, [showSubscribeModal]);
-
   const handleSubscribe = async () => {
     if (!email || !email.includes("@")) {
         setSubscribeMessage("Please enter a valid email.");
-        setSubscribeStatus("error");
-        return;
-    }
-    if (!turnstileToken) {
-        setSubscribeMessage("Please complete the security check.");
         setSubscribeStatus("error");
         return;
     }
@@ -295,8 +275,7 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
             body: JSON.stringify({
                 email,
                 topicId: "retirement-news",
-                topicName: "Retirement Calculator Updates",
-                turnstileToken
+                topicName: "Retirement Calculator Updates"
             })
         });
         
@@ -309,7 +288,6 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
                 setEmail("");
                 setSubscribeStatus("idle");
                 setSubscribeMessage("");
-                setTurnstileToken(null);
             }, 3000);
         } else {
             setSubscribeStatus("error");
@@ -554,8 +532,17 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
     // Graph still tracks liquid assets
     const whatYouHaveLiquid = Math.round(fvInitial + fvContributions);
     
+    // Calculate College Tuition Adjustment (Lump Sum Deduction from final wealth)
+    let collegeCost = 0;
+    if (helpWithCollege && familyPlan !== "none") {
+        // Approximate total cost for tuition assistance
+        // Small Family (1-2 kids): ~$300,000
+        // Large Family (3+ kids): ~$600,000
+        collegeCost = familyPlan === "small" ? 300000 : 600000;
+    }
+
     // Summary "Have" includes income value to compare against Gross Need
-    const totalWealthAtRetirement = whatYouHaveLiquid + incomeValueAtRetirement + savingsAdj;
+    const totalWealthAtRetirement = whatYouHaveLiquid + incomeValueAtRetirement + savingsAdj - collegeCost;
     
     // 4. Generate Graph Data for visualization
     const graphData = [];
@@ -707,6 +694,9 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
   };
 
   const resetToDefaults = () => {
+    // Clear localStorage entirely for true "clear saved data"
+    localStorage.removeItem(STORAGE_KEY);
+    
     setCalculators(prev => {
       const next = { ...prev };
       next[calculatorType] = {
@@ -725,6 +715,7 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
     setHelpWithCollege(false);
     setSavingsDetails({ savings: "", checking: "", crypto: "", retirement: "", stockPortfolio: "" });
     setIncomeDetails({ socialSecurity: "", realEstate: "", trust: "", investments: "", other: "" });
+    setPersonalNotes("");
   };
 
   const [travelPlan, setTravelPlan] = useState<"low" | "moderate" | "high">("moderate");
@@ -769,31 +760,15 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
     const currentBudget = parseFloat(budget) || 0;
     const newBudget = Math.max(0, currentBudget + budgetDiff);
     
-    // If college help was checked, also adjust contributions
-    if (helpWithCollege) {
-      const oldReduction = getCollegeContribReduction(familyPlan);
-      const newReduction = getCollegeContribReduction(newPlan);
-      const contribDiff = newReduction - oldReduction;
-      const currentContrib = parseFloat(contributions) || 0;
-      updateVal("contributions", String(Math.max(0, Math.round(currentContrib - contribDiff))));
-    }
+    // No longer modifying contributions directly for college help
+    // College cost is now calculated as a lump sum deduction in calculateRetirement
     
     setFamilyPlan(newPlan);
     updateVal("budget", String(Math.round(newBudget)));
   };
 
   const handleCollegeToggle = (checked: boolean) => {
-    const reduction = getCollegeContribReduction(familyPlan);
-    const currentContrib = parseFloat(contributions) || 0;
-    
-    if (checked) {
-      // Start helping with college: reduce contributions
-      updateVal("contributions", String(Math.max(0, Math.round(currentContrib - reduction))));
-    } else {
-      // Stop helping: restore contributions
-      updateVal("contributions", String(Math.round(currentContrib + reduction)));
-    }
-    
+    // No longer modifying contributions directly
     setHelpWithCollege(checked);
   };
 
@@ -1167,13 +1142,16 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
     },
     modalClose: {
       position: "absolute" as const,
-      top: "20px",
-      right: "20px",
+      top: "16px",
+      right: "16px",
       background: "none",
       border: "none",
       cursor: "pointer",
       color: COLORS.textSecondary,
-      padding: "4px"
+      padding: "8px",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center"
     },
     input: {
       width: "100%",
@@ -1208,32 +1186,62 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
     subscribeBtn: {
       display: "flex",
       alignItems: "center",
-      gap: "6px",
-      padding: "8px 12px",
-      backgroundColor: COLORS.inputBg,
-      color: COLORS.primary,
-      borderRadius: "8px",
+      gap: "8px",
+      padding: "10px 16px",
+      backgroundColor: COLORS.primary,
+      color: "white",
+      borderRadius: "24px",
       border: "none",
-      fontSize: "12px",
-      fontWeight: 600,
+      fontSize: "13px",
+      fontWeight: 700,
       cursor: "pointer",
       textDecoration: "none",
-      transition: "background-color 0.2s"
+      transition: "transform 0.2s, box-shadow 0.2s",
+      boxShadow: "0 4px 12px rgba(86, 197, 150, 0.25)",
+      whiteSpace: "nowrap"
     }
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.headerRow}>
-        <div style={styles.title}>Retirement Calculator</div>
-        <button style={styles.subscribeBtn} className="btn-press" onClick={() => setShowSubscribeModal(true)}>
-          <Mail size={14} />
-          Subscribe
-        </button>
+        <div style={styles.title}>The Retirement Planner Pro</div>
       </div>
-      <div style={styles.subheader}>
-        Plan your financial future.
+      <div style={{...styles.subheader, display: 'flex', alignItems: 'center', gap: 6}}>
+        <Check size={16} color={COLORS.primary} /> Aligned with Certified Financial Planner™ (CFP®) principles
       </div>
+
+      {showBanner && (
+      <div style={{
+          backgroundColor: COLORS.accentLight,
+          borderRadius: "16px",
+          padding: "16px",
+          marginBottom: "24px",
+          marginTop: "16px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          flexWrap: "wrap",
+          gap: "12px",
+          position: "relative"
+      }}>
+          <div style={{fontSize: "14px", fontWeight: 600, color: COLORS.primaryDark, paddingRight: "24px"}}>
+              Want expert tips to reach your goals faster?
+          </div>
+          <div style={{display: "flex", alignItems: "center", gap: 12}}>
+            <button style={{...styles.subscribeBtn, marginRight: 24}} className="btn-press" onClick={() => setShowSubscribeModal(true)}>
+                <Mail size={14} />
+                Subscribe
+            </button>
+            <div 
+                style={{cursor: "pointer", padding: 4, position: "absolute", top: 8, right: 8, color: COLORS.textSecondary}} 
+                onClick={() => setShowBanner(false)}
+            >
+                <X size={16} />
+            </div>
+          </div>
+      </div>
+      )}
 
       <div style={styles.card}>
         <div style={styles.row}>
@@ -1674,6 +1682,9 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
       )}
 
       <div style={styles.footer} className="no-print">
+        <button style={styles.footerBtn} onClick={() => setShowSubscribeModal(true)} className="btn-press">
+          <Mail size={16} /> Subscribe
+        </button>
         <button style={styles.footerBtn} onClick={resetToDefaults} className="btn-press">
           <RotateCcw size={16} /> Reset
         </button>
@@ -1692,7 +1703,7 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
         <div style={styles.bottomModalOverlay} onClick={() => setShowFeedbackModal(false)}>
           <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
             <button style={styles.modalClose} onClick={() => setShowFeedbackModal(false)}>
-              <Minus size={24} style={{transform: "rotate(45deg)"}} />
+              <X size={20} />
             </button>
             
             <div style={{fontSize: "24px", fontWeight: 800, marginBottom: "8px", color: COLORS.textMain}}>
@@ -1737,7 +1748,7 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
       {showSavingsModal && (
         <div style={styles.modalOverlay}>
             <div style={styles.modalContent}>
-                <button style={styles.modalClose} onClick={() => setShowSavingsModal(false)}>✕</button>
+                <button style={styles.modalClose} onClick={() => setShowSavingsModal(false)}><X size={20} /></button>
                 <div style={{marginBottom: 24, textAlign: "center"}}>
                     <div style={{fontSize: 20, fontWeight: 800, color: COLORS.textMain, marginBottom: 8}}>Current Savings Breakdown</div>
                 </div>
@@ -1810,7 +1821,7 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
       {showIncomeModal && (
         <div style={styles.modalOverlay}>
             <div style={styles.modalContent}>
-                <button style={styles.modalClose} onClick={() => setShowIncomeModal(false)}>✕</button>
+                <button style={styles.modalClose} onClick={() => setShowIncomeModal(false)}><X size={20} /></button>
                 <div style={{marginBottom: 24, textAlign: "center"}}>
                     <div style={{fontSize: 20, fontWeight: 800, color: COLORS.textMain, marginBottom: 8}}>Other Monthly Income</div>
                     <div style={{fontSize: 14, color: COLORS.textSecondary}}>Enter monthly income amounts</div>
@@ -1891,14 +1902,14 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
         <div style={styles.modalOverlay} onClick={() => setShowSubscribeModal(false)}>
           <div style={styles.modalContent} onClick={e => e.stopPropagation()}>
             <button style={styles.modalClose} onClick={() => setShowSubscribeModal(false)}>
-              <Minus size={24} style={{transform: "rotate(45deg)"}} />
+              <X size={20} />
             </button>
             
             <div style={{fontSize: "24px", fontWeight: 800, marginBottom: "8px", color: COLORS.textMain}}>
-              Stay Updated
+              Sign Up For Retirement Tips
             </div>
             <div style={{fontSize: "14px", color: COLORS.textSecondary, marginBottom: "24px"}}>
-              Get the latest updates delivered to your inbox.
+              Get personalized recommendations to improve your retirement planning.
             </div>
 
             {subscribeStatus === "success" ? (
@@ -1918,10 +1929,6 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
                         />
                     </div>
 
-                    <div style={{marginBottom: "20px", minHeight: "120px", display: "flex", justifyContent: "center"}}>
-                        <div id="turnstile-widget"></div>
-                    </div>
-
                     {subscribeStatus === "error" && (
                         <div style={{color: COLORS.red, fontSize: "14px", marginBottom: "16px", textAlign: "center"}}>
                             {subscribeMessage}
@@ -1936,6 +1943,9 @@ export default function RetirementCalculatorHelloWorld({ initialData }: { initia
                     >
                         {subscribeStatus === "loading" ? "Subscribing..." : "Subscribe"}
                     </button>
+                    <div style={{fontSize: "11px", color: COLORS.textSecondary, textAlign: "center", marginTop: "12px", lineHeight: 1.4}}>
+                        By subscribing, you agree to receive emails. Unsubscribe anytime. We retain your email until you unsubscribe.
+                    </div>
                 </>
             )}
           </div>
