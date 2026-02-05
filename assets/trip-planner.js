@@ -1091,7 +1091,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef2(initialValue) {
+        function useRef(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
@@ -1885,7 +1885,7 @@ var require_react_development = __commonJS({
         exports.useLayoutEffect = useLayoutEffect;
         exports.useMemo = useMemo2;
         exports.useReducer = useReducer;
-        exports.useRef = useRef2;
+        exports.useRef = useRef;
         exports.useState = useState2;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition;
@@ -24431,7 +24431,7 @@ var require_jsx_runtime = __commonJS({
 var import_react4 = __toESM(require_react(), 1);
 var import_client = __toESM(require_client(), 1);
 
-// src/TravelChecklist.tsx
+// src/TripPlanner.tsx
 var import_react3 = __toESM(require_react(), 1);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/createLucideIcon.js
@@ -24523,32 +24523,30 @@ var createLucideIcon = (iconName, iconNode) => {
   return Component;
 };
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/activity.js
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/arrow-right.js
 var __iconNode = [
-  [
-    "path",
-    {
-      d: "M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2",
-      key: "169zse"
-    }
-  ]
+  ["path", { d: "M5 12h14", key: "1ays0h" }],
+  ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-var Activity = createLucideIcon("activity", __iconNode);
+var ArrowRight = createLucideIcon("arrow-right", __iconNode);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/baby.js
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/bus.js
 var __iconNode2 = [
-  ["path", { d: "M10 16c.5.3 1.2.5 2 .5s1.5-.2 2-.5", key: "1u7htd" }],
-  ["path", { d: "M15 12h.01", key: "1k8ypt" }],
+  ["path", { d: "M8 6v6", key: "18i7km" }],
+  ["path", { d: "M15 6v6", key: "1sg6z9" }],
+  ["path", { d: "M2 12h19.6", key: "de5uta" }],
   [
     "path",
     {
-      d: "M19.38 6.813A9 9 0 0 1 20.8 10.2a2 2 0 0 1 0 3.6 9 9 0 0 1-17.6 0 2 2 0 0 1 0-3.6A9 9 0 0 1 12 3c2 0 3.5 1.1 3.5 2.5s-.9 2.5-2 2.5c-.8 0-1.5-.4-1.5-1",
-      key: "11xh7x"
+      d: "M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3",
+      key: "1wwztk"
     }
   ],
-  ["path", { d: "M9 12h.01", key: "157uk2" }]
+  ["circle", { cx: "7", cy: "18", r: "2", key: "19iecd" }],
+  ["path", { d: "M9 18h5", key: "lrx6i" }],
+  ["circle", { cx: "16", cy: "18", r: "2", key: "1v4tcr" }]
 ];
-var Baby = createLucideIcon("baby", __iconNode2);
+var Bus = createLucideIcon("bus", __iconNode2);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/calendar.js
 var __iconNode3 = [
@@ -24559,32 +24557,36 @@ var __iconNode3 = [
 ];
 var Calendar = createLucideIcon("calendar", __iconNode3);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/cat.js
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/car.js
 var __iconNode4 = [
   [
     "path",
     {
-      d: "M12 5c.67 0 1.35.09 2 .26 1.78-2 5.03-2.84 6.42-2.26 1.4.58-.42 7-.42 7 .57 1.07 1 2.24 1 3.44C21 17.9 16.97 21 12 21s-9-3-9-7.56c0-1.25.5-2.4 1-3.44 0 0-1.89-6.42-.5-7 1.39-.58 4.72.23 6.5 2.23A9.04 9.04 0 0 1 12 5Z",
-      key: "x6xyqk"
+      d: "M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2",
+      key: "5owen"
     }
   ],
-  ["path", { d: "M8 14v.5", key: "1nzgdb" }],
-  ["path", { d: "M16 14v.5", key: "1lajdz" }],
-  ["path", { d: "M11.25 16.25h1.5L12 17l-.75-.75Z", key: "12kq1m" }]
+  ["circle", { cx: "7", cy: "17", r: "2", key: "u2ysq9" }],
+  ["path", { d: "M9 17h6", key: "r8uit2" }],
+  ["circle", { cx: "17", cy: "17", r: "2", key: "axvx0g" }]
 ];
-var Cat = createLucideIcon("cat", __iconNode4);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/check.js
-var __iconNode5 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-var Check = createLucideIcon("check", __iconNode5);
+var Car = createLucideIcon("car", __iconNode4);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/chevron-down.js
-var __iconNode6 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-var ChevronDown = createLucideIcon("chevron-down", __iconNode6);
+var __iconNode5 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
+var ChevronDown = createLucideIcon("chevron-down", __iconNode5);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/chevron-up.js
-var __iconNode7 = [["path", { d: "m18 15-6-6-6 6", key: "153udz" }]];
-var ChevronUp = createLucideIcon("chevron-up", __iconNode7);
+var __iconNode6 = [["path", { d: "m18 15-6-6-6 6", key: "153udz" }]];
+var ChevronUp = createLucideIcon("chevron-up", __iconNode6);
+
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/circle-alert.js
+var __iconNode7 = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
+  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
+];
+var CircleAlert = createLucideIcon("circle-alert", __iconNode7);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/circle-check.js
 var __iconNode8 = [
@@ -24597,124 +24599,30 @@ var CircleCheck = createLucideIcon("circle-check", __iconNode8);
 var __iconNode9 = [["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]];
 var Circle = createLucideIcon("circle", __iconNode9);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/cloud.js
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/clock.js
 var __iconNode10 = [
-  ["path", { d: "M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z", key: "p7xjir" }]
+  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-var Cloud = createLucideIcon("cloud", __iconNode10);
+var Clock = createLucideIcon("clock", __iconNode10);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/dog.js
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/hotel.js
 var __iconNode11 = [
-  ["path", { d: "M11.25 16.25h1.5L12 17z", key: "w7jh35" }],
-  ["path", { d: "M16 14v.5", key: "1lajdz" }],
-  [
-    "path",
-    {
-      d: "M4.42 11.247A13.152 13.152 0 0 0 4 14.556C4 18.728 7.582 21 12 21s8-2.272 8-6.444a11.702 11.702 0 0 0-.493-3.309",
-      key: "u7s9ue"
-    }
-  ],
-  ["path", { d: "M8 14v.5", key: "1nzgdb" }],
-  [
-    "path",
-    {
-      d: "M8.5 8.5c-.384 1.05-1.083 2.028-2.344 2.5-1.931.722-3.576-.297-3.656-1-.113-.994 1.177-6.53 4-7 1.923-.321 3.651.845 3.651 2.235A7.497 7.497 0 0 1 14 5.277c0-1.39 1.844-2.598 3.767-2.277 2.823.47 4.113 6.006 4 7-.08.703-1.725 1.722-3.656 1-1.261-.472-1.855-1.45-2.239-2.5",
-      key: "v8hric"
-    }
-  ]
+  ["path", { d: "M10 22v-6.57", key: "1wmca3" }],
+  ["path", { d: "M12 11h.01", key: "z322tv" }],
+  ["path", { d: "M12 7h.01", key: "1ivr5q" }],
+  ["path", { d: "M14 15.43V22", key: "1q2vjd" }],
+  ["path", { d: "M15 16a5 5 0 0 0-6 0", key: "o9wqvi" }],
+  ["path", { d: "M16 11h.01", key: "xkw8gn" }],
+  ["path", { d: "M16 7h.01", key: "1kdx03" }],
+  ["path", { d: "M8 11h.01", key: "1dfujw" }],
+  ["path", { d: "M8 7h.01", key: "1vti4s" }],
+  ["rect", { x: "4", y: "2", width: "16", height: "20", rx: "2", key: "1uxh74" }]
 ];
-var Dog = createLucideIcon("dog", __iconNode11);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/droplets.js
-var __iconNode12 = [
-  [
-    "path",
-    {
-      d: "M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z",
-      key: "1ptgy4"
-    }
-  ],
-  [
-    "path",
-    {
-      d: "M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97",
-      key: "1sl1rz"
-    }
-  ]
-];
-var Droplets = createLucideIcon("droplets", __iconNode12);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/file-text.js
-var __iconNode13 = [
-  [
-    "path",
-    {
-      d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-      key: "1oefj6"
-    }
-  ],
-  ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-  ["path", { d: "M10 9H8", key: "b1mrlr" }],
-  ["path", { d: "M16 13H8", key: "t4e002" }],
-  ["path", { d: "M16 17H8", key: "z1uh3a" }]
-];
-var FileText = createLucideIcon("file-text", __iconNode13);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/heart.js
-var __iconNode14 = [
-  [
-    "path",
-    {
-      d: "M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5",
-      key: "mvr1a0"
-    }
-  ]
-];
-var Heart = createLucideIcon("heart", __iconNode14);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/house.js
-var __iconNode15 = [
-  ["path", { d: "M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8", key: "5wwlr5" }],
-  [
-    "path",
-    {
-      d: "M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
-      key: "r6nss1"
-    }
-  ]
-];
-var House = createLucideIcon("house", __iconNode15);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/info.js
-var __iconNode16 = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["path", { d: "M12 16v-4", key: "1dtifu" }],
-  ["path", { d: "M12 8h.01", key: "e9boi3" }]
-];
-var Info = createLucideIcon("info", __iconNode16);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/luggage.js
-var __iconNode17 = [
-  [
-    "path",
-    { d: "M6 20a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2", key: "1m57jg" }
-  ],
-  ["path", { d: "M8 18V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v14", key: "1l99gc" }],
-  ["path", { d: "M10 20h4", key: "ni2waw" }],
-  ["circle", { cx: "16", cy: "20", r: "2", key: "1vifvg" }],
-  ["circle", { cx: "8", cy: "20", r: "2", key: "ckkr5m" }]
-];
-var Luggage = createLucideIcon("luggage", __iconNode17);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/mail.js
-var __iconNode18 = [
-  ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
-  ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
-];
-var Mail = createLucideIcon("mail", __iconNode18);
+var Hotel = createLucideIcon("hotel", __iconNode11);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/map-pin.js
-var __iconNode19 = [
+var __iconNode12 = [
   [
     "path",
     {
@@ -24724,37 +24632,10 @@ var __iconNode19 = [
   ],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
 ];
-var MapPin = createLucideIcon("map-pin", __iconNode19);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/message-square.js
-var __iconNode20 = [
-  [
-    "path",
-    {
-      d: "M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z",
-      key: "18887p"
-    }
-  ]
-];
-var MessageSquare = createLucideIcon("message-square", __iconNode20);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/package.js
-var __iconNode21 = [
-  [
-    "path",
-    {
-      d: "M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z",
-      key: "1a0edw"
-    }
-  ],
-  ["path", { d: "M12 22V12", key: "d0xqtd" }],
-  ["polyline", { points: "3.29 7 12 12 20.71 7", key: "ousv84" }],
-  ["path", { d: "m7.5 4.27 9 5.15", key: "1c824w" }]
-];
-var Package = createLucideIcon("package", __iconNode21);
+var MapPin = createLucideIcon("map-pin", __iconNode12);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/pen-line.js
-var __iconNode22 = [
+var __iconNode13 = [
   ["path", { d: "M13 21h8", key: "1jsn5i" }],
   [
     "path",
@@ -24764,10 +24645,10 @@ var __iconNode22 = [
     }
   ]
 ];
-var PenLine = createLucideIcon("pen-line", __iconNode22);
+var PenLine = createLucideIcon("pen-line", __iconNode13);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/plane.js
-var __iconNode23 = [
+var __iconNode14 = [
   [
     "path",
     {
@@ -24776,127 +24657,103 @@ var __iconNode23 = [
     }
   ]
 ];
-var Plane = createLucideIcon("plane", __iconNode23);
+var Plane = createLucideIcon("plane", __iconNode14);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/plus.js
-var __iconNode24 = [
+var __iconNode15 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "M12 5v14", key: "s699le" }]
 ];
-var Plus = createLucideIcon("plus", __iconNode24);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/printer.js
-var __iconNode25 = [
-  [
-    "path",
-    {
-      d: "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2",
-      key: "143wyd"
-    }
-  ],
-  ["path", { d: "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6", key: "1itne7" }],
-  ["rect", { x: "6", y: "14", width: "12", height: "8", rx: "1", key: "1ue0tg" }]
-];
-var Printer = createLucideIcon("printer", __iconNode25);
+var Plus = createLucideIcon("plus", __iconNode15);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
-var __iconNode26 = [
+var __iconNode16 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
-var RotateCcw = createLucideIcon("rotate-ccw", __iconNode26);
+var RotateCcw = createLucideIcon("rotate-ccw", __iconNode16);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/shield.js
-var __iconNode27 = [
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/save.js
+var __iconNode17 = [
   [
     "path",
     {
-      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
-      key: "oel41y"
+      d: "M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z",
+      key: "1c8476"
     }
-  ]
+  ],
+  ["path", { d: "M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7", key: "1ydtos" }],
+  ["path", { d: "M7 3v4a1 1 0 0 0 1 1h7", key: "t51u73" }]
 ];
-var Shield = createLucideIcon("shield", __iconNode27);
+var Save = createLucideIcon("save", __iconNode17);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/shirt.js
-var __iconNode28 = [
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/ship.js
+var __iconNode18 = [
+  ["path", { d: "M12 10.189V14", key: "1p8cqu" }],
+  ["path", { d: "M12 2v3", key: "qbqxhf" }],
+  ["path", { d: "M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6", key: "qpkstq" }],
   [
     "path",
     {
-      d: "M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z",
-      key: "1wgbhj"
+      d: "M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76",
+      key: "7tigtc"
     }
-  ]
-];
-var Shirt = createLucideIcon("shirt", __iconNode28);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/smartphone.js
-var __iconNode29 = [
-  ["rect", { width: "14", height: "20", x: "5", y: "2", rx: "2", ry: "2", key: "1yt0o3" }],
-  ["path", { d: "M12 18h.01", key: "mhygvu" }]
-];
-var Smartphone = createLucideIcon("smartphone", __iconNode29);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/snowflake.js
-var __iconNode30 = [
-  ["path", { d: "m10 20-1.25-2.5L6 18", key: "18frcb" }],
-  ["path", { d: "M10 4 8.75 6.5 6 6", key: "7mghy3" }],
-  ["path", { d: "m14 20 1.25-2.5L18 18", key: "1chtki" }],
-  ["path", { d: "m14 4 1.25 2.5L18 6", key: "1b4wsy" }],
-  ["path", { d: "m17 21-3-6h-4", key: "15hhxa" }],
-  ["path", { d: "m17 3-3 6 1.5 3", key: "11697g" }],
-  ["path", { d: "M2 12h6.5L10 9", key: "kv9z4n" }],
-  ["path", { d: "m20 10-1.5 2 1.5 2", key: "1swlpi" }],
-  ["path", { d: "M22 12h-6.5L14 15", key: "1mxi28" }],
-  ["path", { d: "m4 10 1.5 2L4 14", key: "k9enpj" }],
-  ["path", { d: "m7 21 3-6-1.5-3", key: "j8hb9u" }],
-  ["path", { d: "m7 3 3 6h4", key: "1otusx" }]
-];
-var Snowflake = createLucideIcon("snowflake", __iconNode30);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/star.js
-var __iconNode31 = [
+  ],
   [
     "path",
     {
-      d: "M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z",
-      key: "r04s7s"
+      d: "M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1",
+      key: "1924j5"
     }
   ]
 ];
-var Star = createLucideIcon("star", __iconNode31);
+var Ship = createLucideIcon("ship", __iconNode18);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/sun.js
-var __iconNode32 = [
-  ["circle", { cx: "12", cy: "12", r: "4", key: "4exip2" }],
-  ["path", { d: "M12 2v2", key: "tus03m" }],
-  ["path", { d: "M12 20v2", key: "1lh1kg" }],
-  ["path", { d: "m4.93 4.93 1.41 1.41", key: "149t6j" }],
-  ["path", { d: "m17.66 17.66 1.41 1.41", key: "ptbguv" }],
-  ["path", { d: "M2 12h2", key: "1t8f8n" }],
-  ["path", { d: "M20 12h2", key: "1q8mjw" }],
-  ["path", { d: "m6.34 17.66-1.41 1.41", key: "1m8zz5" }],
-  ["path", { d: "m19.07 4.93-1.41 1.41", key: "1shlcs" }]
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/sparkles.js
+var __iconNode19 = [
+  [
+    "path",
+    {
+      d: "M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z",
+      key: "1s2grr"
+    }
+  ],
+  ["path", { d: "M20 2v4", key: "1rf3ol" }],
+  ["path", { d: "M22 4h-4", key: "gwowj6" }],
+  ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-var Sun = createLucideIcon("sun", __iconNode32);
+var Sparkles = createLucideIcon("sparkles", __iconNode19);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/users.js
-var __iconNode33 = [
-  ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
-  ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
-  ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
-  ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/tram-front.js
+var __iconNode20 = [
+  ["rect", { width: "16", height: "16", x: "4", y: "3", rx: "2", key: "1wxw4b" }],
+  ["path", { d: "M4 11h16", key: "mpoxn0" }],
+  ["path", { d: "M12 3v8", key: "1h2ygw" }],
+  ["path", { d: "m8 19-2 3", key: "13i0xs" }],
+  ["path", { d: "m18 22-2-3", key: "1p0ohu" }],
+  ["path", { d: "M8 15h.01", key: "a7atzg" }],
+  ["path", { d: "M16 15h.01", key: "rnfrdf" }]
 ];
-var Users = createLucideIcon("users", __iconNode33);
+var TramFront = createLucideIcon("tram-front", __iconNode20);
+
+// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/trash-2.js
+var __iconNode21 = [
+  ["path", { d: "M10 11v6", key: "nco0om" }],
+  ["path", { d: "M14 11v6", key: "outv1u" }],
+  ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
+  ["path", { d: "M3 6h18", key: "d0wm0j" }],
+  ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
+];
+var Trash2 = createLucideIcon("trash-2", __iconNode21);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/x.js
-var __iconNode34 = [
+var __iconNode22 = [
   ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
   ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ];
-var X = createLucideIcon("x", __iconNode34);
+var X = createLucideIcon("x", __iconNode22);
 
-// src/TravelChecklist.tsx
+// src/TripPlanner.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 var COLORS = {
   primary: "#56C596",
@@ -24904,2979 +24761,452 @@ var COLORS = {
   bg: "#FAFAFA",
   card: "#FFFFFF",
   textMain: "#1A1A1A",
-  textSecondary: "#9CA3AF",
-  border: "#F3F4F6",
+  textSecondary: "#6B7280",
+  textMuted: "#9CA3AF",
+  border: "#E5E7EB",
+  borderLight: "#F3F4F6",
   inputBg: "#F9FAFB",
   accentLight: "#E6F7F0",
-  blue: "#5D9CEC",
-  yellow: "#F59E0B",
-  red: "#FF6B6B",
-  orange: "#F2994A",
-  orangeLight: "#FFF7ED",
-  purple: "#8B5CF6",
-  gold: "#F59E0B",
-  teal: "#14B8A6"
+  booked: "#10B981",
+  bookedBg: "#D1FAE5",
+  pending: "#F59E0B",
+  pendingBg: "#FEF3C7",
+  urgent: "#EF4444",
+  urgentBg: "#FEE2E2",
+  flight: "#3B82F6",
+  flightBg: "#DBEAFE",
+  hotel: "#8B5CF6",
+  hotelBg: "#EDE9FE",
+  transport: "#F97316",
+  transportBg: "#FFEDD5"
 };
-var searchDestinations = async (query) => {
-  if (!query || query.length < 2) return [];
+var STORAGE_KEY = "TRIP_PLANNER_DATA";
+var generateId = () => Math.random().toString(36).substr(2, 9);
+var formatDate = (dateStr) => {
+  if (!dateStr) return "";
   try {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=8&addressdetails=1&featuretype=city`,
-      { headers: { "Accept-Language": "en" } }
-    );
-    const data = await response.json();
-    return data.map((item) => {
-      const city = item.address?.city || item.address?.town || item.address?.village || item.name;
-      const state = item.address?.state;
-      const country = item.address?.country;
-      if (country === "United States" && state) {
-        return `${city}, ${state}, USA`;
-      }
-      return country ? `${city}, ${country}` : city;
-    }).filter((v, i, arr) => arr.indexOf(v) === i);
-  } catch (e) {
-    console.error("Geocoding error:", e);
-    return [];
-  }
-};
-var geocodeCity = async (cityName) => {
-  if (!cityName || cityName.length < 2) return null;
-  try {
-    const response = await fetch(
-      `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(cityName)}&format=json&limit=1`,
-      { headers: { "Accept-Language": "en" } }
-    );
-    const data = await response.json();
-    if (data.length > 0) {
-      return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-    }
-    return null;
-  } catch (e) {
-    console.error("Geocoding error:", e);
-    return null;
-  }
-};
-var fetchWeatherForecast = async (lat, lon, startDate, endDate) => {
-  try {
-    const today = /* @__PURE__ */ new Date();
-    const start = new Date(startDate);
-    const daysUntilTrip = Math.floor((start.getTime() - today.getTime()) / (1e3 * 60 * 60 * 24));
-    let url;
-    let useClimateApi = false;
-    if (daysUntilTrip <= 14 && daysUntilTrip >= 0) {
-      url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&start_date=${startDate}&end_date=${endDate}`;
-    } else {
-      const forecastStart = /* @__PURE__ */ new Date();
-      const forecastEnd = /* @__PURE__ */ new Date();
-      forecastEnd.setDate(forecastEnd.getDate() + 14);
-      url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max&timezone=auto&start_date=${forecastStart.toISOString().split("T")[0]}&end_date=${forecastEnd.toISOString().split("T")[0]}`;
-      useClimateApi = true;
-    }
-    const response = await fetch(url);
-    const data = await response.json();
-    if (data.daily) {
-      const temps = data.daily.temperature_2m_max || data.daily.temperature_2m_mean || [];
-      const minTemps = data.daily.temperature_2m_min || [];
-      const precip = data.daily.precipitation_probability_max || data.daily.precipitation_sum || [];
-      const avgTemp = temps.length > 0 ? temps.reduce((a, b) => a + b, 0) / temps.length : 20;
-      const minTemp = minTemps.length > 0 ? Math.min(...minTemps) : avgTemp - 5;
-      const maxTemp = temps.length > 0 ? Math.max(...temps) : avgTemp + 5;
-      const avgPrecip = precip.length > 0 ? precip.reduce((a, b) => a + b, 0) / precip.length : 30;
-      let conditions = "";
-      let suggestion = "";
-      if (avgTemp >= 28) {
-        conditions = "Hot & Tropical";
-        suggestion = "Pack light, breathable clothing. Bring sunscreen, sunglasses, and stay hydrated!";
-      } else if (avgTemp >= 22) {
-        conditions = "Warm & Pleasant";
-        suggestion = "Light summer clothes, but bring a light layer for evenings.";
-      } else if (avgTemp >= 15) {
-        conditions = "Mild";
-        suggestion = "Pack layers - it can vary throughout the day. Light jacket recommended.";
-      } else if (avgTemp >= 8) {
-        conditions = "Cool";
-        suggestion = "Bring warm layers, a jacket, and possibly a light sweater.";
-      } else if (avgTemp >= 0) {
-        conditions = "Cold";
-        suggestion = "Pack warm clothing: coat, sweaters, warm layers, gloves, and a scarf.";
-      } else {
-        conditions = "Very Cold / Freezing";
-        suggestion = "Heavy winter gear essential: thermal underwear, heavy coat, warm boots, hat, gloves.";
-      }
-      if (avgPrecip > 50) {
-        conditions += " & Rainy";
-        suggestion += " Rain gear and waterproof shoes highly recommended!";
-      } else if (avgPrecip > 30) {
-        conditions += " (possible rain)";
-        suggestion += " Consider packing an umbrella.";
-      }
-      return {
-        avgTemp: Math.round(avgTemp),
-        minTemp: Math.round(minTemp),
-        maxTemp: Math.round(maxTemp),
-        precipitation: Math.round(avgPrecip),
-        conditions,
-        suggestion
-      };
-    }
-    return null;
-  } catch (e) {
-    console.error("Weather API error:", e);
-    return null;
-  }
-};
-var weatherToSeason = (weather) => {
-  if (!weather) return "variable";
-  if (weather.avgTemp >= 28) return "tropical";
-  if (weather.avgTemp >= 22) return "summer";
-  if (weather.avgTemp >= 15) return "spring";
-  if (weather.avgTemp < 10) return "winter";
-  return "variable";
-};
-var SAVED_CHECKLISTS_KEY = "TRAVEL_SAVED_CHECKLISTS";
-var DEFAULT_PROFILE = {
-  destination: "",
-  isInternational: false,
-  climate: "summer",
-  tripDuration: 5,
-  startDate: "",
-  endDate: "",
-  travelers: [
-    { type: "adult", male: 1, female: 0 },
-    { type: "child", male: 0, female: 0 },
-    { type: "infant", male: 0, female: 0 },
-    { type: "pet", male: 0, female: 0 }
-  ],
-  purpose: "leisure",
-  packingConstraint: "checked_bags",
-  activities: [],
-  personalNotes: "",
-  presets: []
-};
-var STORAGE_KEY = "TRAVEL_CHECKLIST_DATA";
-var BANNER_STORAGE_KEY = "TRAVEL_CHECKLIST_BANNER_DISMISSED";
-var scaleQuantityForDuration = (baseQty, tripDuration) => {
-  if (!baseQty) return void 0;
-  const match = baseQty.match(/^(\d+)/);
-  if (!match) return baseQty;
-  const baseNum = parseInt(match[1], 10);
-  const suffix = baseQty.slice(match[1].length);
-  const scaleFactor = tripDuration / 7;
-  let scaled = Math.round(baseNum * scaleFactor);
-  scaled = Math.max(2, Math.min(scaled, 10));
-  return `${scaled}${suffix}`;
-};
-var TRAVELER_PRESETS = {
-  lightSleeper: {
-    label: "Light Sleeper",
-    icon: "\u{1F634}",
-    items: [
-      { name: "Eye mask", category: "personal" },
-      { name: "Earplugs", category: "personal" },
-      { name: "White noise app", category: "tech" },
-      { name: "Melatonin", category: "health" },
-      { name: "Lavender spray", category: "personal" }
-    ]
-  },
-  gymRat: {
-    label: "Gym Rat",
-    icon: "\u{1F4AA}",
-    items: [
-      { name: "Workout shirts", category: "workout", quantity: "6" },
-      { name: "Workout shorts", category: "workout", quantity: "4" },
-      { name: "Training shoes", category: "workout" },
-      { name: "Workout socks", category: "workout", quantity: "6" },
-      { name: "Sports bra", category: "workout", quantity: "5", gender: "female" },
-      { name: "Compression shorts", category: "workout", quantity: "3" },
-      { name: "Resistance bands", category: "activity" },
-      { name: "Gym gloves", category: "activity" },
-      { name: "Protein bars", category: "personal" },
-      { name: "Shaker bottle", category: "personal" },
-      { name: "Pre-workout", category: "personal" },
-      { name: "Quick-dry towel", category: "workout" }
-    ]
-  },
-  yoga: {
-    label: "Yoga",
-    icon: "\u{1F9D8}",
-    items: [
-      { name: "Yoga leggings", category: "workout", quantity: "2", gender: "female" },
-      { name: "Sports bra", category: "workout", quantity: "2", gender: "female" },
-      { name: "Yoga top", category: "workout", quantity: "2" },
-      { name: "Travel yoga mat", category: "activity" },
-      { name: "Yoga blocks", category: "activity" },
-      { name: "Resistance bands", category: "activity" }
-    ]
-  },
-  swimmer: {
-    label: "Swimmer",
-    icon: "\u{1F3CA}",
-    items: [
-      { name: "Swimsuit", category: "workout", quantity: "2" },
-      { name: "Swim goggles", category: "activity" },
-      { name: "Swim cap", category: "activity" },
-      { name: "Waterproof bag", category: "personal" },
-      { name: "Quick-dry towel", category: "toiletries" }
-    ]
-  },
-  remoteWorker: {
-    label: "Remote Worker",
-    icon: "\u{1F4BB}",
-    items: [
-      { name: "Laptop", category: "tech" },
-      { name: "Laptop charger", category: "tech" },
-      { name: "Portable monitor", category: "tech" },
-      { name: "Wireless mouse", category: "tech" },
-      { name: "Keyboard", category: "tech" },
-      { name: "Mobile hotspot", category: "tech" },
-      { name: "Webcam", category: "tech" },
-      { name: "USB hub", category: "tech" }
-    ]
-  },
-  contentCreator: {
-    label: "Content Creator",
-    icon: "\u{1F4F8}",
-    items: [
-      { name: "Camera", category: "tech" },
-      { name: "Camera charger", category: "tech" },
-      { name: "Tripod", category: "tech" },
-      { name: "Ring light", category: "tech" },
-      { name: "Microphone", category: "tech" },
-      { name: "SD cards", category: "tech", quantity: "3+" },
-      { name: "Portable power bank", category: "tech" },
-      { name: "Gimbal/stabilizer", category: "tech" }
-    ]
-  },
-  gamer: {
-    label: "Gamer",
-    icon: "\u{1F3AE}",
-    items: [
-      { name: "Nintendo Switch", category: "tech" },
-      { name: "Switch charger", category: "tech" },
-      { name: "Game cartridges", category: "tech" },
-      { name: "Switch case", category: "tech" },
-      { name: "Extra controllers", category: "tech" },
-      { name: "Portable stand", category: "tech" }
-    ]
-  },
-  photographer: {
-    label: "Photographer",
-    icon: "\u{1F4F7}",
-    items: [
-      { name: "Camera body", category: "tech" },
-      { name: "Camera lenses", category: "tech", quantity: "2-3" },
-      { name: "Lens filters", category: "tech" },
-      { name: "Lens cleaning kit", category: "tech" },
-      { name: "Tripod", category: "tech" },
-      { name: "SD cards", category: "tech", quantity: "5+" },
-      { name: "Extra batteries", category: "tech", quantity: "3+" },
-      { name: "Camera bag", category: "tech" },
-      { name: "External hard drive", category: "tech" }
-    ]
-  }
-};
-var loadSavedData = () => {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      const { data, timestamp } = JSON.parse(saved);
-      if (((/* @__PURE__ */ new Date()).getTime() - timestamp) / (1e3 * 60 * 60) < 720) {
-        if (data?.profile?.travelers) {
-          data.profile.travelers = data.profile.travelers.map((t) => {
-            if (typeof t.male === "undefined" || typeof t.female === "undefined") {
-              return { type: t.type, male: t.count || 0, female: 0 };
-            }
-            return t;
-          });
-        }
-        if (data?.profile && typeof data.profile.personalNotes === "undefined") {
-          data.profile.personalNotes = "";
-        }
-        if (data?.profile && typeof data.profile.presets === "undefined") {
-          data.profile.presets = [];
-        }
-        return data;
-      }
-    }
-  } catch (e) {
-    localStorage.removeItem(STORAGE_KEY);
-  }
-  return null;
-};
-var saveData = (data) => {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify({ data, timestamp: (/* @__PURE__ */ new Date()).getTime() }));
-  } catch (e) {
-  }
-};
-var trackEvent = (event, data = {}) => {
-  try {
-    const serverUrl = window.location.hostname === "localhost" ? "" : "https://travel-checklist-q79n.onrender.com";
-    fetch(`${serverUrl}/api/track`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ event, data })
-    }).catch(() => {
-    });
+    const date = /* @__PURE__ */ new Date(dateStr + "T00:00:00");
+    return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
   } catch {
+    return dateStr;
   }
 };
-var parsePersonalNotes = (notes) => {
-  const items = [];
-  const lower = notes.toLowerCase();
-  if (lower.includes("ipad") || lower.includes("tablet") || lower.includes("surface")) {
-    items.push({ id: "note-ipad", name: "iPad / Tablet", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-ipad-charger", name: "iPad charger", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-ipad-case", name: "iPad case / stand", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-stylus", name: "Apple Pencil / stylus", category: "tech", essential: false, checked: false });
+var getLegIcon = (type, size = 20) => {
+  switch (type) {
+    case "flight":
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size });
+    case "hotel":
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size });
+    case "car":
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size });
+    case "train":
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TramFront, { size });
+    case "bus":
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bus, { size });
+    case "ferry":
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ship, { size });
+    default:
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size });
   }
-  if (lower.includes("laptop") || lower.includes("macbook") || lower.includes("computer") || lower.includes("work")) {
-    items.push({ id: "note-laptop", name: "Laptop", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-laptop-charger", name: "Laptop charger", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-laptop-sleeve", name: "Laptop sleeve", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-mouse", name: "Wireless mouse", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("kindle") || lower.includes("e-reader") || lower.includes("ereader") || lower.includes("nook")) {
-    items.push({ id: "note-kindle", name: "Kindle / E-reader", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-kindle-charger", name: "Kindle charger", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("switch") || lower.includes("nintendo") || lower.includes("gaming") || lower.includes("playstation") || lower.includes("xbox") || lower.includes("steam deck") || lower.includes("game")) {
-    items.push({ id: "note-switch", name: "Nintendo Switch / gaming device", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-switch-charger", name: "Gaming device charger", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-switch-case", name: "Gaming device case", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-game-controller", name: "Extra controllers", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("phone") || lower.includes("iphone") || lower.includes("android") || lower.includes("charger")) {
-    items.push({ id: "note-phone-charger", name: "Phone charger", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-power-bank", name: "Power bank", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-phone-cable", name: "Extra charging cables", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("watch") || lower.includes("apple watch") || lower.includes("smartwatch") || lower.includes("fitbit") || lower.includes("garmin")) {
-    items.push({ id: "note-smartwatch", name: "Smartwatch", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-watch-charger", name: "Watch charger", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("airpods") || lower.includes("earbuds") || lower.includes("headphone") || lower.includes("beats") || lower.includes("bose") || lower.includes("sony")) {
-    items.push({ id: "note-headphones", name: "Headphones / AirPods", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-headphones-case", name: "Headphones case", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("speaker") || lower.includes("bluetooth speaker") || lower.includes("jbl") || lower.includes("bose speaker")) {
-    items.push({ id: "note-speaker", name: "Bluetooth speaker", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-speaker-charger", name: "Speaker charger", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("camera") || lower.includes("dslr") || lower.includes("gopro") || lower.includes("photo") || lower.includes("vlog") || lower.includes("drone")) {
-    items.push({ id: "note-camera", name: "Camera", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-camera-batteries", name: "Camera batteries", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-sd-cards", name: "Memory cards", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-camera-charger", name: "Camera charger", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-tripod", name: "Tripod", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-camera-bag", name: "Camera bag", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("drone")) {
-    items.push({ id: "note-drone", name: "Drone", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-drone-batteries", name: "Drone batteries", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("gopro") || lower.includes("action cam")) {
-    items.push({ id: "note-gopro", name: "GoPro / action camera", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-gopro-mount", name: "GoPro mounts", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("book") || lower.includes("read") || lower.includes("novel") || lower.includes("magazine")) {
-    items.push({ id: "note-books", name: "Books / reading material", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-booklight", name: "Book light", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("podcast") || lower.includes("audiobook") || lower.includes("audible")) {
-    items.push({ id: "note-headphones-audio", name: "Headphones for audio", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("netflix") || lower.includes("movie") || lower.includes("stream") || lower.includes("download")) {
-    items.push({ id: "note-download-content", name: "Download offline content", category: "preDeparture", essential: false, checked: false });
-  }
-  if (lower.includes("gym") || lower.includes("workout") || lower.includes("exercise") || lower.includes("fitness") || lower.includes("lift") || lower.includes("weights") || lower.includes("crossfit")) {
-    items.push({ id: "note-gym-shirts", name: "Workout shirts", category: "workout", quantity: "3", essential: false, checked: false });
-    items.push({ id: "note-gym-shorts", name: "Workout shorts", category: "workout", quantity: "3", essential: false, checked: false });
-    items.push({ id: "note-sports-bra", name: "Sports bra", category: "workout", quantity: "3", essential: false, checked: false, gender: "female" });
-    items.push({ id: "note-gym-shoes", name: "Training shoes", category: "workout", essential: false, checked: false });
-    items.push({ id: "note-gym-socks", name: "Workout socks", category: "workout", quantity: "3", essential: false, checked: false });
-    items.push({ id: "note-gym-gloves", name: "Workout gloves", category: "activity", essential: false, checked: false });
-    items.push({ id: "note-gym-towel", name: "Gym towel", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-gym-bottle", name: "Water bottle", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-gym-bands", name: "Resistance bands", category: "activity", essential: false, checked: false });
-    items.push({ id: "note-gym-lock", name: "Gym padlock", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-protein", name: "Protein powder / bars", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("run") || lower.includes("jog") || lower.includes("marathon") || lower.includes("5k") || lower.includes("10k")) {
-    items.push({ id: "note-run-shoes", name: "Running shoes", category: "workout", essential: false, checked: false });
-    items.push({ id: "note-run-shorts", name: "Running shorts", category: "workout", essential: false, checked: false });
-    items.push({ id: "note-run-shirt", name: "Running shirt", category: "workout", essential: false, checked: false });
-    items.push({ id: "note-run-socks", name: "Athletic socks", category: "workout", quantity: "3 pairs", essential: false, checked: false });
-    items.push({ id: "note-run-watch", name: "Sports watch / GPS", category: "tech", essential: false, checked: false });
-    items.push({ id: "note-run-belt", name: "Running belt", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-run-armband", name: "Phone armband", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("yoga") || lower.includes("meditat") || lower.includes("pilates") || lower.includes("stretch")) {
-    items.push({ id: "note-yoga-pants", name: "Yoga leggings", category: "workout", quantity: "2", essential: false, checked: false, gender: "female" });
-    items.push({ id: "note-yoga-top", name: "Yoga top", category: "workout", quantity: "2", essential: false, checked: false });
-    items.push({ id: "note-yoga-bra", name: "Sports bra", category: "workout", quantity: "2", essential: false, checked: false, gender: "female" });
-    items.push({ id: "note-yoga-mat", name: "Travel yoga mat", category: "activity", essential: false, checked: false });
-    items.push({ id: "note-yoga-strap", name: "Yoga strap", category: "activity", essential: false, checked: false });
-  }
-  if (lower.includes("swim") || lower.includes("pool") || lower.includes("lap") || lower.includes("water aerobics")) {
-    items.push({ id: "note-swim-suit", name: "Swimsuit", category: "workout", quantity: "2", essential: false, checked: false });
-    items.push({ id: "note-swim-goggles", name: "Swim goggles", category: "activity", essential: false, checked: false });
-    items.push({ id: "note-swim-cap", name: "Swim cap", category: "activity", essential: false, checked: false });
-    items.push({ id: "note-swim-towel", name: "Quick-dry towel", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("hike") || lower.includes("hiking") || lower.includes("trail") || lower.includes("trek") || lower.includes("backpack")) {
-    items.push({ id: "note-hiking-boots", name: "Hiking boots", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-hiking-socks", name: "Hiking socks", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-hiking-pants", name: "Hiking pants", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-daypack", name: "Daypack", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-hiking-poles", name: "Hiking poles", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-water-bladder", name: "Hydration bladder", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-headlamp", name: "Headlamp", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("camp") || lower.includes("tent") || lower.includes("outdoor")) {
-    items.push({ id: "note-tent", name: "Tent", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-sleeping-bag", name: "Sleeping bag", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-sleeping-pad", name: "Sleeping pad", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-flashlight", name: "Flashlight / lantern", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-bug-spray", name: "Bug spray", category: "toiletries", essential: false, checked: false });
-  }
-  if (lower.includes("beach") || lower.includes("ocean") || lower.includes("sand") || lower.includes("sunbath")) {
-    items.push({ id: "note-beach-towel", name: "Beach towel", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-beach-bag", name: "Beach bag", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-flip-flops", name: "Flip flops / sandals", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-beach-umbrella", name: "Beach umbrella", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-cooler", name: "Cooler bag", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("ski") || lower.includes("snowboard") || lower.includes("snow") || lower.includes("slope")) {
-    items.push({ id: "note-ski-jacket", name: "Ski jacket", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-ski-pants", name: "Ski pants", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-thermal", name: "Thermal underwear", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-ski-goggles", name: "Ski goggles", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-ski-gloves", name: "Ski gloves", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-hand-warmers", name: "Hand warmers", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("golf") || lower.includes("course")) {
-    items.push({ id: "note-golf-clubs", name: "Golf clubs", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-golf-shoes", name: "Golf shoes", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-golf-glove", name: "Golf glove", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-golf-balls", name: "Golf balls", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("tennis") || lower.includes("racket") || lower.includes("court")) {
-    items.push({ id: "note-tennis-racket", name: "Tennis racket", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-tennis-shoes", name: "Tennis shoes", category: "clothing", essential: false, checked: false });
-  }
-  if (lower.includes("scuba") || lower.includes("snorkel") || lower.includes("dive") || lower.includes("diving")) {
-    items.push({ id: "note-snorkel-mask", name: "Snorkel mask", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-snorkel-fins", name: "Fins", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-rash-guard", name: "Rash guard", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-dive-cert", name: "Dive certification card", category: "documents", essential: false, checked: false });
-  }
-  if (lower.includes("surf") || lower.includes("wave")) {
-    items.push({ id: "note-wetsuit", name: "Wetsuit", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-rash-guard-surf", name: "Rash guard", category: "clothing", essential: false, checked: false });
-    items.push({ id: "note-surf-wax", name: "Surf wax", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("light sleeper") || lower.includes("trouble sleep") || lower.includes("can't sleep") || lower.includes("insomnia") || lower.includes("jet lag")) {
-    items.push({ id: "note-earplugs", name: "Earplugs", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-sleepmask", name: "Sleep mask", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-melatonin", name: "Melatonin", category: "health", essential: false, checked: false });
-    items.push({ id: "note-sleepaid", name: "Sleep aid", category: "health", essential: false, checked: false });
-  }
-  if (lower.includes("allerg") || lower.includes("hay fever")) {
-    items.push({ id: "note-allergy", name: "Allergy medication", category: "health", essential: false, checked: false });
-    items.push({ id: "note-antihistamine", name: "Antihistamines", category: "health", essential: false, checked: false });
-  }
-  if (lower.includes("motion sick") || lower.includes("car sick") || lower.includes("seasick") || lower.includes("nausea")) {
-    items.push({ id: "note-motion", name: "Motion sickness meds", category: "health", essential: false, checked: false });
-    items.push({ id: "note-ginger", name: "Ginger candies", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-sea-bands", name: "Sea bands", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("headache") || lower.includes("migraine") || lower.includes("pain")) {
-    items.push({ id: "note-painkillers", name: "Pain relievers", category: "health", essential: false, checked: false });
-  }
-  if (lower.includes("vitamin") || lower.includes("supplement")) {
-    items.push({ id: "note-vitamins", name: "Vitamins / supplements", category: "health", essential: false, checked: false });
-  }
-  if (lower.includes("contact") || lower.includes("lens")) {
-    items.push({ id: "note-contacts", name: "Contact lenses", category: "health", essential: false, checked: false });
-    items.push({ id: "note-contact-solution", name: "Contact solution", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "note-contact-case", name: "Contact case", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "note-backup-glasses", name: "Backup glasses", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("glasses") || lower.includes("eyewear") || lower.includes("spectacle")) {
-    items.push({ id: "note-glasses", name: "Glasses", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-glasses-case", name: "Glasses case", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-glasses-cleaner", name: "Glasses cleaner", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("sunglass")) {
-    items.push({ id: "note-sunglasses", name: "Sunglasses", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("skincare") || lower.includes("skin care") || lower.includes("moistur") || lower.includes("dry skin") || lower.includes("face")) {
-    items.push({ id: "note-moisturizer", name: "Moisturizer", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "note-facewash", name: "Face wash", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "note-serum", name: "Serums", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "note-lipbalm", name: "Lip balm", category: "toiletries", essential: false, checked: false });
-  }
-  if (lower.includes("hair") || lower.includes("curly") || lower.includes("straighten")) {
-    items.push({ id: "note-hairdryer", name: "Hair dryer", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "note-straightener", name: "Hair straightener / curler", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "note-hair-products", name: "Hair products", category: "toiletries", essential: false, checked: false });
-  }
-  if (lower.includes("pillow") || lower.includes("neck") || lower.includes("long flight") || lower.includes("plane")) {
-    items.push({ id: "note-pillow", name: "Travel pillow", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-blanket", name: "Travel blanket", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-compression", name: "Compression socks", category: "clothing", essential: false, checked: false });
-  }
-  if (lower.includes("coffee") || lower.includes("caffeine") || lower.includes("espresso")) {
-    items.push({ id: "note-coffee-mug", name: "Travel coffee mug", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-coffee-instant", name: "Instant coffee", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("tea")) {
-    items.push({ id: "note-tea-bags", name: "Tea bags", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-tea-mug", name: "Travel tea mug", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("snack") || lower.includes("hungry") || lower.includes("munchies") || lower.includes("food")) {
-    items.push({ id: "note-snacks", name: "Travel snacks", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-snack-container", name: "Snack containers", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("water bottle") || lower.includes("hydrat") || lower.includes("thirsty")) {
-    items.push({ id: "note-water", name: "Reusable water bottle", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-electrolytes", name: "Electrolyte packets", category: "health", essential: false, checked: false });
-  }
-  if (lower.includes("diet") || lower.includes("vegan") || lower.includes("vegetarian") || lower.includes("gluten") || lower.includes("celiac")) {
-    items.push({ id: "note-dietary-snacks", name: "Dietary-specific snacks", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("journal") || lower.includes("diary") || lower.includes("write") || lower.includes("pen")) {
-    items.push({ id: "note-journal", name: "Travel journal", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-pens", name: "Nice pens", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("draw") || lower.includes("sketch") || lower.includes("art") || lower.includes("paint")) {
-    items.push({ id: "note-sketchbook", name: "Sketchbook", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-pencils", name: "Pencils / colored pencils", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-art-supplies", name: "Art supplies", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("guitar") || lower.includes("ukulele") || lower.includes("instrument") || lower.includes("music") && lower.includes("play")) {
-    items.push({ id: "note-instrument", name: "Musical instrument", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("meeting") || lower.includes("conference") || lower.includes("presentation") || lower.includes("business")) {
-    items.push({ id: "note-business-cards", name: "Business cards", category: "documents", essential: false, checked: false });
-    items.push({ id: "note-portfolio", name: "Portfolio / folder", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-notebook-biz", name: "Professional notebook", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("umbrella")) {
-    items.push({ id: "note-umbrella", name: "Travel umbrella", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("binocular")) {
-    items.push({ id: "note-binoculars", name: "Binoculars", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("passport")) {
-    items.push({ id: "note-passport-copy", name: "Passport copies", category: "documents", essential: false, checked: false });
-  }
-  if (lower.includes("cash") || lower.includes("money") || lower.includes("currency")) {
-    items.push({ id: "note-cash", name: "Cash / local currency", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("adapter") || lower.includes("converter") || lower.includes("plug")) {
-    items.push({ id: "note-adapter", name: "Power adapter", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("extension") || lower.includes("power strip")) {
-    items.push({ id: "note-power-strip", name: "Power strip", category: "tech", essential: false, checked: false });
-  }
-  if (lower.includes("lock") || lower.includes("padlock") || lower.includes("tsa")) {
-    items.push({ id: "note-tsa-lock", name: "TSA-approved lock", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("packing cube") || lower.includes("organizer")) {
-    items.push({ id: "note-packing-cubes", name: "Packing cubes", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("laundry") || lower.includes("wash clothes")) {
-    items.push({ id: "note-laundry-bag", name: "Laundry bag", category: "personal", essential: false, checked: false });
-    items.push({ id: "note-detergent", name: "Travel detergent", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("sewing") || lower.includes("needle")) {
-    items.push({ id: "note-sewing-kit", name: "Mini sewing kit", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("duct tape") || lower.includes("tape")) {
-    items.push({ id: "note-tape", name: "Travel duct tape", category: "personal", essential: false, checked: false });
-  }
-  if (lower.includes("ziplock") || lower.includes("plastic bag")) {
-    items.push({ id: "note-ziplocks", name: "Ziplock bags", category: "personal", essential: false, checked: false });
-  }
-  return items.filter((item, idx, arr) => arr.findIndex((i) => i.id === item.id) === idx);
 };
-var getTravelerTotal = (travelers, type) => {
-  const t = travelers.find((tr) => tr.type === type);
-  return t ? t.male + t.female : 0;
+var getLegColor = (type) => {
+  switch (type) {
+    case "flight":
+      return { main: COLORS.flight, bg: COLORS.flightBg };
+    case "hotel":
+      return { main: COLORS.hotel, bg: COLORS.hotelBg };
+    default:
+      return { main: COLORS.transport, bg: COLORS.transportBg };
+  }
 };
-var getIndividualTravelers = (travelers) => {
-  const individuals = [];
-  let adultM = 0, adultF = 0, childM = 0, childF = 0;
-  travelers.forEach((t) => {
-    if (t.type === "adult") {
-      for (let i = 0; i < t.male; i++) {
-        adultM++;
-        individuals.push({ id: `adult-m-${adultM}`, label: t.male === 1 && t.female === 0 ? "Adult (M)" : `Adult ${adultM} (M)`, type: "adult", gender: "male" });
-      }
-      for (let i = 0; i < t.female; i++) {
-        adultF++;
-        individuals.push({ id: `adult-f-${adultF}`, label: t.female === 1 && t.male === 0 ? "Adult (F)" : `Adult ${adultF} (F)`, type: "adult", gender: "female" });
+var getStatusColor = (status) => {
+  switch (status) {
+    case "booked":
+      return { main: COLORS.booked, bg: COLORS.bookedBg };
+    case "pending":
+      return { main: COLORS.pending, bg: COLORS.pendingBg };
+    case "urgent":
+      return { main: COLORS.urgent, bg: COLORS.urgentBg };
+  }
+};
+var parseTripDescription = (text) => {
+  const legs = [];
+  const extractDate = (t) => {
+    const months = {
+      january: "01",
+      february: "02",
+      march: "03",
+      april: "04",
+      may: "05",
+      june: "06",
+      july: "07",
+      august: "08",
+      september: "09",
+      october: "10",
+      november: "11",
+      december: "12"
+    };
+    const match = t.match(/(\w+)\s+(\d{1,2})(?:st|nd|rd|th)?,?\s*(\d{4})?/i);
+    if (match) {
+      const month = months[match[1].toLowerCase()];
+      if (month) {
+        const day = match[2].padStart(2, "0");
+        const year = match[3] || (/* @__PURE__ */ new Date()).getFullYear().toString();
+        return `${year}-${month}-${day}`;
       }
     }
-    if (t.type === "child") {
-      for (let i = 0; i < t.male; i++) {
-        childM++;
-        individuals.push({ id: `child-m-${childM}`, label: `Boy ${childM}`, type: "child", gender: "male" });
-      }
-      for (let i = 0; i < t.female; i++) {
-        childF++;
-        individuals.push({ id: `child-f-${childF}`, label: `Girl ${childF}`, type: "child", gender: "female" });
-      }
+    return void 0;
+  };
+  const outbound = text.match(/fly(?:ing)?\s+(?:from\s+)?([A-Za-z\s,]+?)\s+to\s+([A-Za-z\s,]+?)(?:\s+on\s+([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{0,4}))?/i);
+  if (outbound) {
+    const from = outbound[1].trim().replace(/,\s*$/, "");
+    const to = outbound[2].trim().replace(/,\s*$/, "");
+    legs.push({ type: "flight", status: "pending", title: `Flight: ${from} \u2192 ${to}`, from, to, date: outbound[3] ? extractDate(outbound[3]) || "" : "" });
+  }
+  const returnMatch = text.match(/return(?:ing)?\s+(?:to\s+)?([A-Za-z\s,]+?)(?:\s+on\s+([A-Za-z]+\s+\d{1,2}(?:st|nd|rd|th)?,?\s*\d{0,4}))?(?:\s*\.|$)/i);
+  if (returnMatch && outbound) {
+    const returnTo = returnMatch[1].trim().replace(/,\s*$/, "");
+    const outboundTo = outbound[2].trim().replace(/,\s*$/, "");
+    legs.push({ type: "flight", status: "pending", title: `Flight: ${outboundTo} \u2192 ${returnTo}`, from: outboundTo, to: returnTo, date: returnMatch[2] ? extractDate(returnMatch[2]) || "" : "" });
+  }
+  if (legs.length >= 2) {
+    const outboundLeg = legs[0];
+    if (outboundLeg?.to) {
+      legs.push({ type: "hotel", status: "pending", title: `Hotel in ${outboundLeg.to}`, location: outboundLeg.to, date: outboundLeg.date });
+    }
+  }
+  legs.filter((l) => l.type === "flight").forEach((flight, idx) => {
+    if (idx === 0 && flight.from) {
+      legs.push({ type: "car", status: "pending", title: `Transport to ${flight.from} Airport`, to: `${flight.from} Airport`, date: flight.date });
+    }
+    if (flight.to) {
+      legs.push({ type: "car", status: "pending", title: `Transport from ${flight.to} Airport`, from: `${flight.to} Airport`, date: flight.date });
     }
   });
-  return individuals;
+  return legs;
 };
-var generateChecklist = (profile) => {
-  const items = [];
-  const { isInternational, climate, tripDuration, travelers, purpose, packingConstraint, activities, personalNotes } = profile;
-  const hasChildren = getTravelerTotal(travelers, "child") > 0;
-  const hasInfants = getTravelerTotal(travelers, "infant") > 0;
-  const hasPets = getTravelerTotal(travelers, "pet") > 0;
-  const hasFemales = travelers.some((t) => t.female > 0 && (t.type === "adult" || t.type === "child"));
-  const hasMales = travelers.some((t) => t.male > 0 && (t.type === "adult" || t.type === "child"));
-  const isCarryOnOnly = packingConstraint === "carry_on_only";
-  const baseOutfits = Math.min(tripDuration, 7);
-  const destLower = profile.destination.toLowerCase();
-  const isColdDestination = destLower.includes("alaska") || destLower.includes("iceland") || destLower.includes("norway") || destLower.includes("sweden") || destLower.includes("finland") || destLower.includes("canada") || destLower.includes("switzerland") || destLower.includes("austria") || destLower.includes("colorado") || destLower.includes("aspen") || destLower.includes("ski") || destLower.includes("mountain") || destLower.includes("alps");
-  const effectiveClimate = isColdDestination && climate !== "winter" ? "winter" : climate;
-  items.push({ id: "doc-id", name: "ID / Driver's license", category: "documents", essential: true, checked: false });
-  if (isInternational) {
-    items.push({ id: "doc-passport", name: "Passport", category: "documents", essential: true, checked: false });
-    items.push({ id: "doc-visa", name: "Visa / ESTA", category: "documents", essential: true, checked: false });
-  }
-  items.push({ id: "doc-insurance", name: "Travel insurance", category: "documents", essential: true, checked: false });
-  items.push({ id: "doc-itinerary", name: "Itinerary", category: "documents", essential: true, checked: false });
-  items.push({ id: "doc-credit", name: "Credit cards", category: "documents", essential: true, checked: false });
-  items.push({ id: "doc-cash", name: "Emergency cash", category: "documents", essential: true, checked: false });
-  if (purpose === "business") {
-    items.push({ id: "doc-business", name: "Business cards", category: "documents", essential: true, checked: false });
-  }
-  const isBeachDestination = destLower.includes("miami") || destLower.includes("hawaii") || destLower.includes("cancun") || destLower.includes("bahamas") || destLower.includes("caribbean") || destLower.includes("maldives") || destLower.includes("cabo") || destLower.includes("punta cana") || destLower.includes("florida") || destLower.includes("bali") || destLower.includes("thailand") || destLower.includes("fiji") || destLower.includes("beach") || destLower.includes("island") || destLower.includes("coast") || purpose === "beach" || effectiveClimate === "tropical";
-  items.push({ id: "cloth-underwear", name: "Underwear", category: "clothing", quantity: `${Math.min(tripDuration + 1, 8)}`, essential: true, checked: false });
-  items.push({ id: "cloth-socks", name: "Socks", category: "clothing", quantity: `${Math.min(tripDuration + 1, 8)}`, essential: true, checked: false });
-  items.push({ id: "cloth-sleepwear", name: "Sleepwear", category: "clothing", essential: true, checked: false });
-  if (hasFemales) {
-    items.push({ id: "cloth-bras", name: "Bras", category: "clothing", quantity: `${Math.min(tripDuration, 5)}`, essential: true, checked: false, gender: "female" });
-    items.push({ id: "cloth-dresses", name: "Dresses", category: "clothing", quantity: `${Math.ceil(baseOutfits / 3)}`, essential: false, checked: false, gender: "female" });
-    items.push({ id: "cloth-skirts", name: "Skirts", category: "clothing", quantity: `${Math.ceil(baseOutfits / 4)}`, essential: false, checked: false, gender: "female" });
-    items.push({ id: "cloth-blouses", name: "Blouses / tops", category: "clothing", quantity: `${Math.ceil(baseOutfits / 2)}`, essential: true, checked: false, gender: "female" });
-  }
-  if (effectiveClimate === "summer" || effectiveClimate === "tropical" || isBeachDestination) {
-    items.push({ id: "cloth-tshirts", name: "T-shirts", category: "clothing", quantity: `${baseOutfits}`, essential: true, checked: false });
-    items.push({ id: "cloth-shorts", name: "Shorts", category: "clothing", quantity: `${Math.ceil(baseOutfits / 2)}`, essential: true, checked: false });
-    items.push({ id: "cloth-tankstops", name: "Tank tops", category: "clothing", quantity: `${Math.ceil(baseOutfits / 2)}`, essential: false, checked: false });
-    items.push({ id: "cloth-swimwear", name: "Swimwear", category: "clothing", quantity: "2", essential: true, checked: false });
-    items.push({ id: "cloth-coverup", name: "Beach cover-up", category: "clothing", essential: false, checked: false });
-    items.push({ id: "cloth-sunhat", name: "Sun hat", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-sunglasses", name: "Sunglasses", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-flipflops", name: "Flip-flops / sandals", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-lightdress", name: "Sundress", category: "clothing", essential: false, checked: false, gender: "female" });
-  }
-  if (effectiveClimate === "winter") {
-    items.push({ id: "cloth-sweaters", name: "Sweaters", category: "clothing", quantity: `${Math.ceil(baseOutfits / 2)}`, essential: true, checked: false });
-    items.push({ id: "cloth-longsleeve", name: "Long-sleeve shirts", category: "clothing", quantity: `${baseOutfits}`, essential: true, checked: false });
-    items.push({ id: "cloth-coat", name: "Winter coat", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-gloves", name: "Gloves", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-scarf", name: "Scarf", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-beanie", name: "Beanie / winter hat", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-boots", name: "Warm boots", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-thermals", name: "Thermal underwear", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-warmjeans", name: "Jeans / warm pants", category: "clothing", quantity: `${Math.ceil(baseOutfits / 2)}`, essential: true, checked: false });
-    items.push({ id: "cloth-fleece", name: "Fleece jacket", category: "clothing", essential: false, checked: false });
-  }
-  if (effectiveClimate === "spring" || effectiveClimate === "variable") {
-    items.push({ id: "cloth-layers", name: "Layering pieces", category: "clothing", quantity: `${baseOutfits}`, essential: true, checked: false });
-    items.push({ id: "cloth-raincoat", name: "Rain jacket", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-lightjacket", name: "Light jacket", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-jeans", name: "Jeans / pants", category: "clothing", quantity: `${Math.ceil(baseOutfits / 2)}`, essential: true, checked: false });
-  }
-  items.push({ id: "cloth-walking", name: "Walking shoes", category: "clothing", essential: true, checked: false });
-  items.push({ id: "cloth-belt", name: "Belt", category: "clothing", essential: true, checked: false });
-  if (purpose === "business") {
-    items.push({ id: "cloth-formal", name: "Formal attire", category: "clothing", essential: true, checked: false });
-    items.push({ id: "cloth-dressshoes", name: "Dress shoes", category: "clothing", essential: true, checked: false });
-  }
-  if (tripDuration > 5) {
-    items.push({ id: "cloth-laundry", name: "Laundry bag", category: "clothing", essential: false, checked: false });
-  }
-  if (isCarryOnOnly) {
-    items.push({ id: "toil-bag", name: "TSA toiletry bag", category: "toiletries", essential: true, checked: false });
-  } else {
-    items.push({ id: "toil-full", name: "Shampoo & soap", category: "toiletries", essential: true, checked: false });
-  }
-  items.push({ id: "toil-basics", name: "Toothbrush & paste", category: "toiletries", essential: true, checked: false });
-  items.push({ id: "toil-floss", name: "Floss", category: "toiletries", essential: true, checked: false });
-  items.push({ id: "toil-deo", name: "Deodorant", category: "toiletries", essential: true, checked: false });
-  items.push({ id: "toil-brush", name: "Brush / comb", category: "toiletries", essential: true, checked: false });
-  items.push({ id: "toil-facewash", name: "Face cleanser", category: "toiletries", essential: true, checked: false });
-  items.push({ id: "toil-facelotion", name: "Face lotion / moisturizer", category: "toiletries", essential: true, checked: false });
-  items.push({ id: "toil-handlotion", name: "Hand lotion", category: "toiletries", essential: false, checked: false });
-  items.push({ id: "toil-contacts-solution", name: "Contact lens solution", category: "toiletries", essential: false, checked: false });
-  items.push({ id: "toil-contacts-case", name: "Contact lens case", category: "toiletries", essential: false, checked: false });
-  items.push({ id: "toil-nailclippers", name: "Nail clippers / file", category: "toiletries", essential: false, checked: false });
-  items.push({ id: "toil-tweezers", name: "Tweezers", category: "toiletries", essential: false, checked: false });
-  if (effectiveClimate === "summer" || effectiveClimate === "tropical" || purpose === "beach" || isBeachDestination) {
-    items.push({ id: "toil-sun", name: "Sunscreen SPF 30+", category: "toiletries", essential: true, checked: false });
-    items.push({ id: "toil-aftersun", name: "After-sun / aloe vera", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "toil-lipsunscreen", name: "Lip balm with SPF", category: "toiletries", essential: false, checked: false });
-  }
-  if (hasMales) {
-    items.push({ id: "toil-razor-m", name: "Razor & shaving cream", category: "toiletries", essential: false, checked: false });
-  }
-  if (hasFemales) {
-    items.push({ id: "toil-makeup", name: "Makeup", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "toil-makeup-remover", name: "Makeup remover", category: "toiletries", essential: false, checked: false });
-    items.push({ id: "toil-feminine", name: "Feminine hygiene products", category: "toiletries", essential: true, checked: false });
-    items.push({ id: "toil-birthcontrol", name: "Birth control", category: "health", essential: true, checked: false });
-    items.push({ id: "toil-hairtools", name: "Hair tools", category: "toiletries", essential: false, checked: false });
-  }
-  items.push({ id: "health-meds", name: "Medications", category: "health", essential: true, checked: false });
-  items.push({ id: "health-firstaid", name: "First aid kit", category: "health", essential: true, checked: false });
-  items.push({ id: "health-sanitizer", name: "Hand sanitizer", category: "health", essential: true, checked: false });
-  items.push({ id: "tech-phone", name: "Phone & charger", category: "tech", essential: true, checked: false });
-  items.push({ id: "tech-powerbank", name: "Power bank", category: "tech", essential: true, checked: false });
-  if (isInternational) {
-    items.push({ id: "tech-adapter", name: "Power adapter", category: "tech", essential: true, checked: false });
-  }
-  items.push({ id: "tech-headphones", name: "Noise-canceling headphones", category: "tech", essential: true, checked: false });
-  if (purpose === "business") {
-    items.push({ id: "tech-laptop", name: "Laptop", category: "tech", essential: true, checked: false });
-  }
-  items.push({ id: "comfort-neckpillow", name: "Travel neck pillow", category: "personal", essential: true, checked: false });
-  items.push({ id: "comfort-snacks", name: "Snacks", category: "personal", essential: true, checked: false });
-  if (purpose === "beach" || activities.includes("beach") || isBeachDestination) {
-    items.push({ id: "act-beach", name: "Beach towel", category: "activity", essential: true, checked: false });
-    items.push({ id: "act-beachbag", name: "Beach bag", category: "activity", essential: false, checked: false });
-    items.push({ id: "act-snorkel", name: "Snorkel gear", category: "activity", essential: false, checked: false });
-    items.push({ id: "act-waterproof", name: "Waterproof phone pouch", category: "activity", essential: false, checked: false });
-    items.push({ id: "act-cooler", name: "Portable cooler / beach drinks", category: "activity", essential: false, checked: false });
-  }
-  if (purpose === "adventure" || activities.includes("hiking")) {
-    items.push({ id: "act-daypack", name: "Daypack", category: "activity", essential: true, checked: false });
-    items.push({ id: "act-bottle", name: "Water bottle", category: "activity", essential: true, checked: false });
-  }
-  if (hasChildren || hasInfants) {
-    items.push({ id: "fam-snacks", name: "Kid snacks", category: "family", essential: true, checked: false });
-    items.push({ id: "fam-entertainment", name: "Kid entertainment", category: "family", essential: true, checked: false });
-  }
-  if (hasInfants) {
-    items.push({ id: "fam-diapers", name: "Diapers & wipes", category: "family", essential: true, checked: false });
-    items.push({ id: "fam-formula", name: "Formula / food", category: "family", essential: true, checked: false });
-  }
-  if (hasPets) {
-    items.push({ id: "fam-petfood", name: "Pet food", category: "family", essential: true, checked: false });
-    items.push({ id: "fam-petcarrier", name: "Pet carrier", category: "family", essential: true, checked: false });
-  }
-  if (personalNotes) {
-    const noteItems = parsePersonalNotes(personalNotes);
-    const filteredNoteItems = noteItems.filter((item) => {
-      if (item.gender === "female" && !hasFemales) return false;
-      if (item.gender === "male" && !hasMales) return false;
-      return true;
-    });
-    items.push(...filteredNoteItems);
-  }
-  if (profile.presets && profile.presets.length > 0) {
-    profile.presets.forEach((presetKey) => {
-      const preset = TRAVELER_PRESETS[presetKey];
-      if (preset) {
-        preset.items.forEach((item) => {
-          if (item.gender === "female" && !hasFemales) return;
-          if (item.gender === "male" && !hasMales) return;
-          items.push({
-            id: `preset-${presetKey}-${item.name.toLowerCase().replace(/\s+/g, "-")}`,
-            name: item.name,
-            category: item.category,
-            quantity: item.quantity,
-            essential: false,
-            checked: false
-          });
-        });
-      }
-    });
-  }
-  items.push({ id: "pre-confirm", name: "Confirm all reservations", category: "preDeparture", essential: true, checked: false });
-  items.push({ id: "pre-checkin", name: "Online flight check-in", category: "preDeparture", essential: true, checked: false });
-  items.push({ id: "pre-bank", name: "Notify bank of travel dates", category: "preDeparture", essential: true, checked: false });
-  if (isInternational) {
-    items.push({ id: "pre-phone", name: "Set up international phone plan", category: "preDeparture", essential: true, checked: false });
-  }
-  items.push({ id: "pre-home", name: "Home prep (mail, plants, thermostat)", category: "preDeparture", essential: false, checked: false });
-  return items;
-};
-var CATEGORY_INFO = {
-  documents: { name: "\u{1F4C4} Documents", color: COLORS.blue, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { size: 20 }) },
-  clothing: { name: "\u{1F455} Everyday Clothing", color: COLORS.purple, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Shirt, { size: 20 }) },
-  workout: { name: "\u{1F3CB}\uFE0F Workout Clothing", color: COLORS.orange, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Activity, { size: 20 }) },
-  toiletries: { name: "\u{1F9F4} Toiletries", color: COLORS.teal, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Droplets, { size: 20 }) },
-  health: { name: "\u{1F3E5} Health & Safety", color: COLORS.red, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Shield, { size: 20 }) },
-  tech: { name: "\u{1F4F1} Tech", color: COLORS.orange, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Smartphone, { size: 20 }) },
-  activity: { name: "\u{1F3BF} Activities", color: COLORS.gold, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Activity, { size: 20 }) },
-  family: { name: "\u{1F468}\u200D\u{1F469}\u200D\u{1F467}\u200D\u{1F466} Family", color: COLORS.primary, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 20 }) },
-  personal: { name: "\u2B50 Your Essentials", color: COLORS.gold, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Star, { size: 20 }) },
-  preDeparture: { name: "\u2708\uFE0F Pre-Departure", color: COLORS.primaryDark, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(House, { size: 20 }) }
-};
-var DestinationAutocomplete = ({ value, onChange, style }) => {
-  const [isOpen, setIsOpen] = (0, import_react3.useState)(false);
-  const [suggestions, setSuggestions] = (0, import_react3.useState)([]);
-  const [isLoading, setIsLoading] = (0, import_react3.useState)(false);
-  const [highlightedIndex, setHighlightedIndex] = (0, import_react3.useState)(-1);
-  const [userHasFocused, setUserHasFocused] = (0, import_react3.useState)(false);
-  const wrapperRef = (0, import_react3.useRef)(null);
-  const debounceRef = (0, import_react3.useRef)(null);
-  (0, import_react3.useEffect)(() => {
-    if (!value || value.length < 2) {
-      setSuggestions([]);
-      return;
-    }
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(async () => {
-      setIsLoading(true);
-      const results = await searchDestinations(value);
-      setSuggestions(results);
-      setIsLoading(false);
-      if (results.length > 0 && userHasFocused) setIsOpen(true);
-    }, 300);
-    return () => {
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-    };
-  }, [value, userHasFocused]);
-  (0, import_react3.useEffect)(() => {
-    const handleClickOutside = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
-      if (isOpen && highlightedIndex >= 0 && suggestions.length > 0) {
-        onChange(suggestions[highlightedIndex]);
-      }
-      setIsOpen(false);
-      setUserHasFocused(false);
-      e.target.blur();
-      return;
-    }
-    if (e.key === "Escape") {
-      setIsOpen(false);
-      setUserHasFocused(false);
-      return;
-    }
-    if (!isOpen || suggestions.length === 0) return;
-    if (e.key === "ArrowDown") {
-      e.preventDefault();
-      setHighlightedIndex((prev) => prev < suggestions.length - 1 ? prev + 1 : 0);
-    } else if (e.key === "ArrowUp") {
-      e.preventDefault();
-      setHighlightedIndex((prev) => prev > 0 ? prev - 1 : suggestions.length - 1);
-    }
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { ref: wrapperRef, style: { position: "relative", ...style }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-      "input",
-      {
-        type: "text",
-        value,
-        onChange: (e) => {
-          onChange(e.target.value);
-          setHighlightedIndex(-1);
-          setUserHasFocused(true);
-        },
-        onFocus: () => {
-          setUserHasFocused(true);
-        },
-        onBlur: () => {
-          setTimeout(() => {
-            setUserHasFocused(false);
-            setIsOpen(false);
-          }, 150);
-        },
-        onKeyDown: handleKeyDown,
-        placeholder: "Start typing any city...",
-        autoComplete: "off",
-        autoCorrect: "off",
-        autoCapitalize: "off",
-        spellCheck: false,
-        "data-lpignore": "true",
-        "data-form-type": "other",
-        "data-1p-ignore": "true",
-        "aria-autocomplete": "list",
-        role: "combobox",
-        style: {
-          width: "100%",
-          padding: "12px 16px",
-          borderRadius: 12,
-          border: `1px solid ${COLORS.border}`,
-          fontSize: 16,
-          backgroundColor: COLORS.inputBg,
-          color: COLORS.textMain,
-          boxSizing: "border-box",
-          outline: "none"
-        }
-      }
-    ),
-    isOpen && (suggestions.length > 0 || isLoading) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-      position: "absolute",
-      top: "100%",
-      left: 0,
-      right: 0,
-      marginTop: 4,
-      backgroundColor: "white",
-      borderRadius: 12,
-      boxShadow: "0 4px 20px rgba(0,0,0,0.15)",
-      border: `1px solid ${COLORS.border}`,
-      zIndex: 100,
-      overflow: "hidden"
-    }, children: isLoading ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "12px 16px", color: COLORS.textSecondary, fontSize: 14 }, children: "Searching..." }) : suggestions.map((dest, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-      "div",
-      {
-        onClick: () => {
-          onChange(dest);
-          setIsOpen(false);
-        },
-        onMouseEnter: () => setHighlightedIndex(idx),
-        style: {
-          padding: "12px 16px",
-          cursor: "pointer",
-          display: "flex",
-          alignItems: "center",
-          gap: 10,
-          backgroundColor: highlightedIndex === idx ? COLORS.accentLight : "white",
-          borderBottom: idx < suggestions.length - 1 ? `1px solid ${COLORS.border}` : "none"
-        },
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 16, color: COLORS.primary }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 500, color: COLORS.textMain }, children: dest })
-        ]
-      },
-      dest + idx
-    )) })
+var StatusBadge = ({ status, onClick }) => {
+  const colors = getStatusColor(status);
+  const labels = { booked: "Booked", pending: "Pending", urgent: "Urgent" };
+  const icons = { booked: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { size: 14 }), pending: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { size: 14 }), urgent: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleAlert, { size: 14 }) };
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick, style: { display: "flex", alignItems: "center", gap: 6, padding: "6px 12px", borderRadius: 20, backgroundColor: colors.bg, color: colors.main, border: `1px solid ${colors.main}`, fontSize: 12, fontWeight: 600, cursor: onClick ? "pointer" : "default" }, children: [
+    icons[status],
+    " ",
+    labels[status]
   ] });
 };
-var ToggleButton = ({ active, onClick, children }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick, style: {
-  padding: "10px 16px",
-  borderRadius: 12,
-  border: active ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-  backgroundColor: active ? COLORS.accentLight : "white",
-  color: active ? COLORS.primaryDark : COLORS.textSecondary,
-  fontWeight: 600,
-  fontSize: 13,
-  cursor: "pointer",
-  display: "flex",
-  alignItems: "center",
-  gap: 6
-}, children });
-var ChecklistItemRow = ({ item, onToggle, onRemove }) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-  display: "flex",
-  alignItems: "center",
-  gap: 10,
-  padding: "12px 14px",
-  backgroundColor: item.checked ? COLORS.accentLight : "white",
-  borderRadius: 12,
-  border: `1px solid ${item.checked ? COLORS.primary : COLORS.border}`,
-  flex: 1,
-  minWidth: 0
-}, children: [
-  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { onClick: onToggle, style: { color: item.checked ? COLORS.primary : COLORS.textSecondary, flexShrink: 0, cursor: "pointer" }, children: item.checked ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { size: 20 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { size: 20 }) }),
-  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { onClick: onToggle, style: { flex: 1, minWidth: 0, cursor: "pointer" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 600, color: item.checked ? COLORS.primaryDark : COLORS.textMain, fontSize: 13, textDecoration: item.checked ? "line-through" : "none" }, children: item.name }) }),
-  item.quantity && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-    flexShrink: 0,
-    backgroundColor: COLORS.primary,
-    color: "white",
-    padding: "4px 10px",
-    borderRadius: 8,
-    fontSize: 12,
-    fontWeight: 700
-  }, children: item.quantity }),
-  onRemove && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: (e) => {
-    e.stopPropagation();
-    onRemove();
-  }, style: {
-    flexShrink: 0,
-    background: "none",
-    border: "none",
-    padding: 4,
-    cursor: "pointer",
-    color: COLORS.textSecondary,
-    opacity: 0.5,
-    transition: "opacity 0.2s"
-  }, onMouseEnter: (e) => e.currentTarget.style.opacity = "1", onMouseLeave: (e) => e.currentTarget.style.opacity = "0.5", children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 16 }) })
-] });
-var AddItemInput = ({ category, onAdd }) => {
-  const [isAdding, setIsAdding] = (0, import_react3.useState)(false);
-  const [name, setName] = (0, import_react3.useState)("");
-  const [quantity, setQuantity] = (0, import_react3.useState)("");
-  const handleAdd = () => {
-    if (name.trim()) {
-      onAdd(name.trim(), quantity.trim() || void 0);
-      setName("");
-      setQuantity("");
-      setIsAdding(false);
-    }
+var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand }) => {
+  const [isEditing, setIsEditing] = (0, import_react3.useState)(false);
+  const [editData, setEditData] = (0, import_react3.useState)(leg);
+  const legColors = getLegColor(leg.type);
+  const cycleStatus = () => {
+    const order = ["pending", "booked", "urgent"];
+    const next = order[(order.indexOf(leg.status) + 1) % order.length];
+    onUpdate({ status: next });
   };
-  if (!isAdding) {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setIsAdding(true), style: {
-      width: "100%",
-      padding: "10px 14px",
-      borderRadius: 10,
-      border: `1px dashed ${COLORS.border}`,
-      backgroundColor: "transparent",
-      color: COLORS.textSecondary,
-      fontSize: 13,
-      fontWeight: 600,
-      cursor: "pointer",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "center",
-      gap: 6,
-      marginTop: 8
-    }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-      " Add item"
+  if (isEditing) {
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, border: `2px solid ${legColors.main}`, padding: 20, marginBottom: 12 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 16 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontWeight: 700, fontSize: 16 }, children: [
+          "Edit ",
+          leg.type
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => {
+            onUpdate(editData);
+            setIsEditing(false);
+          }, style: { padding: "8px 16px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, cursor: "pointer" }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { size: 16 }),
+            " Save"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setIsEditing(false), style: { padding: "8px 16px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", cursor: "pointer" }, children: "Cancel" })
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Title", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.from || "", onChange: (e) => setEditData({ ...editData, from: e.target.value }), placeholder: "From", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.to || "", onChange: (e) => setEditData({ ...editData, to: e.target.value }), placeholder: "To", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } })
+      ] })
     ] });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 8, alignItems: "center" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-      "input",
-      {
-        type: "text",
-        value: name,
-        onChange: (e) => setName(e.target.value),
-        placeholder: "Item name",
-        autoFocus: true,
-        onKeyDown: (e) => e.key === "Enter" && handleAdd(),
-        style: {
-          flex: 1,
-          padding: "10px 12px",
-          borderRadius: 8,
-          border: `1px solid ${COLORS.border}`,
-          fontSize: 13,
-          outline: "none",
-          backgroundColor: COLORS.inputBg
-        }
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-      "input",
-      {
-        type: "text",
-        value: quantity,
-        onChange: (e) => setQuantity(e.target.value),
-        placeholder: "Qty",
-        onKeyDown: (e) => e.key === "Enter" && handleAdd(),
-        style: {
-          width: 50,
-          padding: "10px 8px",
-          borderRadius: 8,
-          border: `1px solid ${COLORS.border}`,
-          fontSize: 13,
-          outline: "none",
-          backgroundColor: COLORS.inputBg,
-          textAlign: "center"
-        }
-      }
-    ),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: handleAdd, style: {
-      padding: "10px 14px",
-      borderRadius: 8,
-      border: "none",
-      backgroundColor: COLORS.primary,
-      color: "white",
-      fontSize: 13,
-      fontWeight: 600,
-      cursor: "pointer"
-    }, children: "Add" }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => {
-      setIsAdding(false);
-      setName("");
-      setQuantity("");
-    }, style: {
-      padding: "10px",
-      borderRadius: 8,
-      border: "none",
-      backgroundColor: COLORS.inputBg,
-      color: COLORS.textSecondary,
-      cursor: "pointer"
-    }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 16 }) })
-  ] });
-};
-function TravelChecklist({ initialData: initialData2 }) {
-  const saved = loadSavedData();
-  const [profile, setProfile] = (0, import_react3.useState)(saved?.profile || DEFAULT_PROFILE);
-  const [checklist, setChecklist] = (0, import_react3.useState)(saved?.checklist || []);
-  const [individualChecklists, setIndividualChecklists] = (0, import_react3.useState)(saved?.individualChecklists || {});
-  const [checklistGenerated, setChecklistGenerated] = (0, import_react3.useState)(saved?.checklistGenerated || false);
-  const [selectedTab, setSelectedTab] = (0, import_react3.useState)(saved?.selectedTab || "shared");
-  const [showAdvanced, setShowAdvanced] = (0, import_react3.useState)(false);
-  const [expandedCategories, setExpandedCategories] = (0, import_react3.useState)({ documents: true, clothing: true, workout: true, toiletries: true, health: true, tech: true, activity: true, family: true, preDeparture: true, personal: true });
-  const [showBanner, setShowBanner] = (0, import_react3.useState)(() => {
-    try {
-      const d = localStorage.getItem(BANNER_STORAGE_KEY);
-      return !d || (/* @__PURE__ */ new Date()).getTime() - parseInt(d) > 864e5;
-    } catch {
-      return true;
-    }
-  });
-  const [expandedTravelers, setExpandedTravelers] = (0, import_react3.useState)({ children: false, infants: false, pets: false });
-  const [savedChecklists, setSavedChecklists] = (0, import_react3.useState)(() => {
-    try {
-      const data = localStorage.getItem(SAVED_CHECKLISTS_KEY);
-      return data ? JSON.parse(data) : [];
-    } catch {
-      return [];
-    }
-  });
-  const [showSaveModal, setShowSaveModal] = (0, import_react3.useState)(false);
-  const [saveChecklistName, setSaveChecklistName] = (0, import_react3.useState)("");
-  const [editingChecklistId, setEditingChecklistId] = (0, import_react3.useState)(null);
-  const [showSavedList, setShowSavedList] = (0, import_react3.useState)(false);
-  const [showSubscribeModal, setShowSubscribeModal] = (0, import_react3.useState)(false);
-  const [email, setEmail] = (0, import_react3.useState)("");
-  const [subscribeStatus, setSubscribeStatus] = (0, import_react3.useState)("idle");
-  const [subscribeMessage, setSubscribeMessage] = (0, import_react3.useState)("");
-  const [showFeedbackModal, setShowFeedbackModal] = (0, import_react3.useState)(false);
-  const [feedbackText, setFeedbackText] = (0, import_react3.useState)("");
-  const [feedbackStatus, setFeedbackStatus] = (0, import_react3.useState)("idle");
-  const [weatherForecast, setWeatherForecast] = (0, import_react3.useState)(null);
-  const [weatherLoading, setWeatherLoading] = (0, import_react3.useState)(false);
-  const [individualPrefs, setIndividualPrefs] = (0, import_react3.useState)(saved?.individualPrefs || {});
-  const prevTravelerCountRef = (0, import_react3.useRef)(0);
-  const wasLastGenerationSinglePerson = (0, import_react3.useRef)(true);
-  const originalSingleTravelerRef = (0, import_react3.useRef)(null);
-  const individuals = (0, import_react3.useMemo)(() => getIndividualTravelers(profile.travelers), [profile.travelers]);
-  (0, import_react3.useEffect)(() => {
-    saveData({ profile, checklist, checklistGenerated, individualChecklists, individualPrefs, selectedTab });
-  }, [profile, checklist, checklistGenerated, individualChecklists, individualPrefs, selectedTab]);
-  (0, import_react3.useEffect)(() => {
-    if (checklistGenerated && individuals.length > 1) {
-      const validTabs = individuals.map((i) => i.id);
-      if (selectedTab === "shared" || !validTabs.includes(selectedTab)) {
-        setSelectedTab(individuals[0].id);
-      }
-    }
-  }, [checklistGenerated, individuals, selectedTab]);
-  (0, import_react3.useEffect)(() => {
-    if (checklistGenerated && individuals.length > 0 && Object.keys(individualChecklists).length === 0) {
-      const indivLists = {};
-      const newPrefs = {};
-      individuals.forEach((t) => {
-        const individualProfile = {
-          ...profile,
-          presets: [],
-          travelers: [{
-            type: t.type,
-            male: t.gender === "male" ? 1 : 0,
-            female: t.gender === "female" ? 1 : 0
-          }]
-        };
-        const items = generateChecklist(individualProfile);
-        indivLists[t.id] = items.map((item) => ({ ...item, id: `${t.id}-${item.id}` }));
-        newPrefs[t.id] = individualPrefs[t.id] || { notes: "", presets: [] };
-      });
-      setIndividualChecklists(indivLists);
-      if (Object.keys(individualPrefs).length === 0) {
-        setIndividualPrefs(newPrefs);
-      }
-    }
-  }, [checklistGenerated, individuals, individualChecklists, profile]);
-  (0, import_react3.useEffect)(() => {
-    if (!initialData2 || Object.keys(initialData2).length === 0) {
-      console.log("[TravelChecklist] No initialData to hydrate");
-      return;
-    }
-    console.log("[TravelChecklist] Hydrating from initialData:", initialData2);
-    try {
-      localStorage.removeItem(STORAGE_KEY);
-      localStorage.removeItem(SAVED_CHECKLISTS_KEY);
-      console.log("[TravelChecklist] Cleared old localStorage data for fresh hydration");
-    } catch (e) {
-      console.warn("[TravelChecklist] Could not clear localStorage:", e);
-    }
-    setChecklist([]);
-    setIndividualChecklists({});
-    setIndividualPrefs({});
-    setChecklistGenerated(false);
-    setSelectedTab("shared");
-    try {
-      const updates = {};
-      if (initialData2.destination) {
-        updates.destination = String(initialData2.destination);
-      }
-      let tripDurationDays = 7;
-      if (initialData2.trip_duration) {
-        tripDurationDays = Number(initialData2.trip_duration);
-      } else if (initialData2.trip_weeks) {
-        tripDurationDays = Number(initialData2.trip_weeks) * 7;
-      }
-      const formatDate = (d) => {
-        return d.toISOString().split("T")[0];
-      };
-      const getNextDayOfWeek = (dayOfWeek, weeksAhead = 0) => {
-        const today = /* @__PURE__ */ new Date();
-        const currentDay = today.getDay();
-        let daysUntil = dayOfWeek - currentDay;
-        if (daysUntil <= 0) daysUntil += 7;
-        const result = new Date(today);
-        result.setDate(today.getDate() + daysUntil + weeksAhead * 7);
-        return result;
-      };
-      const getFirstOfMonth = (monthName) => {
-        const months = {
-          january: 0,
-          february: 1,
-          march: 2,
-          april: 3,
-          may: 4,
-          june: 5,
-          july: 6,
-          august: 7,
-          september: 8,
-          october: 9,
-          november: 10,
-          december: 11
-        };
-        const monthNum = months[monthName.toLowerCase()];
-        if (monthNum === void 0) return /* @__PURE__ */ new Date();
-        const today = /* @__PURE__ */ new Date();
-        let year = today.getFullYear();
-        if (monthNum < today.getMonth() || monthNum === today.getMonth() && today.getDate() > 1) {
-          year++;
-        }
-        return new Date(year, monthNum, 1);
-      };
-      let startDate = null;
-      let endDate = null;
-      if (initialData2.start_date) {
-        startDate = new Date(initialData2.start_date);
-        if (initialData2.end_date) {
-          endDate = new Date(initialData2.end_date);
-        }
-      }
-      if (!startDate && initialData2.departure_timing) {
-        const today = /* @__PURE__ */ new Date();
-        const timing = initialData2.departure_timing;
-        switch (timing) {
-          case "this_week":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() + 1);
-            break;
-          case "next_week":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() + 7);
-            break;
-          case "in_two_weeks":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() + 7);
-            break;
-          case "in_three_weeks":
-            startDate = new Date(today);
-            startDate.setDate(today.getDate() + 14);
-            break;
-          case "this_weekend":
-            startDate = getNextDayOfWeek(6, 0);
-            if (!initialData2.trip_duration && !initialData2.trip_weeks) {
-              tripDurationDays = 2;
-            }
-            break;
-          case "next_weekend":
-            startDate = getNextDayOfWeek(6, 1);
-            if (!initialData2.trip_duration && !initialData2.trip_weeks) {
-              tripDurationDays = 2;
-            }
-            break;
-          case "next_month":
-            const nextMonth = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-            startDate = nextMonth;
-            break;
-          case "in_two_months":
-            const twoMonths = new Date(today.getFullYear(), today.getMonth() + 2, 1);
-            startDate = twoMonths;
-            break;
-        }
-      }
-      if (!startDate && initialData2.trip_month) {
-        startDate = getFirstOfMonth(initialData2.trip_month);
-      }
-      if (!startDate && (initialData2.trip_duration || initialData2.trip_weeks)) {
-        const today = /* @__PURE__ */ new Date();
-        startDate = new Date(today);
-        startDate.setDate(today.getDate() + 1);
-      }
-      if (startDate && !endDate) {
-        endDate = new Date(startDate);
-        endDate.setDate(startDate.getDate() + tripDurationDays - 1);
-      }
-      if (startDate && !isNaN(startDate.getTime())) {
-        updates.startDate = formatDate(startDate);
-      }
-      if (endDate && !isNaN(endDate.getTime())) {
-        updates.endDate = formatDate(endDate);
-      }
-      if (startDate && endDate) {
-        const diff = Math.ceil((endDate.getTime() - startDate.getTime()) / (1e3 * 60 * 60 * 24)) + 1;
-        if (diff > 0) updates.tripDuration = diff;
-      } else if (tripDurationDays > 0) {
-        updates.tripDuration = tripDurationDays;
-      }
-      if (typeof initialData2.is_international === "boolean") {
-        updates.isInternational = initialData2.is_international;
-      }
-      if (initialData2.climate && ["summer", "winter", "spring", "tropical", "variable"].includes(initialData2.climate)) {
-        updates.climate = initialData2.climate;
-      }
-      if (initialData2.purpose && ["leisure", "business", "adventure", "beach", "city"].includes(initialData2.purpose)) {
-        updates.purpose = initialData2.purpose;
-      }
-      if (initialData2.packing_constraint && ["carry_on_only", "checked_bags", "minimal"].includes(initialData2.packing_constraint)) {
-        updates.packingConstraint = initialData2.packing_constraint;
-      }
-      if (Array.isArray(initialData2.activities)) {
-        updates.activities = initialData2.activities;
-      }
-      if (Array.isArray(initialData2.presets) && initialData2.presets.length > 0) {
-        updates.presets = initialData2.presets;
-      }
-      const newTravelers = [...DEFAULT_PROFILE.travelers];
-      let hasTravelerData = false;
-      if (initialData2.adult_males && Number(initialData2.adult_males) > 0) {
-        const adultIdx = newTravelers.findIndex((t) => t.type === "adult");
-        if (adultIdx >= 0) newTravelers[adultIdx] = { ...newTravelers[adultIdx], male: Number(initialData2.adult_males) };
-        hasTravelerData = true;
-      }
-      if (initialData2.adult_females && Number(initialData2.adult_females) > 0) {
-        const adultIdx = newTravelers.findIndex((t) => t.type === "adult");
-        if (adultIdx >= 0) newTravelers[adultIdx] = { ...newTravelers[adultIdx], female: Number(initialData2.adult_females) };
-        hasTravelerData = true;
-      }
-      if (initialData2.male_children && Number(initialData2.male_children) > 0) {
-        const childIdx = newTravelers.findIndex((t) => t.type === "child");
-        if (childIdx >= 0) newTravelers[childIdx] = { ...newTravelers[childIdx], male: Number(initialData2.male_children) };
-        hasTravelerData = true;
-      }
-      if (initialData2.female_children && Number(initialData2.female_children) > 0) {
-        const childIdx = newTravelers.findIndex((t) => t.type === "child");
-        if (childIdx >= 0) newTravelers[childIdx] = { ...newTravelers[childIdx], female: Number(initialData2.female_children) };
-        hasTravelerData = true;
-      }
-      if (initialData2.infants && Number(initialData2.infants) > 0) {
-        const infantIdx = newTravelers.findIndex((t) => t.type === "infant");
-        if (infantIdx >= 0) newTravelers[infantIdx] = { ...newTravelers[infantIdx], male: Number(initialData2.infants) };
-        hasTravelerData = true;
-      }
-      if (initialData2.has_children && !initialData2.male_children && !initialData2.female_children) {
-        const childIdx = newTravelers.findIndex((t) => t.type === "child");
-        if (childIdx >= 0) newTravelers[childIdx] = { ...newTravelers[childIdx], male: 1 };
-        hasTravelerData = true;
-      }
-      if (initialData2.has_infants && !initialData2.infants) {
-        const infantIdx = newTravelers.findIndex((t) => t.type === "infant");
-        if (infantIdx >= 0) newTravelers[infantIdx] = { ...newTravelers[infantIdx], male: 1 };
-        hasTravelerData = true;
-      }
-      if (initialData2.has_pets) {
-        const petIdx = newTravelers.findIndex((t) => t.type === "pet");
-        if (petIdx >= 0) newTravelers[petIdx] = { ...newTravelers[petIdx], male: 1 };
-        hasTravelerData = true;
-      }
-      if (!hasTravelerData && initialData2.travelers && Number(initialData2.travelers) > 0) {
-        const adultIdx = newTravelers.findIndex((t) => t.type === "adult");
-        if (adultIdx >= 0) newTravelers[adultIdx] = { ...newTravelers[adultIdx], male: Number(initialData2.travelers) };
-        hasTravelerData = true;
-      }
-      if (!hasTravelerData) {
-        const adultIdx = newTravelers.findIndex((t) => t.type === "adult");
-        if (adultIdx >= 0) newTravelers[adultIdx] = { ...newTravelers[adultIdx], male: 1 };
-      }
-      updates.travelers = newTravelers;
-      if (Object.keys(updates).length > 0) {
-        console.log("[TravelChecklist] Applying hydration updates:", updates);
-        setProfile((p) => ({ ...p, ...updates }));
-      }
-    } catch (e) {
-      console.error("[TravelChecklist] Failed to hydrate from initialData:", e);
-    }
-  }, []);
-  const updateTravelerGender = (type, gender, count) => {
-    setProfile((p) => ({ ...p, travelers: p.travelers.map((t) => t.type === type ? { ...t, [gender]: count } : t) }));
-  };
-  const getTraveler = (type) => profile.travelers.find((t) => t.type === type) || { type, male: 0, female: 0 };
-  const calculatedDuration = (0, import_react3.useMemo)(() => {
-    if (profile.startDate && profile.endDate) {
-      const start = new Date(profile.startDate);
-      const end = new Date(profile.endDate);
-      const diff = Math.ceil((end.getTime() - start.getTime()) / (1e3 * 60 * 60 * 24)) + 1;
-      return diff > 0 ? diff : profile.tripDuration;
-    }
-    return profile.tripDuration;
-  }, [profile.startDate, profile.endDate, profile.tripDuration]);
-  (0, import_react3.useEffect)(() => {
-    if (profile.startDate && profile.endDate && calculatedDuration !== profile.tripDuration) {
-      setProfile((p) => ({ ...p, tripDuration: calculatedDuration }));
-    }
-  }, [calculatedDuration]);
-  (0, import_react3.useEffect)(() => {
-    const fetchWeather = async () => {
-      if (!profile.destination || profile.destination.length < 3) {
-        setWeatherForecast(null);
-        return;
-      }
-      setWeatherLoading(true);
-      const coords = await geocodeCity(profile.destination);
-      if (!coords) {
-        setWeatherLoading(false);
-        setWeatherForecast(null);
-        return;
-      }
-      let startDate = profile.startDate;
-      let endDate = profile.endDate;
-      if (!startDate || !endDate) {
-        const futureDate = /* @__PURE__ */ new Date();
-        futureDate.setMonth(futureDate.getMonth() + 3);
-        startDate = futureDate.toISOString().split("T")[0];
-        const endFuture = new Date(futureDate);
-        endFuture.setDate(endFuture.getDate() + (profile.tripDuration || 7));
-        endDate = endFuture.toISOString().split("T")[0];
-      }
-      const weather = await fetchWeatherForecast(coords.lat, coords.lon, startDate, endDate);
-      setWeatherForecast(weather);
-      if (weather) {
-        const suggestedClimate = weatherToSeason(weather);
-        if (suggestedClimate !== profile.climate) {
-          setProfile((p) => ({ ...p, climate: suggestedClimate }));
-        }
-      }
-      setWeatherLoading(false);
-    };
-    const timeoutId = setTimeout(fetchWeather, 1e3);
-    return () => clearTimeout(timeoutId);
-  }, [profile.destination, profile.startDate, profile.endDate, profile.tripDuration]);
-  (0, import_react3.useEffect)(() => {
-    if (!checklistGenerated) return;
-    const freshChecklist = generateChecklist(profile);
-    const freshIds = new Set(freshChecklist.map((item) => item.id));
-    setChecklist((currentItems) => {
-      const checkedMap = new Map(currentItems.map((item) => [item.id, item.checked]));
-      const updatedItems = freshChecklist.map((item) => ({
-        ...item,
-        checked: checkedMap.has(item.id) ? checkedMap.get(item.id) : item.checked
-      }));
-      const customItems = currentItems.filter(
-        (item) => item.id.startsWith("custom-") && !freshIds.has(item.id)
-      );
-      return [...updatedItems, ...customItems];
-    });
-  }, [
-    profile.destination,
-    // IMPORTANT: destination affects beach/cold detection
-    profile.travelers,
-    profile.climate,
-    profile.purpose,
-    profile.activities,
-    profile.isInternational,
-    profile.tripDuration,
-    profile.packingConstraint,
-    profile.presets,
-    profile.personalNotes,
-    checklistGenerated
-  ]);
-  const toggleActivity = (id) => setProfile((p) => ({ ...p, activities: p.activities.includes(id) ? p.activities.filter((a) => a !== id) : [...p.activities, id] }));
-  const togglePreset = (id) => setProfile((p) => ({ ...p, presets: p.presets.includes(id) ? p.presets.filter((a) => a !== id) : [...p.presets, id] }));
-  const handlePrint = () => {
-    trackEvent("widget_print_share", { destination: profile.destination });
-    const isInIframe = window !== window.parent;
-    if (isInIframe) {
-      alert("To print your checklist:\n\n1. Take a screenshot of this checklist\n2. Or copy the items manually\n\nPrinting is not available in embedded widgets.");
-    } else {
-      window.print();
-    }
-  };
-  const toggleIndividualPreset = (travelerId, presetId) => {
-    setIndividualPrefs((prev) => {
-      const current = prev[travelerId] || { notes: "", presets: [] };
-      const newPresets = current.presets.includes(presetId) ? current.presets.filter((p) => p !== presetId) : [...current.presets, presetId];
-      return { ...prev, [travelerId]: { ...current, presets: newPresets } };
-    });
-  };
-  const updateIndividualNotes = (travelerId, notes) => {
-    setIndividualPrefs((prev) => {
-      const current = prev[travelerId] || { notes: "", presets: [] };
-      return { ...prev, [travelerId]: { ...current, notes } };
-    });
-  };
-  const getIndividualPrefs = (travelerId) => {
-    return individualPrefs[travelerId] || { notes: "", presets: [] };
-  };
-  const handleGenerate = () => {
-    trackEvent("widget_generate_checklist", {
-      destination: profile.destination,
-      tripDuration: profile.tripDuration,
-      isInternational: profile.isInternational,
-      purpose: profile.purpose,
-      climate: profile.climate,
-      travelerCount: getIndividualTravelers(profile.travelers).length
-    });
-    setChecklist(generateChecklist(profile));
-    const indivLists = {};
-    const travelers = getIndividualTravelers(profile.travelers);
-    const sharedPresets = profile.presets || [];
-    const sharedNotes = profile.personalNotes || "";
-    const hasSharedPresets = sharedPresets.length > 0;
-    const isMultiPerson = travelers.length > 1;
-    const wasLastSingle = wasLastGenerationSinglePerson.current;
-    const originalTraveler = originalSingleTravelerRef.current;
-    let presetInheritingTravelerId = null;
-    if (hasSharedPresets && isMultiPerson && wasLastSingle && originalTraveler) {
-      const alreadyTransferred = Object.values(individualPrefs).some((p) => p.presets.length > 0);
-      if (!alreadyTransferred) {
-        const match = travelers.find((t) => t.type === originalTraveler.type && t.gender === originalTraveler.gender);
-        presetInheritingTravelerId = match?.id || null;
-      }
-    }
-    const newPrefs = {};
-    travelers.forEach((t) => {
-      const individualProfile = {
-        ...profile,
-        presets: [],
-        // Don't include shared presets in individual generation
-        travelers: [{
-          type: t.type,
-          male: t.gender === "male" ? 1 : 0,
-          female: t.gender === "female" ? 1 : 0
-        }]
-      };
-      const items = generateChecklist(individualProfile);
-      indivLists[t.id] = items.map((item) => ({ ...item, id: `${t.id}-${item.id}` }));
-      if (individualPrefs[t.id] && individualPrefs[t.id].presets.length > 0) {
-        newPrefs[t.id] = individualPrefs[t.id];
-      } else if (t.id === presetInheritingTravelerId) {
-        newPrefs[t.id] = { notes: sharedNotes, presets: [...sharedPresets] };
-      } else if (individualPrefs[t.id]) {
-        newPrefs[t.id] = individualPrefs[t.id];
-      } else {
-        newPrefs[t.id] = { notes: "", presets: [] };
-      }
-    });
-    prevTravelerCountRef.current = travelers.length;
-    wasLastGenerationSinglePerson.current = travelers.length <= 1;
-    if (travelers.length === 1) {
-      originalSingleTravelerRef.current = { type: travelers[0].type, gender: travelers[0].gender };
-    } else if (travelers.length > 1 && !wasLastSingle) {
-      originalSingleTravelerRef.current = null;
-    }
-    setIndividualPrefs(newPrefs);
-    setIndividualChecklists(indivLists);
-    setChecklistGenerated(true);
-    setSelectedTab(travelers.length > 1 ? travelers[0].id : "shared");
-    setTimeout(() => {
-      const contentSection = document.getElementById("checklist-content-section");
-      if (contentSection) {
-        contentSection.scrollIntoView({ behavior: "smooth", block: "start" });
-      } else {
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      }
-    }, 100);
-  };
-  const toggleItem = (id) => {
-    trackEvent("widget_check_item", { itemId: id, tab: selectedTab });
-    if (selectedTab === "shared") {
-      setChecklist((items) => items.map((i) => i.id === id ? { ...i, checked: !i.checked } : i));
-    } else {
-      setIndividualChecklists((prev) => ({
-        ...prev,
-        [selectedTab]: prev[selectedTab]?.map((i) => i.id === id ? { ...i, checked: !i.checked } : i) || []
-      }));
-    }
-  };
-  const removeItem = (id) => {
-    if (selectedTab === "shared") {
-      setChecklist((items) => items.filter((i) => i.id !== id));
-    } else {
-      setIndividualChecklists((prev) => ({
-        ...prev,
-        [selectedTab]: prev[selectedTab]?.filter((i) => i.id !== id) || []
-      }));
-    }
-  };
-  const addItem = (category, name, quantity) => {
-    trackEvent("widget_add_custom_item", { category, itemName: name, tab: selectedTab });
-    const newItem = {
-      id: `custom-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-      name,
-      category,
-      quantity,
-      essential: false,
-      checked: false
-    };
-    if (selectedTab === "shared") {
-      setChecklist((items) => [...items, newItem]);
-    } else {
-      setIndividualChecklists((prev) => ({
-        ...prev,
-        [selectedTab]: [...prev[selectedTab] || [], newItem]
-      }));
-    }
-  };
-  const toggleCategory = (cat) => setExpandedCategories((prev) => ({ ...prev, [cat]: !prev[cat] }));
-  const resetAll = () => {
-    trackEvent("widget_clear_data", {});
-    localStorage.removeItem(STORAGE_KEY);
-    localStorage.removeItem(SAVED_CHECKLISTS_KEY);
-    setProfile(DEFAULT_PROFILE);
-    setChecklist([]);
-    setIndividualChecklists({});
-    setIndividualPrefs({});
-    setSavedChecklists([]);
-    setChecklistGenerated(false);
-    setSelectedTab("shared");
-  };
-  const handleSubscribe = async () => {
-    if (!email || !email.includes("@")) {
-      setSubscribeMessage("Please enter a valid email.");
-      setSubscribeStatus("error");
-      return;
-    }
-    setSubscribeStatus("loading");
-    try {
-      const serverUrl = window.location.hostname === "localhost" ? "" : "https://travel-checklist-q79n.onrender.com";
-      const response = await fetch(`${serverUrl}/api/subscribe`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          topicId: "travel-tips",
-          topicName: "Travel Checklist Updates"
-        })
-      });
-      const data = await response.json();
-      if (response.ok && data.success) {
-        setSubscribeStatus("success");
-        setSubscribeMessage(data.message);
-        setTimeout(() => {
-          setShowSubscribeModal(false);
-          setEmail("");
-          setSubscribeStatus("idle");
-          setSubscribeMessage("");
-        }, 3e3);
-      } else {
-        setSubscribeStatus("error");
-        setSubscribeMessage(data.error || "Failed to subscribe.");
-      }
-    } catch (e) {
-      console.error("Subscribe error:", e);
-      setSubscribeStatus("error");
-      setSubscribeMessage("Network error. Please try again.");
-    }
-  };
-  const handleFeedbackSubmit = async () => {
-    if (!feedbackText.trim()) return;
-    setFeedbackStatus("submitting");
-    try {
-      const serverUrl = window.location.hostname === "localhost" ? "" : "https://travel-checklist-q79n.onrender.com";
-      const response = await fetch(`${serverUrl}/api/track`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          event: "user_feedback",
-          data: { feedback: feedbackText, destination: profile.destination }
-        })
-      });
-      if (response.ok) {
-        setFeedbackStatus("success");
-        setTimeout(() => {
-          setShowFeedbackModal(false);
-          setFeedbackText("");
-          setFeedbackStatus("idle");
-        }, 2e3);
-      } else {
-        setFeedbackStatus("error");
-      }
-    } catch (e) {
-      console.error("Feedback error:", e);
-      setFeedbackStatus("error");
-    }
-  };
-  const persistSavedChecklists = (lists) => {
-    try {
-      localStorage.setItem(SAVED_CHECKLISTS_KEY, JSON.stringify(lists));
-    } catch (e) {
-    }
-  };
-  const handleSaveChecklist = () => {
-    if (!saveChecklistName.trim()) return;
-    trackEvent("widget_save_checklist", { name: saveChecklistName.trim(), isUpdate: !!editingChecklistId });
-    const newSaved = {
-      id: editingChecklistId || `saved-${Date.now()}`,
-      name: saveChecklistName.trim(),
-      savedAt: Date.now(),
-      profile: { ...profile },
-      checklist: [...checklist],
-      individualChecklists: { ...individualChecklists }
-    };
-    let updated;
-    if (editingChecklistId) {
-      updated = savedChecklists.map((sc) => sc.id === editingChecklistId ? newSaved : sc);
-    } else {
-      updated = [...savedChecklists, newSaved];
-    }
-    setSavedChecklists(updated);
-    persistSavedChecklists(updated);
-    setShowSaveModal(false);
-    setSaveChecklistName("");
-    setEditingChecklistId(null);
-  };
-  const loadSavedChecklist = (sc) => {
-    setProfile(sc.profile);
-    setChecklist(sc.checklist);
-    setIndividualChecklists(sc.individualChecklists);
-    setChecklistGenerated(true);
-    setSelectedTab("shared");
-    setShowSavedList(false);
-  };
-  const duplicateChecklist = (sc) => {
-    setSaveChecklistName(`${sc.name} (Copy)`);
-    setProfile(sc.profile);
-    setChecklist(sc.checklist);
-    setIndividualChecklists(sc.individualChecklists);
-    setChecklistGenerated(true);
-    setEditingChecklistId(null);
-    setShowSaveModal(true);
-    setShowSavedList(false);
-  };
-  const deleteSavedChecklist = (id) => {
-    const updated = savedChecklists.filter((sc) => sc.id !== id);
-    setSavedChecklists(updated);
-    persistSavedChecklists(updated);
-  };
-  const openSaveModal = (existingId) => {
-    if (existingId) {
-      const existing = savedChecklists.find((sc) => sc.id === existingId);
-      if (existing) {
-        setSaveChecklistName(existing.name);
-        setEditingChecklistId(existingId);
-      }
-    } else {
-      setSaveChecklistName(profile.destination ? `${profile.destination} Trip` : "My Checklist");
-      setEditingChecklistId(null);
-    }
-    setShowSaveModal(true);
-  };
-  const currentChecklist = (0, import_react3.useMemo)(() => {
-    if (selectedTab === "shared") return checklist;
-    const baseItems = individualChecklists[selectedTab] || [];
-    const prefs = individualPrefs[selectedTab] || { notes: "", presets: [] };
-    const traveler = individuals.find((t) => t.id === selectedTab);
-    const isFemale = traveler?.gender === "female";
-    const isMale = traveler?.gender === "male";
-    const tripDuration = profile.tripDuration || 7;
-    const presetItems = [];
-    prefs.presets.forEach((presetId) => {
-      const preset = TRAVELER_PRESETS[presetId];
-      if (preset) {
-        preset.items.forEach((item, idx) => {
-          if (item.gender === "female" && !isFemale) return;
-          if (item.gender === "male" && !isMale) return;
-          const exists = baseItems.some((bi) => bi.name === item.name) || presetItems.some((pi) => pi.name === item.name);
-          if (!exists) {
-            presetItems.push({
-              id: `${selectedTab}-preset-${presetId}-${idx}`,
-              name: item.name,
-              category: item.category,
-              quantity: scaleQuantityForDuration(item.quantity, tripDuration),
-              essential: false,
-              checked: false
-            });
-          }
-        });
-      }
-    });
-    return [...baseItems, ...presetItems];
-  }, [selectedTab, checklist, individualChecklists, individualPrefs, individuals, profile.tripDuration]);
-  const progress = (0, import_react3.useMemo)(() => {
-    if (!currentChecklist.length) return { checked: 0, total: 0, percent: 0 };
-    const checked = currentChecklist.filter((i) => i.checked).length;
-    return { checked, total: currentChecklist.length, percent: Math.round(checked / currentChecklist.length * 100) };
-  }, [currentChecklist]);
-  const groupedItems = (0, import_react3.useMemo)(() => {
-    const categoryOrder = ["documents", "clothing", "workout", "toiletries", "health", "tech", "activity", "family", "personal", "preDeparture"];
-    const groups = {};
-    currentChecklist.forEach((item) => {
-      if (!groups[item.category]) groups[item.category] = [];
-      groups[item.category].push(item);
-    });
-    const sortedGroups = {};
-    categoryOrder.forEach((cat) => {
-      if (groups[cat]) sortedGroups[cat] = groups[cat];
-    });
-    Object.keys(groups).forEach((cat) => {
-      if (!sortedGroups[cat]) sortedGroups[cat] = groups[cat];
-    });
-    return sortedGroups;
-  }, [currentChecklist]);
-  const styles = {
-    container: { width: "100%", maxWidth: 600, margin: "0 auto", backgroundColor: COLORS.bg, fontFamily: "'Inter', sans-serif", padding: 20, boxSizing: "border-box" },
-    card: { backgroundColor: COLORS.card, borderRadius: 24, padding: 24, boxShadow: "0 10px 40px -10px rgba(0,0,0,0.08)", marginBottom: 20, width: "100%", boxSizing: "border-box" },
-    label: { fontWeight: 600, color: COLORS.textMain, fontSize: 15, marginBottom: 8, display: "block" },
-    input: { width: "100%", padding: "12px 16px", borderRadius: 12, border: `1px solid ${COLORS.border}`, fontSize: 16, backgroundColor: COLORS.inputBg, color: COLORS.textMain, boxSizing: "border-box", outline: "none" },
-    select: { width: "100%", padding: "12px 16px", borderRadius: 12, border: `1px solid ${COLORS.border}`, fontSize: 16, backgroundColor: COLORS.inputBg, color: COLORS.textMain, cursor: "pointer", outline: "none" },
-    footer: { display: "flex", justifyContent: "center", gap: 24, marginTop: 40, paddingTop: 24, borderTop: `1px solid ${COLORS.border}`, flexWrap: "wrap" },
-    footerBtn: { display: "flex", alignItems: "center", gap: 8, background: "none", border: "none", cursor: "pointer", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, padding: 8 }
-  };
-  (0, import_react3.useEffect)(() => {
-    const styleId = "travel-checklist-btn-styles";
-    if (document.getElementById(styleId)) return;
-    const btnStyles = document.createElement("style");
-    btnStyles.id = styleId;
-    btnStyles.textContent = `
-      .btn-press {
-        transition: transform 0.1s ease, opacity 0.2s;
-      }
-      .btn-press:active {
-        transform: scale(0.95);
-      }
-      .btn-press:hover {
-        opacity: 0.7;
-      }
-    `;
-    document.head.appendChild(btnStyles);
-  }, []);
-  (0, import_react3.useEffect)(() => {
-    const styleId = "travel-checklist-print-styles";
-    if (document.getElementById(styleId)) return;
-    const printStyles = document.createElement("style");
-    printStyles.id = styleId;
-    printStyles.textContent = `
-      @media print {
-        /* Hide screen-only elements */
-        .no-print, button, .footer-actions, [data-no-print] { display: none !important; }
-        
-        /* Reset page */
-        body { background: white !important; margin: 0; padding: 0; }
-        
-        /* Hide the screen view */
-        .screen-view { display: none !important; }
-        
-        /* Show print view */
-        .print-view { display: block !important; }
-        
-        /* Print view styling */
-        .print-view {
-          font-family: 'Inter', -apple-system, sans-serif;
-          font-size: 11px;
-          color: #000;
-          padding: 15px;
-        }
-        
-        .print-header {
-          text-align: center;
-          border-bottom: 2px solid #000;
-          padding-bottom: 10px;
-          margin-bottom: 15px;
-        }
-        
-        .print-header h1 {
-          font-size: 18px;
-          margin: 0 0 5px 0;
-        }
-        
-        .print-header .trip-info {
-          font-size: 12px;
-          color: #555;
-        }
-        
-        .print-columns {
-          /* No special layout - sections stack vertically */
-        }
-        
-        .print-category {
-          margin-bottom: 12px;
-          break-inside: avoid;
-        }
-        
-        .print-category h2 {
-          font-size: 11px;
-          font-weight: 700;
-          margin: 0 0 4px 0;
-          padding-bottom: 2px;
-          border-bottom: 1px solid #999;
-          background: #f5f5f5;
-          padding: 3px 5px;
-        }
-        
-        .print-items {
-          column-count: 4;
-          column-gap: 10px;
-        }
-        
-        /* Pre-departure section stays single column */
-        .print-category.pre-departure .print-items {
-          column-count: 2;
-        }
-        
-        .print-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 4px;
-          padding: 1px 0;
-          font-size: 9px;
-          break-inside: avoid;
-          line-height: 1.3;
-        }
-        
-        .print-checkbox {
-          width: 12px;
-          height: 12px;
-          border: 1px solid #333;
-          display: inline-block;
-          flex-shrink: 0;
-        }
-        
-        .print-checkbox.checked {
-          background: #333;
-        }
-        
-        .print-footer {
-          margin-top: 8px;
-          padding-top: 5px;
-          border-top: 1px solid #ccc;
-          text-align: center;
-          font-size: 8px;
-          color: #666;
-          page-break-before: avoid;
-          break-before: avoid;
-        }
-
-        @page {
-          size: auto;
-          margin: 8mm;
-        }
-        
-        /* Prevent orphan elements creating new pages */
-        .print-view * {
-          orphans: 3;
-          widows: 3;
-        }
-      }
-      
-      /* Hide print view on screen */
-      @media screen {
-        .print-view { display: none !important; }
-      }
-    `;
-    document.head.appendChild(printStyles);
-  }, []);
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.container, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "screen-view", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 28, fontWeight: 800, color: COLORS.textMain, marginBottom: 10 }, children: "\u2708\uFE0F Smart Travel Checklist" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 20, display: "flex", alignItems: "center", gap: 6 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 16, color: COLORS.primary }),
-        " Personalized packing lists powered by smart rules"
-      ] }),
-      savedChecklists.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...styles.card, marginBottom: 20 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-          "div",
-          {
-            onClick: () => setShowSavedList(!showSavedList),
-            style: { display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer" },
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 20, color: COLORS.primary }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 16, fontWeight: 700 }, children: "My Saved Checklists" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 12, fontWeight: 600, color: "white", backgroundColor: COLORS.primary, padding: "2px 8px", borderRadius: 10 }, children: savedChecklists.length })
-              ] }),
-              showSavedList ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20, color: COLORS.textSecondary }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20, color: COLORS.textSecondary })
-            ]
-          }
-        ),
-        showSavedList && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 16 }, children: savedChecklists.map((sc) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
-          padding: "12px 16px",
-          backgroundColor: COLORS.inputBg,
-          borderRadius: 12,
-          marginBottom: 8
-        }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, cursor: "pointer" }, onClick: () => loadSavedChecklist(sc), children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, color: COLORS.textMain, fontSize: 14 }, children: sc.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, color: COLORS.textSecondary, marginTop: 2 }, children: [
-              "\u{1F4CD} ",
-              sc.profile.destination,
-              " \u2022 \u{1F4C5} ",
-              sc.profile.tripDuration,
-              " days \u2022 ",
-              sc.checklist.filter((i) => i.checked).length,
-              "/",
-              sc.checklist.length,
-              " packed"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 11, color: COLORS.textSecondary, marginTop: 2 }, children: [
-              "Saved ",
-              new Date(sc.savedAt).toLocaleDateString()
-            ] })
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, border: `1px solid ${leg.status === "booked" ? COLORS.booked : COLORS.border}`, borderLeft: `4px solid ${legColors.main}`, marginBottom: 12 }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { onClick: onToggleExpand, style: { padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 44, height: 44, borderRadius: 12, backgroundColor: legColors.bg, color: legColors.main, display: "flex", alignItems: "center", justifyContent: "center" }, children: getLegIcon(leg.type, 22) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, fontSize: 15, color: COLORS.textMain, marginBottom: 4 }, children: leg.title }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }, children: [
+          leg.date && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
+            formatDate(leg.date)
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                onClick: () => duplicateChecklist(sc),
-                style: { padding: "6px 10px", borderRadius: 6, border: "none", backgroundColor: COLORS.blue, color: "white", fontSize: 11, fontWeight: 600, cursor: "pointer" },
-                children: "Duplicate"
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                onClick: () => deleteSavedChecklist(sc.id),
-                style: { padding: "6px 10px", borderRadius: 6, border: "none", backgroundColor: COLORS.red, color: "white", fontSize: 11, fontWeight: 600, cursor: "pointer" },
-                children: "Delete"
-              }
-            )
-          ] })
-        ] }, sc.id)) })
-      ] }),
-      showBanner && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.accentLight, borderRadius: 16, padding: 16, marginBottom: 24, display: "flex", alignItems: "center", justifyContent: "space-between", position: "relative" }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontWeight: 600, color: COLORS.primaryDark }, children: "Get travel tips & packing hacks!" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowSubscribeModal(true), className: "btn-press", style: { background: COLORS.primary, color: "white", border: "none", borderRadius: 24, padding: "10px 16px", fontWeight: 700, cursor: "pointer", marginRight: 24 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
-          " Subscribe"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "absolute", top: 8, right: 8, cursor: "pointer", color: COLORS.textSecondary }, onClick: () => {
-          setShowBanner(false);
-          localStorage.setItem(BANNER_STORAGE_KEY, Date.now().toString());
-        }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 16 }) })
-      ] }),
-      !checklistGenerated && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.card, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 16, fontWeight: 700, color: COLORS.textMain, marginBottom: 16, display: "flex", alignItems: "center", gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 20, color: COLORS.primary }),
-          " Trip Details"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 16, marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: styles.label, children: "Where are you going?" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DestinationAutocomplete, { value: profile.destination, onChange: (val) => setProfile((p) => ({ ...p, destination: val })) })
+          leg.time && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14 }),
+            leg.time
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: styles.label, children: "Trip type" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(ToggleButton, { active: profile.isInternational, onClick: () => setProfile((p) => ({ ...p, isInternational: true })), children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 16 }),
-                " International"
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(ToggleButton, { active: !profile.isInternational, onClick: () => setProfile((p) => ({ ...p, isInternational: false })), children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 16 }),
-                " Domestic"
-              ] })
-            ] })
-          ] })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { style: styles.label, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 16, style: { verticalAlign: "middle", marginRight: 6 } }),
-              "Dates of Travel"
-            ] }),
-            (profile.startDate || profile.endDate) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-              "button",
-              {
-                onClick: () => setProfile((p) => ({ ...p, startDate: "", endDate: "" })),
-                style: { background: "none", border: "none", color: COLORS.textSecondary, fontSize: 12, cursor: "pointer", padding: 4, display: "flex", alignItems: "center", gap: 4 },
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14 }),
-                  " Clear dates"
-                ]
-              }
-            )
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 16 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", style: styles.input, value: profile.startDate, onChange: (e) => setProfile((p) => ({ ...p, startDate: e.target.value })) }) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", alignItems: "center", color: COLORS.textSecondary }, children: "to" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { flex: 1 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", style: styles.input, value: profile.endDate, min: profile.startDate || void 0, onChange: (e) => setProfile((p) => ({ ...p, endDate: e.target.value })) }) })
-          ] })
-        ] }),
-        profile.destination && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-          marginBottom: 20,
-          padding: 16,
-          borderRadius: 16,
-          background: weatherForecast ? weatherForecast.avgTemp >= 25 ? "linear-gradient(135deg, #FEF3C7, #FDE68A)" : weatherForecast.avgTemp >= 15 ? "linear-gradient(135deg, #D1FAE5, #A7F3D0)" : weatherForecast.avgTemp >= 5 ? "linear-gradient(135deg, #DBEAFE, #BFDBFE)" : "linear-gradient(135deg, #E0E7FF, #C7D2FE)" : COLORS.inputBg
-        }, children: weatherLoading ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8, color: COLORS.textSecondary }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cloud, { size: 18 }),
-          " Checking weather forecast..."
-        ] }) : weatherForecast ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-              weatherForecast.avgTemp >= 25 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sun, { size: 24, color: "#F59E0B" }) : weatherForecast.avgTemp >= 15 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cloud, { size: 24, color: "#10B981" }) : weatherForecast.avgTemp >= 5 ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cloud, { size: 24, color: "#3B82F6" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Snowflake, { size: 24, color: "#6366F1" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, fontWeight: 700 }, children: weatherForecast.conditions })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "right" }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 24, fontWeight: 800 }, children: [
-                weatherForecast.avgTemp,
-                "\xB0C"
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 11, color: COLORS.textSecondary }, children: [
-                Math.round(weatherForecast.avgTemp * 9 / 5 + 32),
-                "\xB0F"
-              ] })
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, color: COLORS.textSecondary, marginBottom: 8 }, children: [
-            "Low ",
-            weatherForecast.minTemp,
-            "\xB0C / High ",
-            weatherForecast.maxTemp,
-            "\xB0C \u2022 ",
-            weatherForecast.precipitation,
-            "% chance of rain"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 13, fontWeight: 500 }, children: [
-            "\u{1F4A1} ",
-            weatherForecast.suggestion
-          ] })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8, color: COLORS.textSecondary }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cloud, { size: 18 }),
-          " Enter dates to see weather forecast"
-        ] }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 16, marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: styles.label, children: "Purpose" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("select", { style: styles.select, value: profile.purpose, onChange: (e) => setProfile((p) => ({ ...p, purpose: e.target.value })), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "leisure", children: "\u{1F3D6}\uFE0F Leisure" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "business", children: "\u{1F4BC} Business" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "adventure", children: "\u{1F3D4}\uFE0F Adventure" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "beach", children: "\u{1F3DD}\uFE0F Beach" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "city", children: "\u{1F3D9}\uFE0F City" })
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { style: styles.label, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Luggage, { size: 16, style: { verticalAlign: "middle", marginRight: 6 } }),
-              "Luggage"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("select", { style: styles.select, value: profile.packingConstraint, onChange: (e) => setProfile((p) => ({ ...p, packingConstraint: e.target.value })), children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "carry_on_only", children: "\u270B Carry-on only" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "checked_bags", children: "\u{1F9F3} Checked bags" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("option", { value: "minimal", children: "\u{1F392} Minimal / backpack" })
-            ] })
-          ] })
-        ] }),
-        !(profile.startDate && profile.endDate) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { style: styles.label, children: [
-            "Duration: ",
-            profile.tripDuration,
-            " days"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "range", min: 1, max: 30, value: profile.tripDuration, onChange: (e) => setProfile((p) => ({ ...p, tripDuration: parseInt(e.target.value) })), style: { width: "100%" } })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { style: styles.label, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 16, style: { verticalAlign: "middle", marginRight: 6 } }),
-            "Travelers"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.inputBg, borderRadius: 12, padding: 12, marginBottom: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 600, fontSize: 13, color: COLORS.textMain, marginBottom: 8 }, children: "Adults" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 12 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "\u2642 Male" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => updateTravelerGender("adult", "male", Math.max(0, getTraveler("adult").male - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("adult").male }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => updateTravelerGender("adult", "male", getTraveler("adult").male + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-                ] })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "\u2640 Female" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => updateTravelerGender("adult", "female", Math.max(0, getTraveler("adult").female - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("adult").female }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => updateTravelerGender("adult", "female", getTraveler("adult").female + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-                ] })
-              ] })
-            ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginBottom: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-              "div",
-              {
-                onClick: () => !expandedTravelers.children && setExpandedTravelers((p) => ({ ...p, children: true })),
-                style: {
-                  flex: 1,
-                  backgroundColor: COLORS.inputBg,
-                  borderRadius: 10,
-                  padding: "10px 12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  cursor: expandedTravelers.children ? "default" : "pointer",
-                  border: getTraveler("child").male + getTraveler("child").female > 0 ? `2px solid ${COLORS.primary}` : "none"
-                },
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 14, color: COLORS.primary }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 600, fontSize: 12 }, children: "Children" }),
-                    getTraveler("child").male + getTraveler("child").female > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { backgroundColor: COLORS.primary, color: "white", fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 10 }, children: getTraveler("child").male + getTraveler("child").female })
-                  ] }),
-                  !expandedTravelers.children && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14, color: COLORS.primary }),
-                  expandedTravelers.children && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14, color: COLORS.textSecondary, style: { cursor: "pointer" }, onClick: (e) => {
-                    e.stopPropagation();
-                    setExpandedTravelers((p) => ({ ...p, children: false }));
-                  } })
-                ]
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-              "div",
-              {
-                onClick: () => !expandedTravelers.infants && setExpandedTravelers((p) => ({ ...p, infants: true })),
-                style: {
-                  flex: 1,
-                  backgroundColor: COLORS.inputBg,
-                  borderRadius: 10,
-                  padding: "10px 12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  cursor: expandedTravelers.infants ? "default" : "pointer",
-                  border: getTraveler("infant").male + getTraveler("infant").female > 0 ? `2px solid ${COLORS.primary}` : "none"
-                },
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Baby, { size: 14, color: COLORS.primary }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 600, fontSize: 12 }, children: "Infants" }),
-                    getTraveler("infant").male + getTraveler("infant").female > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { backgroundColor: COLORS.primary, color: "white", fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 10 }, children: getTraveler("infant").male + getTraveler("infant").female })
-                  ] }),
-                  !expandedTravelers.infants && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14, color: COLORS.primary }),
-                  expandedTravelers.infants && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14, color: COLORS.textSecondary, style: { cursor: "pointer" }, onClick: (e) => {
-                    e.stopPropagation();
-                    setExpandedTravelers((p) => ({ ...p, infants: false }));
-                  } })
-                ]
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-              "div",
-              {
-                onClick: () => !expandedTravelers.pets && setExpandedTravelers((p) => ({ ...p, pets: true })),
-                style: {
-                  flex: 1,
-                  backgroundColor: COLORS.inputBg,
-                  borderRadius: 10,
-                  padding: "10px 12px",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  cursor: expandedTravelers.pets ? "default" : "pointer",
-                  border: getTraveler("pet").male + getTraveler("pet").female > 0 ? `2px solid ${COLORS.primary}` : "none"
-                },
-                children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dog, { size: 14, color: COLORS.primary }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 600, fontSize: 12 }, children: "Pets" }),
-                    getTraveler("pet").male + getTraveler("pet").female > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { backgroundColor: COLORS.primary, color: "white", fontSize: 10, fontWeight: 700, padding: "2px 6px", borderRadius: 10 }, children: getTraveler("pet").male + getTraveler("pet").female })
-                  ] }),
-                  !expandedTravelers.pets && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14, color: COLORS.primary }),
-                  expandedTravelers.pets && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14, color: COLORS.textSecondary, style: { cursor: "pointer" }, onClick: (e) => {
-                    e.stopPropagation();
-                    setExpandedTravelers((p) => ({ ...p, pets: false }));
-                  } })
-                ]
-              }
-            )
-          ] }),
-          expandedTravelers.children && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.inputBg, borderRadius: 12, padding: 12, marginBottom: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 12 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "\u2642 Boys" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("child", "male", Math.max(0, getTraveler("child").male - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("child").male }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("child", "male", getTraveler("child").male + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "\u2640 Girls" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("child", "female", Math.max(0, getTraveler("child").female - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("child").female }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("child", "female", getTraveler("child").female + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-              ] })
-            ] })
-          ] }) }),
-          expandedTravelers.infants && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.inputBg, borderRadius: 12, padding: 12, marginBottom: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 12 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "\u2642 Boys" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("infant", "male", Math.max(0, getTraveler("infant").male - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("infant").male }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("infant", "male", getTraveler("infant").male + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "\u2640 Girls" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("infant", "female", Math.max(0, getTraveler("infant").female - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("infant").female }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("infant", "female", getTraveler("infant").female + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-              ] })
-            ] })
-          ] }) }),
-          expandedTravelers.pets && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.inputBg, borderRadius: 12, padding: 12, marginBottom: 8 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 12 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Dog, { size: 14, color: COLORS.textSecondary }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "Dogs" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("pet", "male", Math.max(0, getTraveler("pet").male - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("pet").male }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("pet", "male", getTraveler("pet").male + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", justifyContent: "space-between", backgroundColor: "white", padding: "8px 12px", borderRadius: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Cat, { size: 14, color: COLORS.textSecondary }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: "Cats" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("pet", "female", Math.max(0, getTraveler("pet").female - 1)), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "-" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 700, minWidth: 16, textAlign: "center" }, children: getTraveler("pet").female }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { type: "button", onClick: () => updateTravelerGender("pet", "female", getTraveler("pet").female + 1), style: { width: 24, height: 24, borderRadius: 6, border: "none", backgroundColor: COLORS.inputBg, color: COLORS.primary, cursor: "pointer" }, children: "+" })
-              ] })
-            ] })
-          ] }) }),
-          individuals.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-            marginTop: 12,
-            padding: "10px 14px",
-            backgroundColor: COLORS.accentLight,
-            borderRadius: 10,
-            display: "flex",
-            alignItems: "center",
-            gap: 8
-          }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Info, { size: 16, color: COLORS.primary }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.primaryDark }, children: "In the next step, you can customize preferences for each traveler" })
-          ] })
-        ] }),
-        individuals.length <= 1 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { style: styles.label, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 16, style: { verticalAlign: "middle", marginRight: 6 } }),
-            "Tell us about yourself"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "textarea",
-            {
-              value: profile.personalNotes,
-              onChange: (e) => setProfile((p) => ({ ...p, personalNotes: e.target.value })),
-              placeholder: "E.g., I always travel with my Kindle, I'm a light sleeper, I need my workout gear, I get motion sick...",
-              style: {
-                width: "100%",
-                padding: "12px 16px",
-                borderRadius: 12,
-                border: `1px solid ${COLORS.border}`,
-                fontSize: 14,
-                backgroundColor: COLORS.inputBg,
-                color: COLORS.textMain,
-                boxSizing: "border-box",
-                outline: "none",
-                minHeight: 80,
-                resize: "vertical",
-                fontFamily: "inherit",
-                lineHeight: 1.5
-              }
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, color: COLORS.textSecondary, marginTop: 6 }, children: "We'll suggest items based on your preferences" })
-        ] }),
-        individuals.length <= 1 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: styles.label, children: "\u{1F3AF} I'm a..." }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }, children: Object.entries(TRAVELER_PRESETS).map(([key, preset]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-            "button",
-            {
-              type: "button",
-              className: "btn-press",
-              onClick: () => togglePreset(key),
-              style: {
-                padding: "12px 14px",
-                borderRadius: 12,
-                border: profile.presets.includes(key) ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-                backgroundColor: profile.presets.includes(key) ? COLORS.accentLight : "white",
-                color: profile.presets.includes(key) ? COLORS.primaryDark : COLORS.textSecondary,
-                fontWeight: 600,
-                fontSize: 14,
-                cursor: "pointer",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                gap: 4
-              },
-              children: [
-                preset.icon,
-                " ",
-                preset.label
-              ]
-            },
-            key
-          )) })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: handleGenerate, disabled: !profile.destination, className: "btn-press", style: {
-          width: "100%",
-          padding: 16,
-          borderRadius: 16,
-          border: "none",
-          backgroundColor: profile.destination ? COLORS.primary : COLORS.border,
-          color: profile.destination ? "white" : COLORS.textSecondary,
-          fontSize: 18,
-          fontWeight: 800,
-          cursor: profile.destination ? "pointer" : "not-allowed",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: 10
-        }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Package, { size: 22 }),
-          " Generate Packing List"
+          leg.flightNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: legColors.main, fontWeight: 600 }, children: leg.flightNumber })
         ] })
       ] }),
-      checklistGenerated && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...styles.card, background: `linear-gradient(135deg, ${COLORS.primary}, ${COLORS.primaryDark})`, color: "white" }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "flex-start", marginBottom: 16 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontWeight: 600, opacity: 0.9, marginBottom: 4 }, children: "Trip to" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 24, fontWeight: 800 }, children: profile.destination })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setChecklistGenerated(false), style: { background: "rgba(255,255,255,0.2)", border: "none", borderRadius: 8, padding: "8px 12px", color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }, children: "Edit" })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 16, flexWrap: "wrap", fontSize: 13, opacity: 0.9, alignItems: "center" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
-              "\u{1F4C5} ",
-              profile.tripDuration,
-              " days"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: profile.isInternational ? "\u2708\uFE0F International" : "\u{1F697} Domestic" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-              getTraveler("adult").male > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 3, backgroundColor: "#E3F4FC", padding: "2px 8px", borderRadius: 10, color: "#1a365d" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u{1F468}" }),
-                " ",
-                getTraveler("adult").male
-              ] }),
-              getTraveler("adult").female > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 3, backgroundColor: "#FCE4EC", padding: "2px 8px", borderRadius: 10, color: "#831843" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u{1F469}" }),
-                " ",
-                getTraveler("adult").female
-              ] }),
-              getTraveler("child").male > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 3, backgroundColor: "#E3F4FC", padding: "2px 8px", borderRadius: 10, color: "#1a365d" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u{1F466}" }),
-                " ",
-                getTraveler("child").male
-              ] }),
-              getTraveler("child").female > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 3, backgroundColor: "#FCE4EC", padding: "2px 8px", borderRadius: 10, color: "#831843" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u{1F467}" }),
-                " ",
-                getTraveler("child").female
-              ] }),
-              getTraveler("infant").male + getTraveler("infant").female > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 3 }, children: [
-                "\u{1F476} ",
-                getTraveler("infant").male + getTraveler("infant").female
-              ] }),
-              getTraveler("pet").male > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 3 }, children: [
-                "\u{1F415} ",
-                getTraveler("pet").male
-              ] }),
-              getTraveler("pet").female > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 3 }, children: [
-                "\u{1F408} ",
-                getTraveler("pet").female
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: handlePrint, className: "btn-press", style: { marginLeft: "auto", background: "rgba(255,255,255,0.2)", border: "none", borderRadius: 8, padding: "6px 10px", color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { size: 14 }),
-              " Print"
-            ] })
-          ] })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { id: "checklist-content-section", children: [
-          individuals.length > 1 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...styles.card, padding: 12 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 8, textTransform: "uppercase" }, children: "Packing For" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" }, children: individuals.map((t) => {
-              const genderColor = t.gender === "female" ? "#FFB6C1" : "#89CFF0";
-              return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                "button",
-                {
-                  className: "btn-press",
-                  onClick: () => setSelectedTab(t.id),
-                  style: {
-                    padding: "8px 16px",
-                    borderRadius: 20,
-                    border: selectedTab === t.id ? `2px solid ${t.gender === "female" ? "#FF69B4" : "#4A90D9"}` : "none",
-                    backgroundColor: selectedTab === t.id ? genderColor : COLORS.inputBg,
-                    color: COLORS.textMain,
-                    fontWeight: 600,
-                    fontSize: 13,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 6
-                  },
-                  children: [
-                    t.type === "adult" ? t.gender === "female" ? "\u{1F469}" : "\u{1F468}" : t.type === "child" ? t.gender === "female" ? "\u{1F467}" : "\u{1F466}" : "\u{1F476}",
-                    t.label
-                  ]
-                },
-                t.id
-              );
-            }) })
-          ] }),
-          individuals.length > 1 && selectedTab !== "shared" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...styles.card, padding: 16 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 16 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("label", { style: { fontWeight: 600, color: COLORS.textMain, fontSize: 14, marginBottom: 8, display: "block" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 14, style: { verticalAlign: "middle", marginRight: 6 } }),
-                "About ",
-                individuals.find((t) => t.id === selectedTab)?.label || "this traveler"
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "textarea",
-                {
-                  value: getIndividualPrefs(selectedTab).notes,
-                  onChange: (e) => updateIndividualNotes(selectedTab, e.target.value),
-                  placeholder: "E.g., I always travel with my Kindle, I'm a light sleeper...",
-                  style: {
-                    width: "100%",
-                    padding: "12px 16px",
-                    borderRadius: 12,
-                    border: `1px solid ${COLORS.border}`,
-                    fontSize: 14,
-                    backgroundColor: COLORS.inputBg,
-                    color: COLORS.textMain,
-                    minHeight: 60,
-                    resize: "vertical",
-                    boxSizing: "border-box",
-                    fontFamily: "inherit",
-                    lineHeight: 1.5
-                  }
-                }
-              )
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontWeight: 600, color: COLORS.textMain, fontSize: 14, marginBottom: 8, display: "block" }, children: "\u{1F3AF} Travel Style" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }, children: Object.entries(TRAVELER_PRESETS).map(([key, preset]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                "button",
-                {
-                  type: "button",
-                  onClick: () => toggleIndividualPreset(selectedTab, key),
-                  style: {
-                    padding: "10px 12px",
-                    borderRadius: 20,
-                    border: "none",
-                    backgroundColor: getIndividualPrefs(selectedTab).presets.includes(key) ? COLORS.primary : COLORS.inputBg,
-                    color: getIndividualPrefs(selectedTab).presets.includes(key) ? "white" : COLORS.textSecondary,
-                    fontWeight: 600,
-                    fontSize: 14,
-                    cursor: "pointer",
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 4
-                  },
-                  children: [
-                    preset.icon,
-                    " ",
-                    preset.label
-                  ]
-                },
-                key
-              )) })
-            ] })
-          ] }),
-          (individuals.length <= 1 || selectedTab === "shared") && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...styles.card, padding: 16 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 10, textTransform: "uppercase" }, children: "\u{1F3AF} Travel Style" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8 }, children: Object.entries(TRAVELER_PRESETS).map(([key, preset]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-              "button",
-              {
-                type: "button",
-                onClick: () => togglePreset(key),
-                style: {
-                  padding: "10px 12px",
-                  borderRadius: 20,
-                  border: "none",
-                  backgroundColor: profile.presets.includes(key) ? COLORS.primary : COLORS.inputBg,
-                  color: profile.presets.includes(key) ? "white" : COLORS.textSecondary,
-                  fontWeight: 600,
-                  fontSize: 14,
-                  cursor: "pointer",
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 4
-                },
-                children: [
-                  preset.icon,
-                  " ",
-                  preset.label
-                ]
-              },
-              key
-            )) })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { id: "progress-section", style: styles.card, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 12 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 16, fontWeight: 700 }, children: "Progress" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, fontWeight: 600, color: COLORS.primary }, children: [
-                progress.checked,
-                "/",
-                progress.total
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: 12, backgroundColor: COLORS.inputBg, borderRadius: 6, overflow: "hidden" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "100%", backgroundColor: progress.percent === 100 ? COLORS.primary : COLORS.blue, borderRadius: 6, width: `${progress.percent}%`, transition: "width 0.3s" } }) }),
-            progress.percent === 100 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { textAlign: "center", marginTop: 12, color: COLORS.primary, fontWeight: 700 }, children: "\u{1F389} All packed!" })
-          ] }),
-          Object.entries(groupedItems).map(([category, items]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.card, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { onClick: () => toggleCategory(category), style: { display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", marginBottom: expandedCategories[category] ? 16 : 0 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10 }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 16, fontWeight: 700 }, children: CATEGORY_INFO[category]?.name || category }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, backgroundColor: COLORS.inputBg, padding: "4px 8px", borderRadius: 12 }, children: [
-                  items.filter((i) => i.checked).length,
-                  "/",
-                  items.length
-                ] })
-              ] }),
-              expandedCategories[category] ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20, color: COLORS.textSecondary }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20, color: COLORS.textSecondary })
-            ] }),
-            expandedCategories[category] && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexWrap: "wrap", gap: 8 }, children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: "calc(50% - 4px)" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChecklistItemRow, { item, onToggle: () => toggleItem(item.id), onRemove: () => removeItem(item.id) }) }, item.id)) }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddItemInput, { category, onAdd: (name, qty) => addItem(category, name, qty) })
-            ] })
-          ] }, category)),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => openSaveModal(), className: "btn-press", style: {
-            width: "100%",
-            padding: 16,
-            borderRadius: 16,
-            border: "none",
-            background: `linear-gradient(135deg, ${COLORS.blue}, ${COLORS.primaryDark})`,
-            color: "white",
-            fontSize: 16,
-            fontWeight: 700,
-            cursor: "pointer",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            gap: 10,
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-            marginTop: 8
-          }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 20 }),
-            " Save This Checklist"
-          ] })
-        ] })
-      ] }),
-      !checklistGenerated && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { ...styles.card, textAlign: "center", padding: 40 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 48, marginBottom: 16 }, children: "\u{1F9F3}" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 18, fontWeight: 700, marginBottom: 8 }, children: "Enter Your Trip Details" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary }, children: "Fill in the form above to generate a personalized packing checklist" })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.orangeLight, borderRadius: 16, padding: 16, marginTop: 24, display: "flex", gap: 12, alignItems: "flex-start" }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Info, { size: 20, color: COLORS.orange, style: { flexShrink: 0, marginTop: 2 } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, color: COLORS.orange, lineHeight: 1.6 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Note:" }),
-          " This checklist is generated based on your trip profile. Always verify items based on your specific needs and destination requirements."
-        ] })
-      ] }),
-      showSaveModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        backgroundColor: "rgba(0,0,0,0.5)",
-        display: "flex",
-        alignItems: "flex-start",
-        justifyContent: "center",
-        paddingTop: "20px",
-        zIndex: 1e3
-      }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-        backgroundColor: "white",
-        borderRadius: 20,
-        padding: 24,
-        width: "100%",
-        maxWidth: 400,
-        boxShadow: "0 20px 60px rgba(0,0,0,0.3)",
-        marginTop: 0
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 18, fontWeight: 700 }, children: editingChecklistId ? "Update Checklist" : "Save Checklist" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => {
-            setShowSaveModal(false);
-            setSaveChecklistName("");
-            setEditingChecklistId(null);
-          }, style: {
-            background: "none",
-            border: "none",
-            cursor: "pointer",
-            padding: 4
-          }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20, color: COLORS.textSecondary }) })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontWeight: 600, color: COLORS.textMain, fontSize: 14, marginBottom: 8, display: "block" }, children: "Checklist Name" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "input",
-            {
-              type: "text",
-              value: saveChecklistName,
-              onChange: (e) => setSaveChecklistName(e.target.value),
-              placeholder: "e.g., Paris Summer 2024",
-              autoFocus: true,
-              onKeyDown: (e) => e.key === "Enter" && handleSaveChecklist(),
-              style: {
-                width: "100%",
-                padding: "12px 16px",
-                borderRadius: 12,
-                border: `1px solid ${COLORS.border}`,
-                fontSize: 16,
-                backgroundColor: COLORS.inputBg,
-                outline: "none",
-                boxSizing: "border-box"
-              }
-            }
-          )
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 12 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "button",
-            {
-              onClick: () => {
-                setShowSaveModal(false);
-                setSaveChecklistName("");
-                setEditingChecklistId(null);
-              },
-              className: "btn-press",
-              style: {
-                flex: 1,
-                padding: "12px 16px",
-                borderRadius: 12,
-                border: `1px solid ${COLORS.border}`,
-                backgroundColor: "white",
-                color: COLORS.textMain,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: "pointer"
-              },
-              children: "Cancel"
-            }
-          ),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "button",
-            {
-              onClick: handleSaveChecklist,
-              disabled: !saveChecklistName.trim(),
-              className: "btn-press",
-              style: {
-                flex: 1,
-                padding: "12px 16px",
-                borderRadius: 12,
-                border: "none",
-                backgroundColor: saveChecklistName.trim() ? COLORS.primary : COLORS.border,
-                color: saveChecklistName.trim() ? "white" : COLORS.textSecondary,
-                fontSize: 14,
-                fontWeight: 600,
-                cursor: saveChecklistName.trim() ? "pointer" : "not-allowed"
-              },
-              children: editingChecklistId ? "Update" : "Save"
-            }
-          )
-        ] })
-      ] }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: styles.footer, className: "no-print", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: styles.footerBtn, className: "btn-press", onClick: resetAll, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 16 }),
-          " Reset"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: styles.footerBtn, className: "btn-press", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 16 }),
-          " Donate"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: styles.footerBtn, className: "btn-press", onClick: () => setShowFeedbackModal(true), children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 16 }),
-          " Feedback"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { style: styles.footerBtn, className: "btn-press", onClick: handlePrint, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { size: 16 }),
-          " Print"
-        ] })
-      ] })
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatusBadge, { status: leg.status, onClick: () => cycleStatus() }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20 }) })
     ] }),
-    showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(0,0,0,0.5)",
-      display: "flex",
-      alignItems: "flex-start",
-      justifyContent: "center",
-      paddingTop: "20px",
-      zIndex: 1e3
-    }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-      backgroundColor: "white",
-      borderRadius: 16,
-      padding: 24,
-      width: "90%",
-      maxWidth: 400,
-      marginTop: 0
-    }, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 20, fontWeight: 700 }, children: "Feedback" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setShowFeedbackModal(false), style: {
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: 4
-        }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20, color: COLORS.textSecondary }) })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 16 }, children: "Help us improve the travel checklist." }),
-      feedbackStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }, children: "Thanks for your feedback!" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "textarea",
-          {
-            style: { ...styles.input, height: 120, resize: "none", fontFamily: "inherit" },
-            placeholder: "Tell us what you think...",
-            value: feedbackText,
-            onChange: (e) => setFeedbackText(e.target.value)
-          }
-        ),
-        feedbackStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: "#EF4444", fontSize: 14, marginTop: 8, marginBottom: 8 }, children: "Failed to send. Please try again." }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            className: "btn-press",
-            style: {
-              width: "100%",
-              marginTop: 12,
-              padding: "14px 16px",
-              borderRadius: 12,
-              border: "none",
-              backgroundColor: feedbackText.trim() ? COLORS.primary : COLORS.border,
-              color: "white",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: feedbackText.trim() ? "pointer" : "not-allowed"
-            },
-            onClick: handleFeedbackSubmit,
-            disabled: feedbackStatus === "submitting" || !feedbackText.trim(),
-            children: feedbackStatus === "submitting" ? "Sending..." : "Send Feedback"
-          }
-        )
-      ] })
-    ] }) }),
-    showSubscribeModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-      position: "fixed",
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: "rgba(0,0,0,0.5)",
-      display: "flex",
-      alignItems: "flex-start",
-      justifyContent: "center",
-      paddingTop: "20px",
-      zIndex: 1e3
-    }, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-      backgroundColor: "white",
-      borderRadius: 16,
-      padding: 24,
-      width: "90%",
-      maxWidth: 400,
-      marginTop: 0
-    }, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 20, fontWeight: 700 }, children: "Sign Up For Travel Tips" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setShowSubscribeModal(false), style: {
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: 4
-        }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20, color: COLORS.textSecondary }) })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 20 }, children: "Get personalized packing tips and travel hacks." }),
-      subscribeStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 40, marginBottom: 10 }, children: "\u{1F389}" }),
-        subscribeMessage
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 16 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 14, fontWeight: 600, marginBottom: 8, color: COLORS.textMain }, children: "Email Address" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "input",
-            {
-              style: styles.input,
-              placeholder: "you@example.com",
-              value: email,
-              onChange: (e) => setEmail(e.target.value)
-            }
-          )
+    isExpanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }, children: [
+        leg.from && leg.to && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Route" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, display: "flex", alignItems: "center", gap: 8 }, children: [
+            leg.from,
+            " ",
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 14 }),
+            " ",
+            leg.to
+          ] })
         ] }),
-        subscribeStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: "#EF4444", fontSize: 14, marginBottom: 16, textAlign: "center" }, children: subscribeMessage }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            className: "btn-press",
-            style: {
-              width: "100%",
-              padding: "14px 16px",
-              borderRadius: 12,
-              border: "none",
-              backgroundColor: COLORS.primary,
-              color: "white",
-              fontSize: 14,
-              fontWeight: 600,
-              cursor: subscribeStatus === "loading" ? "wait" : "pointer"
-            },
-            onClick: handleSubscribe,
-            disabled: subscribeStatus === "loading",
-            children: subscribeStatus === "loading" ? "Subscribing..." : "Subscribe"
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: COLORS.textSecondary, textAlign: "center", marginTop: 12, lineHeight: 1.4 }, children: "By subscribing, you agree to receive emails. Unsubscribe anytime." })
-      ] })
-    ] }) }),
-    checklistGenerated && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "print-view", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "print-header", children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { children: [
-          "\u2708\uFE0F Travel Checklist ",
-          profile.startDate && profile.endDate ? `${new Date(profile.startDate).toLocaleDateString("en-US", { month: "numeric", day: "numeric" })} - ${new Date(profile.endDate).toLocaleDateString("en-US", { month: "numeric", day: "numeric" })}` : ""
+        leg.location && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Location" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14 }, children: leg.location })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "trip-info", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: profile.destination }),
-          " \u2022 ",
-          profile.tripDuration,
-          " days \u2022 ",
-          profile.isInternational ? "International" : "Domestic",
-          weatherForecast && ` \u2022 ${weatherForecast.avgTemp}\xB0C ${weatherForecast.conditions}`
+        leg.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Confirmation #" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontFamily: "monospace", fontWeight: 600 }, children: leg.confirmationNumber })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "print-columns", children: Object.entries(groupedItems).map(([category, items]) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: `print-category ${category === "preDeparture" ? "pre-departure" : ""}`, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { children: CATEGORY_INFO[category]?.name || category }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "print-items", children: items.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "print-item", children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { className: `print-checkbox ${item.checked ? "checked" : ""}` }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
-            item.name,
-            item.quantity && Number(item.quantity) > 1 ? ` (\xD7${item.quantity})` : ""
-          ] })
-        ] }, item.id)) })
-      ] }, category)) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { className: "print-footer", children: [
-        "Generated by Smart Travel Checklist \u2022 ",
-        progress.checked,
-        "/",
-        progress.total,
-        " items packed"
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 16 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
+          e.stopPropagation();
+          setIsEditing(true);
+        }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 14 }),
+          " Edit"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
+          e.stopPropagation();
+          onDelete();
+        }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 14 }),
+          " Delete"
+        ] })
       ] })
     ] })
+  ] });
+};
+var ProgressSummary = ({ legs }) => {
+  const stats = (0, import_react3.useMemo)(() => {
+    const total = legs.length, booked = legs.filter((l) => l.status === "booked").length, pending = legs.filter((l) => l.status === "pending").length, urgent = legs.filter((l) => l.status === "urgent").length;
+    const flights = legs.filter((l) => l.type === "flight"), hotels = legs.filter((l) => l.type === "hotel"), transport = legs.filter((l) => !["flight", "hotel"].includes(l.type));
+    return { total, booked, pending, urgent, flights, hotels, transport };
+  }, [legs]);
+  if (stats.total === 0) return null;
+  const pct = stats.booked / stats.total * 100;
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, padding: 20, marginBottom: 20, border: `1px solid ${COLORS.border}` }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 16, fontWeight: 700 }, children: "Booking Progress" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 24, fontWeight: 700, color: pct === 100 ? COLORS.booked : COLORS.primary }, children: [
+        Math.round(pct),
+        "%"
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: 8, backgroundColor: COLORS.borderLight, borderRadius: 4, overflow: "hidden", marginBottom: 16 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: "100%", width: `${pct}%`, backgroundColor: pct === 100 ? COLORS.booked : COLORS.primary, borderRadius: 4, transition: "width 0.3s" } }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: 12, borderRadius: 10, backgroundColor: COLORS.bookedBg, textAlign: "center" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 20, fontWeight: 700, color: COLORS.booked }, children: stats.booked }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.booked, textTransform: "uppercase" }, children: "Booked" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: 12, borderRadius: 10, backgroundColor: COLORS.pendingBg, textAlign: "center" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 20, fontWeight: 700, color: COLORS.pending }, children: stats.pending }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.pending, textTransform: "uppercase" }, children: "Pending" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: 12, borderRadius: 10, backgroundColor: COLORS.urgentBg, textAlign: "center" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 20, fontWeight: 700, color: COLORS.urgent }, children: stats.urgent }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.urgent, textTransform: "uppercase" }, children: "Urgent" })
+      ] })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 16, marginTop: 16, justifyContent: "center" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 16, color: COLORS.flight }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: [
+          stats.flights.filter((f) => f.status === "booked").length,
+          "/",
+          stats.flights.length,
+          " flights"
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: COLORS.hotel }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: [
+          stats.hotels.filter((h) => h.status === "booked").length,
+          "/",
+          stats.hotels.length,
+          " hotels"
+        ] })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 16, color: COLORS.transport }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: [
+          stats.transport.filter((t) => t.status === "booked").length,
+          "/",
+          stats.transport.length,
+          " transport"
+        ] })
+      ] })
+    ] })
+  ] });
+};
+var AddLegModal = ({ onAdd, onClose }) => {
+  const [type, setType] = (0, import_react3.useState)("flight");
+  const [formData, setFormData] = (0, import_react3.useState)({ status: "pending", title: "", date: "" });
+  const legTypes = [{ type: "flight", label: "Flight" }, { type: "hotel", label: "Hotel" }, { type: "car", label: "Car/Taxi" }, { type: "train", label: "Train" }, { type: "bus", label: "Bus" }];
+  const handleSubmit = () => {
+    let title = formData.title || "";
+    if (!title && type === "flight" && formData.from && formData.to) title = `Flight: ${formData.from} \u2192 ${formData.to}`;
+    else if (!title && type === "hotel" && formData.location) title = `Hotel in ${formData.location}`;
+    else if (!title) title = type.charAt(0).toUpperCase() + type.slice(1);
+    onAdd({ ...formData, type, title });
+    onClose();
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, padding: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 500, width: "100%", maxHeight: "90vh", overflow: "auto" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 18, fontWeight: 700 }, children: "Add Trip Leg" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: onClose, style: { background: "none", border: "none", cursor: "pointer" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 24 }) })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }, children: legTypes.map((lt) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setType(lt.type), style: { padding: "10px 16px", borderRadius: 10, border: type === lt.type ? `2px solid ${getLegColor(lt.type).main}` : `1px solid ${COLORS.border}`, backgroundColor: type === lt.type ? getLegColor(lt.type).bg : "white", color: type === lt.type ? getLegColor(lt.type).main : COLORS.textSecondary, fontWeight: 600, fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+      getLegIcon(lt.type, 18),
+      " ",
+      lt.label
+    ] }, lt.type)) }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gap: 16 }, children: [
+      type !== "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.from || "", onChange: (e) => setFormData({ ...formData, from: e.target.value }), placeholder: "From", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.to || "", onChange: (e) => setFormData({ ...formData, to: e.target.value }), placeholder: "To", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } })
+      ] }),
+      type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.location || "", onChange: (e) => setFormData({ ...formData, location: e.target.value }), placeholder: "Location", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: formData.date || "", onChange: (e) => setFormData({ ...formData, date: e.target.value }), style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
+        type !== "hotel" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: formData.time || "", onChange: (e) => setFormData({ ...formData, time: e.target.value }), style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: formData.endDate || "", onChange: (e) => setFormData({ ...formData, endDate: e.target.value }), placeholder: "Check-out", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } })
+      ] }),
+      type === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.flightNumber || "", onChange: (e) => setFormData({ ...formData, flightNumber: e.target.value }), placeholder: "Flight Number (e.g. AA1234)", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
+      type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.hotelName || "", onChange: (e) => setFormData({ ...formData, hotelName: e.target.value }), placeholder: "Hotel Name", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.confirmationNumber || "", onChange: (e) => setFormData({ ...formData, confirmationNumber: e.target.value }), placeholder: "Confirmation # (optional)", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } })
+    ] }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 12, marginTop: 24 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: handleSubmit, style: { flex: 1, padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 15, fontWeight: 700, cursor: "pointer" }, children: "Add to Trip" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: onClose, style: { padding: "14px 24px", borderRadius: 12, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 15, fontWeight: 600, cursor: "pointer" }, children: "Cancel" })
+    ] })
+  ] }) });
+};
+function TripPlanner({ initialData: initialData2 }) {
+  const [trip, setTrip] = (0, import_react3.useState)(() => {
+    try {
+      const s = localStorage.getItem(STORAGE_KEY);
+      if (s) {
+        const d = JSON.parse(s);
+        if (d.trip) return d.trip;
+      }
+    } catch {
+    }
+    return { id: generateId(), name: "My Trip", legs: [], createdAt: Date.now(), updatedAt: Date.now() };
+  });
+  const [tripDescription, setTripDescription] = (0, import_react3.useState)("");
+  const [showAddModal, setShowAddModal] = (0, import_react3.useState)(false);
+  const [expandedLegs, setExpandedLegs] = (0, import_react3.useState)(/* @__PURE__ */ new Set());
+  const [inputMode, setInputMode] = (0, import_react3.useState)("freeform");
+  (0, import_react3.useEffect)(() => {
+    try {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() }));
+    } catch {
+    }
+  }, [trip]);
+  const handleParseDescription = () => {
+    if (!tripDescription.trim()) return;
+    const parsed = parseTripDescription(tripDescription);
+    if (parsed.length > 0) {
+      const newLegs = parsed.map((l) => ({ id: generateId(), type: l.type || "other", status: l.status || "pending", title: l.title || "", date: l.date || "", time: l.time, from: l.from, to: l.to, location: l.location }));
+      setTrip((t) => ({ ...t, legs: [...t.legs, ...newLegs], updatedAt: Date.now() }));
+      setTripDescription("");
+    }
+  };
+  const handleAddLeg = (legData) => {
+    const newLeg = { id: generateId(), type: legData.type || "other", status: legData.status || "pending", title: legData.title || "", date: legData.date || "", time: legData.time, endDate: legData.endDate, from: legData.from, to: legData.to, location: legData.location, confirmationNumber: legData.confirmationNumber, flightNumber: legData.flightNumber, airline: legData.airline, hotelName: legData.hotelName, notes: legData.notes };
+    setTrip((t) => ({ ...t, legs: [...t.legs, newLeg], updatedAt: Date.now() }));
+  };
+  const handleUpdateLeg = (legId, updates) => setTrip((t) => ({ ...t, legs: t.legs.map((l) => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
+  const handleDeleteLeg = (legId) => {
+    setTrip((t) => ({ ...t, legs: t.legs.filter((l) => l.id !== legId), updatedAt: Date.now() }));
+    setExpandedLegs((p) => {
+      const n = new Set(p);
+      n.delete(legId);
+      return n;
+    });
+  };
+  const toggleLegExpand = (legId) => setExpandedLegs((p) => {
+    const n = new Set(p);
+    n.has(legId) ? n.delete(legId) : n.add(legId);
+    return n;
+  });
+  const handleReset = () => {
+    if (confirm("Clear all trip data?")) {
+      setTrip({ id: generateId(), name: "My Trip", legs: [], createdAt: Date.now(), updatedAt: Date.now() });
+      setTripDescription("");
+      setExpandedLegs(/* @__PURE__ */ new Set());
+    }
+  };
+  const sortedLegs = (0, import_react3.useMemo)(() => [...trip.legs].sort((a, b) => {
+    if (!a.date && !b.date) return 0;
+    if (!a.date) return 1;
+    if (!b.date) return -1;
+    return a.date.localeCompare(b.date);
+  }), [trip.legs]);
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { maxWidth: 600, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { style: { margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 28 }),
+          "Trip Planner"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", fontSize: 14, opacity: 0.9 }, children: "Organize your travel reservations" })
+      ] }),
+      trip.legs.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: handleReset, style: { padding: "8px 12px", borderRadius: 8, border: "none", backgroundColor: "rgba(255,255,255,0.2)", color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 16 }),
+        " Reset"
+      ] })
+    ] }) }),
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { maxWidth: 600, margin: "0 auto", padding: 20 }, children: trip.legs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 20, padding: 24, marginBottom: 20, border: `1px solid ${COLORS.border}` }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 8px", fontSize: 18, fontWeight: 700 }, children: "Describe Your Trip" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 16px", fontSize: 14, color: COLORS.textSecondary }, children: "Tell us about your travel plans in plain English." }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("freeform"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 18 }),
+          " Describe Trip"
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("manual"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 18 }),
+          " Add Manually"
+        ] })
+      ] }),
+      inputMode === "freeform" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", { value: tripDescription, onChange: (e) => setTripDescription(e.target.value), placeholder: "e.g. I am flying from Medellin to Boston on June 11th, 2026 and I will return to Medellin on June 15th.", rows: 4, style: { width: "100%", padding: 16, borderRadius: 12, border: `1px solid ${COLORS.border}`, fontSize: 15, resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", marginBottom: 16 } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: handleParseDescription, disabled: !tripDescription.trim(), style: { width: "100%", padding: 16, borderRadius: 12, border: "none", backgroundColor: tripDescription.trim() ? COLORS.primary : COLORS.border, color: tripDescription.trim() ? "white" : COLORS.textMuted, fontSize: 16, fontWeight: 700, cursor: tripDescription.trim() ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 20 }),
+          " Analyze & Create Trip"
+        ] })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowAddModal(true), style: { width: "100%", padding: 16, borderRadius: 12, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 20 }),
+        " Add First Trip Leg"
+      ] })
+    ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ProgressSummary, { legs: trip.legs }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 16 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 16, fontWeight: 700, color: COLORS.textMain }, children: "Trip Itinerary" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowAddModal(true), style: { padding: "10px 16px", borderRadius: 10, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 18 }),
+          " Add Leg"
+        ] })
+      ] }),
+      sortedLegs.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => handleUpdateLeg(leg.id, u), onDelete: () => handleDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id) }, leg.id))
+    ] }) }),
+    showAddModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddLegModal, { onAdd: handleAddLeg, onClose: () => setShowAddModal(false) })
   ] });
 }
 
@@ -27953,13 +25283,13 @@ var getHydrationData = () => {
   console.log("[Hydration] No data found in any candidate source");
   return {};
 };
-console.log("[Main] Travel Checklist main.tsx loading...");
+console.log("[Main] Trip Planner main.tsx loading...");
 function App({ initialData: initialData2 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TravelChecklist, { initialData: initialData2 });
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TripPlanner, { initialData: initialData2 });
 }
-var container = document.getElementById("travel-checklist-root");
+var container = document.getElementById("trip-planner-root");
 if (!container) {
-  throw new Error("travel-checklist-root element not found");
+  throw new Error("trip-planner-root element not found");
 }
 var root = (0, import_client.createRoot)(container);
 var renderApp = (data) => {
@@ -28079,7 +25409,7 @@ lucide-react/dist/esm/createLucideIcon.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/activity.js:
+lucide-react/dist/esm/icons/arrow-right.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28087,7 +25417,7 @@ lucide-react/dist/esm/icons/activity.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/baby.js:
+lucide-react/dist/esm/icons/bus.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28103,15 +25433,7 @@ lucide-react/dist/esm/icons/calendar.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/cat.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/check.js:
+lucide-react/dist/esm/icons/car.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28135,6 +25457,14 @@ lucide-react/dist/esm/icons/chevron-up.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
+lucide-react/dist/esm/icons/circle-alert.js:
+  (**
+   * @license lucide-react v0.554.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
 lucide-react/dist/esm/icons/circle-check.js:
   (**
    * @license lucide-react v0.554.0 - ISC
@@ -28151,7 +25481,7 @@ lucide-react/dist/esm/icons/circle.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/cloud.js:
+lucide-react/dist/esm/icons/clock.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28159,63 +25489,7 @@ lucide-react/dist/esm/icons/cloud.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/dog.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/droplets.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/file-text.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/heart.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/house.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/info.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/luggage.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/mail.js:
+lucide-react/dist/esm/icons/hotel.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28224,22 +25498,6 @@ lucide-react/dist/esm/icons/mail.js:
    *)
 
 lucide-react/dist/esm/icons/map-pin.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/message-square.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/package.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28271,14 +25529,6 @@ lucide-react/dist/esm/icons/plus.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/printer.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
 lucide-react/dist/esm/icons/rotate-ccw.js:
   (**
    * @license lucide-react v0.554.0 - ISC
@@ -28287,7 +25537,7 @@ lucide-react/dist/esm/icons/rotate-ccw.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/shield.js:
+lucide-react/dist/esm/icons/save.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28295,7 +25545,7 @@ lucide-react/dist/esm/icons/shield.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/shirt.js:
+lucide-react/dist/esm/icons/ship.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28303,7 +25553,7 @@ lucide-react/dist/esm/icons/shirt.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/smartphone.js:
+lucide-react/dist/esm/icons/sparkles.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28311,7 +25561,7 @@ lucide-react/dist/esm/icons/smartphone.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/snowflake.js:
+lucide-react/dist/esm/icons/tram-front.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28319,23 +25569,7 @@ lucide-react/dist/esm/icons/snowflake.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/star.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/sun.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/users.js:
+lucide-react/dist/esm/icons/trash-2.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
