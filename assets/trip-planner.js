@@ -25312,7 +25312,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: toAirportLeg || isEditing ? 8 : 0 }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 16, color: COLORS.transport }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: "Transportation to Airport" })
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: "Getting to Airport" })
                 ] }),
                 !toAirportLeg && !isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6 }, children: [
                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
@@ -25322,7 +25322,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                       style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
                       children: [
                         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                        " Done"
+                        " Mark Complete"
                       ]
                     }
                   ),
@@ -25463,7 +25463,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: fromAirportLeg || isEditing ? 8 : 0 }, children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 16, color: COLORS.transport, style: { transform: "rotate(180deg)" } }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: "Transportation from Airport" })
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: "Getting from Airport" })
                 ] }),
                 !fromAirportLeg && !isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6 }, children: [
                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
@@ -25473,7 +25473,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                       style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
                       children: [
                         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                        " Done"
+                        " Mark Complete"
                       ]
                     }
                   ),

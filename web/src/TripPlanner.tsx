@@ -785,7 +785,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: (toAirportLeg || isEditing) ? 8 : 0 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                               <ArrowRight size={16} color={COLORS.transport} />
-                              <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>Transportation to Airport</span>
+                              <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>Getting to Airport</span>
                             </div>
                             {!toAirportLeg && !isEditing ? (
                               <div style={{ display: "flex", gap: 6 }}>
@@ -793,7 +793,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   onClick={() => onAddLeg({ type: "car", date, status: "booked", title: "To Airport", notes: "Quick complete" })}
                                   style={{ padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
                                 >
-                                  <Check size={12} /> Done
+                                  <Check size={12} /> Mark Complete
                                 </button>
                                 <button 
                                   onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date }); }}
@@ -895,7 +895,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                           <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: (fromAirportLeg || isEditing) ? 8 : 0 }}>
                             <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
                               <ArrowRight size={16} color={COLORS.transport} style={{ transform: "rotate(180deg)" }} />
-                              <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>Transportation from Airport</span>
+                              <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>Getting from Airport</span>
                             </div>
                             {!fromAirportLeg && !isEditing ? (
                               <div style={{ display: "flex", gap: 6 }}>
@@ -903,7 +903,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   onClick={() => onAddLeg({ type: "car", date, status: "booked", title: "From Airport", notes: "Quick complete" })}
                                   style={{ padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
                                 >
-                                  <Check size={12} /> Done
+                                  <Check size={12} /> Mark Complete
                                 </button>
                                 <button 
                                   onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date }); }}
