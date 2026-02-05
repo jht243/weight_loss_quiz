@@ -25001,10 +25001,27 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand }) => {
     ] })
   ] });
 };
-var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExpand }) => {
+var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExpand, departureDate, returnDate }) => {
+  const allDays = (0, import_react3.useMemo)(() => {
+    const days = [];
+    if (departureDate) {
+      const start = /* @__PURE__ */ new Date(departureDate + "T00:00:00");
+      const end = returnDate ? /* @__PURE__ */ new Date(returnDate + "T00:00:00") : start;
+      const current = new Date(start);
+      while (current <= end) {
+        const dateStr = current.toISOString().split("T")[0];
+        days.push(dateStr);
+        current.setDate(current.getDate() + 1);
+      }
+    }
+    return days;
+  }, [departureDate, returnDate]);
   const legsByDate = (0, import_react3.useMemo)(() => {
     const groups = {};
     const noDateLegs = [];
+    allDays.forEach((day) => {
+      groups[day] = [];
+    });
     legs.forEach((leg) => {
       if (leg.date) {
         if (!groups[leg.date]) groups[leg.date] = [];
@@ -25013,9 +25030,9 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExp
         noDateLegs.push(leg);
       }
     });
-    const sortedDates = Object.keys(groups).sort();
+    const sortedDates = allDays.length > 0 ? allDays : Object.keys(groups).sort();
     return { groups, sortedDates, noDateLegs };
-  }, [legs]);
+  }, [legs, allDays]);
   const formatDayHeader = (dateStr, dayNum) => {
     try {
       const date = /* @__PURE__ */ new Date(dateStr + "T00:00:00");
@@ -25027,15 +25044,16 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExp
     }
   };
   const getDayStatus = (dayLegs) => {
+    if (dayLegs.length === 0) return { allBooked: false, hasUrgent: false, isEmpty: true };
     const allBooked = dayLegs.every((l) => l.status === "booked");
     const hasUrgent = dayLegs.some((l) => l.status === "urgent");
-    return { allBooked, hasUrgent };
+    return { allBooked, hasUrgent, isEmpty: false };
   };
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
     legsByDate.sortedDates.map((date, idx) => {
-      const dayLegs = legsByDate.groups[date];
-      const { allBooked, hasUrgent } = getDayStatus(dayLegs);
-      const statusColor = allBooked ? COLORS.booked : hasUrgent ? COLORS.urgent : COLORS.pending;
+      const dayLegs = legsByDate.groups[date] || [];
+      const { allBooked, hasUrgent, isEmpty } = getDayStatus(dayLegs);
+      const statusColor = isEmpty ? COLORS.textMuted : allBooked ? COLORS.booked : hasUrgent ? COLORS.urgent : COLORS.pending;
       return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 24 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
           display: "flex",
@@ -25043,7 +25061,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExp
           gap: 12,
           marginBottom: 12,
           padding: "12px 16px",
-          backgroundColor: allBooked ? COLORS.bookedBg : hasUrgent ? COLORS.urgentBg : COLORS.pendingBg,
+          backgroundColor: isEmpty ? COLORS.borderLight : allBooked ? COLORS.bookedBg : hasUrgent ? COLORS.urgentBg : COLORS.pendingBg,
           borderRadius: 12,
           borderLeft: `4px solid ${statusColor}`
         }, children: [
@@ -25539,112 +25557,158 @@ function TripPlanner({ initialData: initialData2 }) {
         " Add First Trip Leg"
       ] })
     ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-        backgroundColor: COLORS.card,
-        borderRadius: 16,
-        padding: 16,
-        marginBottom: 16,
-        border: `1px solid ${COLORS.border}`
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
-          { value: "one_way", label: "One Way" },
-          { value: "round_trip", label: "Round Trip" },
-          { value: "multi_city", label: "Multi-City" }
-        ].map((opt) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: () => setTrip((t) => ({ ...t, tripType: opt.value, updatedAt: Date.now() })),
-            style: {
-              flex: 1,
-              padding: "10px 12px",
-              borderRadius: 10,
-              border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-              backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
-              color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
-              fontWeight: 600,
-              fontSize: 13,
-              cursor: "pointer"
-            },
-            children: opt.label
-          },
-          opt.value
-        )) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Departure Date" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "input",
+      (() => {
+        const datesComplete = trip.departureDate && (trip.tripType === "one_way" || trip.returnDate);
+        return datesComplete ? (
+          // Collapsed view - just show summary
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+            "div",
+            {
+              onClick: () => setTrip((t) => ({ ...t, departureDate: void 0, returnDate: void 0, updatedAt: Date.now() })),
+              style: {
+                backgroundColor: COLORS.card,
+                borderRadius: 12,
+                padding: "12px 16px",
+                marginBottom: 16,
+                border: `1px solid ${COLORS.border}`,
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "space-between",
+                cursor: "pointer"
+              },
+              children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 16 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 16, color: COLORS.primary }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: formatDate(trip.departureDate) })
+                  ] }),
+                  trip.tripType !== "one_way" && trip.returnDate && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 14, color: COLORS.textMuted }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: formatDate(trip.returnDate) })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                    fontSize: 11,
+                    padding: "2px 8px",
+                    borderRadius: 4,
+                    backgroundColor: COLORS.accentLight,
+                    color: COLORS.primaryDark,
+                    fontWeight: 600
+                  }, children: trip.tripType === "one_way" ? "One Way" : trip.tripType === "round_trip" ? "Round Trip" : "Multi-City" })
+                ] }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 16, color: COLORS.textSecondary })
+              ]
+            }
+          )
+        ) : (
+          // Expanded view - full form
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+            backgroundColor: COLORS.card,
+            borderRadius: 16,
+            padding: 16,
+            marginBottom: 16,
+            border: `1px solid ${COLORS.border}`
+          }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
+              { value: "one_way", label: "One Way" },
+              { value: "round_trip", label: "Round Trip" },
+              { value: "multi_city", label: "Multi-City" }
+            ].map((opt) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
               {
-                type: "date",
-                value: trip.departureDate || "",
-                onChange: (e) => {
-                  const newDate = e.target.value;
-                  setTrip((t) => {
-                    const updatedLegs = t.legs.map((leg, idx) => {
-                      if (leg.type === "flight" && idx === 0) {
-                        return { ...leg, date: newDate };
-                      }
-                      if (leg.type === "hotel") {
-                        return { ...leg, date: newDate };
-                      }
-                      if (leg.type === "car" && leg.title.includes("to") && leg.title.includes("Airport") && idx < t.legs.length / 2) {
-                        return { ...leg, date: newDate };
-                      }
-                      return leg;
-                    });
-                    return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                  });
-                },
+                onClick: () => setTrip((t) => ({ ...t, tripType: opt.value, updatedAt: Date.now() })),
                 style: {
-                  width: "100%",
-                  padding: 12,
+                  flex: 1,
+                  padding: "10px 12px",
                   borderRadius: 10,
-                  border: `1px solid ${COLORS.border}`,
-                  fontSize: 14,
-                  boxSizing: "border-box"
-                }
-              }
-            )
-          ] }),
-          trip.tripType !== "one_way" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Return Date" }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "input",
-              {
-                type: "date",
-                value: trip.returnDate || "",
-                onChange: (e) => {
-                  const newDate = e.target.value;
-                  setTrip((t) => {
-                    const flights = t.legs.filter((l) => l.type === "flight");
-                    const updatedLegs = t.legs.map((leg, idx) => {
-                      if (leg.type === "flight" && flights.length > 1 && leg.id === flights[flights.length - 1].id) {
-                        return { ...leg, date: newDate };
-                      }
-                      if (leg.type === "hotel") {
-                        return { ...leg, endDate: newDate };
-                      }
-                      if (leg.type === "car" && idx >= t.legs.length / 2) {
-                        return { ...leg, date: newDate };
-                      }
-                      return leg;
-                    });
-                    return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                  });
+                  border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
+                  backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
+                  color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
+                  fontWeight: 600,
+                  fontSize: 13,
+                  cursor: "pointer"
                 },
-                style: {
-                  width: "100%",
-                  padding: 12,
-                  borderRadius: 10,
-                  border: `1px solid ${COLORS.border}`,
-                  fontSize: 14,
-                  boxSizing: "border-box"
-                }
-              }
-            )
+                children: opt.label
+              },
+              opt.value
+            )) }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Departure Date" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
+                  {
+                    type: "date",
+                    value: trip.departureDate || "",
+                    onChange: (e) => {
+                      const newDate = e.target.value;
+                      setTrip((t) => {
+                        const updatedLegs = t.legs.map((leg, idx) => {
+                          if (leg.type === "flight" && idx === 0) {
+                            return { ...leg, date: newDate };
+                          }
+                          if (leg.type === "hotel") {
+                            return { ...leg, date: newDate };
+                          }
+                          if (leg.type === "car" && leg.title.includes("to") && leg.title.includes("Airport") && idx < t.legs.length / 2) {
+                            return { ...leg, date: newDate };
+                          }
+                          return leg;
+                        });
+                        return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
+                      });
+                    },
+                    style: {
+                      width: "100%",
+                      padding: 12,
+                      borderRadius: 10,
+                      border: `1px solid ${COLORS.border}`,
+                      fontSize: 14,
+                      boxSizing: "border-box"
+                    }
+                  }
+                )
+              ] }),
+              trip.tripType !== "one_way" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Return Date" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
+                  {
+                    type: "date",
+                    value: trip.returnDate || "",
+                    onChange: (e) => {
+                      const newDate = e.target.value;
+                      setTrip((t) => {
+                        const flights = t.legs.filter((l) => l.type === "flight");
+                        const updatedLegs = t.legs.map((leg, idx) => {
+                          if (leg.type === "flight" && flights.length > 1 && leg.id === flights[flights.length - 1].id) {
+                            return { ...leg, date: newDate };
+                          }
+                          if (leg.type === "hotel") {
+                            return { ...leg, endDate: newDate };
+                          }
+                          if (leg.type === "car" && idx >= t.legs.length / 2) {
+                            return { ...leg, date: newDate };
+                          }
+                          return leg;
+                        });
+                        return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
+                      });
+                    },
+                    style: {
+                      width: "100%",
+                      padding: 12,
+                      borderRadius: 10,
+                      border: `1px solid ${COLORS.border}`,
+                      fontSize: 14,
+                      boxSizing: "border-box"
+                    }
+                  }
+                )
+              ] })
+            ] })
           ] })
-        ] })
-      ] }),
+        );
+      })(),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
         MissingInfoBar,
         {
@@ -25700,7 +25764,9 @@ function TripPlanner({ initialData: initialData2 }) {
           onUpdateLeg: handleUpdateLeg,
           onDeleteLeg: handleDeleteLeg,
           expandedLegs,
-          toggleLegExpand
+          toggleLegExpand,
+          departureDate: trip.departureDate,
+          returnDate: trip.returnDate
         }
       )
     ] }) }),

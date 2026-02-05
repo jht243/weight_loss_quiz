@@ -413,17 +413,43 @@ const ProgressSummary = ({ legs }: { legs: TripLeg[] }) => {
 };
 
 // Day-by-Day View Component
-const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExpand }: { 
+const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExpand, departureDate, returnDate }: { 
   legs: TripLeg[]; 
   onUpdateLeg: (id: string, u: Partial<TripLeg>) => void; 
   onDeleteLeg: (id: string) => void;
   expandedLegs: Set<string>;
   toggleLegExpand: (id: string) => void;
+  departureDate?: string;
+  returnDate?: string;
 }) => {
+  // Generate all days between departure and return
+  const allDays = useMemo(() => {
+    const days: string[] = [];
+    
+    if (departureDate) {
+      const start = new Date(departureDate + "T00:00:00");
+      const end = returnDate ? new Date(returnDate + "T00:00:00") : start;
+      
+      const current = new Date(start);
+      while (current <= end) {
+        const dateStr = current.toISOString().split("T")[0];
+        days.push(dateStr);
+        current.setDate(current.getDate() + 1);
+      }
+    }
+    
+    return days;
+  }, [departureDate, returnDate]);
+
   // Group legs by date
   const legsByDate = useMemo(() => {
     const groups: Record<string, TripLeg[]> = {};
     const noDateLegs: TripLeg[] = [];
+    
+    // Initialize all days with empty arrays
+    allDays.forEach(day => {
+      groups[day] = [];
+    });
     
     legs.forEach(leg => {
       if (leg.date) {
@@ -434,11 +460,11 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegE
       }
     });
     
-    // Sort dates
-    const sortedDates = Object.keys(groups).sort();
+    // Use allDays if we have them, otherwise fall back to dates from legs
+    const sortedDates = allDays.length > 0 ? allDays : Object.keys(groups).sort();
     
     return { groups, sortedDates, noDateLegs };
-  }, [legs]);
+  }, [legs, allDays]);
 
   const formatDayHeader = (dateStr: string, dayNum: number): string => {
     try {
@@ -451,18 +477,19 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegE
     }
   };
 
-  const getDayStatus = (dayLegs: TripLeg[]): { allBooked: boolean; hasUrgent: boolean } => {
+  const getDayStatus = (dayLegs: TripLeg[]): { allBooked: boolean; hasUrgent: boolean; isEmpty: boolean } => {
+    if (dayLegs.length === 0) return { allBooked: false, hasUrgent: false, isEmpty: true };
     const allBooked = dayLegs.every(l => l.status === "booked");
     const hasUrgent = dayLegs.some(l => l.status === "urgent");
-    return { allBooked, hasUrgent };
+    return { allBooked, hasUrgent, isEmpty: false };
   };
 
   return (
     <div>
       {legsByDate.sortedDates.map((date, idx) => {
-        const dayLegs = legsByDate.groups[date];
-        const { allBooked, hasUrgent } = getDayStatus(dayLegs);
-        const statusColor = allBooked ? COLORS.booked : hasUrgent ? COLORS.urgent : COLORS.pending;
+        const dayLegs = legsByDate.groups[date] || [];
+        const { allBooked, hasUrgent, isEmpty } = getDayStatus(dayLegs);
+        const statusColor = isEmpty ? COLORS.textMuted : allBooked ? COLORS.booked : hasUrgent ? COLORS.urgent : COLORS.pending;
         
         return (
           <div key={date} style={{ marginBottom: 24 }}>
@@ -473,7 +500,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegE
               gap: 12, 
               marginBottom: 12,
               padding: "12px 16px",
-              backgroundColor: allBooked ? COLORS.bookedBg : hasUrgent ? COLORS.urgentBg : COLORS.pendingBg,
+              backgroundColor: isEmpty ? COLORS.borderLight : allBooked ? COLORS.bookedBg : hasUrgent ? COLORS.urgentBg : COLORS.pendingBg,
               borderRadius: 12,
               borderLeft: `4px solid ${statusColor}`
             }}>
@@ -978,53 +1005,101 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
           </div>
         ) : (
           <>
-            {/* Trip Type & Dates Selector */}
-            <div style={{ 
-              backgroundColor: COLORS.card, 
-              borderRadius: 16, 
-              padding: 16, 
-              marginBottom: 16,
-              border: `1px solid ${COLORS.border}`
-            }}>
-              {/* Trip Type Toggle */}
-              <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-                {[
-                  { value: "one_way", label: "One Way" },
-                  { value: "round_trip", label: "Round Trip" },
-                  { value: "multi_city", label: "Multi-City" }
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    onClick={() => setTrip(t => ({ ...t, tripType: opt.value as TripType, updatedAt: Date.now() }))}
-                    style={{
-                      flex: 1,
-                      padding: "10px 12px",
-                      borderRadius: 10,
-                      border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-                      backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
-                      color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
-                      fontWeight: 600,
-                      fontSize: 13,
-                      cursor: "pointer"
-                    }}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-              
-              {/* Date Pickers */}
-              <div style={{ display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }}>
-                <div>
-                  <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
-                    Departure Date
-                  </label>
-                  <input
-                    type="date"
-                    value={trip.departureDate || ""}
-                    onChange={e => {
-                      const newDate = e.target.value;
-                      // Update trip departure date and sync to outbound flight
+            {/* Trip Type & Dates Selector - Collapsible when filled */}
+            {(() => {
+              const datesComplete = trip.departureDate && (trip.tripType === "one_way" || trip.returnDate);
+              return datesComplete ? (
+                // Collapsed view - just show summary
+                <div 
+                  onClick={() => setTrip(t => ({ ...t, departureDate: undefined, returnDate: undefined, updatedAt: Date.now() }))}
+                  style={{ 
+                    backgroundColor: COLORS.card, 
+                    borderRadius: 12, 
+                    padding: "12px 16px", 
+                    marginBottom: 16,
+                    border: `1px solid ${COLORS.border}`,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    cursor: "pointer"
+                  }}
+                >
+                  <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                      <Calendar size={16} color={COLORS.primary} />
+                      <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>
+                        {formatDate(trip.departureDate!)}
+                      </span>
+                    </div>
+                    {trip.tripType !== "one_way" && trip.returnDate && (
+                      <>
+                        <ArrowRight size={14} color={COLORS.textMuted} />
+                        <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>
+                          {formatDate(trip.returnDate)}
+                        </span>
+                      </>
+                    )}
+                    <span style={{ 
+                      fontSize: 11, 
+                      padding: "2px 8px", 
+                      borderRadius: 4, 
+                      backgroundColor: COLORS.accentLight, 
+                      color: COLORS.primaryDark,
+                      fontWeight: 600
+                    }}>
+                      {trip.tripType === "one_way" ? "One Way" : trip.tripType === "round_trip" ? "Round Trip" : "Multi-City"}
+                    </span>
+                  </div>
+                  <Edit3 size={16} color={COLORS.textSecondary} />
+                </div>
+              ) : (
+                // Expanded view - full form
+                <div style={{ 
+                  backgroundColor: COLORS.card, 
+                  borderRadius: 16, 
+                  padding: 16, 
+                  marginBottom: 16,
+                  border: `1px solid ${COLORS.border}`
+                }}>
+                  {/* Trip Type Toggle */}
+                  <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                    {[
+                      { value: "one_way", label: "One Way" },
+                      { value: "round_trip", label: "Round Trip" },
+                      { value: "multi_city", label: "Multi-City" }
+                    ].map(opt => (
+                      <button
+                        key={opt.value}
+                        onClick={() => setTrip(t => ({ ...t, tripType: opt.value as TripType, updatedAt: Date.now() }))}
+                        style={{
+                          flex: 1,
+                          padding: "10px 12px",
+                          borderRadius: 10,
+                          border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
+                          backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
+                          color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
+                          fontWeight: 600,
+                          fontSize: 13,
+                          cursor: "pointer"
+                        }}
+                      >
+                        {opt.label}
+                      </button>
+                    ))}
+                  </div>
+                  
+                  {/* Date Pickers */}
+                  <div style={{ display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }}>
+                    <div>
+                      <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
+                        Departure Date
+                      </label>
+                      <input
+                        type="date"
+                        value={trip.departureDate || ""}
+                        onChange={e => {
+                          const newDate = e.target.value;
+                          // Update trip departure date and sync to outbound flight
                       setTrip(t => {
                         const updatedLegs = t.legs.map((leg, idx) => {
                           if (leg.type === "flight" && idx === 0) {
@@ -1097,6 +1172,8 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                 )}
               </div>
             </div>
+              );
+            })()}
             
             {/* Missing Info Prompts - horizontal scroll */}
             <MissingInfoBar 
@@ -1149,7 +1226,9 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
               onUpdateLeg={handleUpdateLeg} 
               onDeleteLeg={handleDeleteLeg} 
               expandedLegs={expandedLegs} 
-              toggleLegExpand={toggleLegExpand} 
+              toggleLegExpand={toggleLegExpand}
+              departureDate={trip.departureDate}
+              returnDate={trip.returnDate} 
             />
           </>
         )}
