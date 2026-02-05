@@ -443,7 +443,7 @@ const ProgressSummary = ({ legs }: { legs: TripLeg[] }) => {
 
 // Category icon component for day guide
 const CategoryIcon = ({ 
-  type, hasItem, isBooked, isExpanded, onClick, label 
+  type, hasItem, isBooked, isExpanded, onClick, label, partialComplete 
 }: { 
   type: "flight" | "hotel" | "transport" | "activity"; 
   hasItem: boolean; 
@@ -451,6 +451,7 @@ const CategoryIcon = ({
   isExpanded: boolean;
   onClick: () => void;
   label?: string;
+  partialComplete?: boolean;
 }) => {
   const config = {
     flight: { icon: Plane, color: COLORS.flight, bg: COLORS.flightBg, name: "Flight", priority: true },
@@ -460,11 +461,12 @@ const CategoryIcon = ({
   };
   const { icon: Icon, color, bg, name, priority } = config[type];
   
-  // Status dot color: green=hasItem (complete), red=empty important, orange=empty non-priority
+  // Status dot color: green=all complete, yellow=partial, red=empty important, orange=empty non-priority
   const getStatusColor = () => {
-    if (hasItem) return COLORS.booked; // Green - has item (complete)
+    if (hasItem && !partialComplete) return COLORS.booked; // Green - fully complete
+    if (partialComplete) return COLORS.pending; // Yellow/Orange - partially complete
     if (priority) return "#EF4444"; // Red for important (flight/hotel) - empty
-    return COLORS.pending; // Orange for non-priority (transport/activity) - empty
+    return "#EF4444"; // Red for empty transport/activity on travel days
   };
   const statusColor = getStatusColor();
   
@@ -683,7 +685,19 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
               // Complete status for each category
               const hotelComplete = dayData.hotels.length > 0 && dayData.hotels.some(h => h.leg.hotelName || h.leg.title);
               const activityComplete = dayData.activities.length > 0;
-              const transportComplete = dayData.transport.some(t => hasUserInfo(t));
+              // Transport: on travel days, need both "to airport" and "from airport"
+              const toAirportLeg = dayData.transport.find(t => t.title?.toLowerCase().includes("to airport") || t.to?.toLowerCase().includes("airport"));
+              const fromAirportLeg = dayData.transport.find(t => t.title?.toLowerCase().includes("from airport") || t.from?.toLowerCase().includes("airport"));
+              const toAirportBooked = toAirportLeg && hasUserInfo(toAirportLeg);
+              const fromAirportBooked = fromAirportLeg && hasUserInfo(fromAirportLeg);
+              // For travel days: need both transports. Count how many are booked.
+              const transportNeeded = isTravelDay ? 2 : (dayData.transport.length > 0 ? dayData.transport.length : 0);
+              const transportBookedCount = isTravelDay 
+                ? (toAirportBooked ? 1 : 0) + (fromAirportBooked ? 1 : 0)
+                : dayData.transport.filter(t => hasUserInfo(t)).length;
+              const transportAllComplete = transportNeeded > 0 && transportBookedCount >= transportNeeded;
+              const transportPartial = transportBookedCount > 0 && transportBookedCount < transportNeeded;
+              const transportHasAny = transportBookedCount > 0;
               const flightComplete = dayData.flights.some(f => hasUserInfo(f) || f.flightNumber);
               return (
                 <div style={{ 
@@ -718,10 +732,11 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                     {(isTravelDay || dayData.transport.length > 0) && (
                       <CategoryIcon 
                         type="transport" 
-                        hasItem={transportComplete}
+                        hasItem={transportHasAny}
                         isBooked={transportBooked}
                         isExpanded={expanded === "transport"}
                         onClick={() => toggleCategory(date, "transport")}
+                        partialComplete={transportPartial}
                       />
                     )}
                   </div>

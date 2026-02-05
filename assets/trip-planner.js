@@ -25040,7 +25040,8 @@ var CategoryIcon = ({
   isBooked,
   isExpanded,
   onClick,
-  label
+  label,
+  partialComplete
 }) => {
   const config = {
     flight: { icon: Plane, color: COLORS.flight, bg: COLORS.flightBg, name: "Flight", priority: true },
@@ -25050,9 +25051,10 @@ var CategoryIcon = ({
   };
   const { icon: Icon2, color, bg, name, priority } = config[type];
   const getStatusColor2 = () => {
-    if (hasItem) return COLORS.booked;
+    if (hasItem && !partialComplete) return COLORS.booked;
+    if (partialComplete) return COLORS.pending;
     if (priority) return "#EF4444";
-    return COLORS.pending;
+    return "#EF4444";
   };
   const statusColor = getStatusColor2();
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
@@ -25243,7 +25245,15 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
         const hasUserInfo2 = (leg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
         const hotelComplete = dayData.hotels.length > 0 && dayData.hotels.some((h) => h.leg.hotelName || h.leg.title);
         const activityComplete = dayData.activities.length > 0;
-        const transportComplete = dayData.transport.some((t) => hasUserInfo2(t));
+        const toAirportLeg = dayData.transport.find((t) => t.title?.toLowerCase().includes("to airport") || t.to?.toLowerCase().includes("airport"));
+        const fromAirportLeg = dayData.transport.find((t) => t.title?.toLowerCase().includes("from airport") || t.from?.toLowerCase().includes("airport"));
+        const toAirportBooked = toAirportLeg && hasUserInfo2(toAirportLeg);
+        const fromAirportBooked = fromAirportLeg && hasUserInfo2(fromAirportLeg);
+        const transportNeeded = isTravelDay2 ? 2 : dayData.transport.length > 0 ? dayData.transport.length : 0;
+        const transportBookedCount = isTravelDay2 ? (toAirportBooked ? 1 : 0) + (fromAirportBooked ? 1 : 0) : dayData.transport.filter((t) => hasUserInfo2(t)).length;
+        const transportAllComplete = transportNeeded > 0 && transportBookedCount >= transportNeeded;
+        const transportPartial = transportBookedCount > 0 && transportBookedCount < transportNeeded;
+        const transportHasAny = transportBookedCount > 0;
         const flightComplete = dayData.flights.some((f) => hasUserInfo2(f) || f.flightNumber);
         return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
           display: "grid",
@@ -25276,10 +25286,11 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
             CategoryIcon,
             {
               type: "transport",
-              hasItem: transportComplete,
+              hasItem: transportHasAny,
               isBooked: transportBooked,
               isExpanded: expanded === "transport",
-              onClick: () => toggleCategory(date, "transport")
+              onClick: () => toggleCategory(date, "transport"),
+              partialComplete: transportPartial
             }
           ) }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", justifyContent: "center" }, children: isTravelDay2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
