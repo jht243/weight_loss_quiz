@@ -516,8 +516,8 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
   returnDate?: string;
 }) => {
   const [expandedCategory, setExpandedCategory] = useState<Record<string, string | null>>({});
-  const [editingTransport, setEditingTransport] = useState<string | null>(null); // "to-{date}" or "from-{date}"
-  const [transportForm, setTransportForm] = useState({ type: "uber", notes: "", rentalCompany: "" });
+  const [editingTransport, setEditingTransport] = useState<string | null>(null); // "to-{date}" or "from-{date}" or "rental"
+  const [transportForm, setTransportForm] = useState({ type: "uber", notes: "", rentalCompany: "", startDate: "", endDate: "" });
 
   // Generate all days between departure and return
   const allDays = useMemo(() => {
@@ -565,6 +565,18 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
           }
           current.setDate(current.getDate() + 1);
           isFirst = false;
+        }
+      } else if (["car", "train", "bus", "ferry"].includes(leg.type) && leg.date && leg.endDate) {
+        // Rental car or transport with date range - show on all days
+        const startDate = new Date(leg.date + "T00:00:00");
+        const endDate = new Date(leg.endDate + "T00:00:00");
+        const current = new Date(startDate);
+        while (current <= endDate) {
+          const dateStr = current.toISOString().split("T")[0];
+          if (groups[dateStr]) {
+            groups[dateStr].transport.push(leg);
+          }
+          current.setDate(current.getDate() + 1);
         }
       } else if (leg.date && groups[leg.date]) {
         if (leg.type === "flight") groups[leg.date].flights.push(leg);
@@ -784,7 +796,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   <Check size={12} /> Done
                                 </button>
                                 <button 
-                                  onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: "uber", notes: "", rentalCompany: "" }); }}
+                                  onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date }); }}
                                   style={{ padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.transport}`, backgroundColor: "white", color: COLORS.transport, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
                                 >
                                   <Plus size={12} /> Add Details
@@ -803,7 +815,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   </button>
                                 )}
                                 <button 
-                                  onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "" }); }}
+                                  onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date }); }}
                                   style={{ padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" }}
                                 >
                                   <Edit2 size={12} />
@@ -822,8 +834,18 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                 ))}
                               </div>
                               {transportForm.type === "rental" && (
-                                <input placeholder="Rental company (e.g., Hertz, Enterprise)" value={transportForm.rentalCompany} onChange={e => setTransportForm(f => ({ ...f, rentalCompany: e.target.value }))}
-                                  style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                <>
+                                  <input placeholder="Rental company (e.g., Hertz, Enterprise)" value={transportForm.rentalCompany} onChange={e => setTransportForm(f => ({ ...f, rentalCompany: e.target.value }))}
+                                    style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                    <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Pickup:</label>
+                                    <input type="date" value={transportForm.startDate} onChange={e => setTransportForm(f => ({ ...f, startDate: e.target.value }))}
+                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                    <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Return:</label>
+                                    <input type="date" value={transportForm.endDate} onChange={e => setTransportForm(f => ({ ...f, endDate: e.target.value }))}
+                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                  </div>
+                                </>
                               )}
                               <input placeholder="Notes (optional)" value={transportForm.notes} onChange={e => setTransportForm(f => ({ ...f, notes: e.target.value }))}
                                 style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
@@ -832,16 +854,16 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                 <button onClick={() => {
                                   const notes = transportForm.type === "uber" ? "Uber/Lyft" : transportForm.type === "rental" ? `Rental: ${transportForm.rentalCompany}` : transportForm.notes;
                                   if (toAirportLeg) {
-                                    onUpdateLeg(toAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                                    onUpdateLeg(toAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany, date: transportForm.startDate, endDate: transportForm.endDate, status: "booked" });
                                   } else {
-                                    onAddLeg({ type: "car", date, status: "pending", title: "To Airport", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                                    onAddLeg({ type: "car", date: transportForm.startDate || date, endDate: transportForm.endDate, status: "booked", title: "Rental Car", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
                                   }
                                   setEditingTransport(null);
                                 }} style={{ padding: "6px 12px", borderRadius: 6, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Save</button>
                               </div>
                             </div>
                           ) : toAirportLeg && (
-                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "" }); }}>
+                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date }); }}>
                               {toAirportLeg.notes === "Quick complete" ? "Marked complete" : (
                                 <>
                                   {toAirportLeg.rentalCompany && <span style={{ marginRight: 8 }}>🚗 {toAirportLeg.rentalCompany}</span>}
@@ -878,7 +900,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   <Check size={12} /> Done
                                 </button>
                                 <button 
-                                  onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: "uber", notes: "", rentalCompany: "" }); }}
+                                  onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date }); }}
                                   style={{ padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.transport}`, backgroundColor: "white", color: COLORS.transport, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }}
                                 >
                                   <Plus size={12} /> Add Details
@@ -897,7 +919,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   </button>
                                 )}
                                 <button 
-                                  onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "" }); }}
+                                  onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date }); }}
                                   style={{ padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" }}
                                 >
                                   <Edit2 size={12} />
@@ -916,8 +938,18 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                 ))}
                               </div>
                               {transportForm.type === "rental" && (
-                                <input placeholder="Rental company (e.g., Hertz, Enterprise)" value={transportForm.rentalCompany} onChange={e => setTransportForm(f => ({ ...f, rentalCompany: e.target.value }))}
-                                  style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                <>
+                                  <input placeholder="Rental company (e.g., Hertz, Enterprise)" value={transportForm.rentalCompany} onChange={e => setTransportForm(f => ({ ...f, rentalCompany: e.target.value }))}
+                                    style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                  <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
+                                    <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Pickup:</label>
+                                    <input type="date" value={transportForm.startDate} onChange={e => setTransportForm(f => ({ ...f, startDate: e.target.value }))}
+                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                    <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Return:</label>
+                                    <input type="date" value={transportForm.endDate} onChange={e => setTransportForm(f => ({ ...f, endDate: e.target.value }))}
+                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                  </div>
+                                </>
                               )}
                               <input placeholder="Notes (optional)" value={transportForm.notes} onChange={e => setTransportForm(f => ({ ...f, notes: e.target.value }))}
                                 style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
@@ -926,16 +958,16 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                 <button onClick={() => {
                                   const notes = transportForm.type === "uber" ? "Uber/Lyft" : transportForm.type === "rental" ? `Rental: ${transportForm.rentalCompany}` : transportForm.notes;
                                   if (fromAirportLeg) {
-                                    onUpdateLeg(fromAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                                    onUpdateLeg(fromAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany, date: transportForm.startDate, endDate: transportForm.endDate, status: "booked" });
                                   } else {
-                                    onAddLeg({ type: "car", date, status: "pending", title: "From Airport", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                                    onAddLeg({ type: "car", date: transportForm.startDate || date, endDate: transportForm.endDate, status: "booked", title: "Rental Car", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
                                   }
                                   setEditingTransport(null);
                                 }} style={{ padding: "6px 12px", borderRadius: 6, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>Save</button>
                               </div>
                             </div>
                           ) : fromAirportLeg && (
-                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "" }); }}>
+                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date }); }}>
                               {fromAirportLeg.notes === "Quick complete" ? "Marked complete" : (
                                 <>
                                   {fromAirportLeg.rentalCompany && <span style={{ marginRight: 8 }}>🚗 {fromAirportLeg.rentalCompany}</span>}

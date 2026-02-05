@@ -25102,7 +25102,7 @@ var CategoryIcon = ({
 var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, toggleLegExpand, departureDate, returnDate }) => {
   const [expandedCategory, setExpandedCategory] = (0, import_react3.useState)({});
   const [editingTransport, setEditingTransport] = (0, import_react3.useState)(null);
-  const [transportForm, setTransportForm] = (0, import_react3.useState)({ type: "uber", notes: "", rentalCompany: "" });
+  const [transportForm, setTransportForm] = (0, import_react3.useState)({ type: "uber", notes: "", rentalCompany: "", startDate: "", endDate: "" });
   const allDays = (0, import_react3.useMemo)(() => {
     const days = [];
     if (departureDate) {
@@ -25137,6 +25137,17 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
           }
           current.setDate(current.getDate() + 1);
           isFirst = false;
+        }
+      } else if (["car", "train", "bus", "ferry"].includes(leg.type) && leg.date && leg.endDate) {
+        const startDate = /* @__PURE__ */ new Date(leg.date + "T00:00:00");
+        const endDate = /* @__PURE__ */ new Date(leg.endDate + "T00:00:00");
+        const current = new Date(startDate);
+        while (current <= endDate) {
+          const dateStr = current.toISOString().split("T")[0];
+          if (groups[dateStr]) {
+            groups[dateStr].transport.push(leg);
+          }
+          current.setDate(current.getDate() + 1);
         }
       } else if (leg.date && groups[leg.date]) {
         if (leg.type === "flight") groups[leg.date].flights.push(leg);
@@ -25320,7 +25331,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                     {
                       onClick: () => {
                         setEditingTransport(`to-${date}`);
-                        setTransportForm({ type: "uber", notes: "", rentalCompany: "" });
+                        setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date });
                       },
                       style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.transport}`, backgroundColor: "white", color: COLORS.transport, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
                       children: [
@@ -25349,7 +25360,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                     {
                       onClick: () => {
                         setEditingTransport(`to-${date}`);
-                        setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "" });
+                        setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date });
                       },
                       style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" },
                       children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 12 })
@@ -25367,15 +25378,39 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                   },
                   t
                 )) }),
-                transportForm.type === "rental" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
-                  {
-                    placeholder: "Rental company (e.g., Hertz, Enterprise)",
-                    value: transportForm.rentalCompany,
-                    onChange: (e) => setTransportForm((f) => ({ ...f, rentalCompany: e.target.value })),
-                    style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                  }
-                ),
+                transportForm.type === "rental" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "input",
+                    {
+                      placeholder: "Rental company (e.g., Hertz, Enterprise)",
+                      value: transportForm.rentalCompany,
+                      onChange: (e) => setTransportForm((f) => ({ ...f, rentalCompany: e.target.value })),
+                      style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, alignItems: "center" }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Pickup:" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "input",
+                      {
+                        type: "date",
+                        value: transportForm.startDate,
+                        onChange: (e) => setTransportForm((f) => ({ ...f, startDate: e.target.value })),
+                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Return:" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "input",
+                      {
+                        type: "date",
+                        value: transportForm.endDate,
+                        onChange: (e) => setTransportForm((f) => ({ ...f, endDate: e.target.value })),
+                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
+                      }
+                    )
+                  ] })
+                ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   "input",
                   {
@@ -25390,16 +25425,16 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => {
                     const notes = transportForm.type === "uber" ? "Uber/Lyft" : transportForm.type === "rental" ? `Rental: ${transportForm.rentalCompany}` : transportForm.notes;
                     if (toAirportLeg) {
-                      onUpdateLeg(toAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                      onUpdateLeg(toAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany, date: transportForm.startDate, endDate: transportForm.endDate, status: "booked" });
                     } else {
-                      onAddLeg({ type: "car", date, status: "pending", title: "To Airport", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                      onAddLeg({ type: "car", date: transportForm.startDate || date, endDate: transportForm.endDate, status: "booked", title: "Rental Car", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
                     }
                     setEditingTransport(null);
                   }, style: { padding: "6px 12px", borderRadius: 6, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }, children: "Save" })
                 ] })
               ] }) : toAirportLeg && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }, onClick: () => {
                 setEditingTransport(`to-${date}`);
-                setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "" });
+                setTransportForm({ type: toAirportLeg.notes?.includes("Uber") ? "uber" : toAirportLeg.rentalCompany ? "rental" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date });
               }, children: toAirportLeg.notes === "Quick complete" ? "Marked complete" : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
                 toAirportLeg.rentalCompany && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { marginRight: 8 }, children: [
                   "\u{1F697} ",
@@ -25437,7 +25472,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                     {
                       onClick: () => {
                         setEditingTransport(`from-${date}`);
-                        setTransportForm({ type: "uber", notes: "", rentalCompany: "" });
+                        setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date });
                       },
                       style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.transport}`, backgroundColor: "white", color: COLORS.transport, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
                       children: [
@@ -25466,7 +25501,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                     {
                       onClick: () => {
                         setEditingTransport(`from-${date}`);
-                        setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "" });
+                        setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date });
                       },
                       style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" },
                       children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 12 })
@@ -25484,15 +25519,39 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                   },
                   t
                 )) }),
-                transportForm.type === "rental" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
-                  {
-                    placeholder: "Rental company (e.g., Hertz, Enterprise)",
-                    value: transportForm.rentalCompany,
-                    onChange: (e) => setTransportForm((f) => ({ ...f, rentalCompany: e.target.value })),
-                    style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                  }
-                ),
+                transportForm.type === "rental" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "input",
+                    {
+                      placeholder: "Rental company (e.g., Hertz, Enterprise)",
+                      value: transportForm.rentalCompany,
+                      onChange: (e) => setTransportForm((f) => ({ ...f, rentalCompany: e.target.value })),
+                      style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, alignItems: "center" }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Pickup:" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "input",
+                      {
+                        type: "date",
+                        value: transportForm.startDate,
+                        onChange: (e) => setTransportForm((f) => ({ ...f, startDate: e.target.value })),
+                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Return:" }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "input",
+                      {
+                        type: "date",
+                        value: transportForm.endDate,
+                        onChange: (e) => setTransportForm((f) => ({ ...f, endDate: e.target.value })),
+                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
+                      }
+                    )
+                  ] })
+                ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   "input",
                   {
@@ -25507,16 +25566,16 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => {
                     const notes = transportForm.type === "uber" ? "Uber/Lyft" : transportForm.type === "rental" ? `Rental: ${transportForm.rentalCompany}` : transportForm.notes;
                     if (fromAirportLeg) {
-                      onUpdateLeg(fromAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                      onUpdateLeg(fromAirportLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany, date: transportForm.startDate, endDate: transportForm.endDate, status: "booked" });
                     } else {
-                      onAddLeg({ type: "car", date, status: "pending", title: "From Airport", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
+                      onAddLeg({ type: "car", date: transportForm.startDate || date, endDate: transportForm.endDate, status: "booked", title: "Rental Car", notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
                     }
                     setEditingTransport(null);
                   }, style: { padding: "6px 12px", borderRadius: 6, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }, children: "Save" })
                 ] })
               ] }) : fromAirportLeg && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }, onClick: () => {
                 setEditingTransport(`from-${date}`);
-                setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "" });
+                setTransportForm({ type: fromAirportLeg.notes?.includes("Uber") ? "uber" : fromAirportLeg.rentalCompany ? "rental" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date });
               }, children: fromAirportLeg.notes === "Quick complete" ? "Marked complete" : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
                 fromAirportLeg.rentalCompany && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { marginRight: 8 }, children: [
                   "\u{1F697} ",
