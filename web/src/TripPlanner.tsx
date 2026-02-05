@@ -431,12 +431,11 @@ const CategoryIcon = ({
   };
   const { icon: Icon, color, bg, name, priority } = config[type];
   
-  // Status dot color: green=booked, red=pending important, orange=pending non-priority, gray=nothing
+  // Status dot color: green=booked, red=pending/empty important, orange=pending/empty non-priority (NEVER GRAY)
   const getStatusColor = () => {
-    if (hasItem && isBooked) return COLORS.booked; // Green
-    if (hasItem && !isBooked && priority) return "#EF4444"; // Red for important pending
-    if (hasItem && !isBooked) return COLORS.pending; // Orange for non-priority pending
-    return COLORS.textMuted; // Gray for empty
+    if (hasItem && isBooked) return COLORS.booked; // Green - booked
+    if (priority) return "#EF4444"; // Red for important (flight/hotel) - pending or empty
+    return COLORS.pending; // Orange for non-priority (transport/activity) - pending or empty
   };
   const statusColor = getStatusColor();
   
@@ -450,13 +449,12 @@ const CategoryIcon = ({
     >
       <div style={{ 
         width: 48, height: 48, borderRadius: 12,
-        backgroundColor: hasItem ? bg : COLORS.borderLight,
-        border: isExpanded ? `2px solid ${color}` : `1px solid ${hasItem ? color : COLORS.border}`,
+        backgroundColor: hasItem ? bg : (priority ? "#FEE2E2" : "#FEF3C7"),
+        border: isExpanded ? `2px solid ${color}` : `1px solid ${hasItem ? color : statusColor}`,
         display: "flex", alignItems: "center", justifyContent: "center",
-        position: "relative",
-        opacity: hasItem ? 1 : 0.6
+        position: "relative"
       }}>
-        <Icon size={22} color={hasItem ? color : COLORS.textMuted} />
+        <Icon size={22} color={hasItem ? color : statusColor} />
         {/* Status dot - always visible */}
         <div style={{ 
           position: "absolute", top: -4, right: -4,
@@ -871,6 +869,35 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   const [editValue, setEditValue] = useState("");
 
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() })); } catch {} }, [trip]);
+  
+  // Auto-add return flight for round trips
+  useEffect(() => {
+    if (trip.tripType === "round_trip" && trip.returnDate && trip.departureDate) {
+      const flights = trip.legs.filter(l => l.type === "flight");
+      const hasReturnFlight = flights.some(f => f.date === trip.returnDate);
+      
+      if (flights.length > 0 && !hasReturnFlight) {
+        // Get origin and destination from first flight
+        const outboundFlight = flights[0];
+        const origin = outboundFlight.from;
+        const destination = outboundFlight.to;
+        
+        if (origin && destination) {
+          // Add return flight (reverse direction)
+          const returnFlight: TripLeg = {
+            id: generateId(),
+            type: "flight",
+            status: "pending",
+            title: `Flight: ${destination} → ${origin}`,
+            from: destination,
+            to: origin,
+            date: trip.returnDate
+          };
+          setTrip(t => ({ ...t, legs: [...t.legs, returnFlight], updatedAt: Date.now() }));
+        }
+      }
+    }
+  }, [trip.tripType, trip.returnDate, trip.departureDate, trip.legs.filter(l => l.type === "flight").length]);
   
   // Auto-sync hotel dates with flight dates
   useEffect(() => {

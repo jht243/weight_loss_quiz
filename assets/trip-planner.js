@@ -25018,9 +25018,8 @@ var CategoryIcon = ({
   const { icon: Icon2, color, bg, name, priority } = config[type];
   const getStatusColor2 = () => {
     if (hasItem && isBooked) return COLORS.booked;
-    if (hasItem && !isBooked && priority) return "#EF4444";
-    if (hasItem && !isBooked) return COLORS.pending;
-    return COLORS.textMuted;
+    if (priority) return "#EF4444";
+    return COLORS.pending;
   };
   const statusColor = getStatusColor2();
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
@@ -25039,15 +25038,14 @@ var CategoryIcon = ({
           width: 48,
           height: 48,
           borderRadius: 12,
-          backgroundColor: hasItem ? bg : COLORS.borderLight,
-          border: isExpanded ? `2px solid ${color}` : `1px solid ${hasItem ? color : COLORS.border}`,
+          backgroundColor: hasItem ? bg : priority ? "#FEE2E2" : "#FEF3C7",
+          border: isExpanded ? `2px solid ${color}` : `1px solid ${hasItem ? color : statusColor}`,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          position: "relative",
-          opacity: hasItem ? 1 : 0.6
+          position: "relative"
         }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 22, color: hasItem ? color : COLORS.textMuted }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 22, color: hasItem ? color : statusColor }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
             position: "absolute",
             top: -4,
@@ -25424,6 +25422,29 @@ function TripPlanner({ initialData: initialData2 }) {
     } catch {
     }
   }, [trip]);
+  (0, import_react3.useEffect)(() => {
+    if (trip.tripType === "round_trip" && trip.returnDate && trip.departureDate) {
+      const flights = trip.legs.filter((l) => l.type === "flight");
+      const hasReturnFlight = flights.some((f) => f.date === trip.returnDate);
+      if (flights.length > 0 && !hasReturnFlight) {
+        const outboundFlight = flights[0];
+        const origin = outboundFlight.from;
+        const destination = outboundFlight.to;
+        if (origin && destination) {
+          const returnFlight = {
+            id: generateId(),
+            type: "flight",
+            status: "pending",
+            title: `Flight: ${destination} \u2192 ${origin}`,
+            from: destination,
+            to: origin,
+            date: trip.returnDate
+          };
+          setTrip((t) => ({ ...t, legs: [...t.legs, returnFlight], updatedAt: Date.now() }));
+        }
+      }
+    }
+  }, [trip.tripType, trip.returnDate, trip.departureDate, trip.legs.filter((l) => l.type === "flight").length]);
   (0, import_react3.useEffect)(() => {
     const flights = trip.legs.filter((l) => l.type === "flight");
     const hotels = trip.legs.filter((l) => l.type === "hotel");
