@@ -26196,15 +26196,15 @@ function TripPlanner({ initialData: initialData2 }) {
     return a.date.localeCompare(b.date);
   }), [trip.legs]);
   if (currentView === "home") {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", width: "100%", maxWidth: "100%", overflow: "hidden", boxSizing: "border-box" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { maxWidth: 600, margin: "0 auto" }, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { style: { margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 28 }),
           "Trip Planner"
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", fontSize: 14, opacity: 0.9 }, children: "Your saved trips" })
       ] }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { maxWidth: 600, margin: "0 auto", padding: 20 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: 20 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: handleNewTrip, style: { width: "100%", padding: 16, borderRadius: 12, border: `2px dashed ${COLORS.primary}`, backgroundColor: COLORS.accentLight, color: COLORS.primaryDark, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 20 }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 20 }),
           " Create New Trip"
@@ -26254,8 +26254,8 @@ function TripPlanner({ initialData: initialData2 }) {
       ] })
     ] });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", width: "100%", maxWidth: "100%", overflow: "hidden", boxSizing: "border-box" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { maxWidth: 600, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white", borderRadius: "0 0 0 0" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 12 }, children: [
         savedTrips.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: handleBackToHome, style: { padding: 8, borderRadius: 8, border: "none", backgroundColor: "rgba(255,255,255,0.2)", color: "white", cursor: "pointer", display: "flex", alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20, style: { transform: "rotate(-90deg)" } }) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [

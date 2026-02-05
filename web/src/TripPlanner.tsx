@@ -1635,14 +1635,14 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   // Homepage view - list of saved trips
   if (currentView === "home") {
     return (
-      <div style={{ minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", width: "100%", maxWidth: "100%", overflow: "hidden", boxSizing: "border-box" }}>
+      <div style={{ minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }}>
         <div style={{ backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }}>
-          <div style={{ maxWidth: 600, margin: "0 auto" }}>
+          <div>
             <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}><Plane size={28} />Trip Planner</h1>
             <p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.9 }}>Your saved trips</p>
           </div>
         </div>
-        <div style={{ maxWidth: 600, margin: "0 auto", padding: 20 }}>
+        <div style={{ padding: 20 }}>
           <button onClick={handleNewTrip} style={{ width: "100%", padding: 16, borderRadius: 12, border: `2px dashed ${COLORS.primary}`, backgroundColor: COLORS.accentLight, color: COLORS.primaryDark, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 20 }}>
             <Plus size={20} /> Create New Trip
           </button>
@@ -1689,9 +1689,9 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", width: "100%", maxWidth: "100%", overflow: "hidden", boxSizing: "border-box" }}>
-      <div style={{ backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }}>
-        <div style={{ maxWidth: 600, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+    <div style={{ minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }}>
+      <div style={{ backgroundColor: COLORS.primary, padding: "24px 20px", color: "white", borderRadius: "0 0 0 0" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             {savedTrips.length > 0 && <button onClick={handleBackToHome} style={{ padding: 8, borderRadius: 8, border: "none", backgroundColor: "rgba(255,255,255,0.2)", color: "white", cursor: "pointer", display: "flex", alignItems: "center" }}><ChevronUp size={20} style={{ transform: "rotate(-90deg)" }} /></button>}
             <div><h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}><Plane size={28} />Trip Planner</h1><p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.9 }}>Organize your travel reservations</p></div>
