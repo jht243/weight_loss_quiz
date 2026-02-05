@@ -20,34 +20,29 @@ if (typeof document !== 'undefined') {
   document.head.appendChild(styleEl);
 }
 
-// New clean design - white bg, orange accents like the travel app mockup
 const COLORS = {
-  primary: "#FF6B35",      // Orange accent
-  primaryDark: "#E55A2B",
-  primaryLight: "#FFF4F0",
-  bg: "#FFFFFF",
+  primary: "#FF6B00", // Bright orange accent from design
+  primaryDark: "#E65100",
+  bg: "#F2F2F7", // Light gray background
   card: "#FFFFFF",
-  cardHover: "#FAFAFA",
-  textMain: "#1A1A1A",
-  textSecondary: "#6B7280",
-  textMuted: "#9CA3AF",
-  border: "#F0F0F0",
-  borderLight: "#F5F5F5",
-  inputBg: "#F5F5F5",
-  accentLight: "#FFF4F0",
-  booked: "#22C55E",
-  bookedBg: "#F0FDF4",
-  pending: "#FF6B35",
-  pendingBg: "#FFF4F0",
-  urgent: "#EF4444",
-  urgentBg: "#FEF2F2",
-  flight: "#3B82F6",
-  flightBg: "#EFF6FF",
-  hotel: "#8B5CF6",
-  hotelBg: "#F5F3FF",
-  transport: "#F97316",
-  transportBg: "#FFF7ED",
-  star: "#FBBF24",
+  textMain: "#1C1C1E", // Dark text
+  textSecondary: "#8E8E93",
+  textMuted: "#AEAEB2",
+  border: "#E5E5EA",
+  borderLight: "#F2F2F7",
+  flight: "#007AFF", // System blue
+  flightBg: "#E5F1FF",
+  hotel: "#AF52DE", // System purple
+  hotelBg: "#F5E6FF",
+  transport: "#FF9500", // System orange
+  transportBg: "#FFF1CC",
+  booked: "#34C759", // System green
+  bookedBg: "#E0F8E5",
+  pending: "#FF9500",
+  pendingBg: "#FFF1CC",
+  urgent: "#FF3B30",
+  urgentBg: "#FFE5E5",
+  accentLight: "#FFF1E5" // Very light orange for backgrounds
 };
 
 type BookingStatus = "booked" | "pending" | "urgent";
@@ -319,183 +314,102 @@ const AddDetailsButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-// Clean list-style card like the travel app mockup
 const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand }: { leg: TripLeg; onUpdate: (u: Partial<TripLeg>) => void; onDelete: () => void; isExpanded: boolean; onToggleExpand: () => void }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState(leg);
   const legColors = getLegColor(leg.type);
 
-  const cycleStatus = () => {
-    const order: BookingStatus[] = ["pending", "booked", "urgent"];
-    const next = order[(order.indexOf(leg.status) + 1) % order.length];
-    onUpdate({ status: next });
-  };
-
-  // Get type label for badge
-  const getTypeLabel = (type: LegType) => {
-    switch(type) {
-      case "flight": return "Flight";
-      case "hotel": return "Hotel";
-      case "car": return "Transport";
-      case "train": return "Train";
-      case "bus": return "Bus";
-      case "ferry": return "Ferry";
-      default: return "Other";
-    }
-  };
-
   if (isEditing) {
     return (
-      <div style={{ backgroundColor: COLORS.card, borderRadius: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.06)", padding: 16, marginBottom: 8 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
-          <span style={{ fontWeight: 600, fontSize: 15 }}>Edit {leg.type}</span>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => { onUpdate(editData); setIsEditing(false); }} style={{ padding: "6px 12px", borderRadius: 20, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>Save</button>
-            <button onClick={() => setIsEditing(false)} style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, cursor: "pointer" }}>Cancel</button>
+      <div style={{ backgroundColor: "#FFFFFF", borderRadius: 20, padding: 20, marginBottom: 16, boxShadow: "0 4px 20px rgba(0,0,0,0.06)" }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 20, alignItems: "center" }}>
+          <span style={{ fontWeight: 700, fontSize: 17, color: COLORS.textMain }}>Edit {leg.type}</span>
+          <div style={{ display: "flex", gap: 10 }}>
+            <button onClick={() => { onUpdate(editData); setIsEditing(false); }} style={{ padding: "10px 20px", borderRadius: 14, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, cursor: "pointer", fontSize: 14 }}>Save</button>
+            <button onClick={() => setIsEditing(false)} style={{ padding: "10px 20px", borderRadius: 14, border: `1px solid ${COLORS.border}`, backgroundColor: "transparent", cursor: "pointer", fontSize: 14, color: COLORS.textSecondary }}>Cancel</button>
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
-          <input value={editData.title} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Title" style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, gridColumn: "1 / -1", fontSize: 14 }} />
-          <input type="date" value={editData.date} onChange={e => setEditData({ ...editData, date: e.target.value })} style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, fontSize: 14 }} />
-          <input type="time" value={editData.time || ""} onChange={e => setEditData({ ...editData, time: e.target.value })} style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, fontSize: 14 }} />
-          <input value={editData.confirmationNumber || ""} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, gridColumn: "1 / -1", fontSize: 14 }} />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 16 }}>
+          <input value={editData.title} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Title" style={{ padding: "14px 16px", borderRadius: 14, border: "none", backgroundColor: COLORS.bg, fontSize: 15, gridColumn: "1 / -1", fontWeight: 500 }} />
+          <input type="date" value={editData.date} onChange={e => setEditData({ ...editData, date: e.target.value })} style={{ padding: "14px 16px", borderRadius: 14, border: "none", backgroundColor: COLORS.bg, fontSize: 15 }} />
+          <input type="time" value={editData.time || ""} onChange={e => setEditData({ ...editData, time: e.target.value })} style={{ padding: "14px 16px", borderRadius: 14, border: "none", backgroundColor: COLORS.bg, fontSize: 15 }} />
+          <input value={editData.from || ""} onChange={e => setEditData({ ...editData, from: e.target.value })} placeholder="From" style={{ padding: "14px 16px", borderRadius: 14, border: "none", backgroundColor: COLORS.bg, fontSize: 15 }} />
+          <input value={editData.to || ""} onChange={e => setEditData({ ...editData, to: e.target.value })} placeholder="To" style={{ padding: "14px 16px", borderRadius: 14, border: "none", backgroundColor: COLORS.bg, fontSize: 15 }} />
+          <input value={editData.confirmationNumber || ""} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={{ padding: "14px 16px", borderRadius: 14, border: "none", backgroundColor: COLORS.bg, fontSize: 15, gridColumn: "1 / -1" }} />
         </div>
       </div>
     );
   }
 
   return (
-    <div 
-      onClick={onToggleExpand}
-      style={{ 
-        backgroundColor: COLORS.card, 
-        borderRadius: 16, 
-        padding: "12px 14px",
-        marginBottom: 8,
-        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
-        border: `1px solid ${COLORS.border}`,
-        cursor: "pointer",
-        transition: "all 0.15s ease"
-      }}
-    >
-      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
-        {/* Rounded icon/thumbnail */}
+    <div style={{ 
+      backgroundColor: "#FFFFFF", 
+      borderRadius: 20, 
+      marginBottom: 16, 
+      boxShadow: "0 2px 12px rgba(0,0,0,0.04)", 
+      border: "1px solid rgba(0,0,0,0.03)",
+      transition: "all 0.2s ease",
+      overflow: "hidden"
+    }}>
+      <div onClick={onToggleExpand} style={{ padding: "20px", display: "flex", alignItems: "center", gap: 18, cursor: "pointer" }}>
+        {/* Icon Box */}
         <div style={{ 
-          width: 52, height: 52, borderRadius: 12, 
-          backgroundColor: legColors.bg, 
-          color: legColors.main, 
+          width: 52, height: 52, borderRadius: 16, 
+          backgroundColor: legColors.bg, color: legColors.main, 
           display: "flex", alignItems: "center", justifyContent: "center",
           flexShrink: 0
         }}>
-          {getLegIcon(leg.type, 24)}
+          {getLegIcon(leg.type, 26)}
         </div>
         
         {/* Content */}
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ fontWeight: 600, fontSize: 15, color: COLORS.textMain, marginBottom: 2 }}>
-            {leg.title.replace("Flight: ", "").replace("Hotel in ", "").replace("Car to ", "To ").replace("Car from ", "From ")}
+          <div style={{ fontWeight: 700, fontSize: 17, color: COLORS.textMain, marginBottom: 6, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+            {leg.title}
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: COLORS.textSecondary }}>
-            <MapPin size={12} />
-            <span>{leg.location || leg.to || leg.from || "Location TBD"}</span>
-          </div>
-          {/* Type badge */}
-          <div style={{ marginTop: 6 }}>
-            <span style={{ 
-              display: "inline-block",
-              padding: "2px 8px", 
-              borderRadius: 4, 
-              backgroundColor: legColors.bg, 
-              color: legColors.main,
-              fontSize: 11,
-              fontWeight: 600
-            }}>
-              {getTypeLabel(leg.type)}
-            </span>
+          <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+            {leg.time && <span style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 14, color: COLORS.textSecondary, fontWeight: 500 }}><Clock size={16} />{leg.time}</span>}
+            {leg.flightNumber && <span style={{ fontSize: 12, padding: "4px 10px", borderRadius: 8, backgroundColor: legColors.bg, color: legColors.main, fontWeight: 600 }}>{leg.flightNumber}</span>}
           </div>
         </div>
         
-        {/* Right side - status indicator */}
-        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+        {/* Status/Action */}
+        <div style={{ display: "flex", alignItems: "center", gap: 14 }}>
           {leg.status === "booked" ? (
-            <CheckCircle2 size={20} color={COLORS.booked} />
+            <div style={{ width: 36, height: 36, borderRadius: "50%", backgroundColor: COLORS.bookedBg, color: COLORS.booked, display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <CheckCircle2 size={20} />
+            </div>
           ) : (
-            <div style={{ 
-              width: 20, height: 20, borderRadius: "50%", 
-              border: `2px solid ${COLORS.pending}`,
-              display: "flex", alignItems: "center", justifyContent: "center"
-            }} />
+            <AddDetailsButton onClick={() => setIsEditing(true)} />
           )}
         </div>
       </div>
       
-      {/* Expanded details */}
       {isExpanded && (
-        <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${COLORS.borderLight}` }}>
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
-            {leg.date && (
-              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}>
-                <Calendar size={14} />
-                {formatDate(leg.date)}
+        <div style={{ padding: "0 20px 20px", borderTop: `1px dashed ${COLORS.borderLight}`, paddingTop: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
+            {leg.from && leg.to && 
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: COLORS.textMuted, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>Route</div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.textMain, display: "flex", alignItems: "center", gap: 10 }}>{leg.from} <ArrowRight size={16} color={COLORS.textMuted} /> {leg.to}</div>
               </div>
-            )}
-            {leg.time && (
-              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}>
-                <Clock size={14} />
-                {leg.time}
+            }
+            {leg.location && 
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: COLORS.textMuted, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>Location</div>
+                <div style={{ fontSize: 15, fontWeight: 600, color: COLORS.textMain }}>{leg.location}</div>
               </div>
-            )}
-            {leg.flightNumber && (
-              <div style={{ fontSize: 13, color: legColors.main, fontWeight: 600 }}>
-                {leg.flightNumber}
+            }
+            {leg.confirmationNumber && 
+              <div>
+                <div style={{ fontSize: 12, fontWeight: 700, color: COLORS.textMuted, marginBottom: 6, textTransform: "uppercase", letterSpacing: "0.5px" }}>Confirmation #</div>
+                <div style={{ fontSize: 15, fontFamily: "monospace", fontWeight: 600, color: COLORS.textMain, backgroundColor: COLORS.bg, padding: "4px 8px", borderRadius: 6, display: "inline-block" }}>{leg.confirmationNumber}</div>
               </div>
-            )}
-            {leg.confirmationNumber && (
-              <div style={{ fontSize: 13, fontFamily: "monospace", color: COLORS.textMain }}>
-                #{leg.confirmationNumber}
-              </div>
-            )}
+            }
           </div>
-          <div style={{ display: "flex", gap: 8 }}>
-            <button 
-              onClick={e => { e.stopPropagation(); setIsEditing(true); }} 
-              style={{ 
-                padding: "6px 14px", borderRadius: 20, 
-                border: `1px solid ${COLORS.border}`, 
-                backgroundColor: "white", 
-                fontSize: 12, fontWeight: 600, 
-                cursor: "pointer",
-                display: "flex", alignItems: "center", gap: 4
-              }}
-            >
-              <Edit3 size={12} /> Edit
-            </button>
-            <button 
-              onClick={e => { e.stopPropagation(); cycleStatus(); }} 
-              style={{ 
-                padding: "6px 14px", borderRadius: 20, 
-                border: "none", 
-                backgroundColor: leg.status === "booked" ? COLORS.bookedBg : COLORS.primaryLight, 
-                color: leg.status === "booked" ? COLORS.booked : COLORS.primary,
-                fontSize: 12, fontWeight: 600, 
-                cursor: "pointer"
-              }}
-            >
-              {leg.status === "booked" ? "✓ Booked" : "Mark Booked"}
-            </button>
-            <button 
-              onClick={e => { e.stopPropagation(); onDelete(); }} 
-              style={{ 
-                padding: "6px 14px", borderRadius: 20, 
-                border: `1px solid ${COLORS.urgentBg}`, 
-                backgroundColor: "white", 
-                color: COLORS.urgent,
-                fontSize: 12, fontWeight: 600, 
-                cursor: "pointer"
-              }}
-            >
-              Delete
-            </button>
+          <div style={{ display: "flex", gap: 10, marginTop: 24 }}>
+            <button onClick={e => { e.stopPropagation(); setIsEditing(true); }} style={{ padding: "10px 20px", borderRadius: 14, border: "none", backgroundColor: COLORS.bg, color: COLORS.textMain, fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}><Edit3 size={16} /> Edit</button>
+            <button onClick={e => { e.stopPropagation(); onDelete(); }} style={{ padding: "10px 20px", borderRadius: 14, border: "none", backgroundColor: COLORS.urgentBg, color: COLORS.urgent, fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}><Trash2 size={16} /> Delete</button>
           </div>
         </div>
       )}
@@ -534,7 +448,7 @@ const ProgressSummary = ({ legs }: { legs: TripLeg[] }) => {
   );
 };
 
-// Day-by-Day View Component - Compact with collapsible days
+// Day-by-Day View Component - Clean, modern, card-based
 const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExpand, departureDate, returnDate }: { 
   legs: TripLeg[]; 
   onUpdateLeg: (id: string, u: Partial<TripLeg>) => void; 
@@ -603,67 +517,52 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegE
     return { groups, sortedDates, noDateLegs };
   }, [legs, allDays]);
 
-  const formatDayHeader = (dateStr: string, dayNum: number): string => {
+  const formatDayHeader = (dateStr: string, dayNum: number): { day: string, date: string } => {
     try {
       const date = new Date(dateStr + "T00:00:00");
-      return `Day ${dayNum} · ${date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}`;
-    } catch { return `Day ${dayNum}`; }
+      return {
+        day: `Day ${dayNum}`,
+        date: date.toLocaleDateString("en-US", { weekday: "long", month: "long", day: "numeric" })
+      };
+    } catch { return { day: `Day ${dayNum}`, date: "" }; }
   };
 
   return (
-    <div>
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
       {legsByDate.sortedDates.map((date, idx) => {
         const dayItems = legsByDate.groups[date] || [];
         const isCollapsed = collapsedDays.has(date);
         const hasItems = dayItems.length > 0;
-        const allBooked = hasItems && dayItems.every(i => i.leg.status === "booked");
-        const hasHotel = dayItems.some(i => i.leg.type === "hotel");
-        const hasFlight = dayItems.some(i => i.leg.type === "flight");
-        const hasTransport = dayItems.some(i => !["flight", "hotel"].includes(i.leg.type));
+        const headerInfo = formatDayHeader(date, idx + 1);
         
         return (
-          <div key={date} style={{ marginBottom: 8 }}>
-            {/* Compact Day Header - Clickable to expand/collapse */}
+          <div key={date} style={{ position: "relative" }}>
+            {/* Minimalist Day Header */}
             <div 
               onClick={() => toggleDayCollapse(date)}
               style={{ 
                 display: "flex", 
                 alignItems: "center", 
-                gap: 10, 
-                padding: "10px 14px",
-                backgroundColor: allBooked ? COLORS.bookedBg : hasItems ? COLORS.card : COLORS.borderLight,
-                borderRadius: 10,
-                border: `1px solid ${allBooked ? COLORS.booked : hasItems ? COLORS.border : COLORS.borderLight}`,
-                cursor: "pointer"
+                justifyContent: "space-between",
+                padding: "16px 4px 12px",
+                marginBottom: 12,
+                cursor: "pointer",
+                position: "sticky",
+                top: 0,
+                backgroundColor: COLORS.bg,
+                zIndex: 10,
+                borderBottom: isCollapsed ? "none" : `1px solid ${COLORS.borderLight}`
               }}
             >
-              {/* Day number badge */}
-              <div style={{ 
-                width: 28, height: 28, borderRadius: "50%", 
-                backgroundColor: allBooked ? COLORS.booked : hasItems ? COLORS.pending : COLORS.textMuted, 
-                color: "white",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontWeight: 700, fontSize: 12
-              }}>
-                {idx + 1}
-              </div>
-              
-              {/* Day info */}
-              <div style={{ flex: 1 }}>
-                <span style={{ fontWeight: 600, fontSize: 14, color: COLORS.textMain }}>
-                  {formatDayHeader(date, idx + 1)}
+              <div style={{ display: "flex", alignItems: "baseline", gap: 12 }}>
+                <span style={{ fontSize: 13, fontWeight: 700, color: COLORS.textSecondary, textTransform: "uppercase", letterSpacing: "1px" }}>
+                  {headerInfo.day}
+                </span>
+                <span style={{ fontSize: 16, fontWeight: 700, color: COLORS.textMain }}>
+                  {headerInfo.date}
                 </span>
               </div>
               
-              {/* Quick icons showing what's on this day */}
-              <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                {hasFlight && <Plane size={16} color={COLORS.flight} />}
-                {hasHotel && <Hotel size={16} color={COLORS.hotel} />}
-                {hasTransport && <Car size={16} color={COLORS.transport} />}
-                {!hasItems && <span style={{ fontSize: 11, color: COLORS.textMuted }}>Free day</span>}
-              </div>
-              
-              {/* Expand/collapse indicator */}
               {hasItems && (
                 <div style={{ color: COLORS.textMuted }}>
                   {isCollapsed ? <ChevronDown size={18} /> : <ChevronUp size={18} />}
@@ -671,21 +570,23 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegE
               )}
             </div>
             
-            {/* Day's Items - Collapsible */}
-            {!isCollapsed && hasItems && (
-              <div style={{ paddingLeft: 38, paddingTop: 6 }}>
-                {dayItems.map(({ leg, isHotelContinuation }) => (
+            {/* Day's Items */}
+            {!isCollapsed && (
+              <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+                {hasItems ? dayItems.map(({ leg, isHotelContinuation }) => (
                   isHotelContinuation ? (
-                    // Compact hotel continuation indicator
+                    // Minimalist hotel continuation
                     <div key={`${leg.id}-${date}`} style={{ 
-                      display: "flex", alignItems: "center", gap: 8, 
-                      padding: "6px 12px", marginBottom: 4,
-                      backgroundColor: COLORS.hotelBg, borderRadius: 8,
-                      fontSize: 12, color: COLORS.hotel
+                      display: "flex", alignItems: "center", gap: 12, 
+                      padding: "12px 16px",
+                      backgroundColor: "rgba(255, 255, 255, 0.6)", 
+                      borderRadius: 16,
+                      border: "1px dashed #E5E5EA",
+                      color: COLORS.textSecondary,
+                      fontSize: 13
                     }}>
-                      <Hotel size={14} />
-                      <span>Staying at {leg.hotelName || leg.location || "hotel"}</span>
-                      {leg.status === "booked" && <CheckCircle2 size={12} />}
+                      <Hotel size={16} color={COLORS.hotel} />
+                      <span style={{ fontWeight: 500 }}>Continuing stay at {leg.hotelName || leg.location || "Hotel"}</span>
                     </div>
                   ) : (
                     <TripLegCard 
@@ -697,7 +598,31 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegE
                       onToggleExpand={() => toggleLegExpand(leg.id)} 
                     />
                   )
-                ))}
+                )) : (
+                  <div style={{ 
+                    padding: "24px", 
+                    borderRadius: 16, 
+                    border: "2px dashed #E5E5EA",
+                    display: "flex", 
+                    flexDirection: "column",
+                    alignItems: "center", 
+                    gap: 8,
+                    color: COLORS.textMuted
+                  }}>
+                    <span style={{ fontSize: 14, fontWeight: 500 }}>Nothing planned yet</span>
+                    <button style={{ 
+                      color: COLORS.primary, 
+                      background: "none", 
+                      border: "none", 
+                      fontSize: 13, 
+                      fontWeight: 600, 
+                      cursor: "pointer",
+                      padding: "4px 8px"
+                    }}>
+                      + Add activity
+                    </button>
+                  </div>
+                )}
               </div>
             )}
           </div>
@@ -706,23 +631,9 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegE
       
       {/* Legs without dates */}
       {legsByDate.noDateLegs.length > 0 && (
-        <div style={{ marginBottom: 24 }}>
-          <div style={{ 
-            display: "flex", 
-            alignItems: "center", 
-            gap: 12, 
-            marginBottom: 12,
-            padding: "12px 16px",
-            backgroundColor: COLORS.borderLight,
-            borderRadius: 12,
-            borderLeft: `4px solid ${COLORS.textMuted}`
-          }}>
-            <Calendar size={20} color={COLORS.textMuted} />
-            <div style={{ fontWeight: 700, fontSize: 15, color: COLORS.textSecondary }}>
-              No Date Set
-            </div>
-          </div>
-          <div style={{ paddingLeft: 20 }}>
+        <div style={{ marginTop: 24 }}>
+          <h3 style={{ fontSize: 16, fontWeight: 700, color: COLORS.textMain, marginBottom: 16 }}>Unscheduled Items</h3>
+          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
             {legsByDate.noDateLegs.map(leg => (
               <TripLegCard 
                 key={leg.id} 
@@ -1172,15 +1083,16 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
             {(() => {
               const datesComplete = trip.departureDate && (trip.tripType === "one_way" || trip.returnDate);
               return datesComplete ? (
-                // Collapsed view - just show summary
+                // Collapsed view - pill-shaped modern summary
                 <div 
                   onClick={() => setTrip(t => ({ ...t, departureDate: undefined, returnDate: undefined, updatedAt: Date.now() }))}
                   style={{ 
-                    backgroundColor: COLORS.card, 
-                    borderRadius: 12, 
-                    padding: "12px 16px", 
-                    marginBottom: 16,
-                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "#FFFFFF", 
+                    borderRadius: 24, 
+                    padding: "16px 20px", 
+                    marginBottom: 20,
+                    boxShadow: "0 2px 12px rgba(0,0,0,0.04)",
+                    border: "1px solid rgba(0,0,0,0.02)",
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "space-between",
@@ -1188,44 +1100,48 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                   }}
                 >
                   <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <Calendar size={16} color={COLORS.primary} />
-                      <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+                      <div style={{ width: 32, height: 32, borderRadius: "50%", backgroundColor: COLORS.primary, display: "flex", alignItems: "center", justifyContent: "center", color: "white" }}>
+                        <Calendar size={16} />
+                      </div>
+                      <span style={{ fontSize: 15, fontWeight: 700, color: COLORS.textMain }}>
                         {formatDate(trip.departureDate!)}
                       </span>
                     </div>
                     {trip.tripType !== "one_way" && trip.returnDate && (
                       <>
-                        <ArrowRight size={14} color={COLORS.textMuted} />
-                        <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>
+                        <ArrowRight size={16} color={COLORS.textMuted} />
+                        <span style={{ fontSize: 15, fontWeight: 700, color: COLORS.textMain }}>
                           {formatDate(trip.returnDate)}
                         </span>
                       </>
                     )}
                     <span style={{ 
-                      fontSize: 11, 
-                      padding: "2px 8px", 
-                      borderRadius: 4, 
+                      fontSize: 12, 
+                      padding: "4px 10px", 
+                      borderRadius: 12, 
                       backgroundColor: COLORS.accentLight, 
                       color: COLORS.primaryDark,
-                      fontWeight: 600
+                      fontWeight: 700
                     }}>
                       {trip.tripType === "one_way" ? "One Way" : trip.tripType === "round_trip" ? "Round Trip" : "Multi-City"}
                     </span>
                   </div>
-                  <Edit3 size={16} color={COLORS.textSecondary} />
+                  <div style={{ width: 32, height: 32, borderRadius: "50%", backgroundColor: COLORS.bg, display: "flex", alignItems: "center", justifyContent: "center", color: COLORS.textSecondary }}>
+                    <Edit3 size={16} />
+                  </div>
                 </div>
               ) : (
-                // Expanded view - full form
+                // Expanded view - modern form with pill inputs
                 <div style={{ 
-                  backgroundColor: COLORS.card, 
-                  borderRadius: 16, 
-                  padding: 16, 
-                  marginBottom: 16,
-                  border: `1px solid ${COLORS.border}`
+                  backgroundColor: "#FFFFFF", 
+                  borderRadius: 24, 
+                  padding: 24, 
+                  marginBottom: 20,
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.06)"
                 }}>
                   {/* Trip Type Toggle */}
-                  <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
+                  <div style={{ display: "flex", gap: 8, marginBottom: 20, backgroundColor: COLORS.bg, padding: 4, borderRadius: 16 }}>
                     {[
                       { value: "one_way", label: "One Way" },
                       { value: "round_trip", label: "Round Trip" },
@@ -1237,13 +1153,15 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                         style={{
                           flex: 1,
                           padding: "10px 12px",
-                          borderRadius: 10,
-                          border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-                          backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
-                          color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
-                          fontWeight: 600,
-                          fontSize: 13,
-                          cursor: "pointer"
+                          borderRadius: 12,
+                          border: "none",
+                          backgroundColor: trip.tripType === opt.value ? "#FFFFFF" : "transparent",
+                          color: trip.tripType === opt.value ? COLORS.textMain : COLORS.textSecondary,
+                          fontWeight: 700,
+                          fontSize: 14,
+                          cursor: "pointer",
+                          boxShadow: trip.tripType === opt.value ? "0 2px 8px rgba(0,0,0,0.08)" : "none",
+                          transition: "all 0.2s"
                         }}
                       >
                         {opt.label}
@@ -1252,17 +1170,18 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                   </div>
                   
                   {/* Date Pickers */}
-                  <div style={{ display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }}>
+                  <div style={{ display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 16 }}>
                     <div>
-                      <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
+                      <label style={{ display: "block", fontSize: 13, fontWeight: 700, color: COLORS.textSecondary, marginBottom: 8, marginLeft: 4 }}>
                         Departure Date
                       </label>
-                      <input
-                        type="date"
-                        value={trip.departureDate || ""}
-                        onChange={e => {
-                          const newDate = e.target.value;
-                          // Update trip departure date and sync to outbound flight
+                      <div style={{ position: "relative" }}>
+                        <input
+                          type="date"
+                          value={trip.departureDate || ""}
+                          onChange={e => {
+                            const newDate = e.target.value;
+                            // Update trip departure date and sync to outbound flight
                       setTrip(t => {
                         const updatedLegs = t.legs.map((leg, idx) => {
                           if (leg.type === "flight" && idx === 0) {
@@ -1290,6 +1209,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                     }}
                   />
                 </div>
+              </div>
                 
                 {trip.tripType !== "one_way" && (
                   <div>
