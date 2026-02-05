@@ -24599,19 +24599,15 @@ var __iconNode9 = [
 ];
 var CircleCheck = createLucideIcon("circle-check", __iconNode9);
 
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/circle.js
-var __iconNode10 = [["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]];
-var Circle = createLucideIcon("circle", __iconNode10);
-
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/clock.js
-var __iconNode11 = [
+var __iconNode10 = [
   ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
 ];
-var Clock = createLucideIcon("clock", __iconNode11);
+var Clock = createLucideIcon("clock", __iconNode10);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/file-text.js
-var __iconNode12 = [
+var __iconNode11 = [
   [
     "path",
     {
@@ -24624,10 +24620,10 @@ var __iconNode12 = [
   ["path", { d: "M16 13H8", key: "t4e002" }],
   ["path", { d: "M16 17H8", key: "z1uh3a" }]
 ];
-var FileText = createLucideIcon("file-text", __iconNode12);
+var FileText = createLucideIcon("file-text", __iconNode11);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/hotel.js
-var __iconNode13 = [
+var __iconNode12 = [
   ["path", { d: "M10 22v-6.57", key: "1wmca3" }],
   ["path", { d: "M12 11h.01", key: "z322tv" }],
   ["path", { d: "M12 7h.01", key: "1ivr5q" }],
@@ -24639,10 +24635,10 @@ var __iconNode13 = [
   ["path", { d: "M8 7h.01", key: "1vti4s" }],
   ["rect", { x: "4", y: "2", width: "16", height: "20", rx: "2", key: "1uxh74" }]
 ];
-var Hotel = createLucideIcon("hotel", __iconNode13);
+var Hotel = createLucideIcon("hotel", __iconNode12);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/map-pin.js
-var __iconNode14 = [
+var __iconNode13 = [
   [
     "path",
     {
@@ -24652,10 +24648,10 @@ var __iconNode14 = [
   ],
   ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
 ];
-var MapPin = createLucideIcon("map-pin", __iconNode14);
+var MapPin = createLucideIcon("map-pin", __iconNode13);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/pen-line.js
-var __iconNode15 = [
+var __iconNode14 = [
   ["path", { d: "M13 21h8", key: "1jsn5i" }],
   [
     "path",
@@ -24665,10 +24661,10 @@ var __iconNode15 = [
     }
   ]
 ];
-var PenLine = createLucideIcon("pen-line", __iconNode15);
+var PenLine = createLucideIcon("pen-line", __iconNode14);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/plane.js
-var __iconNode16 = [
+var __iconNode15 = [
   [
     "path",
     {
@@ -24677,38 +24673,24 @@ var __iconNode16 = [
     }
   ]
 ];
-var Plane = createLucideIcon("plane", __iconNode16);
+var Plane = createLucideIcon("plane", __iconNode15);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/plus.js
-var __iconNode17 = [
+var __iconNode16 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "M12 5v14", key: "s699le" }]
 ];
-var Plus = createLucideIcon("plus", __iconNode17);
+var Plus = createLucideIcon("plus", __iconNode16);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
-var __iconNode18 = [
+var __iconNode17 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
-var RotateCcw = createLucideIcon("rotate-ccw", __iconNode18);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/save.js
-var __iconNode19 = [
-  [
-    "path",
-    {
-      d: "M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z",
-      key: "1c8476"
-    }
-  ],
-  ["path", { d: "M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7", key: "1ydtos" }],
-  ["path", { d: "M7 3v4a1 1 0 0 0 1 1h7", key: "t51u73" }]
-];
-var Save = createLucideIcon("save", __iconNode19);
+var RotateCcw = createLucideIcon("rotate-ccw", __iconNode17);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/ship.js
-var __iconNode20 = [
+var __iconNode18 = [
   ["path", { d: "M12 10.189V14", key: "1p8cqu" }],
   ["path", { d: "M12 2v3", key: "qbqxhf" }],
   ["path", { d: "M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6", key: "qpkstq" }],
@@ -24727,10 +24709,10 @@ var __iconNode20 = [
     }
   ]
 ];
-var Ship = createLucideIcon("ship", __iconNode20);
+var Ship = createLucideIcon("ship", __iconNode18);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/sparkles.js
-var __iconNode21 = [
+var __iconNode19 = [
   [
     "path",
     {
@@ -24742,10 +24724,10 @@ var __iconNode21 = [
   ["path", { d: "M22 4h-4", key: "gwowj6" }],
   ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-var Sparkles = createLucideIcon("sparkles", __iconNode21);
+var Sparkles = createLucideIcon("sparkles", __iconNode19);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/tram-front.js
-var __iconNode22 = [
+var __iconNode20 = [
   ["rect", { width: "16", height: "16", x: "4", y: "3", rx: "2", key: "1wxw4b" }],
   ["path", { d: "M4 11h16", key: "mpoxn0" }],
   ["path", { d: "M12 3v8", key: "1h2ygw" }],
@@ -24754,33 +24736,23 @@ var __iconNode22 = [
   ["path", { d: "M8 15h.01", key: "a7atzg" }],
   ["path", { d: "M16 15h.01", key: "rnfrdf" }]
 ];
-var TramFront = createLucideIcon("tram-front", __iconNode22);
-
-// node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/trash-2.js
-var __iconNode23 = [
-  ["path", { d: "M10 11v6", key: "nco0om" }],
-  ["path", { d: "M14 11v6", key: "outv1u" }],
-  ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
-  ["path", { d: "M3 6h18", key: "d0wm0j" }],
-  ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
-];
-var Trash2 = createLucideIcon("trash-2", __iconNode23);
+var TramFront = createLucideIcon("tram-front", __iconNode20);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/users.js
-var __iconNode24 = [
+var __iconNode21 = [
   ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
   ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
   ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
   ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
 ];
-var Users = createLucideIcon("users", __iconNode24);
+var Users = createLucideIcon("users", __iconNode21);
 
 // node_modules/.pnpm/lucide-react@0.554.0_react@18.3.1/node_modules/lucide-react/dist/esm/icons/x.js
-var __iconNode25 = [
+var __iconNode22 = [
   ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
   ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ];
-var X = createLucideIcon("x", __iconNode25);
+var X = createLucideIcon("x", __iconNode22);
 
 // src/TripPlanner.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
@@ -24796,29 +24768,33 @@ if (typeof document !== "undefined") {
   document.head.appendChild(styleEl);
 }
 var COLORS = {
-  primary: "#56C596",
-  primaryDark: "#3aa87b",
-  bg: "#FAFAFA",
+  primary: "#FF6B35",
+  // Orange accent
+  primaryDark: "#E55A2B",
+  primaryLight: "#FFF4F0",
+  bg: "#FFFFFF",
   card: "#FFFFFF",
+  cardHover: "#FAFAFA",
   textMain: "#1A1A1A",
   textSecondary: "#6B7280",
   textMuted: "#9CA3AF",
-  border: "#E5E7EB",
-  borderLight: "#F3F4F6",
-  inputBg: "#F9FAFB",
-  accentLight: "#E6F7F0",
-  booked: "#10B981",
-  bookedBg: "#D1FAE5",
-  pending: "#F59E0B",
-  pendingBg: "#FEF3C7",
+  border: "#F0F0F0",
+  borderLight: "#F5F5F5",
+  inputBg: "#F5F5F5",
+  accentLight: "#FFF4F0",
+  booked: "#22C55E",
+  bookedBg: "#F0FDF4",
+  pending: "#FF6B35",
+  pendingBg: "#FFF4F0",
   urgent: "#EF4444",
-  urgentBg: "#FEE2E2",
+  urgentBg: "#FEF2F2",
   flight: "#3B82F6",
-  flightBg: "#DBEAFE",
+  flightBg: "#EFF6FF",
   hotel: "#8B5CF6",
-  hotelBg: "#EDE9FE",
+  hotelBg: "#F5F3FF",
   transport: "#F97316",
-  transportBg: "#FFEDD5"
+  transportBg: "#FFF7ED",
+  star: "#FBBF24"
 };
 var STORAGE_KEY = "TRIP_PLANNER_DATA";
 var generateId = () => Math.random().toString(36).substr(2, 9);
@@ -24859,50 +24835,6 @@ var getLegColor = (type) => {
       return { main: COLORS.transport, bg: COLORS.transportBg };
   }
 };
-var getStatusColor = (status) => {
-  switch (status) {
-    case "booked":
-      return { main: COLORS.booked, bg: COLORS.bookedBg };
-    case "pending":
-      return { main: COLORS.pending, bg: COLORS.pendingBg };
-    case "urgent":
-      return { main: COLORS.urgent, bg: COLORS.urgentBg };
-  }
-};
-var StatusIcon = ({ status }) => {
-  const colors = getStatusColor(status);
-  const icons = {
-    booked: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { size: 18 }),
-    pending: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { size: 18 }),
-    urgent: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleAlert, { size: 18 })
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: colors.main }, title: status, children: icons[status] });
-};
-var AddDetailsButton = ({ onClick }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-    "button",
-    {
-      onClick,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 4,
-        padding: "6px 12px",
-        borderRadius: 8,
-        backgroundColor: COLORS.primary,
-        color: "white",
-        border: "none",
-        fontSize: 12,
-        fontWeight: 600,
-        cursor: "pointer"
-      },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14 }),
-        " Add details"
-      ]
-    }
-  );
-};
 var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand }) => {
   const [isEditing, setIsEditing] = (0, import_react3.useState)(false);
   const [editData, setEditData] = (0, import_react3.useState)(leg);
@@ -24912,94 +24844,187 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand }) => {
     const next = order[(order.indexOf(leg.status) + 1) % order.length];
     onUpdate({ status: next });
   };
+  const getTypeLabel = (type) => {
+    switch (type) {
+      case "flight":
+        return "Flight";
+      case "hotel":
+        return "Hotel";
+      case "car":
+        return "Transport";
+      case "train":
+        return "Train";
+      case "bus":
+        return "Bus";
+      case "ferry":
+        return "Ferry";
+      default:
+        return "Other";
+    }
+  };
   if (isEditing) {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, border: `2px solid ${legColors.main}`, padding: 20, marginBottom: 12 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 16 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontWeight: 700, fontSize: 16 }, children: [
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.06)", padding: 16, marginBottom: 8 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", marginBottom: 12 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontWeight: 600, fontSize: 15 }, children: [
           "Edit ",
           leg.type
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => {
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => {
             onUpdate(editData);
             setIsEditing(false);
-          }, style: { padding: "8px 16px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, cursor: "pointer" }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { size: 16 }),
-            " Save"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setIsEditing(false), style: { padding: "8px 16px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", cursor: "pointer" }, children: "Cancel" })
+          }, style: { padding: "6px 12px", borderRadius: 20, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, fontSize: 13, cursor: "pointer" }, children: "Save" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setIsEditing(false), style: { padding: "6px 12px", borderRadius: 20, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, cursor: "pointer" }, children: "Cancel" })
         ] })
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Title", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.from || "", onChange: (e) => setEditData({ ...editData, from: e.target.value }), placeholder: "From", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.to || "", onChange: (e) => setEditData({ ...editData, to: e.target.value }), placeholder: "To", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } })
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Title", style: { padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, gridColumn: "1 / -1", fontSize: 14 } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: { padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, fontSize: 14 } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: { padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, fontSize: 14 } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: { padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, gridColumn: "1 / -1", fontSize: 14 } })
       ] })
     ] });
   }
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, border: `1px solid ${leg.status === "booked" ? COLORS.booked : COLORS.border}`, borderLeft: `4px solid ${legColors.main}`, marginBottom: 12 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { onClick: onToggleExpand, style: { padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 44, height: 44, borderRadius: 12, backgroundColor: legColors.bg, color: legColors.main, display: "flex", alignItems: "center", justifyContent: "center" }, children: getLegIcon(leg.type, 22) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, fontSize: 15, color: COLORS.textMain, marginBottom: 4 }, children: leg.title }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }, children: [
-          leg.date && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
-            formatDate(leg.date)
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+    "div",
+    {
+      onClick: onToggleExpand,
+      style: {
+        backgroundColor: COLORS.card,
+        borderRadius: 16,
+        padding: "12px 14px",
+        marginBottom: 8,
+        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        border: `1px solid ${COLORS.border}`,
+        cursor: "pointer",
+        transition: "all 0.15s ease"
+      },
+      children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 12 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+            width: 52,
+            height: 52,
+            borderRadius: 12,
+            backgroundColor: legColors.bg,
+            color: legColors.main,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            flexShrink: 0
+          }, children: getLegIcon(leg.type, 24) }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, minWidth: 0 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 600, fontSize: 15, color: COLORS.textMain, marginBottom: 2 }, children: leg.title.replace("Flight: ", "").replace("Hotel in ", "").replace("Car to ", "To ").replace("Car from ", "From ") }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: COLORS.textSecondary }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 12 }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: leg.location || leg.to || leg.from || "Location TBD" })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 6 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+              display: "inline-block",
+              padding: "2px 8px",
+              borderRadius: 4,
+              backgroundColor: legColors.bg,
+              color: legColors.main,
+              fontSize: 11,
+              fontWeight: 600
+            }, children: getTypeLabel(leg.type) }) })
           ] }),
-          leg.time && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14 }),
-            leg.time
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }, children: leg.status === "booked" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { size: 20, color: COLORS.booked }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+            width: 20,
+            height: 20,
+            borderRadius: "50%",
+            border: `2px solid ${COLORS.pending}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          } }) })
+        ] }),
+        isExpanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: 12, paddingTop: 12, borderTop: `1px solid ${COLORS.borderLight}` }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 12 }, children: [
+            leg.date && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
+              formatDate(leg.date)
+            ] }),
+            leg.time && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14 }),
+              leg.time
+            ] }),
+            leg.flightNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, color: legColors.main, fontWeight: 600 }, children: leg.flightNumber }),
+            leg.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 13, fontFamily: "monospace", color: COLORS.textMain }, children: [
+              "#",
+              leg.confirmationNumber
+            ] })
           ] }),
-          leg.flightNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: legColors.main, fontWeight: 600 }, children: leg.flightNumber })
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatusIcon, { status: leg.status }),
-      leg.status === "pending" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddDetailsButton, { onClick: () => setIsEditing(true) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20 }) })
-    ] }),
-    isExpanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }, children: [
-        leg.from && leg.to && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Route" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, display: "flex", alignItems: "center", gap: 8 }, children: [
-            leg.from,
-            " ",
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 14 }),
-            " ",
-            leg.to
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "button",
+              {
+                onClick: (e) => {
+                  e.stopPropagation();
+                  setIsEditing(true);
+                },
+                style: {
+                  padding: "6px 14px",
+                  borderRadius: 20,
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: "white",
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4
+                },
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 12 }),
+                  " Edit"
+                ]
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                onClick: (e) => {
+                  e.stopPropagation();
+                  cycleStatus();
+                },
+                style: {
+                  padding: "6px 14px",
+                  borderRadius: 20,
+                  border: "none",
+                  backgroundColor: leg.status === "booked" ? COLORS.bookedBg : COLORS.primaryLight,
+                  color: leg.status === "booked" ? COLORS.booked : COLORS.primary,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer"
+                },
+                children: leg.status === "booked" ? "\u2713 Booked" : "Mark Booked"
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                onClick: (e) => {
+                  e.stopPropagation();
+                  onDelete();
+                },
+                style: {
+                  padding: "6px 14px",
+                  borderRadius: 20,
+                  border: `1px solid ${COLORS.urgentBg}`,
+                  backgroundColor: "white",
+                  color: COLORS.urgent,
+                  fontSize: 12,
+                  fontWeight: 600,
+                  cursor: "pointer"
+                },
+                children: "Delete"
+              }
+            )
           ] })
-        ] }),
-        leg.location && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Location" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14 }, children: leg.location })
-        ] }),
-        leg.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Confirmation #" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontFamily: "monospace", fontWeight: 600 }, children: leg.confirmationNumber })
         ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 16 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-          e.stopPropagation();
-          setIsEditing(true);
-        }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 14 }),
-          " Edit"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-          e.stopPropagation();
-          onDelete();
-        }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 14 }),
-          " Delete"
-        ] })
-      ] })
-    ] })
-  ] });
+      ]
+    }
+  );
 };
 var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, expandedLegs, toggleLegExpand, departureDate, returnDate }) => {
   const [collapsedDays, setCollapsedDays] = (0, import_react3.useState)(/* @__PURE__ */ new Set());
@@ -26098,14 +26123,6 @@ lucide-react/dist/esm/icons/circle-check.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/circle.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
 lucide-react/dist/esm/icons/clock.js:
   (**
    * @license lucide-react v0.554.0 - ISC
@@ -26170,14 +26187,6 @@ lucide-react/dist/esm/icons/rotate-ccw.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/save.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
 lucide-react/dist/esm/icons/ship.js:
   (**
    * @license lucide-react v0.554.0 - ISC
@@ -26195,14 +26204,6 @@ lucide-react/dist/esm/icons/sparkles.js:
    *)
 
 lucide-react/dist/esm/icons/tram-front.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/trash-2.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *

@@ -20,30 +20,34 @@ if (typeof document !== 'undefined') {
   document.head.appendChild(styleEl);
 }
 
+// New clean design - white bg, orange accents like the travel app mockup
 const COLORS = {
-  primary: "#56C596",
-  primaryDark: "#3aa87b",
-  bg: "#FAFAFA",
+  primary: "#FF6B35",      // Orange accent
+  primaryDark: "#E55A2B",
+  primaryLight: "#FFF4F0",
+  bg: "#FFFFFF",
   card: "#FFFFFF",
+  cardHover: "#FAFAFA",
   textMain: "#1A1A1A",
   textSecondary: "#6B7280",
   textMuted: "#9CA3AF",
-  border: "#E5E7EB",
-  borderLight: "#F3F4F6",
-  inputBg: "#F9FAFB",
-  accentLight: "#E6F7F0",
-  booked: "#10B981",
-  bookedBg: "#D1FAE5",
-  pending: "#F59E0B",
-  pendingBg: "#FEF3C7",
+  border: "#F0F0F0",
+  borderLight: "#F5F5F5",
+  inputBg: "#F5F5F5",
+  accentLight: "#FFF4F0",
+  booked: "#22C55E",
+  bookedBg: "#F0FDF4",
+  pending: "#FF6B35",
+  pendingBg: "#FFF4F0",
   urgent: "#EF4444",
-  urgentBg: "#FEE2E2",
+  urgentBg: "#FEF2F2",
   flight: "#3B82F6",
-  flightBg: "#DBEAFE",
+  flightBg: "#EFF6FF",
   hotel: "#8B5CF6",
-  hotelBg: "#EDE9FE",
+  hotelBg: "#F5F3FF",
   transport: "#F97316",
-  transportBg: "#FFEDD5",
+  transportBg: "#FFF7ED",
+  star: "#FBBF24",
 };
 
 type BookingStatus = "booked" | "pending" | "urgent";
@@ -315,6 +319,7 @@ const AddDetailsButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
+// Clean list-style card like the travel app mockup
 const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand }: { leg: TripLeg; onUpdate: (u: Partial<TripLeg>) => void; onDelete: () => void; isExpanded: boolean; onToggleExpand: () => void }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editData, setEditData] = useState(leg);
@@ -326,54 +331,171 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand }: { 
     onUpdate({ status: next });
   };
 
+  // Get type label for badge
+  const getTypeLabel = (type: LegType) => {
+    switch(type) {
+      case "flight": return "Flight";
+      case "hotel": return "Hotel";
+      case "car": return "Transport";
+      case "train": return "Train";
+      case "bus": return "Bus";
+      case "ferry": return "Ferry";
+      default: return "Other";
+    }
+  };
+
   if (isEditing) {
     return (
-      <div style={{ backgroundColor: COLORS.card, borderRadius: 16, border: `2px solid ${legColors.main}`, padding: 20, marginBottom: 12 }}>
-        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 16 }}>
-          <span style={{ fontWeight: 700, fontSize: 16 }}>Edit {leg.type}</span>
+      <div style={{ backgroundColor: COLORS.card, borderRadius: 16, boxShadow: "0 2px 8px rgba(0,0,0,0.06)", padding: 16, marginBottom: 8 }}>
+        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: 12 }}>
+          <span style={{ fontWeight: 600, fontSize: 15 }}>Edit {leg.type}</span>
           <div style={{ display: "flex", gap: 8 }}>
-            <button onClick={() => { onUpdate(editData); setIsEditing(false); }} style={{ padding: "8px 16px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, cursor: "pointer" }}><Save size={16} /> Save</button>
-            <button onClick={() => setIsEditing(false)} style={{ padding: "8px 16px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", cursor: "pointer" }}>Cancel</button>
+            <button onClick={() => { onUpdate(editData); setIsEditing(false); }} style={{ padding: "6px 12px", borderRadius: 20, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, fontSize: 13, cursor: "pointer" }}>Save</button>
+            <button onClick={() => setIsEditing(false)} style={{ padding: "6px 12px", borderRadius: 20, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, cursor: "pointer" }}>Cancel</button>
           </div>
         </div>
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-          <input value={editData.title} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Title" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" }} />
-          <input type="date" value={editData.date} onChange={e => setEditData({ ...editData, date: e.target.value })} style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
-          <input type="time" value={editData.time || ""} onChange={e => setEditData({ ...editData, time: e.target.value })} style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
-          <input value={editData.from || ""} onChange={e => setEditData({ ...editData, from: e.target.value })} placeholder="From" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
-          <input value={editData.to || ""} onChange={e => setEditData({ ...editData, to: e.target.value })} placeholder="To" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
-          <input value={editData.confirmationNumber || ""} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" }} />
+        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10 }}>
+          <input value={editData.title} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Title" style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, gridColumn: "1 / -1", fontSize: 14 }} />
+          <input type="date" value={editData.date} onChange={e => setEditData({ ...editData, date: e.target.value })} style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, fontSize: 14 }} />
+          <input type="time" value={editData.time || ""} onChange={e => setEditData({ ...editData, time: e.target.value })} style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, fontSize: 14 }} />
+          <input value={editData.confirmationNumber || ""} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={{ padding: 10, borderRadius: 10, border: "none", backgroundColor: COLORS.inputBg, gridColumn: "1 / -1", fontSize: 14 }} />
         </div>
       </div>
     );
   }
 
   return (
-    <div style={{ backgroundColor: COLORS.card, borderRadius: 16, border: `1px solid ${leg.status === "booked" ? COLORS.booked : COLORS.border}`, borderLeft: `4px solid ${legColors.main}`, marginBottom: 12 }}>
-      <div onClick={onToggleExpand} style={{ padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }}>
-        <div style={{ width: 44, height: 44, borderRadius: 12, backgroundColor: legColors.bg, color: legColors.main, display: "flex", alignItems: "center", justifyContent: "center" }}>{getLegIcon(leg.type, 22)}</div>
-        <div style={{ flex: 1 }}>
-          <div style={{ fontWeight: 700, fontSize: 15, color: COLORS.textMain, marginBottom: 4 }}>{leg.title}</div>
-          <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
-            {leg.date && <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}><Calendar size={14} />{formatDate(leg.date)}</span>}
-            {leg.time && <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}><Clock size={14} />{leg.time}</span>}
-            {leg.flightNumber && <span style={{ fontSize: 13, color: legColors.main, fontWeight: 600 }}>{leg.flightNumber}</span>}
+    <div 
+      onClick={onToggleExpand}
+      style={{ 
+        backgroundColor: COLORS.card, 
+        borderRadius: 16, 
+        padding: "12px 14px",
+        marginBottom: 8,
+        boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+        border: `1px solid ${COLORS.border}`,
+        cursor: "pointer",
+        transition: "all 0.15s ease"
+      }}
+    >
+      <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+        {/* Rounded icon/thumbnail */}
+        <div style={{ 
+          width: 52, height: 52, borderRadius: 12, 
+          backgroundColor: legColors.bg, 
+          color: legColors.main, 
+          display: "flex", alignItems: "center", justifyContent: "center",
+          flexShrink: 0
+        }}>
+          {getLegIcon(leg.type, 24)}
+        </div>
+        
+        {/* Content */}
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <div style={{ fontWeight: 600, fontSize: 15, color: COLORS.textMain, marginBottom: 2 }}>
+            {leg.title.replace("Flight: ", "").replace("Hotel in ", "").replace("Car to ", "To ").replace("Car from ", "From ")}
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 13, color: COLORS.textSecondary }}>
+            <MapPin size={12} />
+            <span>{leg.location || leg.to || leg.from || "Location TBD"}</span>
+          </div>
+          {/* Type badge */}
+          <div style={{ marginTop: 6 }}>
+            <span style={{ 
+              display: "inline-block",
+              padding: "2px 8px", 
+              borderRadius: 4, 
+              backgroundColor: legColors.bg, 
+              color: legColors.main,
+              fontSize: 11,
+              fontWeight: 600
+            }}>
+              {getTypeLabel(leg.type)}
+            </span>
           </div>
         </div>
-        <StatusIcon status={leg.status} />
-        {leg.status === "pending" && <AddDetailsButton onClick={() => setIsEditing(true)} />}
-        <div style={{ color: COLORS.textSecondary }}>{isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}</div>
+        
+        {/* Right side - status indicator */}
+        <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: 4 }}>
+          {leg.status === "booked" ? (
+            <CheckCircle2 size={20} color={COLORS.booked} />
+          ) : (
+            <div style={{ 
+              width: 20, height: 20, borderRadius: "50%", 
+              border: `2px solid ${COLORS.pending}`,
+              display: "flex", alignItems: "center", justifyContent: "center"
+            }} />
+          )}
+        </div>
       </div>
+      
+      {/* Expanded details */}
       {isExpanded && (
-        <div style={{ padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-            {leg.from && leg.to && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Route</div><div style={{ fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>{leg.from} <ArrowRight size={14} /> {leg.to}</div></div>}
-            {leg.location && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Location</div><div style={{ fontSize: 14 }}>{leg.location}</div></div>}
-            {leg.confirmationNumber && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Confirmation #</div><div style={{ fontSize: 14, fontFamily: "monospace", fontWeight: 600 }}>{leg.confirmationNumber}</div></div>}
+        <div style={{ marginTop: 12, paddingTop: 12, borderTop: `1px solid ${COLORS.borderLight}` }}>
+          <div style={{ display: "flex", flexWrap: "wrap", gap: 12, marginBottom: 12 }}>
+            {leg.date && (
+              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}>
+                <Calendar size={14} />
+                {formatDate(leg.date)}
+              </div>
+            )}
+            {leg.time && (
+              <div style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}>
+                <Clock size={14} />
+                {leg.time}
+              </div>
+            )}
+            {leg.flightNumber && (
+              <div style={{ fontSize: 13, color: legColors.main, fontWeight: 600 }}>
+                {leg.flightNumber}
+              </div>
+            )}
+            {leg.confirmationNumber && (
+              <div style={{ fontSize: 13, fontFamily: "monospace", color: COLORS.textMain }}>
+                #{leg.confirmationNumber}
+              </div>
+            )}
           </div>
-          <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-            <button onClick={e => { e.stopPropagation(); setIsEditing(true); }} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Edit3 size={14} /> Edit</button>
-            <button onClick={e => { e.stopPropagation(); onDelete(); }} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Trash2 size={14} /> Delete</button>
+          <div style={{ display: "flex", gap: 8 }}>
+            <button 
+              onClick={e => { e.stopPropagation(); setIsEditing(true); }} 
+              style={{ 
+                padding: "6px 14px", borderRadius: 20, 
+                border: `1px solid ${COLORS.border}`, 
+                backgroundColor: "white", 
+                fontSize: 12, fontWeight: 600, 
+                cursor: "pointer",
+                display: "flex", alignItems: "center", gap: 4
+              }}
+            >
+              <Edit3 size={12} /> Edit
+            </button>
+            <button 
+              onClick={e => { e.stopPropagation(); cycleStatus(); }} 
+              style={{ 
+                padding: "6px 14px", borderRadius: 20, 
+                border: "none", 
+                backgroundColor: leg.status === "booked" ? COLORS.bookedBg : COLORS.primaryLight, 
+                color: leg.status === "booked" ? COLORS.booked : COLORS.primary,
+                fontSize: 12, fontWeight: 600, 
+                cursor: "pointer"
+              }}
+            >
+              {leg.status === "booked" ? "✓ Booked" : "Mark Booked"}
+            </button>
+            <button 
+              onClick={e => { e.stopPropagation(); onDelete(); }} 
+              style={{ 
+                padding: "6px 14px", borderRadius: 20, 
+                border: `1px solid ${COLORS.urgentBg}`, 
+                backgroundColor: "white", 
+                color: COLORS.urgent,
+                fontSize: 12, fontWeight: 600, 
+                cursor: "pointer"
+              }}
+            >
+              Delete
+            </button>
           </div>
         </div>
       )}
