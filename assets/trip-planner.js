@@ -24974,7 +24974,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
     ] });
   }
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, border: `1px solid ${leg.status === "booked" ? COLORS.booked : COLORS.border}`, borderLeft: `4px solid ${legColors.main}`, marginBottom: 12, overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { onClick: onToggleExpand, style: { padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, cursor: "pointer" }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { onClick: onToggleExpand, style: { padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, cursor: "pointer", overflow: "hidden", maxWidth: "100%" }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 44, height: 44, borderRadius: 12, backgroundColor: legColors.bg, color: legColors.main, display: "flex", alignItems: "center", justifyContent: "center" }, children: getLegIcon(leg.type, 22) }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, minWidth: 0, overflow: "hidden" }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, fontSize: 15, color: COLORS.textMain, marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: leg.title }),
@@ -26101,7 +26101,7 @@ function TripPlanner({ initialData: initialData2 }) {
     if (!b.date) return -1;
     return a.date.localeCompare(b.date);
   }), [trip.legs]);
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" }, children: [
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", width: "100%", maxWidth: "100%", overflow: "hidden", boxSizing: "border-box" }, children: [
     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { maxWidth: 600, margin: "0 auto", display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { style: { margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }, children: [
