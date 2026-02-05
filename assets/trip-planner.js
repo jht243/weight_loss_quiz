@@ -25725,7 +25725,7 @@ function TripPlanner({ initialData: initialData2 }) {
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
         backgroundColor: COLORS.card,
         borderRadius: 12,
-        padding: "12px 16px",
+        padding: "14px 16px",
         marginBottom: 16,
         border: `1px solid ${COLORS.border}`,
         display: "flex",
@@ -25734,27 +25734,42 @@ function TripPlanner({ initialData: initialData2 }) {
         flexWrap: "wrap",
         gap: 12
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 16 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 16, color: COLORS.textSecondary }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: trip.travelers })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: [
+              trip.travelers,
+              " traveler",
+              trip.travelers !== 1 ? "s" : ""
+            ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 16, color: COLORS.flight }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: trip.legs.filter((l) => l.type === "flight").length })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: [
+              trip.legs.filter((l) => l.type === "flight").length,
+              " flight",
+              trip.legs.filter((l) => l.type === "flight").length !== 1 ? "s" : ""
+            ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: COLORS.hotel }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: trip.legs.filter((l) => l.type === "hotel").length })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: [
+              trip.legs.filter((l) => l.type === "hotel").length,
+              " hotel",
+              trip.legs.filter((l) => l.type === "hotel").length !== 1 ? "s" : ""
+            ] })
           ] }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 16, color: COLORS.transport }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textSecondary }, children: trip.legs.filter((l) => !["flight", "hotel"].includes(l.type)).length })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: [
+              trip.legs.filter((l) => !["flight", "hotel"].includes(l.type)).length,
+              " transport"
+            ] })
           ] })
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowAddModal(true), style: { padding: "8px 14px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-          " Add"
+          " Add Flight, Hotel, etc."
         ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(

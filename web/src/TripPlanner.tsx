@@ -1186,11 +1186,11 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
               onSaveEdit={handleSaveEdit}
             />
             
-            {/* Quick Stats Bar */}
+            {/* Trip Summary Bar */}
             <div style={{ 
               backgroundColor: COLORS.card, 
               borderRadius: 12, 
-              padding: "12px 16px", 
+              padding: "14px 16px", 
               marginBottom: 16,
               border: `1px solid ${COLORS.border}`,
               display: "flex",
@@ -1199,25 +1199,25 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
               flexWrap: "wrap",
               gap: 12
             }}>
-              <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 20, flexWrap: "wrap" }}>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <Users size={16} color={COLORS.textSecondary} />
-                  <span style={{ fontSize: 13, fontWeight: 600, color: COLORS.textMain }}>{trip.travelers}</span>
+                  <span style={{ fontSize: 13, color: COLORS.textMain }}>{trip.travelers} traveler{trip.travelers !== 1 ? "s" : ""}</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <Plane size={16} color={COLORS.flight} />
-                  <span style={{ fontSize: 13, color: COLORS.textSecondary }}>{trip.legs.filter(l => l.type === "flight").length}</span>
+                  <span style={{ fontSize: 13, color: COLORS.textMain }}>{trip.legs.filter(l => l.type === "flight").length} flight{trip.legs.filter(l => l.type === "flight").length !== 1 ? "s" : ""}</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <Hotel size={16} color={COLORS.hotel} />
-                  <span style={{ fontSize: 13, color: COLORS.textSecondary }}>{trip.legs.filter(l => l.type === "hotel").length}</span>
+                  <span style={{ fontSize: 13, color: COLORS.textMain }}>{trip.legs.filter(l => l.type === "hotel").length} hotel{trip.legs.filter(l => l.type === "hotel").length !== 1 ? "s" : ""}</span>
                 </div>
                 <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                   <Car size={16} color={COLORS.transport} />
-                  <span style={{ fontSize: 13, color: COLORS.textSecondary }}>{trip.legs.filter(l => !["flight", "hotel"].includes(l.type)).length}</span>
+                  <span style={{ fontSize: 13, color: COLORS.textMain }}>{trip.legs.filter(l => !["flight", "hotel"].includes(l.type)).length} transport</span>
                 </div>
               </div>
-              <button onClick={() => setShowAddModal(true)} style={{ padding: "8px 14px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Plus size={16} /> Add</button>
+              <button onClick={() => setShowAddModal(true)} style={{ padding: "8px 14px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Plus size={16} /> Add Flight, Hotel, etc.</button>
             </div>
             
             {/* Day-by-Day View */}
