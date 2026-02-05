@@ -1090,7 +1090,18 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
       }
     });
     
-    // 6. Hotel name (only if hotel exists but no name - check both hotelName and title)
+    // 6. Hotel - prompt to add if no hotels exist
+    if (hotels.length === 0 && flights.length > 0) {
+      items.push({ 
+        id: "add-hotel", 
+        type: "hotel_name", 
+        label: "Add hotel", 
+        icon: <Hotel size={14} />, 
+        priority: 5 
+      });
+    }
+    
+    // 7. Hotel name (only if hotel exists but no name - check both hotelName and title)
     hotels.forEach(h => {
       if (!h.hotelName && !h.title) {
         items.push({ 
@@ -1099,7 +1110,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
           label: "Add hotel name", 
           icon: <Hotel size={14} />, 
           legId: h.id, 
-          priority: 5 
+          priority: 6 
         });
       }
     });

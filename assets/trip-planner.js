@@ -25583,6 +25583,15 @@ function TripPlanner({ initialData: initialData2 }) {
         });
       }
     });
+    if (hotels.length === 0 && flights.length > 0) {
+      items.push({
+        id: "add-hotel",
+        type: "hotel_name",
+        label: "Add hotel",
+        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
+        priority: 5
+      });
+    }
     hotels.forEach((h) => {
       if (!h.hotelName && !h.title) {
         items.push({
@@ -25591,7 +25600,7 @@ function TripPlanner({ initialData: initialData2 }) {
           label: "Add hotel name",
           icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
           legId: h.id,
-          priority: 5
+          priority: 6
         });
       }
     });
