@@ -67,18 +67,23 @@ interface TripLeg {
   hotelName?: string;
 }
 
+type TripType = "one_way" | "round_trip" | "multi_city";
+
 interface Trip {
   id: string;
   name: string;
+  tripType: TripType;
   legs: TripLeg[];
   travelers: number;
+  departureDate?: string;
+  returnDate?: string;
   createdAt: number;
   updatedAt: number;
 }
 
 interface MissingInfo {
   id: string;
-  type: "departure_date" | "return_date" | "travelers" | "flight_number" | "hotel_name" | "confirmation" | "transport";
+  type: "trip_type" | "departure_date" | "return_date" | "travelers" | "flight_number" | "hotel_name" | "confirmation";
   label: string;
   icon: React.ReactNode;
   legId?: string;
@@ -685,7 +690,7 @@ const MissingInfoBar = ({
 export default function TripPlanner({ initialData }: { initialData?: any }) {
   const [trip, setTrip] = useState<Trip>(() => {
     try { const s = localStorage.getItem(STORAGE_KEY); if (s) { const d = JSON.parse(s); if (d.trip) return d.trip; } } catch {}
-    return { id: generateId(), name: "My Trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() };
+    return { id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() };
   });
   const [tripDescription, setTripDescription] = useState("");
   const [showAddModal, setShowAddModal] = useState(false);
@@ -697,44 +702,131 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
 
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() })); } catch {} }, [trip]);
   
-  // Calculate missing info
+  // Auto-sync hotel dates with flight dates
+  useEffect(() => {
+    const flights = trip.legs.filter(l => l.type === "flight");
+    const hotels = trip.legs.filter(l => l.type === "hotel");
+    
+    if (flights.length > 0 && hotels.length > 0) {
+      const outboundFlight = flights[0];
+      const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
+      
+      let needsUpdate = false;
+      const updatedLegs = trip.legs.map(leg => {
+        if (leg.type === "hotel") {
+          const updates: Partial<TripLeg> = {};
+          // Sync check-in with outbound flight arrival
+          if (!leg.date && outboundFlight?.date) {
+            updates.date = outboundFlight.date;
+            needsUpdate = true;
+          }
+          // Sync check-out with return flight departure
+          if (!leg.endDate && returnFlight?.date) {
+            updates.endDate = returnFlight.date;
+            needsUpdate = true;
+          }
+          if (Object.keys(updates).length > 0) {
+            return { ...leg, ...updates };
+          }
+        }
+        return leg;
+      });
+      
+      if (needsUpdate) {
+        setTrip(t => ({ ...t, legs: updatedLegs, updatedAt: Date.now() }));
+      }
+    }
+  }, [trip.legs.filter(l => l.type === "flight").map(f => f.date).join(",")]);
+
+  // Calculate missing info - SMART logic
   const missingInfo = useMemo(() => {
     const items: MissingInfo[] = [];
     const flights = trip.legs.filter(l => l.type === "flight");
     const hotels = trip.legs.filter(l => l.type === "hotel");
+    const outboundFlight = flights[0];
+    const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
     
-    // Check for travelers
-    if (!trip.travelers || trip.travelers < 1) {
-      items.push({ id: "travelers", type: "travelers", label: "Add travelers", icon: <Circle size={14} />, priority: 1 });
+    // 1. Trip type (most important for understanding the trip)
+    // We infer this from flights, but could ask if unclear
+    
+    // 2. Departure date (if outbound flight has no date)
+    if (outboundFlight && !outboundFlight.date) {
+      items.push({ 
+        id: `date-${outboundFlight.id}`, 
+        type: "departure_date", 
+        label: "Add departure date", 
+        icon: <Calendar size={14} />, 
+        legId: outboundFlight.id, 
+        priority: 1 
+      });
     }
     
-    // Check flights for missing dates
+    // 3. Return date (if round trip and return flight has no date)
+    if (returnFlight && !returnFlight.date) {
+      items.push({ 
+        id: `date-${returnFlight.id}`, 
+        type: "return_date", 
+        label: "Add return date", 
+        icon: <Calendar size={14} />, 
+        legId: returnFlight.id, 
+        priority: 2 
+      });
+    }
+    
+    // 4. Number of travelers
+    if (!trip.travelers || trip.travelers < 1) {
+      items.push({ 
+        id: "travelers", 
+        type: "travelers", 
+        label: "Add travelers", 
+        icon: <Users size={14} />, 
+        priority: 3 
+      });
+    }
+    
+    // 5. Flight numbers (for booked flights)
     flights.forEach(f => {
-      if (!f.date) {
-        items.push({ id: `date-${f.id}`, type: "departure_date", label: `Add date for ${f.title.split(":")[1]?.trim() || "flight"}`, icon: <Calendar size={14} />, legId: f.id, priority: 2 });
-      }
-      if (!f.flightNumber) {
-        items.push({ id: `flight-${f.id}`, type: "flight_number", label: `Add flight #`, icon: <Plane size={14} />, legId: f.id, priority: 4 });
-      }
-      if (!f.confirmationNumber && f.status !== "pending") {
-        items.push({ id: `conf-${f.id}`, type: "confirmation", label: `Add confirmation #`, icon: <FileText size={14} />, legId: f.id, priority: 5 });
+      if (!f.flightNumber && f.status === "booked") {
+        items.push({ 
+          id: `flight-${f.id}`, 
+          type: "flight_number", 
+          label: `Add flight # for ${f.from || ""} → ${f.to || ""}`.trim(), 
+          icon: <Plane size={14} />, 
+          legId: f.id, 
+          priority: 4 
+        });
       }
     });
     
-    // Check hotels
+    // 6. Hotel name (only if hotel exists but no name)
     hotels.forEach(h => {
-      if (!h.date) {
-        items.push({ id: `checkin-${h.id}`, type: "departure_date", label: `Add check-in date`, icon: <Calendar size={14} />, legId: h.id, priority: 2 });
-      }
-      if (!h.endDate) {
-        items.push({ id: `checkout-${h.id}`, type: "return_date", label: `Add check-out date`, icon: <Calendar size={14} />, legId: h.id, priority: 3 });
-      }
       if (!h.hotelName) {
-        items.push({ id: `hotel-${h.id}`, type: "hotel_name", label: `Add hotel name`, icon: <Hotel size={14} />, legId: h.id, priority: 4 });
+        items.push({ 
+          id: `hotel-${h.id}`, 
+          type: "hotel_name", 
+          label: "Add hotel name", 
+          icon: <Hotel size={14} />, 
+          legId: h.id, 
+          priority: 5 
+        });
       }
     });
     
-    return items.sort((a, b) => a.priority - b.priority).slice(0, 5);
+    // 7. Confirmation numbers (only for booked items)
+    [...flights, ...hotels].forEach(leg => {
+      if (!leg.confirmationNumber && leg.status === "booked") {
+        items.push({ 
+          id: `conf-${leg.id}`, 
+          type: "confirmation", 
+          label: `Add confirmation #`, 
+          icon: <FileText size={14} />, 
+          legId: leg.id, 
+          priority: 6 
+        });
+      }
+    });
+    
+    return items.sort((a, b) => a.priority - b.priority).slice(0, 4);
   }, [trip]);
   
   // Handle saving inline edits
@@ -824,7 +916,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   const handleUpdateLeg = (legId: string, updates: Partial<TripLeg>) => setTrip(t => ({ ...t, legs: t.legs.map(l => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
   const handleDeleteLeg = (legId: string) => { setTrip(t => ({ ...t, legs: t.legs.filter(l => l.id !== legId), updatedAt: Date.now() })); setExpandedLegs(p => { const n = new Set(p); n.delete(legId); return n; }); };
   const toggleLegExpand = (legId: string) => setExpandedLegs(p => { const n = new Set(p); n.has(legId) ? n.delete(legId) : n.add(legId); return n; });
-  const handleReset = () => { if (confirm("Clear all trip data?")) { setTrip({ id: generateId(), name: "My Trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() }); setTripDescription(""); setExpandedLegs(new Set()); } };
+  const handleReset = () => { if (confirm("Clear all trip data?")) { setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() }); setTripDescription(""); setExpandedLegs(new Set()); } };
 
   const sortedLegs = useMemo(() => [...trip.legs].sort((a, b) => { if (!a.date && !b.date) return 0; if (!a.date) return 1; if (!b.date) return -1; return a.date.localeCompare(b.date); }), [trip.legs]);
 

@@ -25259,7 +25259,7 @@ function TripPlanner({ initialData: initialData2 }) {
       }
     } catch {
     }
-    return { id: generateId(), name: "My Trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() };
+    return { id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() };
   });
   const [tripDescription, setTripDescription] = (0, import_react3.useState)("");
   const [showAddModal, setShowAddModal] = (0, import_react3.useState)(false);
@@ -25274,36 +25274,107 @@ function TripPlanner({ initialData: initialData2 }) {
     } catch {
     }
   }, [trip]);
+  (0, import_react3.useEffect)(() => {
+    const flights = trip.legs.filter((l) => l.type === "flight");
+    const hotels = trip.legs.filter((l) => l.type === "hotel");
+    if (flights.length > 0 && hotels.length > 0) {
+      const outboundFlight = flights[0];
+      const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
+      let needsUpdate = false;
+      const updatedLegs = trip.legs.map((leg) => {
+        if (leg.type === "hotel") {
+          const updates = {};
+          if (!leg.date && outboundFlight?.date) {
+            updates.date = outboundFlight.date;
+            needsUpdate = true;
+          }
+          if (!leg.endDate && returnFlight?.date) {
+            updates.endDate = returnFlight.date;
+            needsUpdate = true;
+          }
+          if (Object.keys(updates).length > 0) {
+            return { ...leg, ...updates };
+          }
+        }
+        return leg;
+      });
+      if (needsUpdate) {
+        setTrip((t) => ({ ...t, legs: updatedLegs, updatedAt: Date.now() }));
+      }
+    }
+  }, [trip.legs.filter((l) => l.type === "flight").map((f) => f.date).join(",")]);
   const missingInfo = (0, import_react3.useMemo)(() => {
     const items = [];
     const flights = trip.legs.filter((l) => l.type === "flight");
     const hotels = trip.legs.filter((l) => l.type === "hotel");
+    const outboundFlight = flights[0];
+    const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
+    if (outboundFlight && !outboundFlight.date) {
+      items.push({
+        id: `date-${outboundFlight.id}`,
+        type: "departure_date",
+        label: "Add departure date",
+        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
+        legId: outboundFlight.id,
+        priority: 1
+      });
+    }
+    if (returnFlight && !returnFlight.date) {
+      items.push({
+        id: `date-${returnFlight.id}`,
+        type: "return_date",
+        label: "Add return date",
+        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
+        legId: returnFlight.id,
+        priority: 2
+      });
+    }
     if (!trip.travelers || trip.travelers < 1) {
-      items.push({ id: "travelers", type: "travelers", label: "Add travelers", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { size: 14 }), priority: 1 });
+      items.push({
+        id: "travelers",
+        type: "travelers",
+        label: "Add travelers",
+        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 14 }),
+        priority: 3
+      });
     }
     flights.forEach((f) => {
-      if (!f.date) {
-        items.push({ id: `date-${f.id}`, type: "departure_date", label: `Add date for ${f.title.split(":")[1]?.trim() || "flight"}`, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }), legId: f.id, priority: 2 });
-      }
-      if (!f.flightNumber) {
-        items.push({ id: `flight-${f.id}`, type: "flight_number", label: `Add flight #`, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 14 }), legId: f.id, priority: 4 });
-      }
-      if (!f.confirmationNumber && f.status !== "pending") {
-        items.push({ id: `conf-${f.id}`, type: "confirmation", label: `Add confirmation #`, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { size: 14 }), legId: f.id, priority: 5 });
+      if (!f.flightNumber && f.status === "booked") {
+        items.push({
+          id: `flight-${f.id}`,
+          type: "flight_number",
+          label: `Add flight # for ${f.from || ""} \u2192 ${f.to || ""}`.trim(),
+          icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 14 }),
+          legId: f.id,
+          priority: 4
+        });
       }
     });
     hotels.forEach((h) => {
-      if (!h.date) {
-        items.push({ id: `checkin-${h.id}`, type: "departure_date", label: `Add check-in date`, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }), legId: h.id, priority: 2 });
-      }
-      if (!h.endDate) {
-        items.push({ id: `checkout-${h.id}`, type: "return_date", label: `Add check-out date`, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }), legId: h.id, priority: 3 });
-      }
       if (!h.hotelName) {
-        items.push({ id: `hotel-${h.id}`, type: "hotel_name", label: `Add hotel name`, icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }), legId: h.id, priority: 4 });
+        items.push({
+          id: `hotel-${h.id}`,
+          type: "hotel_name",
+          label: "Add hotel name",
+          icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
+          legId: h.id,
+          priority: 5
+        });
       }
     });
-    return items.sort((a, b) => a.priority - b.priority).slice(0, 5);
+    [...flights, ...hotels].forEach((leg) => {
+      if (!leg.confirmationNumber && leg.status === "booked") {
+        items.push({
+          id: `conf-${leg.id}`,
+          type: "confirmation",
+          label: `Add confirmation #`,
+          icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { size: 14 }),
+          legId: leg.id,
+          priority: 6
+        });
+      }
+    });
+    return items.sort((a, b) => a.priority - b.priority).slice(0, 4);
   }, [trip]);
   const handleSaveEdit = () => {
     if (!editingItem || !editValue.trim()) {
@@ -25391,7 +25462,7 @@ function TripPlanner({ initialData: initialData2 }) {
   });
   const handleReset = () => {
     if (confirm("Clear all trip data?")) {
-      setTrip({ id: generateId(), name: "My Trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() });
+      setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() });
       setTripDescription("");
       setExpandedLegs(/* @__PURE__ */ new Set());
     }
