@@ -653,6 +653,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
               {/* Completion counter - items complete when user has added meaningful info */}
               {(() => {
                 const isTravelDay = idx === 0 || idx === legsByDate.sortedDates.length - 1;
+                const hasTransport = dayData.transport.length > 0;
                 // Helper: check if leg has user-added info (not just auto-generated)
                 const hasUserInfo = (leg: TripLeg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
                 // Build list of displayed categories - complete means user added info
@@ -662,12 +663,13 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                   // Activities - complete if activity exists
                   dayData.activities.length > 0,
                 ];
-                // Transportation and Flights - only on travel days, complete if user added info
+                // Transportation - on travel days OR any day with transport
+                if (isTravelDay || hasTransport) {
+                  displayedCategories.push(dayData.transport.some(t => hasUserInfo(t)));
+                }
+                // Flights - only on travel days
                 if (isTravelDay) {
-                  displayedCategories.push(
-                    dayData.transport.some(t => hasUserInfo(t)),
-                    dayData.flights.some(f => hasUserInfo(f) || f.flightNumber)
-                  );
+                  displayedCategories.push(dayData.flights.some(f => hasUserInfo(f) || f.flightNumber));
                 }
                 // Count completed vs total displayed icons
                 const completed = displayedCategories.filter(c => c).length;
@@ -724,9 +726,9 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                       onClick={() => toggleCategory(date, "activity")}
                     />
                   </div>
-                  {/* 3. Transportation - only on travel days, empty placeholder otherwise */}
+                  {/* 3. Transportation - on travel days OR any day with transport */}
                   <div style={{ display: "flex", justifyContent: "center" }}>
-                    {isTravelDay && (
+                    {(isTravelDay || dayData.transport.length > 0) && (
                       <CategoryIcon 
                         type="transport" 
                         hasItem={transportComplete}
@@ -815,7 +817,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   </button>
                                 )}
                                 <button 
-                                  onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: toAirportLeg.rentalCompany ? "rental" : toAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date }); }}
+                                  onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: (toAirportLeg.rentalCompany || toAirportLeg.notes?.startsWith("Rental")) ? "rental" : toAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date }); }}
                                   style={{ padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" }}
                                 >
                                   <Edit2 size={12} />
@@ -869,7 +871,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                               </div>
                             </div>
                           ) : toAirportLeg && (
-                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: toAirportLeg.rentalCompany ? "rental" : toAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date }); }}>
+                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`to-${date}`); setTransportForm({ type: (toAirportLeg.rentalCompany || toAirportLeg.notes?.startsWith("Rental")) ? "rental" : toAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: toAirportLeg.notes || "", rentalCompany: toAirportLeg.rentalCompany || "", startDate: toAirportLeg.date || date, endDate: toAirportLeg.endDate || date }); }}>
                               {toAirportLeg.notes === "Quick complete" ? "Marked complete" : (
                                 <>
                                   {toAirportLeg.rentalCompany && <span style={{ marginRight: 8 }}>🚗 {toAirportLeg.rentalCompany}</span>}
@@ -925,7 +927,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   </button>
                                 )}
                                 <button 
-                                  onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: fromAirportLeg.rentalCompany ? "rental" : fromAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date }); }}
+                                  onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: (fromAirportLeg.rentalCompany || fromAirportLeg.notes?.startsWith("Rental")) ? "rental" : fromAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date }); }}
                                   style={{ padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" }}
                                 >
                                   <Edit2 size={12} />
@@ -979,7 +981,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                               </div>
                             </div>
                           ) : fromAirportLeg && (
-                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: fromAirportLeg.rentalCompany ? "rental" : fromAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date }); }}>
+                            <div style={{ fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }} onClick={() => { setEditingTransport(`from-${date}`); setTransportForm({ type: (fromAirportLeg.rentalCompany || fromAirportLeg.notes?.startsWith("Rental")) ? "rental" : fromAirportLeg.notes?.includes("Uber") ? "uber" : "other", notes: fromAirportLeg.notes || "", rentalCompany: fromAirportLeg.rentalCompany || "", startDate: fromAirportLeg.date || date, endDate: fromAirportLeg.endDate || date }); }}>
                               {fromAirportLeg.notes === "Quick complete" ? "Marked complete" : (
                                 <>
                                   {fromAirportLeg.rentalCompany && <span style={{ marginRight: 8 }}>🚗 {fromAirportLeg.rentalCompany}</span>}
