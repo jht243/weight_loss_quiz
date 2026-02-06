@@ -24828,29 +24828,29 @@ if (typeof document !== "undefined") {
   document.head.appendChild(styleEl);
 }
 var COLORS = {
-  primary: "#56C596",
-  primaryDark: "#3aa87b",
-  bg: "#FAFAFA",
+  primary: "#2D6A4F",
+  primaryDark: "#1B4332",
+  bg: "#F5F0E8",
   card: "#FFFFFF",
   textMain: "#1A1A1A",
   textSecondary: "#6B7280",
   textMuted: "#9CA3AF",
-  border: "#E5E7EB",
-  borderLight: "#F3F4F6",
-  inputBg: "#F9FAFB",
-  accentLight: "#E6F7F0",
-  booked: "#10B981",
-  bookedBg: "#D1FAE5",
-  pending: "#F59E0B",
-  pendingBg: "#FEF3C7",
-  urgent: "#EF4444",
-  urgentBg: "#FEE2E2",
-  flight: "#3B82F6",
-  flightBg: "#DBEAFE",
-  hotel: "#8B5CF6",
-  hotelBg: "#EDE9FE",
-  transport: "#F97316",
-  transportBg: "#FFEDD5"
+  border: "#DDD8D0",
+  borderLight: "#EBE6DE",
+  inputBg: "#F5F0E8",
+  accentLight: "#E2EDE6",
+  booked: "#2D6A4F",
+  bookedBg: "#D8E8DF",
+  pending: "#C4953A",
+  pendingBg: "#F5EDD8",
+  urgent: "#C0392B",
+  urgentBg: "#F5DEDA",
+  flight: "#2D6A4F",
+  flightBg: "#E2EDE6",
+  hotel: "#6B705C",
+  hotelBg: "#ECEAE2",
+  transport: "#A68A64",
+  transportBg: "#F0E8D8"
 };
 var STORAGE_KEY = "TRIP_PLANNER_DATA";
 var TRIPS_LIST_KEY = "TRIP_PLANNER_TRIPS_LIST";
@@ -25173,14 +25173,14 @@ var CategoryIcon = ({
     flight: { icon: flightConfig.icon, color: COLORS.flight, bg: COLORS.flightBg, name: flightConfig.name, priority: true },
     hotel: { icon: Hotel, color: COLORS.hotel, bg: COLORS.hotelBg, name: "Lodging", priority: true },
     transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Transport", priority: false },
-    activity: { icon: MapPin, color: "#EC4899", bg: "#FCE7F3", name: "Activity", priority: false }
+    activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity", priority: false }
   };
   const { icon: Icon2, color, bg, name, priority } = config[type];
   const getStatusColor2 = () => {
     if (hasItem && !partialComplete) return COLORS.booked;
     if (partialComplete) return COLORS.pending;
-    if (priority) return "#EF4444";
-    return "#EF4444";
+    if (priority) return "#C0392B";
+    return "#C0392B";
   };
   const statusColor = getStatusColor2();
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
@@ -25199,7 +25199,7 @@ var CategoryIcon = ({
           width: 48,
           height: 48,
           borderRadius: 12,
-          backgroundColor: hasItem ? bg : priority ? "#FEE2E2" : "#FEF3C7",
+          backgroundColor: hasItem ? bg : priority ? "#F5DEDA" : "#F5EDD8",
           border: isExpanded ? `2px solid ${color}` : `1px solid ${hasItem ? color : statusColor}`,
           display: "flex",
           alignItems: "center",
@@ -25344,8 +25344,8 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
     }
     const completed = displayedCategories.filter((c) => c).length;
     const total = displayedCategories.length;
-    const dayStatusColor = completed === 0 ? "#EF4444" : completed === total ? COLORS.booked : COLORS.pending;
-    const dayStatusBg = completed === 0 ? "#FEE2E2" : completed === total ? COLORS.bookedBg : COLORS.pendingBg;
+    const dayStatusColor = completed === 0 ? "#C0392B" : completed === total ? COLORS.booked : COLORS.pending;
+    const dayStatusBg = completed === 0 ? "#F5DEDA" : completed === total ? COLORS.bookedBg : COLORS.pendingBg;
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
       marginBottom: 12,
       backgroundColor: COLORS.card,
@@ -25553,7 +25553,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                       onClick: () => {
                         if (confirm("Delete this transport?")) onDeleteLeg(toAirportLeg.id);
                       },
-                      style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#EF4444", fontSize: 11, cursor: "pointer" },
+                      style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" },
                       children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 })
                     }
                   )
@@ -25704,7 +25704,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                       onClick: () => {
                         if (confirm("Delete this transport?")) onDeleteLeg(fromAirportLeg.id);
                       },
-                      style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#EF4444", fontSize: 11, cursor: "pointer" },
+                      style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" },
                       children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 })
                     }
                   )
@@ -25790,7 +25790,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
         ] }),
         expanded === "activity" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
           dayData.activities.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate }, leg.id)),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "other", date, status: "pending", title: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed #EC4899`, backgroundColor: "#FCE7F3", color: "#EC4899", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: dayData.activities.length > 0 ? 8 : 0 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "other", date, status: "pending", title: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed #6B705C`, backgroundColor: "#ECEAE2", color: "#6B705C", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: dayData.activities.length > 0 ? 8 : 0 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
             " Add Activity"
           ] })
@@ -26484,7 +26484,7 @@ function TripPlanner({ initialData: initialData2 }) {
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 12 }),
               " Duplicate"
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => handleDeleteTrip(t.id), style: { padding: "6px 10px", borderRadius: 6, border: `1px solid #FEE2E2`, backgroundColor: "#FEF2F2", color: "#EF4444", fontSize: 11, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => handleDeleteTrip(t.id), style: { padding: "6px 10px", borderRadius: 6, border: `1px solid #F5DEDA`, backgroundColor: "#FAF0EE", color: "#C0392B", fontSize: 11, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 }),
               " Delete"
             ] })
@@ -26692,7 +26692,7 @@ function TripPlanner({ initialData: initialData2 }) {
                           multiCityLegs: (t.multiCityLegs || []).filter((l) => l.id !== leg.id),
                           updatedAt: Date.now()
                         })),
-                        style: { padding: 6, borderRadius: 6, border: "none", backgroundColor: "#FEE2E2", color: "#EF4444", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+                        style: { padding: 6, borderRadius: 6, border: "none", backgroundColor: "#F5DEDA", color: "#C0392B", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
                         children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14 })
                       }
                     )
@@ -26889,21 +26889,21 @@ function TripPlanner({ initialData: initialData2 }) {
         const transportBookedCount = transport.filter((t) => t.status === "booked" || t.confirmationNumber).length;
         const getStatusColor2 = (booked, total) => {
           if (total === 0) return COLORS.textMuted;
-          if (booked === 0) return "#EF4444";
+          if (booked === 0) return "#C0392B";
           if (booked < total) return COLORS.pending;
           return COLORS.booked;
         };
         return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-          backgroundColor: COLORS.card,
-          borderRadius: 12,
-          padding: "16px",
+          backgroundColor: COLORS.bg,
+          borderRadius: 16,
+          padding: "20px",
           marginBottom: 16,
-          border: `1px solid ${COLORS.border}`
+          border: `1px solid ${COLORS.borderLight}`
         }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 24, marginBottom: 16, flexWrap: "wrap" }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 16, color: COLORS.textSecondary }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 14, color: COLORS.textMain, fontWeight: 600 }, children: [
                 trip.travelers,
                 " traveler",
                 trip.travelers !== 1 ? "s" : ""
@@ -26924,7 +26924,7 @@ function TripPlanner({ initialData: initialData2 }) {
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 16, color: COLORS.textSecondary }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 14, color: COLORS.textMain, fontWeight: 600 }, children: [
                 cities.size,
                 " cit",
                 cities.size !== 1 ? "ies" : "y"
@@ -26932,74 +26932,79 @@ function TripPlanner({ initialData: initialData2 }) {
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 16, color: COLORS.textSecondary }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: tripDays > 0 ? `${tripDays} day${tripDays !== 1 ? "s" : ""}` : "Set dates" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 14, color: COLORS.textMain, fontWeight: 600 }, children: tripDays > 0 ? `${tripDays} day${tripDays !== 1 ? "s" : ""}` : "Set dates" })
             ] })
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: 8 }, children: [
-            flightLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 16px" }, children: [
+            flightLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
                 fontSize: 12,
-                fontWeight: 600,
-                minWidth: 32,
+                fontWeight: 700,
+                minWidth: 36,
+                textAlign: "center",
                 color: getStatusColor2(flightsBookedCount, flightLegsCount),
                 backgroundColor: `${getStatusColor2(flightsBookedCount, flightLegsCount)}15`,
-                padding: "2px 6px",
-                borderRadius: 4
+                padding: "3px 6px",
+                borderRadius: 6
               }, children: `${flightsBookedCount}/${flightLegsCount}` }),
               getModeIcon("plane", 16),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: "Flights booked" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Flights" })
             ] }),
-            trainLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10 }, children: [
+            trainLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
                 fontSize: 12,
-                fontWeight: 600,
-                minWidth: 32,
+                fontWeight: 700,
+                minWidth: 36,
+                textAlign: "center",
                 color: getStatusColor2(0, trainLegsCount),
                 backgroundColor: `${getStatusColor2(0, trainLegsCount)}15`,
-                padding: "2px 6px",
-                borderRadius: 4
+                padding: "3px 6px",
+                borderRadius: 6
               }, children: `0/${trainLegsCount}` }),
               getModeIcon("rail", 16),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: "Trains booked" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Trains" })
             ] }),
-            busLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10 }, children: [
+            busLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
                 fontSize: 12,
-                fontWeight: 600,
-                minWidth: 32,
+                fontWeight: 700,
+                minWidth: 36,
+                textAlign: "center",
                 color: getStatusColor2(0, busLegsCount),
                 backgroundColor: `${getStatusColor2(0, busLegsCount)}15`,
-                padding: "2px 6px",
-                borderRadius: 4
+                padding: "3px 6px",
+                borderRadius: 6
               }, children: `0/${busLegsCount}` }),
               getModeIcon("bus", 16),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: "Buses booked" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Buses" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
                 fontSize: 12,
-                fontWeight: 600,
-                minWidth: 32,
-                color: hotels.length > 0 ? COLORS.booked : "#EF4444",
-                backgroundColor: hotels.length > 0 ? `${COLORS.booked}15` : "#EF444415",
-                padding: "2px 6px",
-                borderRadius: 4
+                fontWeight: 700,
+                minWidth: 36,
+                textAlign: "center",
+                color: hotels.length > 0 ? COLORS.booked : "#C0392B",
+                backgroundColor: hotels.length > 0 ? `${COLORS.booked}15` : "#C0392B15",
+                padding: "3px 6px",
+                borderRadius: 6
               }, children: hotels.length > 0 ? "Yes" : "No" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: hotels.length > 0 ? COLORS.booked : "#EF4444" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: "Lodging booked" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: hotels.length > 0 ? COLORS.booked : "#C0392B" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Lodging" })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
                 fontSize: 12,
-                fontWeight: 600,
-                minWidth: 32,
+                fontWeight: 700,
+                minWidth: 36,
+                textAlign: "center",
                 color: getStatusColor2(transportBookedCount, expectedTransportCount),
                 backgroundColor: `${getStatusColor2(transportBookedCount, expectedTransportCount)}15`,
-                padding: "2px 6px",
-                borderRadius: 4
+                padding: "3px 6px",
+                borderRadius: 6
               }, children: expectedTransportCount > 0 ? `${transportBookedCount}/${expectedTransportCount}` : "\u2014" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 16, color: getStatusColor2(transportBookedCount, expectedTransportCount) }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: "Transportation booked" })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Transport" })
             ] })
           ] })
         ] });

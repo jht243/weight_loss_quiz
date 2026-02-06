@@ -2407,17 +2407,17 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
               
               return (
                 <div style={{ 
-                  backgroundColor: COLORS.card, 
-                  borderRadius: 12, 
-                  padding: "16px", 
+                  backgroundColor: COLORS.bg, 
+                  borderRadius: 16, 
+                  padding: "20px", 
                   marginBottom: 16,
-                  border: `1px solid ${COLORS.border}`
+                  border: `1px solid ${COLORS.borderLight}`
                 }}>
                   {/* Static Info Row */}
                   <div style={{ display: "flex", alignItems: "center", gap: 24, marginBottom: 16, flexWrap: "wrap" }}>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                       <Users size={16} color={COLORS.textSecondary} />
-                      <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>{trip.travelers} traveler{trip.travelers !== 1 ? "s" : ""}</span>
+                      <span style={{ fontSize: 14, color: COLORS.textMain, fontWeight: 600 }}>{trip.travelers} traveler{trip.travelers !== 1 ? "s" : ""}</span>
                       <button 
                         onClick={() => {
                           const newCount = prompt("Number of travelers:", String(trip.travelers));
@@ -2432,84 +2432,84 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                       <MapPin size={16} color={COLORS.textSecondary} />
-                      <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>{cities.size} cit{cities.size !== 1 ? "ies" : "y"}</span>
+                      <span style={{ fontSize: 14, color: COLORS.textMain, fontWeight: 600 }}>{cities.size} cit{cities.size !== 1 ? "ies" : "y"}</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 6 }}>
                       <Calendar size={16} color={COLORS.textSecondary} />
-                      <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>{tripDays > 0 ? `${tripDays} day${tripDays !== 1 ? "s" : ""}` : "Set dates"}</span>
+                      <span style={{ fontSize: 14, color: COLORS.textMain, fontWeight: 600 }}>{tripDays > 0 ? `${tripDays} day${tripDays !== 1 ? "s" : ""}` : "Set dates"}</span>
                     </div>
                   </div>
                   
-                  {/* Booking Status */}
-                  <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+                  {/* Booking Status - 2 column grid */}
+                  <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 16px" }}>
                     {/* Show flights if any */}
                     {flightLegsCount > 0 && (
-                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>
                         <span style={{ 
-                          fontSize: 12, fontWeight: 600, minWidth: 32,
+                          fontSize: 12, fontWeight: 700, minWidth: 36, textAlign: "center",
                           color: getStatusColor(flightsBookedCount, flightLegsCount),
                           backgroundColor: `${getStatusColor(flightsBookedCount, flightLegsCount)}15`,
-                          padding: "2px 6px", borderRadius: 4
+                          padding: "3px 6px", borderRadius: 6
                         }}>
                           {`${flightsBookedCount}/${flightLegsCount}`}
                         </span>
                         {getModeIcon("plane", 16)}
-                        <span style={{ fontSize: 13, color: COLORS.textMain }}>Flights booked</span>
+                        <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>Flights</span>
                       </div>
                     )}
                     {/* Show trains if any */}
                     {trainLegsCount > 0 && (
-                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>
                         <span style={{ 
-                          fontSize: 12, fontWeight: 600, minWidth: 32,
+                          fontSize: 12, fontWeight: 700, minWidth: 36, textAlign: "center",
                           color: getStatusColor(0, trainLegsCount),
                           backgroundColor: `${getStatusColor(0, trainLegsCount)}15`,
-                          padding: "2px 6px", borderRadius: 4
+                          padding: "3px 6px", borderRadius: 6
                         }}>
                           {`0/${trainLegsCount}`}
                         </span>
                         {getModeIcon("rail", 16)}
-                        <span style={{ fontSize: 13, color: COLORS.textMain }}>Trains booked</span>
+                        <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>Trains</span>
                       </div>
                     )}
                     {/* Show buses if any */}
                     {busLegsCount > 0 && (
-                      <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                      <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>
                         <span style={{ 
-                          fontSize: 12, fontWeight: 600, minWidth: 32,
+                          fontSize: 12, fontWeight: 700, minWidth: 36, textAlign: "center",
                           color: getStatusColor(0, busLegsCount),
                           backgroundColor: `${getStatusColor(0, busLegsCount)}15`,
-                          padding: "2px 6px", borderRadius: 4
+                          padding: "3px 6px", borderRadius: 6
                         }}>
                           {`0/${busLegsCount}`}
                         </span>
                         {getModeIcon("bus", 16)}
-                        <span style={{ fontSize: 13, color: COLORS.textMain }}>Buses booked</span>
+                        <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>Buses</span>
                       </div>
                     )}
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>
                       <span style={{ 
-                        fontSize: 12, fontWeight: 600, minWidth: 32,
+                        fontSize: 12, fontWeight: 700, minWidth: 36, textAlign: "center",
                         color: hotels.length > 0 ? COLORS.booked : "#C0392B",
                         backgroundColor: hotels.length > 0 ? `${COLORS.booked}15` : "#C0392B15",
-                        padding: "2px 6px", borderRadius: 4
+                        padding: "3px 6px", borderRadius: 6
                       }}>
                         {hotels.length > 0 ? "Yes" : "No"}
                       </span>
                       <Hotel size={16} color={hotels.length > 0 ? COLORS.booked : "#C0392B"} />
-                      <span style={{ fontSize: 13, color: COLORS.textMain }}>Lodging booked</span>
+                      <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>Lodging</span>
                     </div>
-                    <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+                    <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>
                       <span style={{ 
-                        fontSize: 12, fontWeight: 600, minWidth: 32,
+                        fontSize: 12, fontWeight: 700, minWidth: 36, textAlign: "center",
                         color: getStatusColor(transportBookedCount, expectedTransportCount),
                         backgroundColor: `${getStatusColor(transportBookedCount, expectedTransportCount)}15`,
-                        padding: "2px 6px", borderRadius: 4
+                        padding: "3px 6px", borderRadius: 6
                       }}>
                         {expectedTransportCount > 0 ? `${transportBookedCount}/${expectedTransportCount}` : "—"}
                       </span>
                       <Car size={16} color={getStatusColor(transportBookedCount, expectedTransportCount)} />
-                      <span style={{ fontSize: 13, color: COLORS.textMain }}>Transportation booked</span>
+                      <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>Transport</span>
                     </div>
                   </div>
                 </div>
