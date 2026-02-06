@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import {
   Plane, Hotel, Car, Train, Bus, Ship, MapPin, Calendar, Clock, 
   CheckCircle2, Circle, AlertCircle, Plus, X, ChevronDown, ChevronUp,
@@ -470,6 +470,84 @@ const AddDetailsButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
+// Custom Date/Time Picker with Done button
+const PickerPopover = ({ type, value, onChange, onClick, style, min, max }: { type: "date" | "time"; value: string; onChange: (val: string) => void; onClick?: (e: React.MouseEvent) => void; style?: React.CSSProperties; min?: string; max?: string }) => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [tempValue, setTempValue] = useState(value);
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => { setTempValue(value); }, [value]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const handler = (e: MouseEvent) => { if (ref.current && !ref.current.contains(e.target as Node)) { setIsOpen(false); } };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [isOpen]);
+
+  const formatDisplay = () => {
+    if (type === "date") {
+      if (!value) return "Select date";
+      const d = new Date(value + "T00:00:00");
+      return d.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
+    }
+    if (!value) return "Select time";
+    const [h, m] = value.split(":").map(Number);
+    const ampm = h >= 12 ? "PM" : "AM";
+    const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+    return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
+  };
+
+  const icon = type === "date" ? <Calendar size={14} style={{ color: COLORS.textMuted }} /> : <Clock size={14} style={{ color: COLORS.textMuted }} />;
+
+  return (
+    <div ref={ref} style={{ position: "relative", ...(style || {}) }}>
+      <button
+        type="button"
+        onClick={e => { onClick?.(e); e.stopPropagation(); setTempValue(value); setIsOpen(!isOpen); }}
+        style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, color: value ? COLORS.textMain : COLORS.textMuted, textAlign: "left" }}
+      >
+        <span>{formatDisplay()}</span>
+        {icon}
+      </button>
+      {isOpen && (
+        <div
+          onClick={e => e.stopPropagation()}
+          style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 1000, backgroundColor: "white", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", border: `1px solid ${COLORS.border}`, overflow: "hidden" }}
+        >
+          <div style={{ padding: "12px 12px 8px" }}>
+            <input
+              type={type}
+              value={tempValue}
+              min={min}
+              max={max}
+              onChange={e => setTempValue(e.target.value)}
+              style={{ width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 14, outline: "none", boxSizing: "border-box" }}
+              autoFocus
+            />
+          </div>
+          <div style={{ padding: "4px 12px 10px", display: "flex", gap: 8 }}>
+            <button
+              type="button"
+              onClick={e => { e.stopPropagation(); setIsOpen(false); }}
+              style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              onClick={e => { e.stopPropagation(); onChange(tempValue); setIsOpen(false); }}
+              style={{ flex: 1, padding: "8px 0", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer" }}
+            >
+              Done
+            </button>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate, travelers = 1 }: { leg: TripLeg; onUpdate: (u: Partial<TripLeg>) => void; onDelete: () => void; isExpanded: boolean; onToggleExpand: () => void; tripDepartureDate?: string; tripReturnDate?: string; travelers?: number }) => {
   // For hotels, prefill dates with trip dates if not already set
   const initialEditData = leg.type === "hotel" ? {
@@ -494,8 +572,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
           <div style={{ fontWeight: 700, fontSize: 15, color: COLORS.textMain, marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{leg.title}</div>
           <div style={{ display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }}>
             {leg.date && <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}><Calendar size={14} />{formatDate(leg.date)}</span>}
-            {leg.time && <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}><Clock size={14} />{leg.time}{leg.endTime ? ` – ${leg.endTime}` : ""}</span>}
-            {leg.location && !["hotel", "flight"].includes(leg.type) && <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}><MapPin size={14} />{leg.location}</span>}
+            {leg.time && <span style={{ display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }}><Clock size={14} />{leg.time}</span>}
             {leg.flightNumber && <span style={{ fontSize: 13, color: legColors.main, fontWeight: 600 }}>{leg.flightNumber}</span>}
           </div>
         </div>
@@ -509,7 +586,6 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
         const inpStyle = { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" as const };
         const fullStyle = { ...inpStyle, gridColumn: "1 / -1" };
         const stop = (e: React.MouseEvent) => e.stopPropagation();
-        const DoneBtn = () => <button onClick={e => { e.stopPropagation(); (document.activeElement as HTMLElement)?.blur(); }} style={{ gridColumn: "1 / -1", padding: "6px 0", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.inputBg, color: COLORS.textSecondary, fontSize: 12, fontWeight: 600, cursor: "pointer", textAlign: "center" as const }}>Done</button>;
         return (
           <div style={{ padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }}>
             {/* Inline edit fields — type-specific */}
@@ -521,13 +597,12 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                   <input value={editData.title} onClick={stop} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Hotel Name" style={fullStyle} />
                   <div>
                     <label style={lblStyle}>Check-in Date</label>
-                    <input type="date" value={editData.date} onClick={stop} onChange={e => setEditData({ ...editData, date: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="date" value={editData.date} onClick={stop} onChange={val => setEditData({ ...editData, date: val })} />
                   </div>
                   <div>
                     <label style={lblStyle}>Check-out Date</label>
-                    <input type="date" value={editData.endDate || ""} onClick={stop} onChange={e => setEditData({ ...editData, endDate: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="date" value={editData.endDate || ""} onClick={stop} onChange={val => setEditData({ ...editData, endDate: val })} />
                   </div>
-                  <DoneBtn />
                   <input value={editData.location || ""} onClick={stop} onChange={e => setEditData({ ...editData, location: e.target.value })} placeholder="Address" style={fullStyle} />
                   <input value={editData.confirmationNumber || ""} onClick={stop} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={fullStyle} />
                   <input value={editData.notes || ""} onClick={stop} onChange={e => setEditData({ ...editData, notes: e.target.value })} placeholder="Notes" style={fullStyle} />
@@ -557,9 +632,8 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                   </div>
                   <div>
                     <label style={lblStyle}>Departure Time</label>
-                    <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="time" value={editData.time || ""} onClick={stop} onChange={val => setEditData({ ...editData, time: val })} />
                   </div>
-                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -590,13 +664,12 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                   </div>
                   <div>
                     <label style={lblStyle}>Pickup Date</label>
-                    <input type="date" value={editData.date} onClick={stop} onChange={e => setEditData({ ...editData, date: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="date" value={editData.date} onClick={stop} onChange={val => setEditData({ ...editData, date: val })} />
                   </div>
                   <div>
                     <label style={lblStyle}>Return Date</label>
-                    <input type="date" value={editData.endDate || ""} onClick={stop} onChange={e => setEditData({ ...editData, endDate: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="date" value={editData.endDate || ""} onClick={stop} onChange={val => setEditData({ ...editData, endDate: val })} />
                   </div>
-                  <DoneBtn />
                   <input value={editData.notes || ""} onClick={stop} onChange={e => setEditData({ ...editData, notes: e.target.value })} placeholder="Notes (e.g. car type, insurance, extras)" style={fullStyle} />
                 </>
               )}
@@ -616,9 +689,8 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                   )}
                   <div>
                     <label style={lblStyle}>Departure Time</label>
-                    <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="time" value={editData.time || ""} onClick={stop} onChange={val => setEditData({ ...editData, time: val })} />
                   </div>
-                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -644,9 +716,8 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                   )}
                   <div>
                     <label style={lblStyle}>Departure Time</label>
-                    <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="time" value={editData.time || ""} onClick={stop} onChange={val => setEditData({ ...editData, time: val })} />
                   </div>
-                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -672,9 +743,8 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                   )}
                   <div>
                     <label style={lblStyle}>Departure Time</label>
-                    <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="time" value={editData.time || ""} onClick={stop} onChange={val => setEditData({ ...editData, time: val })} />
                   </div>
-                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -691,19 +761,18 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                   <input value={editData.title} onClick={stop} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Activity Name" autoComplete="off" data-form-type="other" data-lpignore="true" data-1p-ignore style={fullStyle} />
                   <div>
                     <label style={lblStyle}>Date</label>
-                    <input type="date" value={editData.date} onClick={stop} onChange={e => setEditData({ ...editData, date: e.target.value })} style={inpStyle} />
+                    <PickerPopover type="date" value={editData.date} onClick={stop} onChange={val => setEditData({ ...editData, date: val })} />
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
                     <div>
                       <label style={lblStyle}>Start Time</label>
-                      <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
+                      <PickerPopover type="time" value={editData.time || ""} onClick={stop} onChange={val => setEditData({ ...editData, time: val })} />
                     </div>
                     <div>
                       <label style={lblStyle}>End Time</label>
-                      <input type="time" value={editData.endTime || ""} onClick={stop} onChange={e => setEditData({ ...editData, endTime: e.target.value })} style={inpStyle} />
+                      <PickerPopover type="time" value={editData.endTime || ""} onClick={stop} onChange={val => setEditData({ ...editData, endTime: val })} />
                     </div>
                   </div>
-                  <DoneBtn />
                   <input value={editData.location || ""} onClick={stop} onChange={e => setEditData({ ...editData, location: e.target.value })} placeholder="Location" autoComplete="off" data-form-type="other" data-lpignore="true" data-1p-ignore style={fullStyle} />
                   <input value={editData.notes || ""} onClick={stop} onChange={e => setEditData({ ...editData, notes: e.target.value })} placeholder="Notes / Confirmation #" autoComplete="off" data-form-type="other" data-lpignore="true" data-1p-ignore style={fullStyle} />
                 </>
@@ -1295,11 +1364,9 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                     style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
                                   <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                                     <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Pickup:</label>
-                                    <input type="date" value={transportForm.startDate} onChange={e => setTransportForm(f => ({ ...f, startDate: e.target.value }))}
-                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                    <PickerPopover type="date" value={transportForm.startDate} onChange={val => setTransportForm(f => ({ ...f, startDate: val }))} />
                                     <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Return:</label>
-                                    <input type="date" value={transportForm.endDate} onChange={e => setTransportForm(f => ({ ...f, endDate: e.target.value }))}
-                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                    <PickerPopover type="date" value={transportForm.endDate} onChange={val => setTransportForm(f => ({ ...f, endDate: val }))} />
                                   </div>
                                 </>
                               )}
@@ -1405,11 +1472,9 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                     style={{ padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
                                   <div style={{ display: "flex", gap: 8, alignItems: "center" }}>
                                     <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Pickup:</label>
-                                    <input type="date" value={transportForm.startDate} onChange={e => setTransportForm(f => ({ ...f, startDate: e.target.value }))}
-                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                    <PickerPopover type="date" value={transportForm.startDate} onChange={val => setTransportForm(f => ({ ...f, startDate: val }))} />
                                     <label style={{ fontSize: 12, color: COLORS.textSecondary }}>Return:</label>
-                                    <input type="date" value={transportForm.endDate} onChange={e => setTransportForm(f => ({ ...f, endDate: e.target.value }))}
-                                      style={{ padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }} />
+                                    <PickerPopover type="date" value={transportForm.endDate} onChange={val => setTransportForm(f => ({ ...f, endDate: val }))} />
                                   </div>
                                 </>
                               )}
@@ -1492,8 +1557,8 @@ const AddLegModal = ({ onAdd, onClose }: { onAdd: (l: Partial<TripLeg>) => void;
           {(type !== "hotel") && <><input value={formData.from || ""} onChange={e => setFormData({ ...formData, from: e.target.value })} placeholder="From" style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} /><input value={formData.to || ""} onChange={e => setFormData({ ...formData, to: e.target.value })} placeholder="To" style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} /></>}
           {type === "hotel" && <input value={formData.location || ""} onChange={e => setFormData({ ...formData, location: e.target.value })} placeholder="Location" style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} />}
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
-            <input type="date" value={formData.date || ""} onChange={e => setFormData({ ...formData, date: e.target.value })} style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} />
-            {type !== "hotel" ? <input type="time" value={formData.time || ""} onChange={e => setFormData({ ...formData, time: e.target.value })} style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} /> : <input type="date" value={formData.endDate || ""} onChange={e => setFormData({ ...formData, endDate: e.target.value })} placeholder="Check-out" style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} />}
+            <PickerPopover type="date" value={formData.date || ""} onChange={val => setFormData({ ...formData, date: val })} />
+            {type !== "hotel" ? <PickerPopover type="time" value={formData.time || ""} onChange={val => setFormData({ ...formData, time: val })} /> : <PickerPopover type="date" value={formData.endDate || ""} onChange={val => setFormData({ ...formData, endDate: val })} />}
           </div>
           {type === "flight" && <input value={formData.flightNumber || ""} onChange={e => setFormData({ ...formData, flightNumber: e.target.value })} placeholder="Flight Number (e.g. AA1234)" style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} />}
           {type === "hotel" && <input value={formData.hotelName || ""} onChange={e => setFormData({ ...formData, hotelName: e.target.value })} placeholder="Hotel Name" style={{ padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` }} />}
@@ -2489,19 +2554,17 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                             }}
                             style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }}
                           />
-                          <input
+                          <PickerPopover
                             type="date"
                             value={leg.date}
                             min={minDate}
-                            onChange={e => {
-                              const newDate = e.target.value;
+                            onChange={newDate => {
                               setTrip(t => ({
                                 ...t,
                                 multiCityLegs: (t.multiCityLegs || []).map(l => l.id === leg.id ? { ...l, date: newDate } : l),
                                 updatedAt: Date.now()
                               }));
                             }}
-                            style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }}
                           />
                           {(trip.multiCityLegs || []).length > 2 && (
                             <button
@@ -2544,11 +2607,10 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                       <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
                         Departure Date
                       </label>
-                      <input
+                      <PickerPopover
                         type="date"
                         value={trip.departureDate || ""}
-                        onChange={e => {
-                          const newDate = e.target.value;
+                        onChange={newDate => {
                           setTrip(t => {
                             const updatedLegs = t.legs.map((leg, idx) => {
                               if (leg.type === "flight" && idx === 0) {
@@ -2565,7 +2627,6 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                             return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
                           });
                         }}
-                        style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }}
                       />
                       <TransportModeSelector 
                         value={trip.departureMode || "plane"} 
@@ -2578,11 +2639,10 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                         <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
                           Return Date
                         </label>
-                        <input
+                        <PickerPopover
                           type="date"
                           value={trip.returnDate || ""}
-                          onChange={e => {
-                            const newDate = e.target.value;
+                          onChange={newDate => {
                             setTrip(t => {
                               const flights = t.legs.filter(l => l.type === "flight");
                               const updatedLegs = t.legs.map((leg, idx) => {
@@ -2600,7 +2660,6 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                               return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
                             });
                           }}
-                          style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }}
                         />
                         <TransportModeSelector 
                           value={trip.returnMode || "plane"} 

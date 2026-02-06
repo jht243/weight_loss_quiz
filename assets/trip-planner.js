@@ -1091,7 +1091,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef(initialValue) {
+        function useRef2(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
@@ -1885,7 +1885,7 @@ var require_react_development = __commonJS({
         exports.useLayoutEffect = useLayoutEffect;
         exports.useMemo = useMemo2;
         exports.useReducer = useReducer;
-        exports.useRef = useRef;
+        exports.useRef = useRef2;
         exports.useState = useState2;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition;
@@ -25062,6 +25062,104 @@ var StatusIcon = ({ status }) => {
   };
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: colors.main }, title: status, children: icons[status] });
 };
+var PickerPopover = ({ type, value, onChange, onClick, style, min, max }) => {
+  const [isOpen, setIsOpen] = (0, import_react3.useState)(false);
+  const [tempValue, setTempValue] = (0, import_react3.useState)(value);
+  const ref = (0, import_react3.useRef)(null);
+  (0, import_react3.useEffect)(() => {
+    setTempValue(value);
+  }, [value]);
+  (0, import_react3.useEffect)(() => {
+    if (!isOpen) return;
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, [isOpen]);
+  const formatDisplay = () => {
+    if (type === "date") {
+      if (!value) return "Select date";
+      const d = /* @__PURE__ */ new Date(value + "T00:00:00");
+      return d.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
+    }
+    if (!value) return "Select time";
+    const [h, m] = value.split(":").map(Number);
+    const ampm = h >= 12 ? "PM" : "AM";
+    const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
+    return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
+  };
+  const icon = type === "date" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14, style: { color: COLORS.textMuted } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14, style: { color: COLORS.textMuted } });
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { ref, style: { position: "relative", ...style || {} }, children: [
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+      "button",
+      {
+        type: "button",
+        onClick: (e) => {
+          onClick?.(e);
+          e.stopPropagation();
+          setTempValue(value);
+          setIsOpen(!isOpen);
+        },
+        style: { width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, color: value ? COLORS.textMain : COLORS.textMuted, textAlign: "left" },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: formatDisplay() }),
+          icon
+        ]
+      }
+    ),
+    isOpen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+      "div",
+      {
+        onClick: (e) => e.stopPropagation(),
+        style: { position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 1e3, backgroundColor: "white", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", border: `1px solid ${COLORS.border}`, overflow: "hidden" },
+        children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "12px 12px 8px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            "input",
+            {
+              type,
+              value: tempValue,
+              min,
+              max,
+              onChange: (e) => setTempValue(e.target.value),
+              style: { width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 14, outline: "none", boxSizing: "border-box" },
+              autoFocus: true
+            }
+          ) }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "4px 12px 10px", display: "flex", gap: 8 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                type: "button",
+                onClick: (e) => {
+                  e.stopPropagation();
+                  setIsOpen(false);
+                },
+                style: { flex: 1, padding: "8px 0", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer" },
+                children: "Cancel"
+              }
+            ),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+              "button",
+              {
+                type: "button",
+                onClick: (e) => {
+                  e.stopPropagation();
+                  onChange(tempValue);
+                  setIsOpen(false);
+                },
+                style: { flex: 1, padding: "8px 0", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer" },
+                children: "Done"
+              }
+            )
+          ] })
+        ]
+      }
+    )
+  ] });
+};
 var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate, travelers = 1 }) => {
   const initialEditData = leg.type === "hotel" ? {
     ...leg,
@@ -25087,12 +25185,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
           ] }),
           leg.time && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14 }),
-            leg.time,
-            leg.endTime ? ` \u2013 ${leg.endTime}` : ""
-          ] }),
-          leg.location && !["hotel", "flight"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 14 }),
-            leg.location
+            leg.time
           ] }),
           leg.flightNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: legColors.main, fontWeight: 600 }, children: leg.flightNumber })
         ] })
@@ -25107,23 +25200,18 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
       const inpStyle = { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" };
       const fullStyle = { ...inpStyle, gridColumn: "1 / -1" };
       const stop = (e) => e.stopPropagation();
-      const DoneBtn = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: (e) => {
-        e.stopPropagation();
-        document.activeElement?.blur();
-      }, style: { gridColumn: "1 / -1", padding: "6px 0", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.inputBg, color: COLORS.textSecondary, fontSize: 12, fontWeight: 600, cursor: "pointer", textAlign: "center" }, children: "Done" });
       return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
           leg.type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: stop, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Hotel Name", style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Check-in Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onClick: stop, onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.date, onClick: stop, onChange: (val) => setEditData({ ...editData, date: val }) })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Check-out Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.endDate || "", onClick: stop, onChange: (e) => setEditData({ ...editData, endDate: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.endDate || "", onClick: stop, onChange: (val) => setEditData({ ...editData, endDate: val }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Address", style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes", style: fullStyle })
@@ -25148,9 +25236,8 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25174,13 +25261,12 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Pickup Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onClick: stop, onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.date, onClick: stop, onChange: (val) => setEditData({ ...editData, date: val }) })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Return Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.endDate || "", onClick: stop, onChange: (e) => setEditData({ ...editData, endDate: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.endDate || "", onClick: stop, onChange: (val) => setEditData({ ...editData, endDate: val }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. car type, insurance, extras)", style: fullStyle })
           ] }),
           leg.type === "train" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
@@ -25195,9 +25281,8 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25216,9 +25301,8 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25237,9 +25321,8 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25250,19 +25333,18 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: stop, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Activity Name", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onClick: stop, onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: inpStyle })
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.date, onClick: stop, onChange: (val) => setEditData({ ...editData, date: val }) })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Start Time" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
               ] }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "End Time" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.endTime || "", onClick: stop, onChange: (e) => setEditData({ ...editData, endTime: e.target.value }), style: inpStyle })
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.endTime || "", onClick: stop, onChange: (val) => setEditData({ ...editData, endTime: val }) })
               ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Location", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes / Confirmation #", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle })
           ] })
@@ -25812,25 +25894,9 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                   ),
                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, alignItems: "center" }, children: [
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Pickup:" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "date",
-                        value: transportForm.startDate,
-                        onChange: (e) => setTransportForm((f) => ({ ...f, startDate: e.target.value })),
-                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                      }
-                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.startDate, onChange: (val) => setTransportForm((f) => ({ ...f, startDate: val })) }),
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Return:" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "date",
-                        value: transportForm.endDate,
-                        onChange: (e) => setTransportForm((f) => ({ ...f, endDate: e.target.value })),
-                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                      }
-                    )
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.endDate, onChange: (val) => setTransportForm((f) => ({ ...f, endDate: val })) })
                   ] })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -25963,25 +26029,9 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                   ),
                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, alignItems: "center" }, children: [
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Pickup:" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "date",
-                        value: transportForm.startDate,
-                        onChange: (e) => setTransportForm((f) => ({ ...f, startDate: e.target.value })),
-                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                      }
-                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.startDate, onChange: (val) => setTransportForm((f) => ({ ...f, startDate: val })) }),
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Return:" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "date",
-                        value: transportForm.endDate,
-                        onChange: (e) => setTransportForm((f) => ({ ...f, endDate: e.target.value })),
-                        style: { padding: "6px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                      }
-                    )
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.endDate, onChange: (val) => setTransportForm((f) => ({ ...f, endDate: val })) })
                   ] })
                 ] }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -26059,8 +26109,8 @@ var AddLegModal = ({ onAdd, onClose }) => {
       ] }),
       type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.location || "", onChange: (e) => setFormData({ ...formData, location: e.target.value }), placeholder: "Location", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: formData.date || "", onChange: (e) => setFormData({ ...formData, date: e.target.value }), style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
-        type !== "hotel" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: formData.time || "", onChange: (e) => setFormData({ ...formData, time: e.target.value }), style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: formData.endDate || "", onChange: (e) => setFormData({ ...formData, endDate: e.target.value }), placeholder: "Check-out", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: formData.date || "", onChange: (val) => setFormData({ ...formData, date: val }) }),
+        type !== "hotel" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: formData.time || "", onChange: (val) => setFormData({ ...formData, time: val }) }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: formData.endDate || "", onChange: (val) => setFormData({ ...formData, endDate: val }) })
       ] }),
       type === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.flightNumber || "", onChange: (e) => setFormData({ ...formData, flightNumber: e.target.value }), placeholder: "Flight Number (e.g. AA1234)", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
       type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.hotelName || "", onChange: (e) => setFormData({ ...formData, hotelName: e.target.value }), placeholder: "Hotel Name", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
@@ -26987,20 +27037,18 @@ function TripPlanner({ initialData: initialData2 }) {
                       }
                     ),
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
+                      PickerPopover,
                       {
                         type: "date",
                         value: leg.date,
                         min: minDate,
-                        onChange: (e) => {
-                          const newDate = e.target.value;
+                        onChange: (newDate) => {
                           setTrip((t) => ({
                             ...t,
                             multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, date: newDate } : l),
                             updatedAt: Date.now()
                           }));
-                        },
-                        style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
+                        }
                       }
                     ),
                     (trip.multiCityLegs || []).length > 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -27048,12 +27096,11 @@ function TripPlanner({ initialData: initialData2 }) {
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Departure Date" }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
+                  PickerPopover,
                   {
                     type: "date",
                     value: trip.departureDate || "",
-                    onChange: (e) => {
-                      const newDate = e.target.value;
+                    onChange: (newDate) => {
                       setTrip((t) => {
                         const updatedLegs = t.legs.map((leg, idx) => {
                           if (leg.type === "flight" && idx === 0) {
@@ -27069,8 +27116,7 @@ function TripPlanner({ initialData: initialData2 }) {
                         });
                         return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
                       });
-                    },
-                    style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }
+                    }
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -27084,12 +27130,11 @@ function TripPlanner({ initialData: initialData2 }) {
               trip.tripType === "round_trip" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Return Date" }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
+                  PickerPopover,
                   {
                     type: "date",
                     value: trip.returnDate || "",
-                    onChange: (e) => {
-                      const newDate = e.target.value;
+                    onChange: (newDate) => {
                       setTrip((t) => {
                         const flights = t.legs.filter((l) => l.type === "flight");
                         const updatedLegs = t.legs.map((leg, idx) => {
@@ -27106,8 +27151,7 @@ function TripPlanner({ initialData: initialData2 }) {
                         });
                         return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
                       });
-                    },
-                    style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }
+                    }
                   }
                 ),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
