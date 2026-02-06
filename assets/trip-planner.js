@@ -25338,12 +25338,39 @@ var CategoryChip = ({
     activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity" }
   };
   const { icon: Icon2, color, bg, name } = config[type];
-  const isComplete = isBooked && hasItem;
+  const isComplete = hasItem && isBooked;
   const isPartial = partialComplete;
-  const chipBg = isComplete ? bg : isPartial ? COLORS.pendingBg : isExpanded ? bg : "#F8F6F2";
-  const chipBorder = isExpanded ? color : isComplete ? color : isPartial ? COLORS.pending : "#E0DCD4";
-  const iconColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#9C9588";
-  const textColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#78736A";
+  const isIncomplete = hasItem && !isBooked && !isPartial;
+  let chipBg, chipBorder, iconClr, textClr;
+  if (isComplete) {
+    chipBg = COLORS.bookedBg;
+    chipBorder = COLORS.booked;
+    iconClr = COLORS.booked;
+    textClr = COLORS.booked;
+  } else if (isPartial) {
+    chipBg = COLORS.pendingBg;
+    chipBorder = COLORS.pending;
+    iconClr = COLORS.pending;
+    textClr = COLORS.pending;
+  } else if (isIncomplete) {
+    chipBg = COLORS.urgentBg;
+    chipBorder = COLORS.urgent;
+    iconClr = COLORS.urgent;
+    textClr = COLORS.urgent;
+  } else {
+    chipBg = "#F8F6F2";
+    chipBorder = "#E0DCD4";
+    iconClr = "#9C9588";
+    textClr = "#78736A";
+  }
+  if (isExpanded) {
+    chipBorder = color;
+    if (!isComplete && !isPartial && !isIncomplete) {
+      chipBg = bg;
+      iconClr = color;
+      textClr = color;
+    }
+  }
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
     "button",
     {
@@ -25360,16 +25387,15 @@ var CategoryChip = ({
         cursor: "pointer",
         fontSize: 11,
         fontWeight: 600,
-        color: textColor,
+        color: textClr,
         whiteSpace: "nowrap",
         transition: "all 0.15s ease",
         outline: "none"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 14, color: iconColor }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 14, color: iconClr }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: label || name }),
-        isComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12, color }),
-        isPartial && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { size: 8, color: COLORS.pending, fill: COLORS.pending })
+        isComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12, color: COLORS.booked })
       ]
     }
   );

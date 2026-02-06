@@ -714,13 +714,24 @@ const CategoryChip = ({
   };
   const { icon: Icon, color, bg, name } = config[type];
 
-  // Determine chip state
-  const isComplete = isBooked && hasItem;
+  // Determine chip state: complete (green), partial (yellow), incomplete (red), inactive (gray)
+  const isComplete = hasItem && isBooked;
   const isPartial = partialComplete;
-  const chipBg = isComplete ? bg : isPartial ? COLORS.pendingBg : isExpanded ? bg : "#F8F6F2";
-  const chipBorder = isExpanded ? color : isComplete ? color : isPartial ? COLORS.pending : "#E0DCD4";
-  const iconColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#9C9588";
-  const textColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#78736A";
+  const isIncomplete = hasItem && !isBooked && !isPartial;
+  // inactive = no items at all for this category
+
+  let chipBg: string, chipBorder: string, iconClr: string, textClr: string;
+  if (isComplete) {
+    chipBg = COLORS.bookedBg; chipBorder = COLORS.booked; iconClr = COLORS.booked; textClr = COLORS.booked;
+  } else if (isPartial) {
+    chipBg = COLORS.pendingBg; chipBorder = COLORS.pending; iconClr = COLORS.pending; textClr = COLORS.pending;
+  } else if (isIncomplete) {
+    chipBg = COLORS.urgentBg; chipBorder = COLORS.urgent; iconClr = COLORS.urgent; textClr = COLORS.urgent;
+  } else {
+    chipBg = "#F8F6F2"; chipBorder = "#E0DCD4"; iconClr = "#9C9588"; textClr = "#78736A";
+  }
+  // Expanded state: always use category color border
+  if (isExpanded) { chipBorder = color; if (!isComplete && !isPartial && !isIncomplete) { chipBg = bg; iconClr = color; textClr = color; } }
 
   return (
     <button
@@ -732,15 +743,14 @@ const CategoryChip = ({
         backgroundColor: chipBg,
         border: `1.5px solid ${chipBorder}`,
         cursor: "pointer", fontSize: 11, fontWeight: 600,
-        color: textColor, whiteSpace: "nowrap",
+        color: textClr, whiteSpace: "nowrap",
         transition: "all 0.15s ease",
         outline: "none",
       }}
     >
-      <Icon size={14} color={iconColor} />
+      <Icon size={14} color={iconClr} />
       <span>{label || name}</span>
-      {isComplete && <Check size={12} color={color} />}
-      {isPartial && <Circle size={8} color={COLORS.pending} fill={COLORS.pending} />}
+      {isComplete && <Check size={12} color={COLORS.booked} />}
     </button>
   );
 };
