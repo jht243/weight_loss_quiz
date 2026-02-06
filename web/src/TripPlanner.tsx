@@ -77,11 +77,14 @@ interface TripLeg {
 
 type TripType = "one_way" | "round_trip" | "multi_city";
 
+type TransportMode = "plane" | "car" | "rail" | "bus" | "other";
+
 interface MultiCityLeg {
   id: string;
   from: string;
   to: string;
   date: string;
+  mode: TransportMode;
 }
 
 interface Trip {
@@ -92,6 +95,8 @@ interface Trip {
   travelers: number;
   departureDate?: string;
   returnDate?: string;
+  departureMode?: TransportMode;
+  returnMode?: TransportMode;
   multiCityLegs?: MultiCityLeg[];
   createdAt: number;
   updatedAt: number;
@@ -307,6 +312,49 @@ const parseTripDescription = (text: string): Partial<TripLeg>[] => {
   }
 
   return legs;
+};
+
+// Transport mode selector component
+const TransportModeSelector = ({ 
+  value, 
+  onChange 
+}: { 
+  value: TransportMode; 
+  onChange: (mode: TransportMode) => void;
+}) => {
+  const modes: { value: TransportMode; icon: React.ReactNode; label: string }[] = [
+    { value: "plane", icon: <Plane size={18} />, label: "Plane" },
+    { value: "car", icon: <Car size={18} />, label: "Car" },
+    { value: "rail", icon: <Train size={18} />, label: "Rail" },
+    { value: "bus", icon: <Bus size={18} />, label: "Bus" },
+    { value: "other", icon: <Ship size={18} />, label: "Other" }
+  ];
+  
+  return (
+    <div style={{ display: "flex", gap: 6, marginTop: 8 }}>
+      {modes.map(m => (
+        <button
+          key={m.value}
+          onClick={() => onChange(m.value)}
+          title={m.label}
+          style={{
+            flex: 1,
+            padding: "8px 4px",
+            borderRadius: 8,
+            border: value === m.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
+            backgroundColor: value === m.value ? COLORS.accentLight : "white",
+            color: value === m.value ? COLORS.primary : COLORS.textSecondary,
+            cursor: "pointer",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+          }}
+        >
+          {m.icon}
+        </button>
+      ))}
+    </div>
+  );
 };
 
 // Small status icon (not a button)
@@ -1844,8 +1892,8 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                           const updates: Partial<Trip> = { tripType: opt.value as TripType, updatedAt: Date.now() };
                           if (opt.value === "multi_city" && (!t.multiCityLegs || t.multiCityLegs.length < 2)) {
                             updates.multiCityLegs = [
-                              { id: generateId(), from: "", to: "", date: "" },
-                              { id: generateId(), from: "", to: "", date: "" }
+                              { id: generateId(), from: "", to: "", date: "", mode: "plane" },
+                              { id: generateId(), from: "", to: "", date: "", mode: "plane" }
                             ];
                           }
                           return { ...t, ...updates };
@@ -1874,7 +1922,8 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                         Flight Legs
                       </div>
                       {(trip.multiCityLegs || []).map((leg, idx) => (
-                        <div key={leg.id} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, marginBottom: 8, alignItems: "center" }}>
+                        <div key={leg.id} style={{ marginBottom: 12, padding: 12, backgroundColor: COLORS.bg, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>
+                          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, alignItems: "center" }}>
                           <input
                             type="text"
                             placeholder="From"
@@ -1928,12 +1977,21 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                               <X size={14} />
                             </button>
                           )}
+                          </div>
+                          <TransportModeSelector 
+                            value={leg.mode || "plane"} 
+                            onChange={mode => setTrip(t => ({
+                              ...t,
+                              multiCityLegs: (t.multiCityLegs || []).map(l => l.id === leg.id ? { ...l, mode } : l),
+                              updatedAt: Date.now()
+                            }))} 
+                          />
                         </div>
                       ))}
                       <button
                         onClick={() => setTrip(t => ({
                           ...t,
-                          multiCityLegs: [...(t.multiCityLegs || []), { id: generateId(), from: "", to: "", date: "" }],
+                          multiCityLegs: [...(t.multiCityLegs || []), { id: generateId(), from: "", to: "", date: "", mode: "plane" as TransportMode }],
                           updatedAt: Date.now()
                         }))}
                         style={{ width: "100%", padding: 10, borderRadius: 8, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
@@ -1970,6 +2028,10 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                         }}
                         style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }}
                       />
+                      <TransportModeSelector 
+                        value={trip.departureMode || "plane"} 
+                        onChange={mode => setTrip(t => ({ ...t, departureMode: mode, updatedAt: Date.now() }))} 
+                      />
                     </div>
                     
                     {trip.tripType === "round_trip" && (
@@ -2000,10 +2062,14 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                             });
                           }}
                           style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }}
-                    />
+                        />
+                        <TransportModeSelector 
+                          value={trip.returnMode || "plane"} 
+                          onChange={mode => setTrip(t => ({ ...t, returnMode: mode, updatedAt: Date.now() }))} 
+                        />
+                      </div>
+                    )}
                   </div>
-                )}
-              </div>
               )}
               {/* Done button to close editor */}
               {((trip.tripType === "multi_city" && (trip.multiCityLegs || []).length >= 2 && (trip.multiCityLegs || []).every(l => l.from && l.to && l.date)) || (trip.departureDate && (trip.tripType === "one_way" || trip.returnDate))) && (
