@@ -25087,7 +25087,7 @@ var AddDetailsButton = ({ onClick }) => {
     }
   );
 };
-var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate }) => {
+var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate, travelers = 1 }) => {
   const [isEditing, setIsEditing] = (0, import_react3.useState)(false);
   const initialEditData = leg.type === "hotel" ? {
     ...leg,
@@ -25163,7 +25163,24 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
         ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatusIcon, { status: leg.status }),
-      leg.status === "pending" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddDetailsButton, { onClick: () => setIsEditing(true) }),
+      leg.status === "pending" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6, alignItems: "center" }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddDetailsButton, { onClick: () => setIsEditing(true) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+          "button",
+          {
+            onClick: (e) => {
+              e.stopPropagation();
+              onUpdate({ status: "booked" });
+            },
+            className: "btn-press",
+            style: { padding: "6px 10px", borderRadius: 8, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap" },
+            children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 13 }),
+              " Done"
+            ]
+          }
+        )
+      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20 }) })
     ] }),
     isExpanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
@@ -25186,6 +25203,71 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Confirmation #" }),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontFamily: "monospace", fontWeight: 600 }, children: leg.confirmationNumber })
         ] })
+      ] }),
+      travelers > 1 && ["flight", "train", "bus"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: 16, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 12 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 8 }, children: "Passenger Tickets" }),
+        Array.from({ length: travelers }, (_, i) => {
+          const ticket = leg.passengerTickets?.find((t) => t.passenger === i + 1);
+          const isBooked = ticket?.booked || false;
+          return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "6px 10px", borderRadius: 8, backgroundColor: isBooked ? COLORS.bookedBg : COLORS.inputBg, border: `1px solid ${isBooked ? COLORS.booked : COLORS.borderLight}` }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, fontWeight: 600, color: isBooked ? COLORS.booked : COLORS.textMain, flex: 1 }, children: [
+              leg.type === "flight" ? "\u2708" : leg.type === "train" ? "\u{1F686}" : "\u{1F68C}",
+              " Passenger ",
+              i + 1
+            ] }),
+            isBooked ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+              ticket?.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 11, color: COLORS.booked, fontFamily: "monospace" }, children: ticket.confirmationNumber }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: (e) => {
+                e.stopPropagation();
+                const tickets = [...leg.passengerTickets || []];
+                const idx = tickets.findIndex((t) => t.passenger === i + 1);
+                if (idx >= 0) tickets.splice(idx, 1);
+                onUpdate({ passengerTickets: tickets });
+              }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: "white", color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer" }, children: "Undo" })
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                "input",
+                {
+                  placeholder: "Confirmation #",
+                  onClick: (e) => e.stopPropagation(),
+                  onChange: () => {
+                  },
+                  onBlur: (e) => {
+                    const val = e.target.value.trim();
+                    if (val) {
+                      const tickets = [...leg.passengerTickets || []];
+                      const idx = tickets.findIndex((t) => t.passenger === i + 1);
+                      if (idx >= 0) {
+                        tickets[idx] = { ...tickets[idx], confirmationNumber: val, booked: true };
+                      } else {
+                        tickets.push({ passenger: i + 1, confirmationNumber: val, booked: true });
+                      }
+                      onUpdate({ passengerTickets: tickets });
+                    }
+                  },
+                  onKeyDown: (e) => {
+                    if (e.key === "Enter") e.target.blur();
+                  },
+                  style: { width: 100, padding: "4px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 11, outline: "none" }
+                }
+              ),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
+                e.stopPropagation();
+                const tickets = [...leg.passengerTickets || []];
+                const idx = tickets.findIndex((t) => t.passenger === i + 1);
+                if (idx >= 0) {
+                  tickets[idx] = { ...tickets[idx], booked: true };
+                } else {
+                  tickets.push({ passenger: i + 1, booked: true });
+                }
+                onUpdate({ passengerTickets: tickets });
+              }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 11 }),
+                " Done"
+              ] })
+            ] })
+          ] }, i);
+        })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 16 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
@@ -25289,7 +25371,7 @@ var CategoryIcon = ({
     }
   );
 };
-var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, toggleLegExpand, departureDate, returnDate, primaryTransportMode, multiCityLegs }) => {
+var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, toggleLegExpand, departureDate, returnDate, primaryTransportMode, multiCityLegs, travelers = 1 }) => {
   const [expandedCategory, setExpandedCategory] = (0, import_react3.useState)({});
   const [editingTransport, setEditingTransport] = (0, import_react3.useState)(null);
   const [transportForm, setTransportForm] = (0, import_react3.useState)({ type: "uber", notes: "", rentalCompany: "", startDate: "", endDate: "" });
@@ -25541,8 +25623,8 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
         ] });
       })(),
       expanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }, children: [
-        expanded === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.flights.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate }, leg.id)) }),
-        expanded === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate }, `${leg.id}-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+        expanded === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.flights.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, leg.id)) }),
+        expanded === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
           " Add Hotel"
         ] }) }),
@@ -25851,7 +25933,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
           })()
         ] }),
         expanded === "activity" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-          dayData.activities.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate }, leg.id)),
+          dayData.activities.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, leg.id)),
           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "other", date, status: "pending", title: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed #6B705C`, backgroundColor: "#ECEAE2", color: "#6B705C", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: dayData.activities.length > 0 ? 8 : 0 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
             " Add Activity"
@@ -27180,7 +27262,8 @@ function TripPlanner({ initialData: initialData2 }) {
             departureDate: viewDepartureDate,
             returnDate: viewReturnDate,
             primaryTransportMode: trip.departureMode || "plane",
-            multiCityLegs: trip.tripType === "multi_city" ? trip.multiCityLegs : void 0
+            multiCityLegs: trip.tripType === "multi_city" ? trip.multiCityLegs : void 0,
+            travelers: trip.travelers
           }
         );
       })()

@@ -91,6 +91,7 @@ interface TripLeg {
   airline?: string;
   hotelName?: string;
   rentalCompany?: string;
+  passengerTickets?: { passenger: number; confirmationNumber?: string; seatNumber?: string; ticketNumber?: string; booked: boolean }[];
 }
 
 type TripType = "one_way" | "round_trip" | "multi_city";
@@ -468,7 +469,7 @@ const AddDetailsButton = ({ onClick }: { onClick: () => void }) => {
   );
 };
 
-const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate }: { leg: TripLeg; onUpdate: (u: Partial<TripLeg>) => void; onDelete: () => void; isExpanded: boolean; onToggleExpand: () => void; tripDepartureDate?: string; tripReturnDate?: string }) => {
+const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate, travelers = 1 }: { leg: TripLeg; onUpdate: (u: Partial<TripLeg>) => void; onDelete: () => void; isExpanded: boolean; onToggleExpand: () => void; tripDepartureDate?: string; tripReturnDate?: string; travelers?: number }) => {
   const [isEditing, setIsEditing] = useState(false);
   // For hotels, prefill dates with trip dates if not already set
   const initialEditData = leg.type === "hotel" ? {
@@ -542,7 +543,18 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
           </div>
         </div>
         <StatusIcon status={leg.status} />
-        {leg.status === "pending" && <AddDetailsButton onClick={() => setIsEditing(true)} />}
+        {leg.status === "pending" && (
+          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+            <AddDetailsButton onClick={() => setIsEditing(true)} />
+            <button
+              onClick={(e) => { e.stopPropagation(); onUpdate({ status: "booked" }); }}
+              className="btn-press"
+              style={{ padding: "6px 10px", borderRadius: 8, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap" }}
+            >
+              <Check size={13} /> Done
+            </button>
+          </div>
+        )}
         <div style={{ color: COLORS.textSecondary }}>{isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}</div>
       </div>
       {isExpanded && (
@@ -552,6 +564,65 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
             {leg.location && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Location</div><div style={{ fontSize: 14 }}>{leg.location}</div></div>}
             {leg.confirmationNumber && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Confirmation #</div><div style={{ fontSize: 14, fontFamily: "monospace", fontWeight: 600 }}>{leg.confirmationNumber}</div></div>}
           </div>
+          {/* Per-passenger tickets for flights/trains/buses when travelers > 1 */}
+          {travelers > 1 && ["flight", "train", "bus"].includes(leg.type) && (
+            <div style={{ marginTop: 16, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 12 }}>
+              <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 8 }}>Passenger Tickets</div>
+              {Array.from({ length: travelers }, (_, i) => {
+                const ticket = leg.passengerTickets?.find(t => t.passenger === i + 1);
+                const isBooked = ticket?.booked || false;
+                return (
+                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "6px 10px", borderRadius: 8, backgroundColor: isBooked ? COLORS.bookedBg : COLORS.inputBg, border: `1px solid ${isBooked ? COLORS.booked : COLORS.borderLight}` }}>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: isBooked ? COLORS.booked : COLORS.textMain, flex: 1 }}>
+                      {leg.type === "flight" ? "✈" : leg.type === "train" ? "🚆" : "🚌"} Passenger {i + 1}
+                    </span>
+                    {isBooked ? (
+                      <>
+                        {ticket?.confirmationNumber && <span style={{ fontSize: 11, color: COLORS.booked, fontFamily: "monospace" }}>{ticket.confirmationNumber}</span>}
+                        <button onClick={(e) => {
+                          e.stopPropagation();
+                          const tickets = [...(leg.passengerTickets || [])];
+                          const idx = tickets.findIndex(t => t.passenger === i + 1);
+                          if (idx >= 0) tickets.splice(idx, 1);
+                          onUpdate({ passengerTickets: tickets });
+                        }} className="btn-press" style={{ padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: "white", color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>Undo</button>
+                      </>
+                    ) : (
+                      <>
+                        <input
+                          placeholder="Confirmation #"
+                          onClick={e => e.stopPropagation()}
+                          onChange={() => {}}
+                          onBlur={(e) => {
+                            const val = e.target.value.trim();
+                            if (val) {
+                              const tickets = [...(leg.passengerTickets || [])];
+                              const idx = tickets.findIndex(t => t.passenger === i + 1);
+                              if (idx >= 0) { tickets[idx] = { ...tickets[idx], confirmationNumber: val, booked: true }; }
+                              else { tickets.push({ passenger: i + 1, confirmationNumber: val, booked: true }); }
+                              onUpdate({ passengerTickets: tickets });
+                            }
+                          }}
+                          onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+                          style={{ width: 100, padding: "4px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 11, outline: "none" }}
+                        />
+                        <button onClick={(e) => {
+                          e.stopPropagation();
+                          const tickets = [...(leg.passengerTickets || [])];
+                          const idx = tickets.findIndex(t => t.passenger === i + 1);
+                          if (idx >= 0) { tickets[idx] = { ...tickets[idx], booked: true }; }
+                          else { tickets.push({ passenger: i + 1, booked: true }); }
+                          onUpdate({ passengerTickets: tickets });
+                        }} className="btn-press" style={{ padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
+                          <Check size={11} /> Done
+                        </button>
+                      </>
+                    )}
+                  </div>
+                );
+              })}
+            </div>
+          )}
           <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
             <button onClick={e => { e.stopPropagation(); setIsEditing(true); }} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Edit3 size={14} /> Edit</button>
             <button onClick={e => { e.stopPropagation(); onDelete(); }} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Trash2 size={14} /> Delete</button>
@@ -673,7 +744,7 @@ const CategoryIcon = ({
 };
 
 // Day-by-Day View Component - Horizontal icon guide layout
-const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, toggleLegExpand, departureDate, returnDate, primaryTransportMode, multiCityLegs }: { 
+const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, toggleLegExpand, departureDate, returnDate, primaryTransportMode, multiCityLegs, travelers = 1 }: { 
   legs: TripLeg[]; 
   onUpdateLeg: (id: string, u: Partial<TripLeg>) => void; 
   onDeleteLeg: (id: string) => void;
@@ -684,6 +755,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
   departureDate?: string;
   returnDate?: string;
   multiCityLegs?: MultiCityLeg[];
+  travelers?: number;
 }) => {
   const [expandedCategory, setExpandedCategory] = useState<Record<string, string | null>>({});
   const [editingTransport, setEditingTransport] = useState<string | null>(null); // "to-{date}" or "from-{date}" or "rental"
@@ -991,14 +1063,14 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                 {expanded === "flight" && (
                   <>
                     {dayData.flights.map(leg => (
-                      <TripLegCard key={leg.id} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} />
+                      <TripLegCard key={leg.id} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} travelers={travelers} />
                     ))}
                   </>
                 )}
                 {expanded === "hotel" && (
                   <>
                     {dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => (
-                        <TripLegCard key={`${leg.id}-${date}`} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} />
+                        <TripLegCard key={`${leg.id}-${date}`} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} travelers={travelers} />
                     )) : (
                       <button onClick={() => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" })} style={{ width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
                         <Plus size={16} /> Add Hotel
@@ -1232,7 +1304,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                 {expanded === "activity" && (
                   <>
                     {dayData.activities.map(leg => (
-                      <TripLegCard key={leg.id} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} />
+                      <TripLegCard key={leg.id} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} travelers={travelers} />
                     ))}
                     <button onClick={() => onAddLeg({ type: "other", date, status: "pending", title: "" })} style={{ width: "100%", padding: 12, borderRadius: 10, border: `2px dashed #6B705C`, backgroundColor: "#ECEAE2", color: "#6B705C", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: dayData.activities.length > 0 ? 8 : 0 }}>
                       <Plus size={16} /> Add Activity
@@ -2652,6 +2724,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                   returnDate={viewReturnDate}
                   primaryTransportMode={trip.departureMode || "plane"}
                   multiCityLegs={trip.tripType === "multi_city" ? trip.multiCityLegs : undefined}
+                  travelers={trip.travelers}
                 />
               );
             })()}
