@@ -25601,18 +25601,18 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
       (() => {
         const isTravelDay2 = dayData.flights.length > 0;
         const hasUserInfo2 = (leg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
-        const hotelComplete = dayData.hotels.length > 0 && dayData.hotels.some((h) => h.leg.hotelName || h.leg.title);
-        const activityComplete = dayData.activities.length > 0;
-        const toAirportLeg = dayData.transport.find((t) => t.title?.toLowerCase().includes("to airport") || t.to?.toLowerCase().includes("airport"));
-        const fromAirportLeg = dayData.transport.find((t) => t.title?.toLowerCase().includes("from airport") || t.from?.toLowerCase().includes("airport"));
-        const toAirportBooked = toAirportLeg && hasUserInfo2(toAirportLeg);
-        const fromAirportBooked = fromAirportLeg && hasUserInfo2(fromAirportLeg);
-        const transportNeeded = isTravelDay2 ? 2 : dayData.transport.length > 0 ? dayData.transport.length : 0;
-        const transportBookedCount = isTravelDay2 ? (toAirportBooked ? 1 : 0) + (fromAirportBooked ? 1 : 0) : dayData.transport.filter((t) => hasUserInfo2(t)).length;
-        const transportAllComplete = transportNeeded > 0 && transportBookedCount >= transportNeeded;
-        const transportPartial = transportBookedCount > 0 && transportBookedCount < transportNeeded;
-        const transportHasAny = transportBookedCount > 0;
-        const flightComplete = dayData.flights.some((f) => hasUserInfo2(f) || f.flightNumber);
+        const hotelHasItems = dayData.hotels.length > 0;
+        const hotelAllBooked = hotelHasItems && dayData.hotels.every((h) => h.leg.status === "booked");
+        const hotelSomeBooked = hotelHasItems && !hotelAllBooked && dayData.hotels.some((h) => h.leg.status === "booked");
+        const activityHasItems = dayData.activities.length > 0;
+        const activityAllBooked = activityHasItems && dayData.activities.every((a) => a.status === "booked");
+        const activitySomeBooked = activityHasItems && !activityAllBooked && dayData.activities.some((a) => a.status === "booked");
+        const transportHasItems = isTravelDay2 || dayData.transport.length > 0;
+        const transportAllBooked = transportHasItems && dayData.transport.length > 0 && dayData.transport.every((t) => t.status === "booked");
+        const transportSomeBooked = transportHasItems && !transportAllBooked && dayData.transport.some((t) => t.status === "booked");
+        const flightHasItems = dayData.flights.length > 0;
+        const flightAllBooked = flightHasItems && dayData.flights.every((f) => f.status === "booked");
+        const flightSomeBooked = flightHasItems && !flightAllBooked && dayData.flights.some((f) => f.status === "booked");
         return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
           display: "flex",
           flexWrap: "wrap",
@@ -25624,32 +25624,34 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
             CategoryChip,
             {
               type: "hotel",
-              hasItem: hotelComplete,
-              isBooked: hotelBooked,
+              hasItem: hotelHasItems,
+              isBooked: hotelAllBooked,
               isExpanded: expanded === "hotel",
               onClick: () => toggleCategory(date, "hotel"),
-              label: "Stay"
+              label: "Stay",
+              partialComplete: hotelSomeBooked
             }
           ),
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             CategoryChip,
             {
               type: "activity",
-              hasItem: activityComplete,
-              isBooked: activityBooked,
+              hasItem: activityHasItems,
+              isBooked: activityAllBooked,
               isExpanded: expanded === "activity",
-              onClick: () => toggleCategory(date, "activity")
+              onClick: () => toggleCategory(date, "activity"),
+              partialComplete: activitySomeBooked
             }
           ),
           (isTravelDay2 || dayData.transport.length > 0) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             CategoryChip,
             {
               type: "transport",
-              hasItem: transportHasAny,
-              isBooked: transportBooked,
+              hasItem: transportHasItems,
+              isBooked: transportAllBooked,
               isExpanded: expanded === "transport",
               onClick: () => toggleCategory(date, "transport"),
-              partialComplete: transportPartial
+              partialComplete: transportSomeBooked
             }
           ),
           isTravelDay2 && (() => {
@@ -25659,11 +25661,12 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
               CategoryChip,
               {
                 type: "flight",
-                hasItem: flightComplete,
-                isBooked: flightBooked,
+                hasItem: flightHasItems,
+                isBooked: flightAllBooked,
                 isExpanded: expanded === "flight",
                 onClick: () => toggleCategory(date, "flight"),
-                transportMode: dayMode
+                transportMode: dayMode,
+                partialComplete: flightSomeBooked
               }
             );
           })()
