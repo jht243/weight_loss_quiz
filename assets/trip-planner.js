@@ -25232,7 +25232,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. cabin #, deck, meal plan)", style: fullStyle })
           ] }),
           !["hotel", "flight", "car", "train", "bus", "ferry"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: stop, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Activity Name", style: fullStyle }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: stop, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Activity Name", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Date" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onClick: stop, onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: inpStyle })
@@ -25241,8 +25241,8 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Time" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Location", style: fullStyle }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation / Booking #", style: fullStyle }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Location", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation / Booking #", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes", style: fullStyle })
           ] })
         ] }),
@@ -26648,6 +26648,7 @@ function TripPlanner({ initialData: initialData2 }) {
   const handleAddLeg = (legData) => {
     const newLeg = { id: generateId(), type: legData.type || "other", status: legData.status || "pending", title: legData.title || "", date: legData.date || "", time: legData.time, endDate: legData.endDate, from: legData.from, to: legData.to, location: legData.location, confirmationNumber: legData.confirmationNumber, flightNumber: legData.flightNumber, airline: legData.airline, hotelName: legData.hotelName, notes: legData.notes };
     setTrip((t) => ({ ...t, legs: [...t.legs, newLeg], updatedAt: Date.now() }));
+    setExpandedLegs((p) => new Set(p).add(newLeg.id));
   };
   const handleUpdateLeg = (legId, updates) => setTrip((t) => ({ ...t, legs: t.legs.map((l) => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
   const handleDeleteLeg = (legId) => {
