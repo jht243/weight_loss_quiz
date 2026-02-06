@@ -27185,10 +27185,26 @@ function TripPlanner({ initialData: initialData2 }) {
         const hotelsBookedCount = hotels.filter((h) => h.status === "booked" || h.confirmationNumber).length;
         const transportBookedCount = transport.filter((t) => t.status === "booked" || t.confirmationNumber).length;
         let lodgingStatus = hotels.length > 0 ? "yes" : "no";
-        if (trip.tripType === "multi_city" && cities.size > 0) {
+        if (trip.tripType === "multi_city" && cities.size > 0 && trip.multiCityLegs?.length) {
           const hotelCities = /* @__PURE__ */ new Set();
+          const sortedMCLegs = [...trip.multiCityLegs].filter((l) => l.date).sort((a, b) => a.date.localeCompare(b.date));
           hotels.forEach((h) => {
-            if (h.to) hotelCities.add(h.to);
+            if (h.location) {
+              hotelCities.add(h.location);
+              return;
+            }
+            if (h.to) {
+              hotelCities.add(h.to);
+              return;
+            }
+            if (h.date && sortedMCLegs.length > 0) {
+              let city = null;
+              for (const leg of sortedMCLegs) {
+                if (leg.date <= h.date) city = leg.to;
+                else break;
+              }
+              if (city) hotelCities.add(city);
+            }
           });
           const citiesWithHotel = [...cities].filter((c) => hotelCities.has(c)).length;
           if (citiesWithHotel === 0) lodgingStatus = "no";
