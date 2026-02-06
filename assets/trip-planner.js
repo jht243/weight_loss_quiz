@@ -25742,7 +25742,13 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
       (() => {
         const isTravelDay2 = dayData.flights.length > 0;
         const hasUserInfo2 = (leg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
-        const hotelComplete = dayData.hotels.length > 0 && dayData.hotels.some((h) => h.leg.hotelName || h.leg.title);
+        const isIntermediateTravelDay = isTravelDay2 && multiCityLegs && multiCityLegs.length > 0 && idx > 0 && idx < legsByDate.sortedDates.length - 1;
+        const checkoutHotels = isIntermediateTravelDay ? dayData.hotels.filter((h) => h.isContinuation) : [];
+        const checkinHotels = isIntermediateTravelDay ? dayData.hotels.filter((h) => !h.isContinuation) : [];
+        const checkoutBooked = checkoutHotels.some((h) => h.leg.status === "booked" || h.leg.hotelName || h.leg.title);
+        const checkinBooked = checkinHotels.some((h) => h.leg.status === "booked" || h.leg.hotelName || h.leg.title);
+        const hotelComplete = isIntermediateTravelDay ? checkoutBooked && checkinBooked : dayData.hotels.length > 0 && dayData.hotels.some((h) => h.leg.hotelName || h.leg.title);
+        const hotelPartialComplete = isIntermediateTravelDay && (checkoutBooked || checkinBooked) && !(checkoutBooked && checkinBooked);
         const activityComplete = dayData.activities.length > 0;
         const isToHub = (t) => t.title?.toLowerCase().startsWith("to ") || t.to?.toLowerCase().includes("airport") || t.to?.toLowerCase().includes("station") || t.to?.toLowerCase().includes("port");
         const isFromHub = (t) => t.title?.toLowerCase().startsWith("from ") || t.from?.toLowerCase().includes("airport") || t.from?.toLowerCase().includes("station") || t.from?.toLowerCase().includes("port");
@@ -25779,7 +25785,8 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                   isBooked: hotelBooked,
                   isExpanded: expanded === "hotel",
                   onClick: () => toggleCategory(date, "hotel"),
-                  label: "Stay"
+                  label: "Stay",
+                  partialComplete: hotelPartialComplete
                 }
               ),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -25824,10 +25831,46 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
       })(),
       expanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }, children: [
         expanded === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.flights.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, leg.id)) }),
-        expanded === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-          " Add Hotel"
-        ] }) }),
+        expanded === "hotel" && (() => {
+          const isTravelDay2 = dayData.flights.length > 0;
+          const isIntermediateTravelDay = isTravelDay2 && multiCityLegs && multiCityLegs.length > 0 && idx > 0 && idx < legsByDate.sortedDates.length - 1;
+          if (isIntermediateTravelDay) {
+            const leavingCity = dayData.flights[0]?.from || "previous city";
+            const arrivingCity = dayData.flights[0]?.to || "next city";
+            const checkoutHotels = dayData.hotels.filter((h) => h.isContinuation);
+            const checkinHotels = dayData.hotels.filter((h) => !h.isContinuation);
+            return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 11, fontWeight: 700, color: COLORS.textSecondary, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 12, style: { transform: "rotate(180deg)" } }),
+                  " Lodging Checkout \u2014 leaving ",
+                  leavingCity
+                ] }),
+                checkoutHotels.length > 0 ? checkoutHotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-checkout-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date: legsByDate.sortedDates[idx - 1] || date, status: "pending", title: "", location: leavingCity }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
+                  " Add Hotel in ",
+                  leavingCity
+                ] })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 11, fontWeight: 700, color: COLORS.textSecondary, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 12 }),
+                  " Lodging Checkin \u2014 arriving ",
+                  arrivingCity
+                ] }),
+                checkinHotels.length > 0 ? checkinHotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-checkin-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: arrivingCity }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
+                  " Add Hotel in ",
+                  arrivingCity
+                ] })
+              ] })
+            ] });
+          }
+          return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
+            " Add Hotel"
+          ] }) });
+        })(),
         expanded === "transport" && (() => {
           const dayLeg = dayData.flights[0];
           const hubName = dayLeg ? dayLeg.type === "train" ? "Train Station" : dayLeg.type === "bus" ? "Bus Station" : dayLeg.type === "ferry" ? "Ship" : dayLeg.type === "car" ? "Rental Car Pickup" : "Airport" : "Airport";

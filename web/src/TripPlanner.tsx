@@ -1201,8 +1201,16 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
               const isTravelDay = dayData.flights.length > 0;
               // Helper: check if leg has user-added info (not just auto-generated)
               const hasUserInfo = (leg: TripLeg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
-              // ORIGINAL logic restored exactly from pre-redesign (commit 960007c)
-              const hotelComplete = dayData.hotels.length > 0 && dayData.hotels.some(h => h.leg.hotelName || h.leg.title);
+              // Multi-city intermediate travel day: need both checkout + checkin hotels
+              const isIntermediateTravelDay = isTravelDay && multiCityLegs && multiCityLegs.length > 0 && idx > 0 && idx < legsByDate.sortedDates.length - 1;
+              const checkoutHotels = isIntermediateTravelDay ? dayData.hotels.filter(h => h.isContinuation) : [];
+              const checkinHotels = isIntermediateTravelDay ? dayData.hotels.filter(h => !h.isContinuation) : [];
+              const checkoutBooked = checkoutHotels.some(h => h.leg.status === "booked" || h.leg.hotelName || h.leg.title);
+              const checkinBooked = checkinHotels.some(h => h.leg.status === "booked" || h.leg.hotelName || h.leg.title);
+              const hotelComplete = isIntermediateTravelDay
+                ? checkoutBooked && checkinBooked
+                : dayData.hotels.length > 0 && dayData.hotels.some(h => h.leg.hotelName || h.leg.title);
+              const hotelPartialComplete = isIntermediateTravelDay && (checkoutBooked || checkinBooked) && !(checkoutBooked && checkinBooked);
               const activityComplete = dayData.activities.length > 0;
               // Transport: on travel days, need both "to hub" and "from hub"
               const isToHub = (t: TripLeg) => t.title?.toLowerCase().startsWith("to ") || t.to?.toLowerCase().includes("airport") || t.to?.toLowerCase().includes("station") || t.to?.toLowerCase().includes("port");
@@ -1237,6 +1245,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                     isExpanded={expanded === "hotel"}
                     onClick={() => toggleCategory(date, "hotel")}
                     label="Stay"
+                    partialComplete={hotelPartialComplete}
                   />
                   <CategoryChip 
                     type="activity" 
@@ -1288,17 +1297,58 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                     ))}
                   </>
                 )}
-                {expanded === "hotel" && (
-                  <>
-                    {dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => (
-                        <TripLegCard key={`${leg.id}-${date}`} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} travelers={travelers} />
-                    )) : (
-                      <button onClick={() => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" })} style={{ width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
-                        <Plus size={16} /> Add Hotel
-                      </button>
-                    )}
-                  </>
-                )}
+                {expanded === "hotel" && (() => {
+                  // Multi-city intermediate travel day: show checkout + checkin sections
+                  const isTravelDay = dayData.flights.length > 0;
+                  const isIntermediateTravelDay = isTravelDay && multiCityLegs && multiCityLegs.length > 0 && idx > 0 && idx < legsByDate.sortedDates.length - 1;
+                  if (isIntermediateTravelDay) {
+                    const leavingCity = dayData.flights[0]?.from || "previous city";
+                    const arrivingCity = dayData.flights[0]?.to || "next city";
+                    const checkoutHotels = dayData.hotels.filter(h => h.isContinuation);
+                    const checkinHotels = dayData.hotels.filter(h => !h.isContinuation);
+                    return (
+                      <>
+                        {/* Checkout section */}
+                        <div style={{ marginBottom: 12 }}>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.textSecondary, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                            <ArrowRight size={12} style={{ transform: "rotate(180deg)" }} /> Lodging Checkout — leaving {leavingCity}
+                          </div>
+                          {checkoutHotels.length > 0 ? checkoutHotels.map(({ leg }) => (
+                            <TripLegCard key={`${leg.id}-checkout-${date}`} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} travelers={travelers} />
+                          )) : (
+                            <button onClick={() => onAddLeg({ type: "hotel", date: legsByDate.sortedDates[idx - 1] || date, status: "pending", title: "", location: leavingCity })} style={{ width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                              <Plus size={16} /> Add Hotel in {leavingCity}
+                            </button>
+                          )}
+                        </div>
+                        {/* Checkin section */}
+                        <div>
+                          <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.textSecondary, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }}>
+                            <ArrowRight size={12} /> Lodging Checkin — arriving {arrivingCity}
+                          </div>
+                          {checkinHotels.length > 0 ? checkinHotels.map(({ leg }) => (
+                            <TripLegCard key={`${leg.id}-checkin-${date}`} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} travelers={travelers} />
+                          )) : (
+                            <button onClick={() => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: arrivingCity })} style={{ width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                              <Plus size={16} /> Add Hotel in {arrivingCity}
+                            </button>
+                          )}
+                        </div>
+                      </>
+                    );
+                  }
+                  return (
+                    <>
+                      {dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => (
+                          <TripLegCard key={`${leg.id}-${date}`} leg={leg} onUpdate={u => onUpdateLeg(leg.id, u)} onDelete={() => onDeleteLeg(leg.id)} isExpanded={expandedLegs.has(leg.id)} onToggleExpand={() => toggleLegExpand(leg.id)} tripDepartureDate={departureDate} tripReturnDate={returnDate} travelers={travelers} />
+                      )) : (
+                        <button onClick={() => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" })} style={{ width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}>
+                          <Plus size={16} /> Add Hotel
+                        </button>
+                      )}
+                    </>
+                  );
+                })()}
                 {expanded === "transport" && (() => {
                   // Determine hub name based on the day's primary travel mode
                   const dayLeg = dayData.flights[0];
