@@ -2476,6 +2476,19 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
               const hotelsBookedCount = hotels.filter(h => h.status === "booked" || h.confirmationNumber).length;
               const transportBookedCount = transport.filter(t => t.status === "booked" || t.confirmationNumber).length;
               
+              // For multi-city: determine lodging coverage per destination city
+              let lodgingStatus: "yes" | "no" | "partial" = hotels.length > 0 ? "yes" : "no";
+              if (trip.tripType === "multi_city" && cities.size > 0) {
+                const hotelCities = new Set<string>();
+                hotels.forEach(h => { if (h.to) hotelCities.add(h.to); });
+                const citiesWithHotel = [...cities].filter(c => hotelCities.has(c)).length;
+                if (citiesWithHotel === 0) lodgingStatus = "no";
+                else if (citiesWithHotel < cities.size) lodgingStatus = "partial";
+                else lodgingStatus = "yes";
+              }
+              const lodgingColor = lodgingStatus === "yes" ? COLORS.booked : lodgingStatus === "partial" ? COLORS.pending : "#C0392B";
+              const lodgingLabel = lodgingStatus === "yes" ? "Yes" : lodgingStatus === "partial" ? "Partial" : "No";
+              
               // Color helper: red=0, orange=partial, green=all
               const getStatusColor = (booked: number, total: number) => {
                 if (total === 0) return COLORS.textMuted;
@@ -2572,13 +2585,13 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                     <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>
                       <span style={{ 
                         fontSize: 12, fontWeight: 700, minWidth: 36, textAlign: "center",
-                        color: hotels.length > 0 ? COLORS.booked : "#C0392B",
-                        backgroundColor: hotels.length > 0 ? `${COLORS.booked}15` : "#C0392B15",
+                        color: lodgingColor,
+                        backgroundColor: `${lodgingColor}15`,
                         padding: "3px 6px", borderRadius: 6
                       }}>
-                        {hotels.length > 0 ? "Yes" : "No"}
+                        {lodgingLabel}
                       </span>
-                      <Hotel size={16} color={hotels.length > 0 ? COLORS.booked : "#C0392B"} />
+                      <Hotel size={16} color={lodgingColor} />
                       <span style={{ fontSize: 13, color: COLORS.textMain, fontWeight: 500 }}>Lodging</span>
                     </div>
                     <div style={{ display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }}>

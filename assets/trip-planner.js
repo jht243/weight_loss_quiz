@@ -27014,6 +27014,19 @@ function TripPlanner({ initialData: initialData2 }) {
         const flightsBookedCount = flights.filter((f) => f.status === "booked" || f.flightNumber).length;
         const hotelsBookedCount = hotels.filter((h) => h.status === "booked" || h.confirmationNumber).length;
         const transportBookedCount = transport.filter((t) => t.status === "booked" || t.confirmationNumber).length;
+        let lodgingStatus = hotels.length > 0 ? "yes" : "no";
+        if (trip.tripType === "multi_city" && cities.size > 0) {
+          const hotelCities = /* @__PURE__ */ new Set();
+          hotels.forEach((h) => {
+            if (h.to) hotelCities.add(h.to);
+          });
+          const citiesWithHotel = [...cities].filter((c) => hotelCities.has(c)).length;
+          if (citiesWithHotel === 0) lodgingStatus = "no";
+          else if (citiesWithHotel < cities.size) lodgingStatus = "partial";
+          else lodgingStatus = "yes";
+        }
+        const lodgingColor = lodgingStatus === "yes" ? COLORS.booked : lodgingStatus === "partial" ? COLORS.pending : "#C0392B";
+        const lodgingLabel = lodgingStatus === "yes" ? "Yes" : lodgingStatus === "partial" ? "Partial" : "No";
         const getStatusColor2 = (booked, total) => {
           if (total === 0) return COLORS.textMuted;
           if (booked === 0) return "#C0392B";
@@ -27106,12 +27119,12 @@ function TripPlanner({ initialData: initialData2 }) {
                 fontWeight: 700,
                 minWidth: 36,
                 textAlign: "center",
-                color: hotels.length > 0 ? COLORS.booked : "#C0392B",
-                backgroundColor: hotels.length > 0 ? `${COLORS.booked}15` : "#C0392B15",
+                color: lodgingColor,
+                backgroundColor: `${lodgingColor}15`,
                 padding: "3px 6px",
                 borderRadius: 6
-              }, children: hotels.length > 0 ? "Yes" : "No" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: hotels.length > 0 ? COLORS.booked : "#C0392B" }),
+              }, children: lodgingLabel }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: lodgingColor }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Lodging" })
             ] }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
