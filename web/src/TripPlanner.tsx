@@ -562,18 +562,6 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
           </div>
         </div>
         <StatusIcon status={leg.status} />
-        {leg.status === "pending" && (
-          <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
-            <AddDetailsButton onClick={() => setIsEditing(true)} />
-            <button
-              onClick={(e) => { e.stopPropagation(); onUpdate({ status: "booked" }); }}
-              className="btn-press"
-              style={{ padding: "6px 10px", borderRadius: 8, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap" }}
-            >
-              <Check size={13} /> Done
-            </button>
-          </div>
-        )}
         <div style={{ color: COLORS.textSecondary }}>{isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}</div>
       </div>
       {isExpanded && (

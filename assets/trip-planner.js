@@ -25062,31 +25062,6 @@ var StatusIcon = ({ status }) => {
   };
   return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: colors.main }, title: status, children: icons[status] });
 };
-var AddDetailsButton = ({ onClick }) => {
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-    "button",
-    {
-      onClick,
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 4,
-        padding: "6px 12px",
-        borderRadius: 8,
-        backgroundColor: COLORS.primary,
-        color: "white",
-        border: "none",
-        fontSize: 12,
-        fontWeight: 600,
-        cursor: "pointer"
-      },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14 }),
-        " Add details"
-      ]
-    }
-  );
-};
 var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate, travelers = 1 }) => {
   const [isEditing, setIsEditing] = (0, import_react3.useState)(false);
   const initialEditData = leg.type === "hotel" ? {
@@ -25181,24 +25156,6 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
         ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatusIcon, { status: leg.status }),
-      leg.status === "pending" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6, alignItems: "center" }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddDetailsButton, { onClick: () => setIsEditing(true) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-          "button",
-          {
-            onClick: (e) => {
-              e.stopPropagation();
-              onUpdate({ status: "booked" });
-            },
-            className: "btn-press",
-            style: { padding: "6px 10px", borderRadius: 8, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 12, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4, whiteSpace: "nowrap" },
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 13 }),
-              " Done"
-            ]
-          }
-        )
-      ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20 }) })
     ] }),
     isExpanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
