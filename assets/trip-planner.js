@@ -25306,7 +25306,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
     ] })
   ] });
 };
-var CategoryIcon = ({
+var CategoryChip = ({
   type,
   hasItem,
   isBooked,
@@ -25332,59 +25332,44 @@ var CategoryIcon = ({
   };
   const flightConfig = transportMode ? getModeConfig(transportMode) : { icon: Plane, name: "Flight" };
   const config = {
-    flight: { icon: flightConfig.icon, color: COLORS.flight, bg: COLORS.flightBg, name: flightConfig.name, priority: true },
-    hotel: { icon: Hotel, color: COLORS.hotel, bg: COLORS.hotelBg, name: "Lodging", priority: true },
-    transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Transport", priority: false },
-    activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity", priority: false }
+    flight: { icon: flightConfig.icon, color: COLORS.flight, bg: COLORS.flightBg, name: flightConfig.name },
+    hotel: { icon: Hotel, color: COLORS.hotel, bg: COLORS.hotelBg, name: "Stay" },
+    transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Ride" },
+    activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity" }
   };
-  const { icon: Icon2, color, bg, name, priority } = config[type];
-  const getStatusColor2 = () => {
-    if (hasItem && !partialComplete) return COLORS.booked;
-    if (partialComplete) return COLORS.pending;
-    if (priority) return "#C0392B";
-    return "#C0392B";
-  };
-  const statusColor = getStatusColor2();
+  const { icon: Icon2, color, bg, name } = config[type];
+  const isComplete = isBooked && hasItem;
+  const isPartial = partialComplete;
+  const chipBg = isComplete ? bg : isPartial ? COLORS.pendingBg : isExpanded ? bg : "#F8F6F2";
+  const chipBorder = isExpanded ? color : isComplete ? color : isPartial ? COLORS.pending : "#E0DCD4";
+  const iconColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#9C9588";
+  const textColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#78736A";
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-    "div",
+    "button",
     {
       onClick,
+      className: "btn-press",
       style: {
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
-        gap: 2,
-        cursor: "pointer"
+        gap: 5,
+        padding: "6px 10px",
+        borderRadius: 20,
+        backgroundColor: chipBg,
+        border: `1.5px solid ${chipBorder}`,
+        cursor: "pointer",
+        fontSize: 11,
+        fontWeight: 600,
+        color: textColor,
+        whiteSpace: "nowrap",
+        transition: "all 0.15s ease",
+        outline: "none"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-          width: 48,
-          height: 48,
-          borderRadius: 12,
-          backgroundColor: hasItem ? bg : priority ? "#F5DEDA" : "#F5EDD8",
-          border: isExpanded ? `2px solid ${color}` : `1px solid ${hasItem ? color : statusColor}`,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative"
-        }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 22, color: hasItem ? color : statusColor }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-            position: "absolute",
-            top: -4,
-            right: -4,
-            width: 14,
-            height: 14,
-            borderRadius: "50%",
-            backgroundColor: statusColor,
-            border: "2px solid white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center"
-          }, children: hasItem && isBooked && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 8, color: "white" }) })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 10, color: COLORS.textMain, fontWeight: 500 }, children: label || name }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 12, color: isExpanded ? color : COLORS.textMuted, style: { marginTop: -2 } })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 14, color: iconColor }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: label || name }),
+        isComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12, color }),
+        isPartial && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { size: 8, color: COLORS.pending, fill: COLORS.pending })
       ]
     }
   );
@@ -25522,51 +25507,54 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
     const dayStatusColor = completed === 0 ? "#C0392B" : completed === total ? COLORS.booked : COLORS.pending;
     const dayStatusBg = completed === 0 ? "#F5DEDA" : completed === total ? COLORS.bookedBg : COLORS.pendingBg;
     return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-      marginBottom: 12,
+      marginBottom: 8,
       backgroundColor: COLORS.card,
       borderRadius: 12,
-      border: `1px solid ${dayStatusColor}`,
+      border: `1px solid ${COLORS.border}`,
+      borderLeft: `3px solid ${dayStatusColor}`,
       overflow: "hidden"
     }, children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
         display: "flex",
         alignItems: "center",
-        gap: 10,
-        padding: "10px 14px",
-        backgroundColor: dayStatusBg,
-        borderBottom: `1px solid ${COLORS.border}`
+        gap: 8,
+        padding: "8px 12px"
       }, children: [
         isTravelDay && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-          width: 28,
-          height: 28,
+          width: 24,
+          height: 24,
           borderRadius: "50%",
           backgroundColor: COLORS.primary,
           color: "white",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center"
+          justifyContent: "center",
+          flexShrink: 0
         }, children: getTravelDayIcon(dayData.flights) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 14, color: COLORS.textMain }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", gap: 6, minWidth: 0 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("strong", { children: [
               "Day ",
               idx + 1
             ] }),
-            " \xB7 ",
-            (() => {
-              try {
-                const d = /* @__PURE__ */ new Date(date + "T00:00:00");
-                return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
-              } catch {
-                return "";
-              }
-            })()
+            " ",
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { color: COLORS.textSecondary, fontWeight: 400 }, children: [
+              "\xB7 ",
+              (() => {
+                try {
+                  const d = /* @__PURE__ */ new Date(date + "T00:00:00");
+                  return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
+                } catch {
+                  return "";
+                }
+              })()
+            ] })
           ] }),
           (() => {
             const city = getCityForDate(date);
             return city ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-              fontSize: 11,
-              padding: "2px 8px",
+              fontSize: 10,
+              padding: "1px 6px",
               borderRadius: 4,
               backgroundColor: COLORS.accentLight,
               color: COLORS.primaryDark,
@@ -25575,12 +25563,9 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
           })()
         ] }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: {
-          fontSize: 12,
+          fontSize: 11,
           fontWeight: 600,
-          color: dayStatusColor,
-          backgroundColor: dayStatusBg,
-          padding: "2px 8px",
-          borderRadius: 10
+          color: dayStatusColor
         }, children: [
           completed,
           "/",
@@ -25603,24 +25588,25 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
         const transportHasAny = transportBookedCount > 0;
         const flightComplete = dayData.flights.some((f) => hasUserInfo2(f) || f.flightNumber);
         return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-          display: "grid",
-          gridTemplateColumns: "repeat(4, 1fr)",
-          padding: "12px 8px",
+          display: "flex",
+          flexWrap: "wrap",
+          gap: 6,
+          padding: "8px 12px",
           borderBottom: expanded ? `1px solid ${COLORS.border}` : "none"
         }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", justifyContent: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            CategoryIcon,
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            CategoryChip,
             {
               type: "hotel",
               hasItem: hotelComplete,
               isBooked: hotelBooked,
               isExpanded: expanded === "hotel",
               onClick: () => toggleCategory(date, "hotel"),
-              label: "Lodging"
+              label: "Stay"
             }
-          ) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", justifyContent: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            CategoryIcon,
+          ),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            CategoryChip,
             {
               type: "activity",
               hasItem: activityComplete,
@@ -25628,9 +25614,9 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
               isExpanded: expanded === "activity",
               onClick: () => toggleCategory(date, "activity")
             }
-          ) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", justifyContent: "center" }, children: (isTravelDay2 || dayData.transport.length > 0) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            CategoryIcon,
+          ),
+          (isTravelDay2 || dayData.transport.length > 0) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            CategoryChip,
             {
               type: "transport",
               hasItem: transportHasAny,
@@ -25639,12 +25625,12 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
               onClick: () => toggleCategory(date, "transport"),
               partialComplete: transportPartial
             }
-          ) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", justifyContent: "center" }, children: isTravelDay2 && (() => {
+          ),
+          isTravelDay2 && (() => {
             const dayLeg = dayData.flights[0];
             const dayMode = dayLeg ? dayLeg.type === "car" ? "car" : dayLeg.type === "train" ? "rail" : dayLeg.type === "bus" ? "bus" : dayLeg.type === "ferry" ? "other" : "plane" : primaryTransportMode || "plane";
             return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              CategoryIcon,
+              CategoryChip,
               {
                 type: "flight",
                 hasItem: flightComplete,
@@ -25654,7 +25640,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                 transportMode: dayMode
               }
             );
-          })() })
+          })()
         ] });
       })(),
       expanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }, children: [

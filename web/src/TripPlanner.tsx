@@ -683,8 +683,8 @@ const ProgressSummary = ({ legs }: { legs: TripLeg[] }) => {
   );
 };
 
-// Category icon component for day guide
-const CategoryIcon = ({ 
+// Category chip component for day guide — modern compact pill style
+const CategoryChip = ({ 
   type, hasItem, isBooked, isExpanded, onClick, label, partialComplete, transportMode 
 }: { 
   type: "flight" | "hotel" | "transport" | "activity"; 
@@ -696,7 +696,6 @@ const CategoryIcon = ({
   partialComplete?: boolean;
   transportMode?: TransportMode;
 }) => {
-  // Dynamic config based on transport mode for flight category
   const getModeConfig = (mode: TransportMode) => {
     switch (mode) {
       case "plane": return { icon: Plane, name: "Flight" };
@@ -706,59 +705,43 @@ const CategoryIcon = ({
       case "other": return { icon: Ship, name: "Cruise" };
     }
   };
-  
   const flightConfig = transportMode ? getModeConfig(transportMode) : { icon: Plane, name: "Flight" };
-  
   const config = {
-    flight: { icon: flightConfig.icon, color: COLORS.flight, bg: COLORS.flightBg, name: flightConfig.name, priority: true },
-    hotel: { icon: Hotel, color: COLORS.hotel, bg: COLORS.hotelBg, name: "Lodging", priority: true },
-    transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Transport", priority: false },
-    activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity", priority: false }
+    flight: { icon: flightConfig.icon, color: COLORS.flight, bg: COLORS.flightBg, name: flightConfig.name },
+    hotel: { icon: Hotel, color: COLORS.hotel, bg: COLORS.hotelBg, name: "Stay" },
+    transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Ride" },
+    activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity" }
   };
-  const { icon: Icon, color, bg, name, priority } = config[type];
-  
-  // Status dot color: green=all complete, yellow=partial, red=empty important, orange=empty non-priority
-  const getStatusColor = () => {
-    if (hasItem && !partialComplete) return COLORS.booked; // Green - fully complete
-    if (partialComplete) return COLORS.pending; // Yellow/Orange - partially complete
-    if (priority) return "#C0392B"; // Red for important (flight/hotel) - empty
-    return "#C0392B"; // Red for empty transport/activity on travel days
-  };
-  const statusColor = getStatusColor();
-  
+  const { icon: Icon, color, bg, name } = config[type];
+
+  // Determine chip state
+  const isComplete = isBooked && hasItem;
+  const isPartial = partialComplete;
+  const chipBg = isComplete ? bg : isPartial ? COLORS.pendingBg : isExpanded ? bg : "#F8F6F2";
+  const chipBorder = isExpanded ? color : isComplete ? color : isPartial ? COLORS.pending : "#E0DCD4";
+  const iconColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#9C9588";
+  const textColor = isComplete ? color : isPartial ? COLORS.pending : isExpanded ? color : "#78736A";
+
   return (
-    <div 
+    <button
       onClick={onClick}
-      style={{ 
-        display: "flex", flexDirection: "column", alignItems: "center", gap: 2,
-        cursor: "pointer"
+      className="btn-press"
+      style={{
+        display: "flex", alignItems: "center", gap: 5,
+        padding: "6px 10px", borderRadius: 20,
+        backgroundColor: chipBg,
+        border: `1.5px solid ${chipBorder}`,
+        cursor: "pointer", fontSize: 11, fontWeight: 600,
+        color: textColor, whiteSpace: "nowrap",
+        transition: "all 0.15s ease",
+        outline: "none",
       }}
     >
-      <div style={{ 
-        width: 48, height: 48, borderRadius: 12,
-        backgroundColor: hasItem ? bg : (priority ? "#F5DEDA" : "#F5EDD8"),
-        border: isExpanded ? `2px solid ${color}` : `1px solid ${hasItem ? color : statusColor}`,
-        display: "flex", alignItems: "center", justifyContent: "center",
-        position: "relative"
-      }}>
-        <Icon size={22} color={hasItem ? color : statusColor} />
-        {/* Status dot - always visible */}
-        <div style={{ 
-          position: "absolute", top: -4, right: -4,
-          width: 14, height: 14, borderRadius: "50%",
-          backgroundColor: statusColor,
-          border: "2px solid white",
-          display: "flex", alignItems: "center", justifyContent: "center"
-        }}>
-          {hasItem && isBooked && <Check size={8} color="white" />}
-        </div>
-      </div>
-      <span style={{ fontSize: 10, color: COLORS.textMain, fontWeight: 500 }}>
-        {label || name}
-      </span>
-      {/* Expand arrow indicator */}
-      <ChevronDown size={12} color={isExpanded ? color : COLORS.textMuted} style={{ marginTop: -2 }} />
-    </div>
+      <Icon size={14} color={iconColor} />
+      <span>{label || name}</span>
+      {isComplete && <Check size={12} color={color} />}
+      {isPartial && <Circle size={8} color={COLORS.pending} fill={COLORS.pending} />}
+    </button>
   );
 };
 
@@ -943,46 +926,44 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
         
         return (
           <div key={date} style={{ 
-            marginBottom: 12, 
+            marginBottom: 8, 
             backgroundColor: COLORS.card, 
             borderRadius: 12, 
-            border: `1px solid ${dayStatusColor}`,
+            border: `1px solid ${COLORS.border}`,
+            borderLeft: `3px solid ${dayStatusColor}`,
             overflow: "hidden"
           }}>
             {/* Day Header */}
             <div style={{ 
-              display: "flex", alignItems: "center", gap: 10, 
-              padding: "10px 14px",
-              backgroundColor: dayStatusBg,
-              borderBottom: `1px solid ${COLORS.border}`
+              display: "flex", alignItems: "center", gap: 8, 
+              padding: "8px 12px",
             }}>
-              {/* Travel day indicator - show plane/transport icon on travel days */}
               {isTravelDay && (
                 <div style={{ 
-                  width: 28, height: 28, borderRadius: "50%", 
+                  width: 24, height: 24, borderRadius: "50%", 
                   backgroundColor: COLORS.primary, 
                   color: "white",
-                  display: "flex", alignItems: "center", justifyContent: "center"
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  flexShrink: 0
                 }}>
                   {getTravelDayIcon(dayData.flights)}
                 </div>
               )}
-              <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 8 }}>
-                <span style={{ fontSize: 14, color: COLORS.textMain }}>
-                  <strong>Day {idx + 1}</strong> · {(() => {
+              <div style={{ flex: 1, display: "flex", alignItems: "center", gap: 6, minWidth: 0 }}>
+                <span style={{ fontSize: 13, color: COLORS.textMain }}>
+                  <strong>Day {idx + 1}</strong> <span style={{ color: COLORS.textSecondary, fontWeight: 400 }}>· {(() => {
                     try {
                       const d = new Date(date + "T00:00:00");
                       return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
                     } catch { return ""; }
-                  })()}
+                  })()}</span>
                 </span>
-                {/* City label for multi-city trips */}
                 {(() => {
                   const city = getCityForDate(date);
                   return city ? (
                     <span style={{ 
-                      fontSize: 11, 
-                      padding: "2px 8px", 
+                      fontSize: 10, 
+                      padding: "1px 6px", 
                       borderRadius: 4, 
                       backgroundColor: COLORS.accentLight, 
                       color: COLORS.primaryDark,
@@ -993,12 +974,9 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                   ) : null;
                 })()}
               </div>
-              {/* Completion counter */}
               <span style={{ 
-                fontSize: 12, fontWeight: 600,
+                fontSize: 11, fontWeight: 600,
                 color: dayStatusColor,
-                backgroundColor: dayStatusBg,
-                padding: "2px 8px", borderRadius: 10
               }}>
                 {completed}/{total}
               </span>
@@ -1030,68 +1008,54 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
               const flightComplete = dayData.flights.some(f => hasUserInfo(f) || f.flightNumber);
               return (
                 <div style={{ 
-                  display: "grid",
-                  gridTemplateColumns: "repeat(4, 1fr)",
-                  padding: "12px 8px",
+                  display: "flex", flexWrap: "wrap", gap: 6,
+                  padding: "8px 12px",
                   borderBottom: expanded ? `1px solid ${COLORS.border}` : "none"
                 }}>
-                  {/* 1. Lodging - always shown */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <CategoryIcon 
-                      type="hotel" 
-                      hasItem={hotelComplete}
-                      isBooked={hotelBooked}
-                      isExpanded={expanded === "hotel"}
-                      onClick={() => toggleCategory(date, "hotel")}
-                      label="Lodging"
+                  <CategoryChip 
+                    type="hotel" 
+                    hasItem={hotelComplete}
+                    isBooked={hotelBooked}
+                    isExpanded={expanded === "hotel"}
+                    onClick={() => toggleCategory(date, "hotel")}
+                    label="Stay"
+                  />
+                  <CategoryChip 
+                    type="activity" 
+                    hasItem={activityComplete}
+                    isBooked={activityBooked}
+                    isExpanded={expanded === "activity"}
+                    onClick={() => toggleCategory(date, "activity")}
+                  />
+                  {(isTravelDay || dayData.transport.length > 0) && (
+                    <CategoryChip 
+                      type="transport" 
+                      hasItem={transportHasAny}
+                      isBooked={transportBooked}
+                      isExpanded={expanded === "transport"}
+                      onClick={() => toggleCategory(date, "transport")}
+                      partialComplete={transportPartial}
                     />
-                  </div>
-                  {/* 2. Activities - always shown */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    <CategoryIcon 
-                      type="activity" 
-                      hasItem={activityComplete}
-                      isBooked={activityBooked}
-                      isExpanded={expanded === "activity"}
-                      onClick={() => toggleCategory(date, "activity")}
-                    />
-                  </div>
-                  {/* 3. Transportation - on travel days OR any day with transport */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    {(isTravelDay || dayData.transport.length > 0) && (
-                      <CategoryIcon 
-                        type="transport" 
-                        hasItem={transportHasAny}
-                        isBooked={transportBooked}
-                        isExpanded={expanded === "transport"}
-                        onClick={() => toggleCategory(date, "transport")}
-                        partialComplete={transportPartial}
+                  )}
+                  {isTravelDay && (() => {
+                    const dayLeg = dayData.flights[0];
+                    const dayMode: TransportMode = dayLeg ? (
+                      dayLeg.type === "car" ? "car" :
+                      dayLeg.type === "train" ? "rail" :
+                      dayLeg.type === "bus" ? "bus" :
+                      dayLeg.type === "ferry" ? "other" : "plane"
+                    ) : (primaryTransportMode || "plane");
+                    return (
+                      <CategoryChip 
+                        type="flight" 
+                        hasItem={flightComplete}
+                        isBooked={flightBooked}
+                        isExpanded={expanded === "flight"}
+                        onClick={() => toggleCategory(date, "flight")}
+                        transportMode={dayMode}
                       />
-                    )}
-                  </div>
-                  {/* 4. Flights/Primary Transport - only on travel days, empty placeholder otherwise */}
-                  <div style={{ display: "flex", justifyContent: "center" }}>
-                    {isTravelDay && (() => {
-                      // Derive transport mode from the day's actual primary leg type
-                      const dayLeg = dayData.flights[0];
-                      const dayMode: TransportMode = dayLeg ? (
-                        dayLeg.type === "car" ? "car" :
-                        dayLeg.type === "train" ? "rail" :
-                        dayLeg.type === "bus" ? "bus" :
-                        dayLeg.type === "ferry" ? "other" : "plane"
-                      ) : (primaryTransportMode || "plane");
-                      return (
-                        <CategoryIcon 
-                          type="flight" 
-                          hasItem={flightComplete}
-                          isBooked={flightBooked}
-                          isExpanded={expanded === "flight"}
-                          onClick={() => toggleCategory(date, "flight")}
-                          transportMode={dayMode}
-                        />
-                      );
-                    })()}
-                  </div>
+                    );
+                  })()}
                 </div>
               );
             })()}
