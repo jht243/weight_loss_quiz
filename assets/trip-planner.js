@@ -25997,6 +25997,29 @@ function TripPlanner({ initialData: initialData2 }) {
     }
   }, [trip]);
   (0, import_react3.useEffect)(() => {
+    if (trip.tripType === "multi_city" && trip.multiCityLegs && trip.multiCityLegs.length > 0) {
+      const newFlightLegs = trip.multiCityLegs.filter((leg) => leg.from && leg.to && leg.date).map((leg) => ({
+        id: leg.id,
+        type: "flight",
+        status: "pending",
+        title: `${getModeLabel(leg.mode || "plane")}: ${leg.from} \u2192 ${leg.to}`,
+        from: leg.from,
+        to: leg.to,
+        date: leg.date
+      }));
+      const nonFlightLegs = trip.legs.filter((l) => l.type !== "flight");
+      const currentFlightLegs = trip.legs.filter((l) => l.type === "flight");
+      const flightLegsChanged = JSON.stringify(newFlightLegs.map((l) => ({ id: l.id, from: l.from, to: l.to, date: l.date }))) !== JSON.stringify(currentFlightLegs.map((l) => ({ id: l.id, from: l.from, to: l.to, date: l.date })));
+      if (flightLegsChanged && newFlightLegs.length > 0) {
+        setTrip((t) => ({
+          ...t,
+          legs: [...newFlightLegs, ...nonFlightLegs],
+          updatedAt: Date.now()
+        }));
+      }
+    }
+  }, [trip.tripType, trip.multiCityLegs]);
+  (0, import_react3.useEffect)(() => {
     if (trip.tripType === "round_trip" && trip.returnDate && trip.departureDate) {
       const flights = trip.legs.filter((l) => l.type === "flight");
       const hasReturnFlight = flights.some((f) => f.date === trip.returnDate);
@@ -26762,12 +26785,31 @@ function TripPlanner({ initialData: initialData2 }) {
         const primaryModeLabel = getModeLabelPlural(primaryMode);
         const primaryModeIcon = getModeIcon(primaryMode, 16);
         const expectedLegsCount = trip.tripType === "one_way" ? 1 : trip.tripType === "round_trip" ? 2 : (trip.multiCityLegs || []).length;
-        const tripDays = trip.departureDate && trip.returnDate ? Math.ceil((new Date(trip.returnDate).getTime() - new Date(trip.departureDate).getTime()) / (1e3 * 60 * 60 * 24)) + 1 : 0;
+        let tripDays = 0;
+        if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+          const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
+          if (sortedDates.length >= 2) {
+            tripDays = Math.ceil((new Date(sortedDates[sortedDates.length - 1]).getTime() - new Date(sortedDates[0]).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
+          } else if (sortedDates.length === 1) {
+            tripDays = 1;
+          }
+        } else if (trip.departureDate && trip.returnDate) {
+          tripDays = Math.ceil((new Date(trip.returnDate).getTime() - new Date(trip.departureDate).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
+        } else if (trip.departureDate) {
+          tripDays = 1;
+        }
         const cities = /* @__PURE__ */ new Set();
-        flights.forEach((f) => {
-          if (f.to) cities.add(f.to);
-          if (f.from) cities.add(f.from);
-        });
+        if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+          trip.multiCityLegs.forEach((l) => {
+            if (l.to) cities.add(l.to);
+            if (l.from) cities.add(l.from);
+          });
+        } else {
+          flights.forEach((f) => {
+            if (f.to) cities.add(f.to);
+            if (f.from) cities.add(f.from);
+          });
+        }
         const flightsBookedCount = flights.filter((f) => f.status === "booked" || f.flightNumber).length;
         const hotelsBookedCount = hotels.filter((h) => h.status === "booked" || h.confirmationNumber).length;
         const transportBookedCount = transport.filter((t) => t.status === "booked" || t.confirmationNumber).length;
@@ -26865,20 +26907,31 @@ function TripPlanner({ initialData: initialData2 }) {
           ] })
         ] });
       })(),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-        DayByDayView,
-        {
-          legs: trip.legs,
-          onUpdateLeg: handleUpdateLeg,
-          onDeleteLeg: handleDeleteLeg,
-          onAddLeg: handleAddLeg,
-          expandedLegs,
-          toggleLegExpand,
-          departureDate: trip.departureDate,
-          returnDate: trip.returnDate,
-          primaryTransportMode: trip.departureMode || "plane"
+      (() => {
+        let viewDepartureDate = trip.departureDate;
+        let viewReturnDate = trip.returnDate;
+        if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+          const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
+          if (sortedDates.length > 0) {
+            viewDepartureDate = sortedDates[0];
+            viewReturnDate = sortedDates[sortedDates.length - 1];
+          }
         }
-      )
+        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          DayByDayView,
+          {
+            legs: trip.legs,
+            onUpdateLeg: handleUpdateLeg,
+            onDeleteLeg: handleDeleteLeg,
+            onAddLeg: handleAddLeg,
+            expandedLegs,
+            toggleLegExpand,
+            departureDate: viewDepartureDate,
+            returnDate: viewReturnDate,
+            primaryTransportMode: trip.departureMode || "plane"
+          }
+        );
+      })()
     ] }) }),
     showAddModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddLegModal, { onAdd: handleAddLeg, onClose: () => setShowAddModal(false) })
   ] });

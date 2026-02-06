@@ -1399,6 +1399,40 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
 
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() })); } catch {} }, [trip]);
   
+  // Sync multi-city legs to trip.legs when in multi-city mode
+  useEffect(() => {
+    if (trip.tripType === "multi_city" && trip.multiCityLegs && trip.multiCityLegs.length > 0) {
+      // Build flight legs from multiCityLegs
+      const newFlightLegs: TripLeg[] = trip.multiCityLegs
+        .filter(leg => leg.from && leg.to && leg.date)
+        .map(leg => ({
+          id: leg.id,
+          type: "flight" as const,
+          status: "pending" as const,
+          title: `${getModeLabel(leg.mode || "plane")}: ${leg.from} → ${leg.to}`,
+          from: leg.from,
+          to: leg.to,
+          date: leg.date
+        }));
+      
+      // Get non-flight legs (hotels, transport, activities)
+      const nonFlightLegs = trip.legs.filter(l => l.type !== "flight");
+      
+      // Check if flight legs need updating
+      const currentFlightLegs = trip.legs.filter(l => l.type === "flight");
+      const flightLegsChanged = JSON.stringify(newFlightLegs.map(l => ({ id: l.id, from: l.from, to: l.to, date: l.date }))) !== 
+                                JSON.stringify(currentFlightLegs.map(l => ({ id: l.id, from: l.from, to: l.to, date: l.date })));
+      
+      if (flightLegsChanged && newFlightLegs.length > 0) {
+        setTrip(t => ({ 
+          ...t, 
+          legs: [...newFlightLegs, ...nonFlightLegs],
+          updatedAt: Date.now() 
+        }));
+      }
+    }
+  }, [trip.tripType, trip.multiCityLegs]);
+  
   // Auto-add return flight for round trips
   useEffect(() => {
     if (trip.tripType === "round_trip" && trip.returnDate && trip.departureDate) {
@@ -2212,14 +2246,28 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                 : trip.tripType === "round_trip" ? 2 
                 : (trip.multiCityLegs || []).length;
               
-              // Calculate trip length
-              const tripDays = trip.departureDate && trip.returnDate 
-                ? Math.ceil((new Date(trip.returnDate).getTime() - new Date(trip.departureDate).getTime()) / (1000 * 60 * 60 * 24)) + 1
-                : 0;
+              // Calculate trip length - use multi-city dates if applicable
+              let tripDays = 0;
+              if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+                const sortedDates = trip.multiCityLegs.filter(l => l.date).map(l => l.date).sort();
+                if (sortedDates.length >= 2) {
+                  tripDays = Math.ceil((new Date(sortedDates[sortedDates.length - 1]).getTime() - new Date(sortedDates[0]).getTime()) / (1000 * 60 * 60 * 24)) + 1;
+                } else if (sortedDates.length === 1) {
+                  tripDays = 1;
+                }
+              } else if (trip.departureDate && trip.returnDate) {
+                tripDays = Math.ceil((new Date(trip.returnDate).getTime() - new Date(trip.departureDate).getTime()) / (1000 * 60 * 60 * 24)) + 1;
+              } else if (trip.departureDate) {
+                tripDays = 1;
+              }
               
-              // Calculate number of cities (unique destinations from flights)
+              // Calculate number of cities (unique destinations from flights or multi-city legs)
               const cities = new Set<string>();
-              flights.forEach(f => { if (f.to) cities.add(f.to); if (f.from) cities.add(f.from); });
+              if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+                trip.multiCityLegs.forEach(l => { if (l.to) cities.add(l.to); if (l.from) cities.add(l.from); });
+              } else {
+                flights.forEach(f => { if (f.to) cities.add(f.to); if (f.from) cities.add(f.from); });
+              }
               
               // Count booked items
               const flightsBookedCount = flights.filter(f => f.status === "booked" || f.flightNumber).length;
@@ -2313,17 +2361,31 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
             })()}
             
             {/* Day-by-Day View */}
-            <DayByDayView 
-              legs={trip.legs} 
-              onUpdateLeg={handleUpdateLeg} 
-              onDeleteLeg={handleDeleteLeg}
-              onAddLeg={handleAddLeg}
-              expandedLegs={expandedLegs} 
-              toggleLegExpand={toggleLegExpand}
-              departureDate={trip.departureDate}
-              returnDate={trip.returnDate}
-              primaryTransportMode={trip.departureMode || "plane"}
-            />
+            {(() => {
+              // For multi-city, use first and last leg dates
+              let viewDepartureDate = trip.departureDate;
+              let viewReturnDate = trip.returnDate;
+              if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+                const sortedDates = trip.multiCityLegs.filter(l => l.date).map(l => l.date).sort();
+                if (sortedDates.length > 0) {
+                  viewDepartureDate = sortedDates[0];
+                  viewReturnDate = sortedDates[sortedDates.length - 1];
+                }
+              }
+              return (
+                <DayByDayView 
+                  legs={trip.legs} 
+                  onUpdateLeg={handleUpdateLeg} 
+                  onDeleteLeg={handleDeleteLeg}
+                  onAddLeg={handleAddLeg}
+                  expandedLegs={expandedLegs} 
+                  toggleLegExpand={toggleLegExpand}
+                  departureDate={viewDepartureDate}
+                  returnDate={viewReturnDate}
+                  primaryTransportMode={trip.departureMode || "plane"}
+                />
+              );
+            })()}
           </>
         )}
       </div>
