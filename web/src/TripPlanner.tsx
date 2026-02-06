@@ -498,14 +498,15 @@ const PickerPopover = ({ type, value, onChange, onClick, style, min, max }: { ty
     return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
   };
 
-  const icon = type === "date" ? <Calendar size={14} style={{ color: COLORS.textMuted }} /> : <Clock size={14} style={{ color: COLORS.textMuted }} />;
+  const iconColor = value ? COLORS.textMuted : COLORS.primary;
+  const icon = type === "date" ? <Calendar size={14} style={{ color: iconColor }} /> : <Clock size={14} style={{ color: iconColor }} />;
 
   return (
     <div ref={ref} style={{ position: "relative", ...(style || {}) }}>
       <button
         type="button"
         onClick={e => { onClick?.(e); e.stopPropagation(); setTempValue(value); setIsOpen(!isOpen); }}
-        style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, color: value ? COLORS.textMain : COLORS.textMuted, textAlign: "left" }}
+        style={{ width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${value ? COLORS.border : COLORS.primary + "60"}`, backgroundColor: value ? "white" : COLORS.accentLight, fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, color: value ? COLORS.textMain : COLORS.primary, fontWeight: value ? 400 : 500, textAlign: "left" }}
       >
         <span>{formatDisplay()}</span>
         {icon}

@@ -25091,7 +25091,8 @@ var PickerPopover = ({ type, value, onChange, onClick, style, min, max }) => {
     const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
     return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
   };
-  const icon = type === "date" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14, style: { color: COLORS.textMuted } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14, style: { color: COLORS.textMuted } });
+  const iconColor = value ? COLORS.textMuted : COLORS.primary;
+  const icon = type === "date" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14, style: { color: iconColor } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14, style: { color: iconColor } });
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { ref, style: { position: "relative", ...style || {} }, children: [
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
       "button",
@@ -25103,7 +25104,7 @@ var PickerPopover = ({ type, value, onChange, onClick, style, min, max }) => {
           setTempValue(value);
           setIsOpen(!isOpen);
         },
-        style: { width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, color: value ? COLORS.textMain : COLORS.textMuted, textAlign: "left" },
+        style: { width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${value ? COLORS.border : COLORS.primary + "60"}`, backgroundColor: value ? "white" : COLORS.accentLight, fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, color: value ? COLORS.textMain : COLORS.primary, fontWeight: value ? 400 : 500, textAlign: "left" },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: formatDisplay() }),
           icon
