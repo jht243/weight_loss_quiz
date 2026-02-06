@@ -25102,6 +25102,10 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
       const inpStyle = { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" };
       const fullStyle = { ...inpStyle, gridColumn: "1 / -1" };
       const stop = (e) => e.stopPropagation();
+      const DoneBtn = () => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: (e) => {
+        e.stopPropagation();
+        document.activeElement?.blur();
+      }, style: { gridColumn: "1 / -1", padding: "6px 0", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.inputBg, color: COLORS.textSecondary, fontSize: 12, fontWeight: 600, cursor: "pointer", textAlign: "center" }, children: "Done" });
       return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
           leg.type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
@@ -25114,6 +25118,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Check-out Date" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.endDate || "", onClick: stop, onChange: (e) => setEditData({ ...editData, endDate: e.target.value }), style: inpStyle })
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Address", style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes", style: fullStyle })
@@ -25140,6 +25145,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25169,6 +25175,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Return Date" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.endDate || "", onClick: stop, onChange: (e) => setEditData({ ...editData, endDate: e.target.value }), style: inpStyle })
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. car type, insurance, extras)", style: fullStyle })
           ] }),
           leg.type === "train" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
@@ -25185,6 +25192,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25205,6 +25213,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25225,6 +25234,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: stop, onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: inpStyle })
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
@@ -25247,6 +25257,7 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.endTime || "", onClick: stop, onChange: (e) => setEditData({ ...editData, endTime: e.target.value }), style: inpStyle })
               ] })
             ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(DoneBtn, {}),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Location", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes / Confirmation #", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle })
           ] })

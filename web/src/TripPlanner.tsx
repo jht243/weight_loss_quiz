@@ -508,6 +508,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
         const inpStyle = { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" as const };
         const fullStyle = { ...inpStyle, gridColumn: "1 / -1" };
         const stop = (e: React.MouseEvent) => e.stopPropagation();
+        const DoneBtn = () => <button onClick={e => { e.stopPropagation(); (document.activeElement as HTMLElement)?.blur(); }} style={{ gridColumn: "1 / -1", padding: "6px 0", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.inputBg, color: COLORS.textSecondary, fontSize: 12, fontWeight: 600, cursor: "pointer", textAlign: "center" as const }}>Done</button>;
         return (
           <div style={{ padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }}>
             {/* Inline edit fields — type-specific */}
@@ -525,6 +526,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                     <label style={lblStyle}>Check-out Date</label>
                     <input type="date" value={editData.endDate || ""} onClick={stop} onChange={e => setEditData({ ...editData, endDate: e.target.value })} style={inpStyle} />
                   </div>
+                  <DoneBtn />
                   <input value={editData.location || ""} onClick={stop} onChange={e => setEditData({ ...editData, location: e.target.value })} placeholder="Address" style={fullStyle} />
                   <input value={editData.confirmationNumber || ""} onClick={stop} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={fullStyle} />
                   <input value={editData.notes || ""} onClick={stop} onChange={e => setEditData({ ...editData, notes: e.target.value })} placeholder="Notes" style={fullStyle} />
@@ -556,6 +558,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                     <label style={lblStyle}>Departure Time</label>
                     <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
                   </div>
+                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -592,6 +595,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                     <label style={lblStyle}>Return Date</label>
                     <input type="date" value={editData.endDate || ""} onClick={stop} onChange={e => setEditData({ ...editData, endDate: e.target.value })} style={inpStyle} />
                   </div>
+                  <DoneBtn />
                   <input value={editData.notes || ""} onClick={stop} onChange={e => setEditData({ ...editData, notes: e.target.value })} placeholder="Notes (e.g. car type, insurance, extras)" style={fullStyle} />
                 </>
               )}
@@ -613,6 +617,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                     <label style={lblStyle}>Departure Time</label>
                     <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
                   </div>
+                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -640,6 +645,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                     <label style={lblStyle}>Departure Time</label>
                     <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
                   </div>
+                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -667,6 +673,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                     <label style={lblStyle}>Departure Time</label>
                     <input type="time" value={editData.time || ""} onClick={stop} onChange={e => setEditData({ ...editData, time: e.target.value })} style={inpStyle} />
                   </div>
+                  <DoneBtn />
                   {!showPerPassenger && (
                     <div>
                       <label style={lblStyle}>Confirmation #</label>
@@ -695,6 +702,7 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
                       <input type="time" value={editData.endTime || ""} onClick={stop} onChange={e => setEditData({ ...editData, endTime: e.target.value })} style={inpStyle} />
                     </div>
                   </div>
+                  <DoneBtn />
                   <input value={editData.location || ""} onClick={stop} onChange={e => setEditData({ ...editData, location: e.target.value })} placeholder="Location" autoComplete="off" data-form-type="other" data-lpignore="true" data-1p-ignore style={fullStyle} />
                   <input value={editData.notes || ""} onClick={stop} onChange={e => setEditData({ ...editData, notes: e.target.value })} placeholder="Notes / Confirmation #" autoComplete="off" data-form-type="other" data-lpignore="true" data-1p-ignore style={fullStyle} />
                 </>
