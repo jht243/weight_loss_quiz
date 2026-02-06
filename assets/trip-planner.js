@@ -25309,6 +25309,10 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
       return `Day ${dayNum}`;
     }
   };
+  const getTravelDayIcon = (flights) => {
+    if (flights.length === 0) return null;
+    return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 14, color: "white" });
+  };
   const toggleCategory = (date, category) => {
     setExpandedCategory((prev) => ({
       ...prev,
@@ -25322,7 +25326,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
     const hotelBooked = dayData.hotels.some((h) => h.leg.status === "booked");
     const transportBooked = dayData.transport.some((t) => t.status === "booked");
     const activityBooked = dayData.activities.some((a) => a.status === "booked");
-    const isTravelDay = idx === 0 || idx === legsByDate.sortedDates.length - 1;
+    const isTravelDay = dayData.flights.length > 0;
     const hasTransport = dayData.transport.length > 0;
     const hasUserInfo = (leg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
     const displayedCategories = [
@@ -25354,18 +25358,16 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
         backgroundColor: dayStatusBg,
         borderBottom: `1px solid ${COLORS.border}`
       }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
+        isTravelDay && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
           width: 28,
           height: 28,
           borderRadius: "50%",
-          backgroundColor: dayStatusColor,
+          backgroundColor: COLORS.primary,
           color: "white",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
-          fontWeight: 700,
-          fontSize: 12
-        }, children: idx + 1 }),
+          justifyContent: "center"
+        }, children: getTravelDayIcon(dayData.flights) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontWeight: 600, fontSize: 14, color: COLORS.textMain, flex: 1 }, children: formatDayHeader(date, idx + 1) }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: {
           fontSize: 12,
@@ -25381,7 +25383,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
         ] })
       ] }),
       (() => {
-        const isTravelDay2 = idx === 0 || idx === legsByDate.sortedDates.length - 1;
+        const isTravelDay2 = dayData.flights.length > 0;
         const hasUserInfo2 = (leg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
         const hotelComplete = dayData.hotels.length > 0 && dayData.hotels.some((h) => h.leg.hotelName || h.leg.title);
         const activityComplete = dayData.activities.length > 0;

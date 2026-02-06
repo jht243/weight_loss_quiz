@@ -744,6 +744,13 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
       return `Day ${dayNum} · ${date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}`;
     } catch { return `Day ${dayNum}`; }
   };
+  
+  // Get travel day indicator icon based on transport mode
+  const getTravelDayIcon = (flights: TripLeg[]) => {
+    if (flights.length === 0) return null;
+    // Could be enhanced to check leg mode, for now use plane
+    return <Plane size={14} color="white" />;
+  };
 
   const toggleCategory = (date: string, category: string) => {
     setExpandedCategory(prev => ({
@@ -764,7 +771,8 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
         const activityBooked = dayData.activities.some(a => a.status === "booked");
         
         // Calculate completion status for day card styling
-        const isTravelDay = idx === 0 || idx === legsByDate.sortedDates.length - 1;
+        // Travel day = any day with flights (not just first/last)
+        const isTravelDay = dayData.flights.length > 0;
         const hasTransport = dayData.transport.length > 0;
         const hasUserInfo = (leg: TripLeg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
         const displayedCategories: boolean[] = [
@@ -799,15 +807,17 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
               backgroundColor: dayStatusBg,
               borderBottom: `1px solid ${COLORS.border}`
             }}>
-              <div style={{ 
-                width: 28, height: 28, borderRadius: "50%", 
-                backgroundColor: dayStatusColor, 
-                color: "white",
-                display: "flex", alignItems: "center", justifyContent: "center",
-                fontWeight: 700, fontSize: 12
-              }}>
-                {idx + 1}
-              </div>
+              {/* Travel day indicator - show plane/transport icon, otherwise just show day number in title */}
+              {isTravelDay && (
+                <div style={{ 
+                  width: 28, height: 28, borderRadius: "50%", 
+                  backgroundColor: COLORS.primary, 
+                  color: "white",
+                  display: "flex", alignItems: "center", justifyContent: "center"
+                }}>
+                  {getTravelDayIcon(dayData.flights)}
+                </div>
+              )}
               <span style={{ fontWeight: 600, fontSize: 14, color: COLORS.textMain, flex: 1 }}>
                 {formatDayHeader(date, idx + 1)}
               </span>
@@ -825,7 +835,8 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
             {/* Horizontal Icon Guide - fixed 4-column grid for consistent alignment */}
             {/* All 4 slots always present, Transport/Flight only clickable on travel days */}
             {(() => {
-              const isTravelDay = idx === 0 || idx === legsByDate.sortedDates.length - 1;
+              // Travel day = any day with a flight leg (not just first/last)
+              const isTravelDay = dayData.flights.length > 0;
               // Helper: check if leg has user-added info (not just auto-generated)
               const hasUserInfo = (leg: TripLeg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
               // Complete status for each category
