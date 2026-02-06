@@ -26406,7 +26406,16 @@ function TripPlanner({ initialData: initialData2 }) {
             ].map((opt) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
               "button",
               {
-                onClick: () => setTrip((t) => ({ ...t, tripType: opt.value, updatedAt: Date.now() })),
+                onClick: () => setTrip((t) => {
+                  const updates = { tripType: opt.value, updatedAt: Date.now() };
+                  if (opt.value === "multi_city" && (!t.multiCityLegs || t.multiCityLegs.length < 2)) {
+                    updates.multiCityLegs = [
+                      { id: generateId(), from: "", to: "", date: "" },
+                      { id: generateId(), from: "", to: "", date: "" }
+                    ];
+                  }
+                  return { ...t, ...updates };
+                }),
                 style: {
                   flex: 1,
                   padding: "10px 12px",
@@ -26422,7 +26431,88 @@ function TripPlanner({ initialData: initialData2 }) {
               },
               opt.value
             )) }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }, children: [
+            trip.tripType === "multi_city" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 8 }, children: "Flight Legs" }),
+              (trip.multiCityLegs || []).map((leg, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, marginBottom: 8, alignItems: "center" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    placeholder: "From",
+                    value: leg.from,
+                    onChange: (e) => {
+                      const newFrom = e.target.value;
+                      setTrip((t) => ({
+                        ...t,
+                        multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, from: newFrom } : l),
+                        updatedAt: Date.now()
+                      }));
+                    },
+                    style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
+                  {
+                    type: "text",
+                    placeholder: "To",
+                    value: leg.to,
+                    onChange: (e) => {
+                      const newTo = e.target.value;
+                      setTrip((t) => ({
+                        ...t,
+                        multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, to: newTo } : l),
+                        updatedAt: Date.now()
+                      }));
+                    },
+                    style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
+                  {
+                    type: "date",
+                    value: leg.date,
+                    onChange: (e) => {
+                      const newDate = e.target.value;
+                      setTrip((t) => ({
+                        ...t,
+                        multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, date: newDate } : l),
+                        updatedAt: Date.now()
+                      }));
+                    },
+                    style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
+                  }
+                ),
+                (trip.multiCityLegs || []).length > 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "button",
+                  {
+                    onClick: () => setTrip((t) => ({
+                      ...t,
+                      multiCityLegs: (t.multiCityLegs || []).filter((l) => l.id !== leg.id),
+                      updatedAt: Date.now()
+                    })),
+                    style: { padding: 6, borderRadius: 6, border: "none", backgroundColor: "#FEE2E2", color: "#EF4444", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+                    children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14 })
+                  }
+                )
+              ] }, leg.id)),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                "button",
+                {
+                  onClick: () => setTrip((t) => ({
+                    ...t,
+                    multiCityLegs: [...t.multiCityLegs || [], { id: generateId(), from: "", to: "", date: "" }],
+                    updatedAt: Date.now()
+                  })),
+                  style: { width: "100%", padding: 10, borderRadius: 8, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 },
+                  children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14 }),
+                    " Add Flight Leg"
+                  ]
+                }
+              )
+            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }, children: [
               /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Departure Date" }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -26448,18 +26538,11 @@ function TripPlanner({ initialData: initialData2 }) {
                         return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
                       });
                     },
-                    style: {
-                      width: "100%",
-                      padding: 12,
-                      borderRadius: 10,
-                      border: `1px solid ${COLORS.border}`,
-                      fontSize: 14,
-                      boxSizing: "border-box"
-                    }
+                    style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }
                   }
                 )
               ] }),
-              trip.tripType !== "one_way" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+              trip.tripType === "round_trip" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Return Date" }),
                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                   "input",
@@ -26485,19 +26568,12 @@ function TripPlanner({ initialData: initialData2 }) {
                         return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
                       });
                     },
-                    style: {
-                      width: "100%",
-                      padding: 12,
-                      borderRadius: 10,
-                      border: `1px solid ${COLORS.border}`,
-                      fontSize: 14,
-                      boxSizing: "border-box"
-                    }
+                    style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }
                   }
                 )
               ] })
             ] }),
-            trip.departureDate && (trip.tripType === "one_way" || trip.returnDate) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            (trip.tripType === "multi_city" && (trip.multiCityLegs || []).length >= 2 && (trip.multiCityLegs || []).every((l) => l.from && l.to && l.date) || trip.departureDate && (trip.tripType === "one_way" || trip.returnDate)) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
               "button",
               {
                 onClick: () => setIsEditingDates(false),

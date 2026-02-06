@@ -77,6 +77,13 @@ interface TripLeg {
 
 type TripType = "one_way" | "round_trip" | "multi_city";
 
+interface MultiCityLeg {
+  id: string;
+  from: string;
+  to: string;
+  date: string;
+}
+
 interface Trip {
   id: string;
   name: string;
@@ -85,6 +92,7 @@ interface Trip {
   travelers: number;
   departureDate?: string;
   returnDate?: string;
+  multiCityLegs?: MultiCityLeg[];
   createdAt: number;
   updatedAt: number;
 }
@@ -1832,7 +1840,16 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                     ].map(opt => (
                       <button
                         key={opt.value}
-                        onClick={() => setTrip(t => ({ ...t, tripType: opt.value as TripType, updatedAt: Date.now() }))}
+                        onClick={() => setTrip(t => {
+                          const updates: Partial<Trip> = { tripType: opt.value as TripType, updatedAt: Date.now() };
+                          if (opt.value === "multi_city" && (!t.multiCityLegs || t.multiCityLegs.length < 2)) {
+                            updates.multiCityLegs = [
+                              { id: generateId(), from: "", to: "", date: "" },
+                              { id: generateId(), from: "", to: "", date: "" }
+                            ];
+                          }
+                          return { ...t, ...updates };
+                        })}
                         style={{
                           flex: 1,
                           padding: "10px 12px",
@@ -1850,7 +1867,81 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                     ))}
                   </div>
                   
-                  {/* Date Pickers */}
+                  {/* Date Pickers - different UI for multi-city */}
+                  {trip.tripType === "multi_city" ? (
+                    <div>
+                      <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 8 }}>
+                        Flight Legs
+                      </div>
+                      {(trip.multiCityLegs || []).map((leg, idx) => (
+                        <div key={leg.id} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, marginBottom: 8, alignItems: "center" }}>
+                          <input
+                            type="text"
+                            placeholder="From"
+                            value={leg.from}
+                            onChange={e => {
+                              const newFrom = e.target.value;
+                              setTrip(t => ({
+                                ...t,
+                                multiCityLegs: (t.multiCityLegs || []).map(l => l.id === leg.id ? { ...l, from: newFrom } : l),
+                                updatedAt: Date.now()
+                              }));
+                            }}
+                            style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }}
+                          />
+                          <input
+                            type="text"
+                            placeholder="To"
+                            value={leg.to}
+                            onChange={e => {
+                              const newTo = e.target.value;
+                              setTrip(t => ({
+                                ...t,
+                                multiCityLegs: (t.multiCityLegs || []).map(l => l.id === leg.id ? { ...l, to: newTo } : l),
+                                updatedAt: Date.now()
+                              }));
+                            }}
+                            style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }}
+                          />
+                          <input
+                            type="date"
+                            value={leg.date}
+                            onChange={e => {
+                              const newDate = e.target.value;
+                              setTrip(t => ({
+                                ...t,
+                                multiCityLegs: (t.multiCityLegs || []).map(l => l.id === leg.id ? { ...l, date: newDate } : l),
+                                updatedAt: Date.now()
+                              }));
+                            }}
+                            style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }}
+                          />
+                          {(trip.multiCityLegs || []).length > 2 && (
+                            <button
+                              onClick={() => setTrip(t => ({
+                                ...t,
+                                multiCityLegs: (t.multiCityLegs || []).filter(l => l.id !== leg.id),
+                                updatedAt: Date.now()
+                              }))}
+                              style={{ padding: 6, borderRadius: 6, border: "none", backgroundColor: "#FEE2E2", color: "#EF4444", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" }}
+                            >
+                              <X size={14} />
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                      <button
+                        onClick={() => setTrip(t => ({
+                          ...t,
+                          multiCityLegs: [...(t.multiCityLegs || []), { id: generateId(), from: "", to: "", date: "" }],
+                          updatedAt: Date.now()
+                        }))}
+                        style={{ width: "100%", padding: 10, borderRadius: 8, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}
+                      >
+                        <Plus size={14} /> Add Flight Leg
+                      </button>
+                    </div>
+                  ) : (
                   <div style={{ display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }}>
                     <div>
                       <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
@@ -1861,80 +1952,61 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                         value={trip.departureDate || ""}
                         onChange={e => {
                           const newDate = e.target.value;
-                          // Update trip departure date and sync to outbound flight
-                      setTrip(t => {
-                        const updatedLegs = t.legs.map((leg, idx) => {
-                          if (leg.type === "flight" && idx === 0) {
-                            return { ...leg, date: newDate };
-                          }
-                          if (leg.type === "hotel") {
-                            return { ...leg, date: newDate };
-                          }
-                          // Transport to airport on departure day
-                          if (leg.type === "car" && leg.title.includes("to") && leg.title.includes("Airport") && idx < t.legs.length / 2) {
-                            return { ...leg, date: newDate };
-                          }
-                          return leg;
-                        });
-                        return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                      });
-                    }}
-                    style={{
-                      width: "100%",
-                      padding: 12,
-                      borderRadius: 10,
-                      border: `1px solid ${COLORS.border}`,
-                      fontSize: 14,
-                      boxSizing: "border-box"
-                    }}
-                  />
-                </div>
-                
-                {trip.tripType !== "one_way" && (
-                  <div>
-                    <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
-                      Return Date
-                    </label>
-                    <input
-                      type="date"
-                      value={trip.returnDate || ""}
-                      onChange={e => {
-                        const newDate = e.target.value;
-                        // Update trip return date and sync to return flight
-                        setTrip(t => {
-                          const flights = t.legs.filter(l => l.type === "flight");
-                          const updatedLegs = t.legs.map((leg, idx) => {
-                            // Return flight (last flight)
-                            if (leg.type === "flight" && flights.length > 1 && leg.id === flights[flights.length - 1].id) {
-                              return { ...leg, date: newDate };
-                            }
-                            // Hotel checkout
-                            if (leg.type === "hotel") {
-                              return { ...leg, endDate: newDate };
-                            }
-                            // Transport on return day
-                            if (leg.type === "car" && idx >= t.legs.length / 2) {
-                              return { ...leg, date: newDate };
-                            }
-                            return leg;
+                          setTrip(t => {
+                            const updatedLegs = t.legs.map((leg, idx) => {
+                              if (leg.type === "flight" && idx === 0) {
+                                return { ...leg, date: newDate };
+                              }
+                              if (leg.type === "hotel") {
+                                return { ...leg, date: newDate };
+                              }
+                              if (leg.type === "car" && leg.title.includes("to") && leg.title.includes("Airport") && idx < t.legs.length / 2) {
+                                return { ...leg, date: newDate };
+                              }
+                              return leg;
+                            });
+                            return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
                           });
-                          return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                        });
-                      }}
-                      style={{
-                        width: "100%",
-                        padding: 12,
-                        borderRadius: 10,
-                        border: `1px solid ${COLORS.border}`,
-                        fontSize: 14,
-                        boxSizing: "border-box"
-                      }}
+                        }}
+                        style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }}
+                      />
+                    </div>
+                    
+                    {trip.tripType === "round_trip" && (
+                      <div>
+                        <label style={{ display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }}>
+                          Return Date
+                        </label>
+                        <input
+                          type="date"
+                          value={trip.returnDate || ""}
+                          onChange={e => {
+                            const newDate = e.target.value;
+                            setTrip(t => {
+                              const flights = t.legs.filter(l => l.type === "flight");
+                              const updatedLegs = t.legs.map((leg, idx) => {
+                                if (leg.type === "flight" && flights.length > 1 && leg.id === flights[flights.length - 1].id) {
+                                  return { ...leg, date: newDate };
+                                }
+                                if (leg.type === "hotel") {
+                                  return { ...leg, endDate: newDate };
+                                }
+                                if (leg.type === "car" && idx >= t.legs.length / 2) {
+                                  return { ...leg, date: newDate };
+                                }
+                                return leg;
+                              });
+                              return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
+                            });
+                          }}
+                          style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box" }}
                     />
                   </div>
                 )}
               </div>
+              )}
               {/* Done button to close editor */}
-              {trip.departureDate && (trip.tripType === "one_way" || trip.returnDate) && (
+              {((trip.tripType === "multi_city" && (trip.multiCityLegs || []).length >= 2 && (trip.multiCityLegs || []).every(l => l.from && l.to && l.date)) || (trip.departureDate && (trip.tripType === "one_way" || trip.returnDate))) && (
                 <button 
                   onClick={() => setIsEditingDates(false)}
                   style={{ 
