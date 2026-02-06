@@ -24866,6 +24866,23 @@ var spinnerStyle = `
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.btn-press {
+  transition: transform 0.1s ease, opacity 0.2s;
+}
+.btn-press:active {
+  transform: scale(0.95);
+}
+.btn-press:hover {
+  opacity: 0.7;
+}
+@media print {
+  body {
+    background-color: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
 `;
 if (typeof document !== "undefined") {
   const styleEl = document.createElement("style");
@@ -26067,6 +26084,13 @@ function TripPlanner({ initialData: initialData2 }) {
   const [isEditingDates, setIsEditingDates] = (0, import_react3.useState)(false);
   const [editingItem, setEditingItem] = (0, import_react3.useState)(null);
   const [editValue, setEditValue] = (0, import_react3.useState)("");
+  const [showSubscribeModal, setShowSubscribeModal] = (0, import_react3.useState)(false);
+  const [subscribeEmail, setSubscribeEmail] = (0, import_react3.useState)("");
+  const [subscribeStatus, setSubscribeStatus] = (0, import_react3.useState)("idle");
+  const [subscribeMessage, setSubscribeMessage] = (0, import_react3.useState)("");
+  const [showFeedbackModal, setShowFeedbackModal] = (0, import_react3.useState)(false);
+  const [feedbackText, setFeedbackText] = (0, import_react3.useState)("");
+  const [feedbackStatus, setFeedbackStatus] = (0, import_react3.useState)("idle");
   (0, import_react3.useEffect)(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() }));
@@ -26310,6 +26334,63 @@ function TripPlanner({ initialData: initialData2 }) {
     }
     setEditingItem(null);
     setEditValue("");
+  };
+  const handleSubscribe = async () => {
+    if (!subscribeEmail || !subscribeEmail.includes("@")) {
+      setSubscribeMessage("Please enter a valid email.");
+      setSubscribeStatus("error");
+      return;
+    }
+    setSubscribeStatus("loading");
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: subscribeEmail, topicId: "trip-planner-news", topicName: "Trip Planner Updates" })
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setSubscribeStatus("success");
+        setSubscribeMessage(data.message);
+        setTimeout(() => {
+          setShowSubscribeModal(false);
+          setSubscribeEmail("");
+          setSubscribeStatus("idle");
+          setSubscribeMessage("");
+        }, 3e3);
+      } else {
+        setSubscribeStatus("error");
+        setSubscribeMessage(data.error || "Failed to subscribe.");
+      }
+    } catch (e) {
+      console.error("Subscribe error:", e);
+      setSubscribeStatus("error");
+      setSubscribeMessage("Network error. Please try again.");
+    }
+  };
+  const handleFeedbackSubmit = async () => {
+    if (!feedbackText.trim()) return;
+    setFeedbackStatus("submitting");
+    try {
+      const response = await fetch("/api/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner" } })
+      });
+      if (response.ok) {
+        setFeedbackStatus("success");
+        setTimeout(() => {
+          setShowFeedbackModal(false);
+          setFeedbackText("");
+          setFeedbackStatus("idle");
+        }, 2e3);
+      } else {
+        setFeedbackStatus("error");
+      }
+    } catch (e) {
+      console.error("Feedback error:", e);
+      setFeedbackStatus("error");
+    }
   };
   const handleParseDescription = async () => {
     if (!tripDescription.trim() || isAnalyzing) return;
@@ -27086,73 +27167,56 @@ function TripPlanner({ initialData: initialData2 }) {
       gap: 8,
       flexWrap: "wrap"
     }, className: "no-print", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "button",
-        {
-          style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 },
-          onClick: () => {
-            const email = prompt("Enter your email to subscribe:");
-            if (email && email.includes("@")) {
-              fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, topicId: "trip-planner-news", topicName: "Trip Planner Updates" }) }).then(() => alert("Subscribed!")).catch(() => alert("Failed to subscribe."));
-            }
-          },
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 15 }),
-            " Subscribe"
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "button",
-        {
-          style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 },
-          onClick: handleReset,
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 15 }),
-            " Reset"
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "button",
-        {
-          style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 },
-          onClick: () => window.open("https://buymeacoffee.com", "_blank"),
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 15 }),
-            " Donate"
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "button",
-        {
-          style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 },
-          onClick: () => {
-            const feedback = prompt("How can we improve the Trip Planner?");
-            if (feedback && feedback.trim()) {
-              fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "user_feedback", data: { feedback, tool: "trip-planner" } }) }).then(() => alert("Thanks for your feedback!")).catch(() => {
-              });
-            }
-          },
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 15 }),
-            " Feedback"
-          ]
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "button",
-        {
-          style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 },
-          onClick: () => window.print(),
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { size: 15 }),
-            " Print"
-          ]
-        }
-      )
-    ] })
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => setShowSubscribeModal(true), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 15 }),
+        " Subscribe"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: handleReset, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 15 }),
+        " Reset"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 15 }),
+        " Donate"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => setShowFeedbackModal(true), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 15 }),
+        " Feedback"
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => window.print(), children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { size: 15 }),
+        " Print"
+      ] })
+    ] }),
+    showSubscribeModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, padding: 20 }, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }, onClick: (e) => e.stopPropagation(), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: { position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer" }, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 24, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }, children: "Stay Updated" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 24 }, children: "Get trip planning tips and product updates." }),
+      subscribeStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 40, marginBottom: 10 }, children: "\u{1F389}" }),
+        subscribeMessage
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 16 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 14, fontWeight: 600, marginBottom: 8, color: COLORS.textMain }, children: "Email Address" }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none" }, placeholder: "you@example.com", value: subscribeEmail, onChange: (e) => setSubscribeEmail(e.target.value), onKeyDown: (e) => {
+            if (e.key === "Enter") handleSubscribe();
+          } })
+        ] }),
+        subscribeStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.urgent, fontSize: 14, marginBottom: 16, textAlign: "center" }, children: subscribeMessage }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleSubscribe, disabled: subscribeStatus === "loading", style: { width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer" }, children: subscribeStatus === "loading" ? "Subscribing..." : "Subscribe" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: COLORS.textSecondary, textAlign: "center", marginTop: 12, lineHeight: 1.4 }, children: "By subscribing, you agree to receive emails. Unsubscribe anytime." })
+      ] })
+    ] }) }),
+    showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, padding: 20 }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }, onClick: (e) => e.stopPropagation(), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: { position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer" }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 24, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }, children: "Feedback" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 24 }, children: "Help us improve the Trip Planner." }),
+      feedbackStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }, children: "Thanks for your feedback!" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", { style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none", height: 120, resize: "none", fontFamily: "inherit" }, placeholder: "Tell us what you think...", value: feedbackText, onChange: (e) => setFeedbackText(e.target.value) }),
+        feedbackStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.urgent, fontSize: 14, marginBottom: 10 }, children: "Failed to send. Please try again." }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleFeedbackSubmit, disabled: feedbackStatus === "submitting" || !feedbackText.trim(), style: { width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer", marginTop: 12 }, children: feedbackStatus === "submitting" ? "Sending..." : "Send Feedback" })
+      ] })
+    ] }) })
   ] });
 }
 

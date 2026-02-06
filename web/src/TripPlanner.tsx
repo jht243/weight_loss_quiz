@@ -19,6 +19,23 @@ const spinnerStyle = `
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+.btn-press {
+  transition: transform 0.1s ease, opacity 0.2s;
+}
+.btn-press:active {
+  transform: scale(0.95);
+}
+.btn-press:hover {
+  opacity: 0.7;
+}
+@media print {
+  body {
+    background-color: white;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
 `;
 
 // Inject styles
@@ -1461,6 +1478,13 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   const [isEditingDates, setIsEditingDates] = useState(false);
   const [editingItem, setEditingItem] = useState<string | null>(null);
   const [editValue, setEditValue] = useState("");
+  const [showSubscribeModal, setShowSubscribeModal] = useState(false);
+  const [subscribeEmail, setSubscribeEmail] = useState("");
+  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+  const [subscribeMessage, setSubscribeMessage] = useState("");
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedbackText, setFeedbackText] = useState("");
+  const [feedbackStatus, setFeedbackStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
 
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() })); } catch {} }, [trip]);
   
@@ -1758,6 +1782,56 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     
     setEditingItem(null);
     setEditValue("");
+  };
+
+  const handleSubscribe = async () => {
+    if (!subscribeEmail || !subscribeEmail.includes("@")) {
+      setSubscribeMessage("Please enter a valid email.");
+      setSubscribeStatus("error");
+      return;
+    }
+    setSubscribeStatus("loading");
+    try {
+      const response = await fetch("/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: subscribeEmail, topicId: "trip-planner-news", topicName: "Trip Planner Updates" })
+      });
+      const data = await response.json();
+      if (response.ok && data.success) {
+        setSubscribeStatus("success");
+        setSubscribeMessage(data.message);
+        setTimeout(() => { setShowSubscribeModal(false); setSubscribeEmail(""); setSubscribeStatus("idle"); setSubscribeMessage(""); }, 3000);
+      } else {
+        setSubscribeStatus("error");
+        setSubscribeMessage(data.error || "Failed to subscribe.");
+      }
+    } catch (e) {
+      console.error("Subscribe error:", e);
+      setSubscribeStatus("error");
+      setSubscribeMessage("Network error. Please try again.");
+    }
+  };
+
+  const handleFeedbackSubmit = async () => {
+    if (!feedbackText.trim()) return;
+    setFeedbackStatus("submitting");
+    try {
+      const response = await fetch("/api/track", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner" } })
+      });
+      if (response.ok) {
+        setFeedbackStatus("success");
+        setTimeout(() => { setShowFeedbackModal(false); setFeedbackText(""); setFeedbackStatus("idle"); }, 2000);
+      } else {
+        setFeedbackStatus("error");
+      }
+    } catch (e) {
+      console.error("Feedback error:", e);
+      setFeedbackStatus("error");
+    }
   };
 
   const handleParseDescription = async () => {
@@ -2562,47 +2636,79 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
         gap: 8,
         flexWrap: "wrap"
       }} className="no-print">
-        <button 
-          style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
-          onClick={() => {
-            const email = prompt("Enter your email to subscribe:");
-            if (email && email.includes("@")) {
-              fetch("/api/subscribe", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email, topicId: "trip-planner-news", topicName: "Trip Planner Updates" }) }).then(() => alert("Subscribed!")).catch(() => alert("Failed to subscribe."));
-            }
-          }}
-        >
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => setShowSubscribeModal(true)}>
           <Mail size={15} /> Subscribe
         </button>
-        <button 
-          style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
-          onClick={handleReset}
-        >
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={handleReset}>
           <RotateCcw size={15} /> Reset
         </button>
-        <button 
-          style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
-          onClick={() => window.open("https://buymeacoffee.com", "_blank")}
-        >
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
           <Heart size={15} /> Donate
         </button>
-        <button 
-          style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
-          onClick={() => {
-            const feedback = prompt("How can we improve the Trip Planner?");
-            if (feedback && feedback.trim()) {
-              fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "user_feedback", data: { feedback, tool: "trip-planner" } }) }).then(() => alert("Thanks for your feedback!")).catch(() => {});
-            }
-          }}
-        >
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => setShowFeedbackModal(true)}>
           <MessageSquare size={15} /> Feedback
         </button>
-        <button 
-          style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}
-          onClick={() => window.print()}
-        >
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => window.print()}>
           <Printer size={15} /> Print
         </button>
       </div>
+
+      {/* Subscribe Modal */}
+      {showSubscribeModal && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 }} onClick={() => setShowSubscribeModal(false)}>
+          <div style={{ backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }} onClick={e => e.stopPropagation()}>
+            <button style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer" }} onClick={() => setShowSubscribeModal(false)}><X size={20} /></button>
+            <div style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }}>Stay Updated</div>
+            <div style={{ fontSize: 14, color: COLORS.textSecondary, marginBottom: 24 }}>Get trip planning tips and product updates.</div>
+            {subscribeStatus === "success" ? (
+              <div style={{ textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }}>
+                <div style={{ fontSize: 40, marginBottom: 10 }}>🎉</div>
+                {subscribeMessage}
+              </div>
+            ) : (
+              <>
+                <div style={{ marginBottom: 16 }}>
+                  <label style={{ display: "block", fontSize: 14, fontWeight: 600, marginBottom: 8, color: COLORS.textMain }}>Email Address</label>
+                  <input style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none" }} placeholder="you@example.com" value={subscribeEmail} onChange={e => setSubscribeEmail(e.target.value)} onKeyDown={e => { if (e.key === "Enter") handleSubscribe(); }} />
+                </div>
+                {subscribeStatus === "error" && (
+                  <div style={{ color: COLORS.urgent, fontSize: 14, marginBottom: 16, textAlign: "center" }}>{subscribeMessage}</div>
+                )}
+                <button className="btn-press" onClick={handleSubscribe} disabled={subscribeStatus === "loading"} style={{ width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer" }}>
+                  {subscribeStatus === "loading" ? "Subscribing..." : "Subscribe"}
+                </button>
+                <div style={{ fontSize: 11, color: COLORS.textSecondary, textAlign: "center", marginTop: 12, lineHeight: 1.4 }}>
+                  By subscribing, you agree to receive emails. Unsubscribe anytime.
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 }} onClick={() => setShowFeedbackModal(false)}>
+          <div style={{ backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }} onClick={e => e.stopPropagation()}>
+            <button style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer" }} onClick={() => setShowFeedbackModal(false)}><X size={20} /></button>
+            <div style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }}>Feedback</div>
+            <div style={{ fontSize: 14, color: COLORS.textSecondary, marginBottom: 24 }}>Help us improve the Trip Planner.</div>
+            {feedbackStatus === "success" ? (
+              <div style={{ textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }}>Thanks for your feedback!</div>
+            ) : (
+              <>
+                <textarea style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none", height: 120, resize: "none", fontFamily: "inherit" }} placeholder="Tell us what you think..." value={feedbackText} onChange={e => setFeedbackText(e.target.value)} />
+                {feedbackStatus === "error" && (
+                  <div style={{ color: COLORS.urgent, fontSize: 14, marginBottom: 10 }}>Failed to send. Please try again.</div>
+                )}
+                <button className="btn-press" onClick={handleFeedbackSubmit} disabled={feedbackStatus === "submitting" || !feedbackText.trim()} style={{ width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer", marginTop: 12 }}>
+                  {feedbackStatus === "submitting" ? "Sending..." : "Send Feedback"}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
