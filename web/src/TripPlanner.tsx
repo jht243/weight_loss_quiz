@@ -825,22 +825,29 @@ const CategoryChip = ({
     transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Ride", priority: false },
     activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity", priority: false }
   };
-  const { icon: Icon, color, bg, name, priority } = config[type];
+  const { icon: Icon, name } = config[type];
 
-  // ORIGINAL color logic restored exactly from pre-redesign
-  const getStatusColor = () => {
-    if (hasItem && !partialComplete) return COLORS.booked; // Green - fully complete
-    if (partialComplete) return COLORS.pending; // Yellow/Orange - partially complete
-    if (priority) return "#C0392B"; // Red for important (flight/hotel) - empty
-    return "#C0392B"; // Red for empty transport/activity on travel days
-  };
-  const statusColor = getStatusColor();
+  // Exactly 3 status colors — consistent across ALL chip types
+  const GREEN = "#2D6A4F";   const GREEN_BG = "#E2EDE6";
+  const YELLOW = "#C4953A";  const YELLOW_BG = "#F5EDD8";
+  const RED = "#C0392B";     const RED_BG = "#F5DEDA";
+  const GRAY = "#9C9588";    const GRAY_BG = "#F8F6F2";
 
-  // Apply status color to chip styling (new visual, same logic)
-  const chipBg = hasItem ? bg : (priority ? "#F5DEDA" : "#F5EDD8");
-  const chipBorder = isExpanded ? color : (hasItem ? color : statusColor);
-  const iconClr = hasItem ? color : statusColor;
-  const textClr = hasItem ? color : statusColor;
+  let chipColor: string, chipBg: string;
+  if (hasItem && !partialComplete) {
+    chipColor = GREEN; chipBg = GREEN_BG;       // Complete
+  } else if (partialComplete) {
+    chipColor = YELLOW; chipBg = YELLOW_BG;      // Partial
+  } else if (hasItem) {
+    chipColor = RED; chipBg = RED_BG;            // Has items, none complete
+  } else {
+    chipColor = RED; chipBg = RED_BG;            // Needs attention
+  }
+
+  // Override: if chip is not relevant (no items AND not a priority slot), gray it out
+  if (!hasItem && !partialComplete) {
+    chipColor = RED; chipBg = RED_BG;
+  }
 
   return (
     <button
@@ -850,16 +857,16 @@ const CategoryChip = ({
         display: "flex", alignItems: "center", gap: 5,
         padding: "6px 10px", borderRadius: 20,
         backgroundColor: chipBg,
-        border: `1.5px solid ${chipBorder}`,
+        border: `1.5px solid ${isExpanded ? chipColor : chipColor}`,
         cursor: "pointer", fontSize: 11, fontWeight: 600,
-        color: textClr, whiteSpace: "nowrap",
+        color: chipColor, whiteSpace: "nowrap",
         transition: "all 0.15s ease",
         outline: "none",
       }}
     >
-      <Icon size={14} color={iconClr} />
+      <Icon size={14} color={chipColor} />
       <span>{label || name}</span>
-      {hasItem && isBooked && <Check size={12} color={color} />}
+      {hasItem && !partialComplete && <Check size={12} color={GREEN} />}
     </button>
   );
 };

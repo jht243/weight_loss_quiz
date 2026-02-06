@@ -25363,18 +25363,33 @@ var CategoryChip = ({
     transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Ride", priority: false },
     activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity", priority: false }
   };
-  const { icon: Icon2, color, bg, name, priority } = config[type];
-  const getStatusColor2 = () => {
-    if (hasItem && !partialComplete) return COLORS.booked;
-    if (partialComplete) return COLORS.pending;
-    if (priority) return "#C0392B";
-    return "#C0392B";
-  };
-  const statusColor = getStatusColor2();
-  const chipBg = hasItem ? bg : priority ? "#F5DEDA" : "#F5EDD8";
-  const chipBorder = isExpanded ? color : hasItem ? color : statusColor;
-  const iconClr = hasItem ? color : statusColor;
-  const textClr = hasItem ? color : statusColor;
+  const { icon: Icon2, name } = config[type];
+  const GREEN = "#2D6A4F";
+  const GREEN_BG = "#E2EDE6";
+  const YELLOW = "#C4953A";
+  const YELLOW_BG = "#F5EDD8";
+  const RED = "#C0392B";
+  const RED_BG = "#F5DEDA";
+  const GRAY = "#9C9588";
+  const GRAY_BG = "#F8F6F2";
+  let chipColor, chipBg;
+  if (hasItem && !partialComplete) {
+    chipColor = GREEN;
+    chipBg = GREEN_BG;
+  } else if (partialComplete) {
+    chipColor = YELLOW;
+    chipBg = YELLOW_BG;
+  } else if (hasItem) {
+    chipColor = RED;
+    chipBg = RED_BG;
+  } else {
+    chipColor = RED;
+    chipBg = RED_BG;
+  }
+  if (!hasItem && !partialComplete) {
+    chipColor = RED;
+    chipBg = RED_BG;
+  }
   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
     "button",
     {
@@ -25387,19 +25402,19 @@ var CategoryChip = ({
         padding: "6px 10px",
         borderRadius: 20,
         backgroundColor: chipBg,
-        border: `1.5px solid ${chipBorder}`,
+        border: `1.5px solid ${isExpanded ? chipColor : chipColor}`,
         cursor: "pointer",
         fontSize: 11,
         fontWeight: 600,
-        color: textClr,
+        color: chipColor,
         whiteSpace: "nowrap",
         transition: "all 0.15s ease",
         outline: "none"
       },
       children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 14, color: iconClr }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 14, color: chipColor }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: label || name }),
-        hasItem && isBooked && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12, color })
+        hasItem && !partialComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12, color: GREEN })
       ]
     }
   );
