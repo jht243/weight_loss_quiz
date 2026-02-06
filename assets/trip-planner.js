@@ -25114,7 +25114,7 @@ var PickerPopover = ({ type, value, onChange, onClick, style, min, max }) => {
       "div",
       {
         onClick: (e) => e.stopPropagation(),
-        style: { position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 1e3, backgroundColor: "white", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", border: `1px solid ${COLORS.border}`, overflow: "hidden" },
+        style: { position: "absolute", top: "calc(100% + 4px)", left: 0, minWidth: 220, zIndex: 1e3, backgroundColor: "white", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", border: `1px solid ${COLORS.border}`, overflow: "hidden" },
         children: [
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "12px 12px 8px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
             "input",

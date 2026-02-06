@@ -513,7 +513,7 @@ const PickerPopover = ({ type, value, onChange, onClick, style, min, max }: { ty
       {isOpen && (
         <div
           onClick={e => e.stopPropagation()}
-          style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, right: 0, zIndex: 1000, backgroundColor: "white", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", border: `1px solid ${COLORS.border}`, overflow: "hidden" }}
+          style={{ position: "absolute", top: "calc(100% + 4px)", left: 0, minWidth: 220, zIndex: 1000, backgroundColor: "white", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", border: `1px solid ${COLORS.border}`, overflow: "hidden" }}
         >
           <div style={{ padding: "12px 12px 8px" }}>
             <input
