@@ -25158,109 +25158,133 @@ var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDe
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatusIcon, { status: leg.status }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20 }) })
     ] }),
-    isExpanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }, children: [
-        leg.from && leg.to && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Route" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, display: "flex", alignItems: "center", gap: 8 }, children: [
-            leg.from,
-            " ",
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 14 }),
-            " ",
-            leg.to
-          ] })
-        ] }),
-        leg.location && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Location" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14 }, children: leg.location })
-        ] }),
-        leg.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }, children: "Confirmation #" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontFamily: "monospace", fontWeight: 600 }, children: leg.confirmationNumber })
-        ] })
-      ] }),
-      travelers > 1 && ["flight", "train", "bus", "ferry"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: 16, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 12 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 8 }, children: "Passenger Tickets" }),
-        Array.from({ length: travelers }, (_, i) => {
-          const ticket = leg.passengerTickets?.find((t) => t.passenger === i + 1);
-          const isBooked = ticket?.booked || false;
-          return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "6px 10px", borderRadius: 8, backgroundColor: isBooked ? COLORS.bookedBg : COLORS.inputBg, border: `1px solid ${isBooked ? COLORS.booked : COLORS.borderLight}` }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, fontWeight: 600, color: isBooked ? COLORS.booked : COLORS.textMain, flex: 1 }, children: [
-              leg.type === "flight" ? "\u2708" : leg.type === "train" ? "\u{1F686}" : leg.type === "ferry" ? "\u{1F6A2}" : "\u{1F68C}",
-              " Passenger ",
-              i + 1
+    isExpanded && (() => {
+      const isHotel = leg.type === "hotel";
+      const isPrimaryTransport = ["car", "train", "bus", "ferry"].includes(leg.type) && leg.from && leg.to;
+      const isManualTransport = ["car", "train", "bus", "ferry"].includes(leg.type) && !leg.from && !leg.to;
+      return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
+          isHotel ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Hotel Name", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }, children: "Check-in Date" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" } })
             ] }),
-            isBooked ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              ticket?.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 11, color: COLORS.booked, fontFamily: "monospace" }, children: ticket.confirmationNumber }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: (e) => {
-                e.stopPropagation();
-                const tickets = [...leg.passengerTickets || []];
-                const idx = tickets.findIndex((t) => t.passenger === i + 1);
-                if (idx >= 0) tickets.splice(idx, 1);
-                onUpdate({ passengerTickets: tickets });
-              }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: "white", color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer" }, children: "Undo" })
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "input",
-                {
-                  placeholder: "Confirmation #",
-                  onClick: (e) => e.stopPropagation(),
-                  onChange: () => {
-                  },
-                  onBlur: (e) => {
-                    const val = e.target.value.trim();
-                    if (val) {
-                      const tickets = [...leg.passengerTickets || []];
-                      const idx = tickets.findIndex((t) => t.passenger === i + 1);
-                      if (idx >= 0) {
-                        tickets[idx] = { ...tickets[idx], confirmationNumber: val, booked: true };
-                      } else {
-                        tickets.push({ passenger: i + 1, confirmationNumber: val, booked: true });
-                      }
-                      onUpdate({ passengerTickets: tickets });
-                    }
-                  },
-                  onKeyDown: (e) => {
-                    if (e.key === "Enter") e.target.blur();
-                  },
-                  style: { width: 100, padding: "4px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 11, outline: "none" }
-                }
-              ),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-                e.stopPropagation();
-                const tickets = [...leg.passengerTickets || []];
-                const idx = tickets.findIndex((t) => t.passenger === i + 1);
-                if (idx >= 0) {
-                  tickets[idx] = { ...tickets[idx], booked: true };
-                } else {
-                  tickets.push({ passenger: i + 1, booked: true });
-                }
-                onUpdate({ passengerTickets: tickets });
-              }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 11 }),
-                " Done"
-              ] })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }, children: "Check-out Date" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.endDate || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, endDate: e.target.value }), style: { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" } })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Address", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } })
+          ] }) : isPrimaryTransport ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { gridColumn: "1 / -1", padding: "8px 12px", borderRadius: 8, backgroundColor: COLORS.inputBg, fontSize: 13, color: COLORS.textSecondary }, children: [
+              leg.from,
+              " \u2192 ",
+              leg.to
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }, children: "Departure Time" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" } })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }, children: "Confirmation #" }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" } })
+            ] }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. platform, terminal, seat)", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } })
+          ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Title", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "date", value: editData.date, onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, date: e.target.value }), style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "time", value: editData.time || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, time: e.target.value }), style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
+            isManualTransport && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.from || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, from: e.target.value }), placeholder: "From", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.to || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, to: e.target.value }), placeholder: "To", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` } })
             ] })
-          ] }, i);
-        })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 16 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-          e.stopPropagation();
-          setIsEditing(true);
-        }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 14 }),
-          " Edit"
+          ] }),
+          !isPrimaryTransport && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: (e) => e.stopPropagation(), onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" } })
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-          e.stopPropagation();
-          onDelete();
-        }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 14 }),
-          " Delete"
+        travelers > 1 && ["flight", "train", "bus", "ferry"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: 16, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 12 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 8 }, children: "Passenger Tickets" }),
+          Array.from({ length: travelers }, (_, i) => {
+            const ticket = leg.passengerTickets?.find((t) => t.passenger === i + 1);
+            const tBooked = ticket?.booked || false;
+            return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "6px 10px", borderRadius: 8, backgroundColor: tBooked ? COLORS.bookedBg : COLORS.inputBg, border: `1px solid ${tBooked ? COLORS.booked : COLORS.borderLight}` }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, fontWeight: 600, color: tBooked ? COLORS.booked : COLORS.textMain, flex: 1 }, children: [
+                leg.type === "flight" ? "\u2708" : leg.type === "train" ? "\u{1F686}" : leg.type === "ferry" ? "\u{1F6A2}" : "\u{1F68C}",
+                " Passenger ",
+                i + 1
+              ] }),
+              tBooked ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                ticket?.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 11, color: COLORS.booked, fontFamily: "monospace" }, children: ticket.confirmationNumber }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: (e) => {
+                  e.stopPropagation();
+                  const tickets = [...leg.passengerTickets || []];
+                  const idx = tickets.findIndex((t) => t.passenger === i + 1);
+                  if (idx >= 0) tickets.splice(idx, 1);
+                  onUpdate({ passengerTickets: tickets });
+                }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: "white", color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer" }, children: "Undo" })
+              ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
+                  {
+                    placeholder: "Confirmation #",
+                    onClick: (e) => e.stopPropagation(),
+                    onChange: () => {
+                    },
+                    onBlur: (e) => {
+                      const val = e.target.value.trim();
+                      if (val) {
+                        const tickets = [...leg.passengerTickets || []];
+                        const idx = tickets.findIndex((t) => t.passenger === i + 1);
+                        if (idx >= 0) {
+                          tickets[idx] = { ...tickets[idx], confirmationNumber: val, booked: true };
+                        } else {
+                          tickets.push({ passenger: i + 1, confirmationNumber: val, booked: true });
+                        }
+                        onUpdate({ passengerTickets: tickets });
+                      }
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Enter") e.target.blur();
+                    },
+                    style: { width: 100, padding: "4px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 11, outline: "none" }
+                  }
+                ),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
+                  e.stopPropagation();
+                  const tickets = [...leg.passengerTickets || []];
+                  const idx = tickets.findIndex((t) => t.passenger === i + 1);
+                  if (idx >= 0) {
+                    tickets[idx] = { ...tickets[idx], booked: true };
+                  } else {
+                    tickets.push({ passenger: i + 1, booked: true });
+                  }
+                  onUpdate({ passengerTickets: tickets });
+                }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }, children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 11 }),
+                  " Done"
+                ] })
+              ] })
+            ] }, i);
+          })
+        ] }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 16 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
+            e.stopPropagation();
+            onUpdate(editData);
+            onToggleExpand();
+          }, className: "btn-press", style: { padding: "8px 16px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { size: 14 }),
+            " Save"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
+            e.stopPropagation();
+            onDelete();
+          }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 14 }),
+            " Delete"
+          ] })
         ] })
-      ] })
-    ] })
+      ] });
+    })()
   ] });
 };
 var CategoryChip = ({

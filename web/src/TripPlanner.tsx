@@ -564,78 +564,124 @@ const TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, trip
         <StatusIcon status={leg.status} />
         <div style={{ color: COLORS.textSecondary }}>{isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}</div>
       </div>
-      {isExpanded && (
-        <div style={{ padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }}>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 16 }}>
-            {leg.from && leg.to && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Route</div><div style={{ fontSize: 14, display: "flex", alignItems: "center", gap: 8 }}>{leg.from} <ArrowRight size={14} /> {leg.to}</div></div>}
-            {leg.location && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Location</div><div style={{ fontSize: 14 }}>{leg.location}</div></div>}
-            {leg.confirmationNumber && <div><div style={{ fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4, textTransform: "uppercase" }}>Confirmation #</div><div style={{ fontSize: 14, fontFamily: "monospace", fontWeight: 600 }}>{leg.confirmationNumber}</div></div>}
-          </div>
-          {/* Per-passenger tickets for flights/trains/buses when travelers > 1 */}
-          {travelers > 1 && ["flight", "train", "bus", "ferry"].includes(leg.type) && (
-            <div style={{ marginTop: 16, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 12 }}>
-              <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 8 }}>Passenger Tickets</div>
-              {Array.from({ length: travelers }, (_, i) => {
-                const ticket = leg.passengerTickets?.find(t => t.passenger === i + 1);
-                const isBooked = ticket?.booked || false;
-                return (
-                  <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "6px 10px", borderRadius: 8, backgroundColor: isBooked ? COLORS.bookedBg : COLORS.inputBg, border: `1px solid ${isBooked ? COLORS.booked : COLORS.borderLight}` }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: isBooked ? COLORS.booked : COLORS.textMain, flex: 1 }}>
-                      {leg.type === "flight" ? "✈" : leg.type === "train" ? "🚆" : leg.type === "ferry" ? "🚢" : "🚌"} Passenger {i + 1}
-                    </span>
-                    {isBooked ? (
-                      <>
-                        {ticket?.confirmationNumber && <span style={{ fontSize: 11, color: COLORS.booked, fontFamily: "monospace" }}>{ticket.confirmationNumber}</span>}
-                        <button onClick={(e) => {
-                          e.stopPropagation();
-                          const tickets = [...(leg.passengerTickets || [])];
-                          const idx = tickets.findIndex(t => t.passenger === i + 1);
-                          if (idx >= 0) tickets.splice(idx, 1);
-                          onUpdate({ passengerTickets: tickets });
-                        }} className="btn-press" style={{ padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: "white", color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>Undo</button>
-                      </>
-                    ) : (
-                      <>
-                        <input
-                          placeholder="Confirmation #"
-                          onClick={e => e.stopPropagation()}
-                          onChange={() => {}}
-                          onBlur={(e) => {
-                            const val = e.target.value.trim();
-                            if (val) {
-                              const tickets = [...(leg.passengerTickets || [])];
-                              const idx = tickets.findIndex(t => t.passenger === i + 1);
-                              if (idx >= 0) { tickets[idx] = { ...tickets[idx], confirmationNumber: val, booked: true }; }
-                              else { tickets.push({ passenger: i + 1, confirmationNumber: val, booked: true }); }
-                              onUpdate({ passengerTickets: tickets });
-                            }
-                          }}
-                          onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
-                          style={{ width: 100, padding: "4px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 11, outline: "none" }}
-                        />
-                        <button onClick={(e) => {
-                          e.stopPropagation();
-                          const tickets = [...(leg.passengerTickets || [])];
-                          const idx = tickets.findIndex(t => t.passenger === i + 1);
-                          if (idx >= 0) { tickets[idx] = { ...tickets[idx], booked: true }; }
-                          else { tickets.push({ passenger: i + 1, booked: true }); }
-                          onUpdate({ passengerTickets: tickets });
-                        }} className="btn-press" style={{ padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
-                          <Check size={11} /> Done
-                        </button>
-                      </>
-                    )}
+      {isExpanded && (() => {
+        const isHotel = leg.type === "hotel";
+        const isPrimaryTransport = ["car", "train", "bus", "ferry"].includes(leg.type) && leg.from && leg.to;
+        const isManualTransport = ["car", "train", "bus", "ferry"].includes(leg.type) && !leg.from && !leg.to;
+        return (
+          <div style={{ padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }}>
+            {/* Inline edit fields */}
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }}>
+              {isHotel ? (
+                <>
+                  <input value={editData.title} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Hotel Name" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" }} />
+                  <div>
+                    <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }}>Check-in Date</label>
+                    <input type="date" value={editData.date} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, date: e.target.value })} style={{ width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" }} />
                   </div>
-                );
-              })}
+                  <div>
+                    <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }}>Check-out Date</label>
+                    <input type="date" value={editData.endDate || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, endDate: e.target.value })} style={{ width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" }} />
+                  </div>
+                  <input value={editData.location || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, location: e.target.value })} placeholder="Address" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" }} />
+                </>
+              ) : isPrimaryTransport ? (
+                <>
+                  <div style={{ gridColumn: "1 / -1", padding: "8px 12px", borderRadius: 8, backgroundColor: COLORS.inputBg, fontSize: 13, color: COLORS.textSecondary }}>
+                    {leg.from} → {leg.to}
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }}>Departure Time</label>
+                    <input type="time" value={editData.time || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, time: e.target.value })} style={{ width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" }} />
+                  </div>
+                  <div>
+                    <label style={{ display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 }}>Confirmation #</label>
+                    <input value={editData.confirmationNumber || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={{ width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" }} />
+                  </div>
+                  <input value={editData.notes || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, notes: e.target.value })} placeholder="Notes (e.g. platform, terminal, seat)" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" }} />
+                </>
+              ) : (
+                <>
+                  <input value={editData.title} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, title: e.target.value })} placeholder="Title" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" }} />
+                  <input type="date" value={editData.date} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, date: e.target.value })} style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
+                  <input type="time" value={editData.time || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, time: e.target.value })} style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
+                  {isManualTransport && (
+                    <>
+                      <input value={editData.from || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, from: e.target.value })} placeholder="From" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
+                      <input value={editData.to || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, to: e.target.value })} placeholder="To" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}` }} />
+                    </>
+                  )}
+                </>
+              )}
+              {!isPrimaryTransport && <input value={editData.confirmationNumber || ""} onClick={e => e.stopPropagation()} onChange={e => setEditData({ ...editData, confirmationNumber: e.target.value })} placeholder="Confirmation #" style={{ padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, gridColumn: "1 / -1" }} />}
             </div>
-          )}
-          <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
-            <button onClick={e => { e.stopPropagation(); setIsEditing(true); }} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Edit3 size={14} /> Edit</button>
-            <button onClick={e => { e.stopPropagation(); onDelete(); }} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Trash2 size={14} /> Delete</button>
+            {/* Per-passenger tickets for flights/trains/buses when travelers > 1 */}
+            {travelers > 1 && ["flight", "train", "bus", "ferry"].includes(leg.type) && (
+              <div style={{ marginTop: 16, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 12 }}>
+                <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 8 }}>Passenger Tickets</div>
+                {Array.from({ length: travelers }, (_, i) => {
+                  const ticket = leg.passengerTickets?.find(t => t.passenger === i + 1);
+                  const tBooked = ticket?.booked || false;
+                  return (
+                    <div key={i} style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "6px 10px", borderRadius: 8, backgroundColor: tBooked ? COLORS.bookedBg : COLORS.inputBg, border: `1px solid ${tBooked ? COLORS.booked : COLORS.borderLight}` }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, color: tBooked ? COLORS.booked : COLORS.textMain, flex: 1 }}>
+                        {leg.type === "flight" ? "✈" : leg.type === "train" ? "🚆" : leg.type === "ferry" ? "🚢" : "🚌"} Passenger {i + 1}
+                      </span>
+                      {tBooked ? (
+                        <>
+                          {ticket?.confirmationNumber && <span style={{ fontSize: 11, color: COLORS.booked, fontFamily: "monospace" }}>{ticket.confirmationNumber}</span>}
+                          <button onClick={(e) => {
+                            e.stopPropagation();
+                            const tickets = [...(leg.passengerTickets || [])];
+                            const idx = tickets.findIndex(t => t.passenger === i + 1);
+                            if (idx >= 0) tickets.splice(idx, 1);
+                            onUpdate({ passengerTickets: tickets });
+                          }} className="btn-press" style={{ padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: "white", color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer" }}>Undo</button>
+                        </>
+                      ) : (
+                        <>
+                          <input
+                            placeholder="Confirmation #"
+                            onClick={e => e.stopPropagation()}
+                            onChange={() => {}}
+                            onBlur={(e) => {
+                              const val = e.target.value.trim();
+                              if (val) {
+                                const tickets = [...(leg.passengerTickets || [])];
+                                const idx = tickets.findIndex(t => t.passenger === i + 1);
+                                if (idx >= 0) { tickets[idx] = { ...tickets[idx], confirmationNumber: val, booked: true }; }
+                                else { tickets.push({ passenger: i + 1, confirmationNumber: val, booked: true }); }
+                                onUpdate({ passengerTickets: tickets });
+                              }
+                            }}
+                            onKeyDown={(e) => { if (e.key === "Enter") (e.target as HTMLInputElement).blur(); }}
+                            style={{ width: 100, padding: "4px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 11, outline: "none" }}
+                          />
+                          <button onClick={(e) => {
+                            e.stopPropagation();
+                            const tickets = [...(leg.passengerTickets || [])];
+                            const idx = tickets.findIndex(t => t.passenger === i + 1);
+                            if (idx >= 0) { tickets[idx] = { ...tickets[idx], booked: true }; }
+                            else { tickets.push({ passenger: i + 1, booked: true }); }
+                            onUpdate({ passengerTickets: tickets });
+                          }} className="btn-press" style={{ padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }}>
+                            <Check size={11} /> Done
+                          </button>
+                        </>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+            {/* Action buttons */}
+            <div style={{ display: "flex", gap: 8, marginTop: 16 }}>
+              <button onClick={e => { e.stopPropagation(); onUpdate(editData); onToggleExpand(); }} className="btn-press" style={{ padding: "8px 16px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Save size={14} /> Save</button>
+              <button onClick={e => { e.stopPropagation(); onDelete(); }} style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}><Trash2 size={14} /> Delete</button>
+            </div>
           </div>
-        </div>
-      )}
+        );
+      })()}
     </div>
   );
 };
