@@ -1005,8 +1005,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
   const [editingTransport, setEditingTransport] = useState<string | null>(null); // "to-{date}" or "from-{date}" or "rental"
   const [transportForm, setTransportForm] = useState({ type: "uber", notes: "", rentalCompany: "", startDate: "", endDate: "" });
   const [addDropdownDate, setAddDropdownDate] = useState<string | null>(null);
-
-  // addDropdownDate is closed via the overlay rendered in the portal
+  const [addDropdownPos, setAddDropdownPos] = useState<{ top: number; left: number }>({ top: 0, left: 0 });
 
   // Generate all days between departure and return
   const allDays = useMemo(() => {
@@ -1317,81 +1316,28 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                     );
                   })()}
                   {/* Add + pill with dropdown */}
-                  {(() => {
-                    const addBtnRef = useRef<HTMLButtonElement>(null);
-                    return (
-                      <div style={{ position: "relative" }}>
-                        <button
-                          ref={addBtnRef}
-                          onClick={e => { e.stopPropagation(); setAddDropdownDate(prev => prev === date ? null : date); }}
-                          className="btn-press"
-                          style={{
-                            display: "flex", alignItems: "center", gap: 4,
-                            padding: "6px 10px", borderRadius: 20,
-                            backgroundColor: "white",
-                            border: `1.5px dashed ${COLORS.textMuted}`,
-                            cursor: "pointer", fontSize: 11, fontWeight: 600,
-                            color: COLORS.textMuted, whiteSpace: "nowrap",
-                            outline: "none",
-                          }}
-                        >
-                          <Plus size={13} /> Add
-                        </button>
-                        {addDropdownDate === date && addBtnRef.current && (() => {
-                          const rect = addBtnRef.current.getBoundingClientRect();
-                          return ReactDOM.createPortal(
-                            <>
-                            {/* Invisible overlay to catch outside clicks */}
-                            <div onClick={() => setAddDropdownDate(null)} style={{ position: "fixed", inset: 0, zIndex: 9999 }} />
-                            <div
-                              style={{
-                                position: "fixed", top: rect.bottom + 4, left: rect.left,
-                                backgroundColor: "white", borderRadius: 12, padding: 6,
-                                border: `1px solid ${COLORS.border}`,
-                                boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
-                                zIndex: 10000, minWidth: 200,
-                              }}
-                            >
-                              {[
-                                { icon: <Plane size={14} />, label: "Flight", type: "flight" as LegType, title: "" },
-                                { icon: <Train size={14} />, label: "Train", type: "train" as LegType, title: "" },
-                                { icon: <Bus size={14} />, label: "Bus", type: "bus" as LegType, title: "" },
-                                { icon: <Ship size={14} />, label: "Ferry / Cruise", type: "ferry" as LegType, title: "" },
-                                { icon: <Hotel size={14} />, label: "Lodging", type: "hotel" as LegType, title: "" },
-                                { icon: <Car size={14} />, label: "Rental Car", type: "car" as LegType, title: "" },
-                                { icon: <Car size={14} />, label: "Ride (Uber/Taxi)", type: "car" as LegType, title: "Ride" },
-                                { icon: <MapPin size={14} />, label: "Activity", type: "other" as LegType, title: "" },
-                                { icon: <Heart size={14} />, label: "Restaurant / Dining", type: "other" as LegType, title: "Dining" },
-                                { icon: <FileText size={14} />, label: "Insurance / Document", type: "other" as LegType, title: "Insurance" },
-                              ].map((item, i) => (
-                                <button
-                                  key={i}
-                                  onClick={() => {
-                                    onAddLeg({ type: item.type, date, status: "pending", title: item.title });
-                                    setAddDropdownDate(null);
-                                  }}
-                                  style={{
-                                    display: "flex", alignItems: "center", gap: 10, width: "100%",
-                                    padding: "8px 10px", borderRadius: 8, border: "none",
-                                    backgroundColor: "transparent", cursor: "pointer",
-                                    fontSize: 13, color: COLORS.textMain, fontWeight: 500,
-                                    textAlign: "left",
-                                  }}
-                                  onMouseEnter={e => (e.currentTarget.style.backgroundColor = COLORS.inputBg)}
-                                  onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
-                                >
-                                  <span style={{ color: COLORS.textSecondary, display: "flex", alignItems: "center" }}>{item.icon}</span>
-                                  {item.label}
-                                </button>
-                              ))}
-                            </div>
-                            </>,
-                            document.body
-                          );
-                        })()}
-                      </div>
-                    );
-                  })()}
+                  <div style={{ position: "relative" }}>
+                    <button
+                      onClick={e => {
+                        e.stopPropagation();
+                        const rect = e.currentTarget.getBoundingClientRect();
+                        setAddDropdownPos({ top: rect.bottom + 4, left: rect.left });
+                        setAddDropdownDate(prev => prev === date ? null : date);
+                      }}
+                      className="btn-press"
+                      style={{
+                        display: "flex", alignItems: "center", gap: 4,
+                        padding: "6px 10px", borderRadius: 20,
+                        backgroundColor: "white",
+                        border: `1.5px dashed ${COLORS.textMuted}`,
+                        cursor: "pointer", fontSize: 11, fontWeight: 600,
+                        color: COLORS.textMuted, whiteSpace: "nowrap",
+                        outline: "none",
+                      }}
+                    >
+                      <Plus size={13} /> Add
+                    </button>
+                  </div>
                 </div>
               );
             })()}
@@ -1708,7 +1654,53 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
           </div>
         );
       })}
-      
+      {/* Add dropdown portal - rendered once outside the day map loop */}
+      {addDropdownDate && ReactDOM.createPortal(
+        <>
+          <div onClick={() => setAddDropdownDate(null)} style={{ position: "fixed", inset: 0, zIndex: 9999 }} />
+          <div style={{
+            position: "fixed", top: addDropdownPos.top, left: addDropdownPos.left,
+            backgroundColor: "white", borderRadius: 12, padding: 6,
+            border: `1px solid ${COLORS.border}`,
+            boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
+            zIndex: 10000, minWidth: 200,
+          }}>
+            {[
+              { icon: <Plane size={14} />, label: "Flight", type: "flight" as LegType, title: "" },
+              { icon: <Train size={14} />, label: "Train", type: "train" as LegType, title: "" },
+              { icon: <Bus size={14} />, label: "Bus", type: "bus" as LegType, title: "" },
+              { icon: <Ship size={14} />, label: "Ferry / Cruise", type: "ferry" as LegType, title: "" },
+              { icon: <Hotel size={14} />, label: "Lodging", type: "hotel" as LegType, title: "" },
+              { icon: <Car size={14} />, label: "Rental Car", type: "car" as LegType, title: "" },
+              { icon: <Car size={14} />, label: "Ride (Uber/Taxi)", type: "car" as LegType, title: "Ride" },
+              { icon: <MapPin size={14} />, label: "Activity", type: "other" as LegType, title: "" },
+              { icon: <Heart size={14} />, label: "Restaurant / Dining", type: "other" as LegType, title: "Dining" },
+              { icon: <FileText size={14} />, label: "Insurance / Document", type: "other" as LegType, title: "Insurance" },
+            ].map((item, i) => (
+              <button
+                key={i}
+                onClick={() => {
+                  onAddLeg({ type: item.type, date: addDropdownDate, status: "pending", title: item.title });
+                  setAddDropdownDate(null);
+                }}
+                style={{
+                  display: "flex", alignItems: "center", gap: 10, width: "100%",
+                  padding: "8px 10px", borderRadius: 8, border: "none",
+                  backgroundColor: "transparent", cursor: "pointer",
+                  fontSize: 13, color: COLORS.textMain, fontWeight: 500,
+                  textAlign: "left",
+                }}
+                onMouseEnter={e => (e.currentTarget.style.backgroundColor = COLORS.inputBg)}
+                onMouseLeave={e => (e.currentTarget.style.backgroundColor = "transparent")}
+              >
+                <span style={{ color: COLORS.textSecondary, display: "flex", alignItems: "center" }}>{item.icon}</span>
+                {item.label}
+              </button>
+            ))}
+          </div>
+        </>,
+        document.body
+      )}
     </div>
   );
 };
