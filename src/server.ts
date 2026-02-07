@@ -249,13 +249,13 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
     "openai/widgetPrefersBorder": true,
     "openai/widgetCSP": {
       connect_domains: [
-        "https://trip-planner-q79n.onrender.com",
+        "https://trip-planner-da2g.onrender.com",
         "https://nominatim.openstreetmap.org",
         "https://api.open-meteo.com",
         "https://geocoding-api.open-meteo.com"
       ],
       resource_domains: [
-        "https://trip-planner-q79n.onrender.com"
+        "https://trip-planner-da2g.onrender.com"
       ],
     },
     "openai/widgetDomain": "https://web-sandbox.oaiusercontent.com",
