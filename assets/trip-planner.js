@@ -27453,9 +27453,10 @@ function TripPlanner({ initialData: initialData2 }) {
         }
       ),
       (() => {
-        const flights = trip.legs.filter((l) => l.type === "flight");
-        const hotels = trip.legs.filter((l) => l.type === "hotel");
-        const transport = trip.legs.filter((l) => !["flight", "hotel"].includes(l.type));
+        const nonStandalone = trip.legs.filter((l) => !l.standalone);
+        const flights = nonStandalone.filter((l) => l.type === "flight");
+        const hotels = nonStandalone.filter((l) => l.type === "hotel");
+        const transport = nonStandalone.filter((l) => !["flight", "hotel"].includes(l.type));
         let flightLegsCount = 0;
         let trainLegsCount = 0;
         let busLegsCount = 0;
@@ -27501,10 +27502,10 @@ function TripPlanner({ initialData: initialData2 }) {
           });
         }
         if (startingCity) cities.delete(startingCity);
-        const flightsBookedCount = flights.filter((f) => f.flightNumber || f.airline || f.confirmationNumber || f.from || f.to || f.time).length;
-        const hotelsBookedCount = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location || h.notes || h.title).length;
-        const transportBookedCount = transport.filter((t) => t.confirmationNumber || t.rentalCompany || t.notes || t.from || t.to || t.time).length;
-        const hotelsWithInfo = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location || h.notes || h.title);
+        const flightsBookedCount = flights.filter((f) => f.flightNumber || f.airline || f.confirmationNumber || f.time).length;
+        const hotelsBookedCount = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location).length;
+        const transportBookedCount = transport.filter((t) => t.confirmationNumber || t.rentalCompany || t.time || t.notes && t.title !== "Ride").length;
+        const hotelsWithInfo = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location);
         let lodgingStatus = hotelsWithInfo.length > 0 ? "yes" : "no";
         if (trip.tripType === "multi_city" && cities.size > 0 && trip.multiCityLegs?.length) {
           const hotelCities = /* @__PURE__ */ new Set();
