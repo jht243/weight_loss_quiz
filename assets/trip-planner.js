@@ -26715,15 +26715,6 @@ function TripPlanner({ initialData: initialData2 }) {
     const hotels = trip.legs.filter((l) => l.type === "hotel");
     const outboundFlight = flights[0];
     const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
-    if (trip.travelers === 1) {
-      items.push({
-        id: "travelers",
-        type: "travelers",
-        label: "Confirm # travelers",
-        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 14 }),
-        priority: 1
-      });
-    }
     if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
       const sortedLegs2 = [...trip.multiCityLegs].filter((l) => l.date && l.to).sort((a, b) => a.date.localeCompare(b.date));
       for (let i = 0; i < sortedLegs2.length; i++) {
@@ -26736,27 +26727,27 @@ function TripPlanner({ initialData: initialData2 }) {
           d.setDate(d.getDate() - 1);
           return d.toISOString().split("T")[0];
         })() : startDate;
-        const hasHotelForCity = hotels.some((h) => h.location === city || h.hotelName?.toLowerCase().includes(city.toLowerCase()));
+        const hasHotelForCity = hotels.some((h) => h.hotelName && (h.location === city || h.hotelName.toLowerCase().includes(city.toLowerCase())));
         if (!hasHotelForCity && city) {
           items.push({
             id: `add-hotel-${city}`,
             type: "hotel_name",
             label: `Add hotel (${city})`,
             icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
-            priority: 2,
+            priority: 1,
             city,
             startDate,
             endDate
           });
         }
       }
-    } else if (hotels.length === 0) {
+    } else if (!hotels.some((h) => h.hotelName)) {
       items.push({
         id: "add-hotel",
         type: "hotel_name",
         label: "Add hotel",
         icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
-        priority: 2
+        priority: 1
       });
     }
     const primaryMode = trip.departureMode || "plane";
@@ -26770,10 +26761,19 @@ function TripPlanner({ initialData: initialData2 }) {
           label: `Add ${confirmLabel} (${routeLabel})`,
           icon: getModeIcon(primaryMode, 14),
           legId: f.id,
-          priority: 3
+          priority: 2
         });
       }
     });
+    if (trip.travelers === 1) {
+      items.push({
+        id: "travelers",
+        type: "travelers",
+        label: "Confirm # travelers",
+        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 14 }),
+        priority: 3
+      });
+    }
     if (outboundFlight && !outboundFlight.date) {
       items.push({
         id: `date-${outboundFlight.id}`,
@@ -26795,7 +26795,7 @@ function TripPlanner({ initialData: initialData2 }) {
       });
     }
     hotels.forEach((h) => {
-      if (!h.hotelName && !h.title) {
+      if (!h.hotelName && !items.some((i) => i.type === "hotel_name")) {
         items.push({
           id: `hotel-${h.id}`,
           type: "hotel_name",

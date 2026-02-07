@@ -2141,7 +2141,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
         })() : startDate;
         
         // Check if there's already a hotel for this city
-        const hasHotelForCity = hotels.some(h => h.location === city || h.hotelName?.toLowerCase().includes(city.toLowerCase()));
+        const hasHotelForCity = hotels.some(h => h.hotelName && (h.location === city || h.hotelName.toLowerCase().includes(city.toLowerCase())));
         
         if (!hasHotelForCity && city) {
           items.push({ 
@@ -2156,7 +2156,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
           });
         }
       }
-    } else if (hotels.length === 0) {
+    } else if (!hotels.some(h => h.hotelName)) {
       // For non-multi-city, just show generic "Add hotel"
       items.push({ 
         id: "add-hotel", 
@@ -2219,9 +2219,9 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
       });
     }
     
-    // 6. Hotel name (only if hotel exists but no name)
+    // 6. Hotel name (only if hotel exists with no hotelName but wasn't already prompted above)
     hotels.forEach(h => {
-      if (!h.hotelName && !h.title) {
+      if (!h.hotelName && !items.some(i => i.type === "hotel_name")) {
         items.push({ 
           id: `hotel-${h.id}`, 
           type: "hotel_name", 
