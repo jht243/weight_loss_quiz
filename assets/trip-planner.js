@@ -25928,7 +25928,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                           {
                             onClick: (e) => {
                               e.stopPropagation();
-                              if (confirm(`Delete "${chipLabel}"?`)) onDeleteLeg(leg.id);
+                              onDeleteLeg(leg.id);
                             },
                             style: { marginLeft: 2, display: "flex", alignItems: "center", opacity: 0.6, cursor: "pointer" },
                             onMouseEnter: (e) => e.currentTarget.style.opacity = "1",
@@ -26095,9 +26095,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                         "button",
                         {
-                          onClick: () => {
-                            if (confirm("Delete this transport?")) onDeleteLeg(toHubLeg.id);
-                          },
+                          onClick: () => onDeleteLeg(toHubLeg.id),
                           style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" },
                           children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 })
                         }
@@ -26232,9 +26230,7 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                       /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                         "button",
                         {
-                          onClick: () => {
-                            if (confirm("Delete this transport?")) onDeleteLeg(fromHubLeg.id);
-                          },
+                          onClick: () => onDeleteLeg(fromHubLeg.id),
                           style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" },
                           children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 })
                         }
@@ -26607,6 +26603,9 @@ function TripPlanner({ initialData: initialData2 }) {
   const [showFeedbackModal, setShowFeedbackModal] = (0, import_react3.useState)(false);
   const [feedbackText, setFeedbackText] = (0, import_react3.useState)("");
   const [feedbackStatus, setFeedbackStatus] = (0, import_react3.useState)("idle");
+  const [confirmDialog, setConfirmDialog] = (0, import_react3.useState)(null);
+  const [showNameTripModal, setShowNameTripModal] = (0, import_react3.useState)(false);
+  const [nameTripValue, setNameTripValue] = (0, import_react3.useState)("");
   (0, import_react3.useEffect)(() => {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() }));
@@ -27089,7 +27088,7 @@ function TripPlanner({ initialData: initialData2 }) {
     setExpandedLegs((p) => new Set(p).add(newLeg.id));
   };
   const handleUpdateLeg = (legId, updates) => setTrip((t) => ({ ...t, legs: t.legs.map((l) => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
-  const handleDeleteLeg = (legId) => {
+  const doDeleteLeg = (legId) => {
     setTrip((t) => ({ ...t, legs: t.legs.filter((l) => l.id !== legId), updatedAt: Date.now() }));
     setExpandedLegs((p) => {
       const n = new Set(p);
@@ -27097,21 +27096,26 @@ function TripPlanner({ initialData: initialData2 }) {
       return n;
     });
   };
+  const handleDeleteLeg = (legId) => {
+    const leg = trip.legs.find((l) => l.id === legId);
+    const label = leg?.title || leg?.type || "this item";
+    setConfirmDialog({ message: `Delete "${label}"?`, onConfirm: () => doDeleteLeg(legId) });
+  };
   const toggleLegExpand = (legId) => setExpandedLegs((p) => {
     const n = new Set(p);
     n.has(legId) ? n.delete(legId) : n.add(legId);
     return n;
   });
   const handleReset = () => {
-    if (confirm("Clear all trip data?")) {
+    setConfirmDialog({ message: "Clear all trip data?", onConfirm: () => {
       setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() });
       setTripDescription("");
       setExpandedLegs(/* @__PURE__ */ new Set());
-    }
+    } });
   };
-  const saveCurrentTrip = () => {
-    const updatedTrip = { ...trip, updatedAt: Date.now() };
-    const existingIndex = savedTrips.findIndex((t) => t.id === trip.id);
+  const doSaveTrip = (tripToSave) => {
+    const updatedTrip = { ...tripToSave, updatedAt: Date.now() };
+    const existingIndex = savedTrips.findIndex((t) => t.id === updatedTrip.id);
     let newTrips;
     if (existingIndex >= 0) {
       newTrips = savedTrips.map((t, i) => i === existingIndex ? updatedTrip : t);
@@ -27120,6 +27124,18 @@ function TripPlanner({ initialData: initialData2 }) {
     }
     setSavedTrips(newTrips);
     saveTripsToStorage(newTrips);
+    setTrip(updatedTrip);
+  };
+  const saveCurrentTrip = () => {
+    const isFirstSave = !savedTrips.some((t) => t.id === trip.id);
+    if (isFirstSave && trip.name === "My Trip") {
+      const flights = trip.legs.filter((l) => l.type === "flight");
+      const dest = flights[0]?.to || "";
+      setNameTripValue(dest ? `Trip to ${dest}` : "");
+      setShowNameTripModal(true);
+    } else {
+      doSaveTrip(trip);
+    }
   };
   const handleOpenTrip = (tripToOpen) => {
     setTrip(tripToOpen);
@@ -27127,10 +27143,11 @@ function TripPlanner({ initialData: initialData2 }) {
     setExpandedLegs(/* @__PURE__ */ new Set());
   };
   const handleDeleteTrip = (tripId) => {
-    if (!confirm("Delete this trip?")) return;
-    const newTrips = savedTrips.filter((t) => t.id !== tripId);
-    setSavedTrips(newTrips);
-    saveTripsToStorage(newTrips);
+    setConfirmDialog({ message: "Delete this trip?", onConfirm: () => {
+      const newTrips = savedTrips.filter((t) => t.id !== tripId);
+      setSavedTrips(newTrips);
+      saveTripsToStorage(newTrips);
+    } });
   };
   const handleDuplicateTrip = (tripToDupe) => {
     const newTrip = {
@@ -27250,573 +27267,590 @@ function TripPlanner({ initialData: initialData2 }) {
         ] })
       ] })
     ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { maxWidth: 600, margin: "0 auto", padding: 20, overflow: "hidden", boxSizing: "border-box" }, children: trip.legs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 20, padding: 24, marginBottom: 20, border: `1px solid ${COLORS.border}` }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 8px", fontSize: 18, fontWeight: 700 }, children: "Describe Your Trip" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 16px", fontSize: 14, color: COLORS.textSecondary }, children: "Tell us about your travel plans in plain English." }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("freeform"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 18 }),
-          " Describe Trip"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("manual"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 18 }),
-          " Add Manually"
-        ] })
+    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { maxWidth: 600, margin: "0 auto", padding: 20, overflow: "hidden", boxSizing: "border-box" }, children: [
+      trip.name && trip.name !== "My Trip" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, fontSize: 20, fontWeight: 700, color: COLORS.textMain }, children: trip.name }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            className: "btn-press",
+            onClick: () => {
+              setNameTripValue(trip.name);
+              setShowNameTripModal(true);
+            },
+            style: { background: "none", border: "none", cursor: "pointer", color: COLORS.textMuted, display: "flex", alignItems: "center" },
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 14 })
+          }
+        )
       ] }),
-      inputMode === "freeform" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", { value: tripDescription, onChange: (e) => setTripDescription(e.target.value), placeholder: "e.g. I am flying from Medellin to Boston on June 11th, 2026 and I will return to Medellin on June 15th.", rows: 4, style: { width: "100%", padding: 16, borderRadius: 12, border: `1px solid ${COLORS.border}`, fontSize: 15, resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", marginBottom: 16 } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: handleParseDescription, disabled: !tripDescription.trim() || isAnalyzing, style: { width: "100%", padding: 16, borderRadius: 12, border: "none", backgroundColor: tripDescription.trim() && !isAnalyzing ? COLORS.primary : COLORS.border, color: tripDescription.trim() && !isAnalyzing ? "white" : COLORS.textMuted, fontSize: 16, fontWeight: 700, cursor: tripDescription.trim() && !isAnalyzing ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: isAnalyzing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { display: "inline-block", width: 20, height: 20, border: "2px solid white", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" } }),
-          " Analyzing..."
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 20 }),
-          " Analyze & Create Trip"
-        ] }) })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowAddModal(true), style: { width: "100%", padding: 16, borderRadius: 12, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 20 }),
-        " Add First Trip Leg"
-      ] })
-    ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-      (() => {
-        const datesComplete = trip.departureDate && (trip.tripType === "one_way" || trip.returnDate);
-        return datesComplete && !isEditingDates ? (
-          // Collapsed view - just show summary
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-            "div",
-            {
-              onClick: () => setIsEditingDates(true),
-              style: {
-                backgroundColor: COLORS.card,
-                borderRadius: 12,
-                padding: "12px 16px",
-                marginBottom: 16,
-                border: `1px solid ${COLORS.border}`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                cursor: "pointer"
-              },
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 16 }, children: [
-                  (() => {
-                    const displayStartDate = trip.tripType === "multi_city" && trip.multiCityLegs?.length ? trip.multiCityLegs[0].date : trip.departureDate;
-                    const displayEndDate = trip.tripType === "multi_city" && trip.multiCityLegs?.length ? trip.multiCityLegs[trip.multiCityLegs.length - 1].date : trip.returnDate;
-                    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 16, color: COLORS.primary }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: displayStartDate ? formatDate(displayStartDate) : "Set dates" })
-                      ] }),
-                      trip.tripType !== "one_way" && displayEndDate && displayEndDate !== displayStartDate && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 14, color: COLORS.textMuted }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: formatDate(displayEndDate) })
-                      ] })
-                    ] });
-                  })(),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                    fontSize: 11,
-                    padding: "2px 8px",
-                    borderRadius: 4,
-                    backgroundColor: COLORS.accentLight,
-                    color: COLORS.primaryDark,
-                    fontWeight: 600
-                  }, children: trip.tripType === "one_way" ? "One Way" : trip.tripType === "round_trip" ? "Round Trip" : "Multi-City" })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 16, color: COLORS.textSecondary })
-              ]
-            }
-          )
-        ) : (
-          // Expanded view - full form
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-            backgroundColor: COLORS.card,
-            borderRadius: 16,
-            padding: 16,
-            marginBottom: 16,
-            border: `1px solid ${COLORS.border}`
-          }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
-              { value: "one_way", label: "One Way" },
-              { value: "round_trip", label: "Round Trip" },
-              { value: "multi_city", label: "Multi-City" }
-            ].map((opt) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
+      trip.legs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 20, padding: 24, marginBottom: 20, border: `1px solid ${COLORS.border}` }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 8px", fontSize: 18, fontWeight: 700 }, children: "Describe Your Trip" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 16px", fontSize: 14, color: COLORS.textSecondary }, children: "Tell us about your travel plans in plain English." }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("freeform"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 18 }),
+            " Describe Trip"
+          ] }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("manual"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 18 }),
+            " Add Manually"
+          ] })
+        ] }),
+        inputMode === "freeform" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", { value: tripDescription, onChange: (e) => setTripDescription(e.target.value), placeholder: "e.g. I am flying from Medellin to Boston on June 11th, 2026 and I will return to Medellin on June 15th.", rows: 4, style: { width: "100%", padding: 16, borderRadius: 12, border: `1px solid ${COLORS.border}`, fontSize: 15, resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", marginBottom: 16 } }),
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: handleParseDescription, disabled: !tripDescription.trim() || isAnalyzing, style: { width: "100%", padding: 16, borderRadius: 12, border: "none", backgroundColor: tripDescription.trim() && !isAnalyzing ? COLORS.primary : COLORS.border, color: tripDescription.trim() && !isAnalyzing ? "white" : COLORS.textMuted, fontSize: 16, fontWeight: 700, cursor: tripDescription.trim() && !isAnalyzing ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: isAnalyzing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { display: "inline-block", width: 20, height: 20, border: "2px solid white", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" } }),
+            " Analyzing..."
+          ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 20 }),
+            " Analyze & Create Trip"
+          ] }) })
+        ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowAddModal(true), style: { width: "100%", padding: 16, borderRadius: 12, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 20 }),
+          " Add First Trip Leg"
+        ] })
+      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+        (() => {
+          const datesComplete = trip.departureDate && (trip.tripType === "one_way" || trip.returnDate);
+          return datesComplete && !isEditingDates ? (
+            // Collapsed view - just show summary
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "div",
               {
-                onClick: () => setTrip((t) => {
-                  const updates = { tripType: opt.value, updatedAt: Date.now() };
-                  if (opt.value === "multi_city" && (!t.multiCityLegs || t.multiCityLegs.length < 2)) {
-                    updates.multiCityLegs = [
-                      { id: generateId(), from: "", to: "", date: "", mode: "plane" },
-                      { id: generateId(), from: "", to: "", date: "", mode: "plane" }
-                    ];
-                  }
-                  return { ...t, ...updates };
-                }),
+                onClick: () => setIsEditingDates(true),
                 style: {
-                  flex: 1,
-                  padding: "10px 12px",
-                  borderRadius: 10,
-                  border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-                  backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
-                  color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
-                  fontWeight: 600,
-                  fontSize: 13,
+                  backgroundColor: COLORS.card,
+                  borderRadius: 12,
+                  padding: "12px 16px",
+                  marginBottom: 16,
+                  border: `1px solid ${COLORS.border}`,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
                   cursor: "pointer"
                 },
-                children: opt.label
-              },
-              opt.value
-            )) }),
-            trip.tripType === "multi_city" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 8 }, children: "Flight Legs" }),
-              (trip.multiCityLegs || []).map((leg, idx) => {
-                const prevLeg = idx > 0 ? (trip.multiCityLegs || [])[idx - 1] : null;
-                const minDate = prevLeg?.date || "";
-                return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12, padding: 12, backgroundColor: COLORS.bg, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, alignItems: "center" }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "From",
-                        value: leg.from,
-                        onChange: (e) => {
-                          const newFrom = e.target.value;
-                          setTrip((t) => ({
-                            ...t,
-                            multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, from: newFrom } : l),
-                            updatedAt: Date.now()
-                          }));
-                        },
-                        style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "To",
-                        value: leg.to,
-                        onChange: (e) => {
-                          const newTo = e.target.value;
-                          setTrip((t) => ({
-                            ...t,
-                            multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, to: newTo } : l),
-                            updatedAt: Date.now()
-                          }));
-                        },
-                        style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      PickerPopover,
-                      {
-                        type: "date",
-                        value: leg.date,
-                        min: minDate,
-                        onChange: (newDate) => {
-                          setTrip((t) => ({
-                            ...t,
-                            multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, date: newDate } : l),
-                            updatedAt: Date.now()
-                          }));
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 16 }, children: [
+                    (() => {
+                      const displayStartDate = trip.tripType === "multi_city" && trip.multiCityLegs?.length ? trip.multiCityLegs[0].date : trip.departureDate;
+                      const displayEndDate = trip.tripType === "multi_city" && trip.multiCityLegs?.length ? trip.multiCityLegs[trip.multiCityLegs.length - 1].date : trip.returnDate;
+                      return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 16, color: COLORS.primary }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: displayStartDate ? formatDate(displayStartDate) : "Set dates" })
+                        ] }),
+                        trip.tripType !== "one_way" && displayEndDate && displayEndDate !== displayStartDate && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 14, color: COLORS.textMuted }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: formatDate(displayEndDate) })
+                        ] })
+                      ] });
+                    })(),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                      fontSize: 11,
+                      padding: "2px 8px",
+                      borderRadius: 4,
+                      backgroundColor: COLORS.accentLight,
+                      color: COLORS.primaryDark,
+                      fontWeight: 600
+                    }, children: trip.tripType === "one_way" ? "One Way" : trip.tripType === "round_trip" ? "Round Trip" : "Multi-City" })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 16, color: COLORS.textSecondary })
+                ]
+              }
+            )
+          ) : (
+            // Expanded view - full form
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+              backgroundColor: COLORS.card,
+              borderRadius: 16,
+              padding: 16,
+              marginBottom: 16,
+              border: `1px solid ${COLORS.border}`
+            }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
+                { value: "one_way", label: "One Way" },
+                { value: "round_trip", label: "Round Trip" },
+                { value: "multi_city", label: "Multi-City" }
+              ].map((opt) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                "button",
+                {
+                  onClick: () => setTrip((t) => {
+                    const updates = { tripType: opt.value, updatedAt: Date.now() };
+                    if (opt.value === "multi_city" && (!t.multiCityLegs || t.multiCityLegs.length < 2)) {
+                      updates.multiCityLegs = [
+                        { id: generateId(), from: "", to: "", date: "", mode: "plane" },
+                        { id: generateId(), from: "", to: "", date: "", mode: "plane" }
+                      ];
+                    }
+                    return { ...t, ...updates };
+                  }),
+                  style: {
+                    flex: 1,
+                    padding: "10px 12px",
+                    borderRadius: 10,
+                    border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
+                    backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
+                    color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
+                    fontWeight: 600,
+                    fontSize: 13,
+                    cursor: "pointer"
+                  },
+                  children: opt.label
+                },
+                opt.value
+              )) }),
+              trip.tripType === "multi_city" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 8 }, children: "Flight Legs" }),
+                (trip.multiCityLegs || []).map((leg, idx) => {
+                  const prevLeg = idx > 0 ? (trip.multiCityLegs || [])[idx - 1] : null;
+                  const minDate = prevLeg?.date || "";
+                  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12, padding: 12, backgroundColor: COLORS.bg, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, alignItems: "center" }, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                        "input",
+                        {
+                          type: "text",
+                          placeholder: "From",
+                          value: leg.from,
+                          onChange: (e) => {
+                            const newFrom = e.target.value;
+                            setTrip((t) => ({
+                              ...t,
+                              multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, from: newFrom } : l),
+                              updatedAt: Date.now()
+                            }));
+                          },
+                          style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
                         }
-                      }
-                    ),
-                    (trip.multiCityLegs || []).length > 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "button",
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                        "input",
+                        {
+                          type: "text",
+                          placeholder: "To",
+                          value: leg.to,
+                          onChange: (e) => {
+                            const newTo = e.target.value;
+                            setTrip((t) => ({
+                              ...t,
+                              multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, to: newTo } : l),
+                              updatedAt: Date.now()
+                            }));
+                          },
+                          style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                        PickerPopover,
+                        {
+                          type: "date",
+                          value: leg.date,
+                          min: minDate,
+                          onChange: (newDate) => {
+                            setTrip((t) => ({
+                              ...t,
+                              multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, date: newDate } : l),
+                              updatedAt: Date.now()
+                            }));
+                          }
+                        }
+                      ),
+                      (trip.multiCityLegs || []).length > 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                        "button",
+                        {
+                          onClick: () => setTrip((t) => ({
+                            ...t,
+                            multiCityLegs: (t.multiCityLegs || []).filter((l) => l.id !== leg.id),
+                            updatedAt: Date.now()
+                          })),
+                          style: { padding: 6, borderRadius: 6, border: "none", backgroundColor: "#F5DEDA", color: "#C0392B", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
+                          children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14 })
+                        }
+                      )
+                    ] }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      TransportModeSelector,
                       {
-                        onClick: () => setTrip((t) => ({
+                        value: leg.mode || "plane",
+                        onChange: (mode) => setTrip((t) => ({
                           ...t,
-                          multiCityLegs: (t.multiCityLegs || []).filter((l) => l.id !== leg.id),
+                          multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, mode } : l),
                           updatedAt: Date.now()
-                        })),
-                        style: { padding: 6, borderRadius: 6, border: "none", backgroundColor: "#F5DEDA", color: "#C0392B", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
-                        children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14 })
+                        }))
                       }
                     )
-                  ] }),
+                  ] }, leg.id);
+                }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                  "button",
+                  {
+                    onClick: () => setTrip((t) => ({
+                      ...t,
+                      multiCityLegs: [...t.multiCityLegs || [], { id: generateId(), from: "", to: "", date: "", mode: "plane" }],
+                      updatedAt: Date.now()
+                    })),
+                    style: { width: "100%", padding: 10, borderRadius: 8, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 },
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14 }),
+                      " Add Flight Leg"
+                    ]
+                  }
+                )
+              ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Departure Date" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    PickerPopover,
+                    {
+                      type: "date",
+                      value: trip.departureDate || "",
+                      onChange: (newDate) => {
+                        setTrip((t) => {
+                          const updatedLegs = t.legs.map((leg, idx) => {
+                            if (leg.type === "flight" && idx === 0) {
+                              return { ...leg, date: newDate };
+                            }
+                            if (leg.type === "hotel") {
+                              return { ...leg, date: newDate };
+                            }
+                            if (leg.type === "car" && leg.title.includes("to") && leg.title.includes("Airport") && idx < t.legs.length / 2) {
+                              return { ...leg, date: newDate };
+                            }
+                            return leg;
+                          });
+                          return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
+                        });
+                      }
+                    }
+                  ),
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                     TransportModeSelector,
                     {
-                      value: leg.mode || "plane",
-                      onChange: (mode) => setTrip((t) => ({
-                        ...t,
-                        multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, mode } : l),
-                        updatedAt: Date.now()
-                      }))
+                      value: trip.departureMode || "plane",
+                      onChange: (mode) => setTrip((t) => ({ ...t, departureMode: mode, updatedAt: Date.now() }))
                     }
                   )
-                ] }, leg.id);
-              }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                ] }),
+                trip.tripType === "round_trip" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Return Date" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    PickerPopover,
+                    {
+                      type: "date",
+                      value: trip.returnDate || "",
+                      onChange: (newDate) => {
+                        setTrip((t) => {
+                          const flights = t.legs.filter((l) => l.type === "flight");
+                          const updatedLegs = t.legs.map((leg, idx) => {
+                            if (leg.type === "flight" && flights.length > 1 && leg.id === flights[flights.length - 1].id) {
+                              return { ...leg, date: newDate };
+                            }
+                            if (leg.type === "hotel") {
+                              return { ...leg, endDate: newDate };
+                            }
+                            if (leg.type === "car" && idx >= t.legs.length / 2) {
+                              return { ...leg, date: newDate };
+                            }
+                            return leg;
+                          });
+                          return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
+                        });
+                      }
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    TransportModeSelector,
+                    {
+                      value: trip.returnMode || "plane",
+                      onChange: (mode) => setTrip((t) => ({ ...t, returnMode: mode, updatedAt: Date.now() }))
+                    }
+                  )
+                ] })
+              ] }),
+              (trip.tripType === "multi_city" && (trip.multiCityLegs || []).length >= 2 && (trip.multiCityLegs || []).every((l) => l.from && l.to && l.date) || trip.departureDate && (trip.tripType === "one_way" || trip.returnDate)) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                 "button",
                 {
-                  onClick: () => setTrip((t) => ({
-                    ...t,
-                    multiCityLegs: [...t.multiCityLegs || [], { id: generateId(), from: "", to: "", date: "", mode: "plane" }],
-                    updatedAt: Date.now()
-                  })),
-                  style: { width: "100%", padding: 10, borderRadius: 8, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 },
-                  children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14 }),
-                    " Add Flight Leg"
-                  ]
+                  onClick: () => setIsEditingDates(false),
+                  style: {
+                    width: "100%",
+                    marginTop: 12,
+                    padding: 10,
+                    borderRadius: 8,
+                    border: "none",
+                    backgroundColor: COLORS.primary,
+                    color: "white",
+                    fontSize: 13,
+                    fontWeight: 600,
+                    cursor: "pointer"
+                  },
+                  children: "Done"
                 }
               )
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Departure Date" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  PickerPopover,
-                  {
-                    type: "date",
-                    value: trip.departureDate || "",
-                    onChange: (newDate) => {
-                      setTrip((t) => {
-                        const updatedLegs = t.legs.map((leg, idx) => {
-                          if (leg.type === "flight" && idx === 0) {
-                            return { ...leg, date: newDate };
-                          }
-                          if (leg.type === "hotel") {
-                            return { ...leg, date: newDate };
-                          }
-                          if (leg.type === "car" && leg.title.includes("to") && leg.title.includes("Airport") && idx < t.legs.length / 2) {
-                            return { ...leg, date: newDate };
-                          }
-                          return leg;
-                        });
-                        return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                      });
-                    }
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  TransportModeSelector,
-                  {
-                    value: trip.departureMode || "plane",
-                    onChange: (mode) => setTrip((t) => ({ ...t, departureMode: mode, updatedAt: Date.now() }))
-                  }
-                )
-              ] }),
-              trip.tripType === "round_trip" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Return Date" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  PickerPopover,
-                  {
-                    type: "date",
-                    value: trip.returnDate || "",
-                    onChange: (newDate) => {
-                      setTrip((t) => {
-                        const flights = t.legs.filter((l) => l.type === "flight");
-                        const updatedLegs = t.legs.map((leg, idx) => {
-                          if (leg.type === "flight" && flights.length > 1 && leg.id === flights[flights.length - 1].id) {
-                            return { ...leg, date: newDate };
-                          }
-                          if (leg.type === "hotel") {
-                            return { ...leg, endDate: newDate };
-                          }
-                          if (leg.type === "car" && idx >= t.legs.length / 2) {
-                            return { ...leg, date: newDate };
-                          }
-                          return leg;
-                        });
-                        return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                      });
-                    }
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  TransportModeSelector,
-                  {
-                    value: trip.returnMode || "plane",
-                    onChange: (mode) => setTrip((t) => ({ ...t, returnMode: mode, updatedAt: Date.now() }))
-                  }
-                )
-              ] })
-            ] }),
-            (trip.tripType === "multi_city" && (trip.multiCityLegs || []).length >= 2 && (trip.multiCityLegs || []).every((l) => l.from && l.to && l.date) || trip.departureDate && (trip.tripType === "one_way" || trip.returnDate)) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                onClick: () => setIsEditingDates(false),
-                style: {
-                  width: "100%",
-                  marginTop: 12,
-                  padding: 10,
-                  borderRadius: 8,
-                  border: "none",
-                  backgroundColor: COLORS.primary,
-                  color: "white",
-                  fontSize: 13,
-                  fontWeight: 600,
-                  cursor: "pointer"
-                },
-                children: "Done"
-              }
-            )
-          ] })
-        );
-      })(),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-        MissingInfoBar,
-        {
-          missingItems: missingInfo,
-          onAddInfo: () => {
-          },
-          editingItem,
-          setEditingItem,
-          editValue,
-          setEditValue,
-          onSaveEdit: handleSaveEdit
-        }
-      ),
-      (() => {
-        const nonStandalone = trip.legs.filter((l) => !l.standalone);
-        const flights = nonStandalone.filter((l) => l.type === "flight");
-        const hotels = nonStandalone.filter((l) => l.type === "hotel");
-        const transport = nonStandalone.filter((l) => !["flight", "hotel"].includes(l.type));
-        let flightLegsCount = 0;
-        let trainLegsCount = 0;
-        let busLegsCount = 0;
-        let otherLegsCount = 0;
-        if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-          trip.multiCityLegs.forEach((leg) => {
-            const mode = leg.mode || "plane";
-            if (mode === "plane") flightLegsCount++;
-            else if (mode === "rail") trainLegsCount++;
-            else if (mode === "bus") busLegsCount++;
-            else otherLegsCount++;
-          });
-        } else {
-          flightLegsCount = trip.tripType === "one_way" ? 1 : 2;
-        }
-        const primaryMode = trip.departureMode || "plane";
-        const expectedLegsCount = trip.tripType === "one_way" ? 1 : trip.tripType === "round_trip" ? 2 : (trip.multiCityLegs || []).length;
-        const expectedTransportCount = expectedLegsCount * 2;
-        let tripDays = 0;
-        if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-          const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
-          if (sortedDates.length >= 2) {
-            tripDays = Math.ceil((new Date(sortedDates[sortedDates.length - 1]).getTime() - new Date(sortedDates[0]).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
-          } else if (sortedDates.length === 1) {
+            ] })
+          );
+        })(),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          MissingInfoBar,
+          {
+            missingItems: missingInfo,
+            onAddInfo: () => {
+            },
+            editingItem,
+            setEditingItem,
+            editValue,
+            setEditValue,
+            onSaveEdit: handleSaveEdit
+          }
+        ),
+        (() => {
+          const nonStandalone = trip.legs.filter((l) => !l.standalone);
+          const flights = nonStandalone.filter((l) => l.type === "flight");
+          const hotels = nonStandalone.filter((l) => l.type === "hotel");
+          const transport = nonStandalone.filter((l) => !["flight", "hotel"].includes(l.type));
+          let flightLegsCount = 0;
+          let trainLegsCount = 0;
+          let busLegsCount = 0;
+          let otherLegsCount = 0;
+          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+            trip.multiCityLegs.forEach((leg) => {
+              const mode = leg.mode || "plane";
+              if (mode === "plane") flightLegsCount++;
+              else if (mode === "rail") trainLegsCount++;
+              else if (mode === "bus") busLegsCount++;
+              else otherLegsCount++;
+            });
+          } else {
+            flightLegsCount = trip.tripType === "one_way" ? 1 : 2;
+          }
+          const primaryMode = trip.departureMode || "plane";
+          const expectedLegsCount = trip.tripType === "one_way" ? 1 : trip.tripType === "round_trip" ? 2 : (trip.multiCityLegs || []).length;
+          const expectedTransportCount = expectedLegsCount * 2;
+          let tripDays = 0;
+          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+            const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
+            if (sortedDates.length >= 2) {
+              tripDays = Math.ceil((new Date(sortedDates[sortedDates.length - 1]).getTime() - new Date(sortedDates[0]).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
+            } else if (sortedDates.length === 1) {
+              tripDays = 1;
+            }
+          } else if (trip.departureDate && trip.returnDate) {
+            tripDays = Math.ceil((new Date(trip.returnDate).getTime() - new Date(trip.departureDate).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
+          } else if (trip.departureDate) {
             tripDays = 1;
           }
-        } else if (trip.departureDate && trip.returnDate) {
-          tripDays = Math.ceil((new Date(trip.returnDate).getTime() - new Date(trip.departureDate).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
-        } else if (trip.departureDate) {
-          tripDays = 1;
-        }
-        const cities = /* @__PURE__ */ new Set();
-        let startingCity = null;
-        if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-          startingCity = trip.multiCityLegs[0]?.from || null;
-          trip.multiCityLegs.forEach((l) => {
-            if (l.to) cities.add(l.to);
-          });
-        } else {
-          startingCity = flights[0]?.from || null;
-          flights.forEach((f) => {
-            if (f.to) cities.add(f.to);
-          });
-        }
-        if (startingCity) cities.delete(startingCity);
-        const flightsBookedCount = flights.filter((f) => f.flightNumber || f.airline || f.confirmationNumber || f.time).length;
-        const hotelsBookedCount = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location).length;
-        const transportBookedCount = transport.filter((t) => t.confirmationNumber || t.rentalCompany || t.time || t.notes && t.title !== "Ride").length;
-        const hotelsWithInfo = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location);
-        let lodgingStatus = hotelsWithInfo.length > 0 ? "yes" : "no";
-        if (trip.tripType === "multi_city" && cities.size > 0 && trip.multiCityLegs?.length) {
-          const hotelCities = /* @__PURE__ */ new Set();
-          const sortedMCLegs = [...trip.multiCityLegs].filter((l) => l.date).sort((a, b) => a.date.localeCompare(b.date));
-          hotels.forEach((h) => {
-            if (h.location) {
-              hotelCities.add(h.location);
-              return;
-            }
-            if (h.to) {
-              hotelCities.add(h.to);
-              return;
-            }
-            if (h.date && sortedMCLegs.length > 0) {
-              let city = null;
-              for (const leg of sortedMCLegs) {
-                if (leg.date <= h.date) city = leg.to;
-                else break;
+          const cities = /* @__PURE__ */ new Set();
+          let startingCity = null;
+          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+            startingCity = trip.multiCityLegs[0]?.from || null;
+            trip.multiCityLegs.forEach((l) => {
+              if (l.to) cities.add(l.to);
+            });
+          } else {
+            startingCity = flights[0]?.from || null;
+            flights.forEach((f) => {
+              if (f.to) cities.add(f.to);
+            });
+          }
+          if (startingCity) cities.delete(startingCity);
+          const flightsBookedCount = flights.filter((f) => f.flightNumber || f.airline || f.confirmationNumber || f.time).length;
+          const hotelsBookedCount = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location).length;
+          const transportBookedCount = transport.filter((t) => t.confirmationNumber || t.rentalCompany || t.time || t.notes && t.title !== "Ride").length;
+          const hotelsWithInfo = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location);
+          let lodgingStatus = hotelsWithInfo.length > 0 ? "yes" : "no";
+          if (trip.tripType === "multi_city" && cities.size > 0 && trip.multiCityLegs?.length) {
+            const hotelCities = /* @__PURE__ */ new Set();
+            const sortedMCLegs = [...trip.multiCityLegs].filter((l) => l.date).sort((a, b) => a.date.localeCompare(b.date));
+            hotels.forEach((h) => {
+              if (h.location) {
+                hotelCities.add(h.location);
+                return;
               }
-              if (city) hotelCities.add(city);
-            }
-          });
-          const citiesWithHotel = [...cities].filter((c) => hotelCities.has(c)).length;
-          if (citiesWithHotel === 0) lodgingStatus = "no";
-          else if (citiesWithHotel < cities.size) lodgingStatus = "partial";
-          else lodgingStatus = "yes";
-        }
-        const lodgingColor = lodgingStatus === "yes" ? COLORS.booked : lodgingStatus === "partial" ? COLORS.pending : "#C0392B";
-        const lodgingLabel = lodgingStatus === "yes" ? "Yes" : lodgingStatus === "partial" ? "Partial" : "No";
-        const getStatusColor2 = (booked, total) => {
-          if (total === 0) return COLORS.textMuted;
-          if (booked === 0) return "#C0392B";
-          if (booked < total) return COLORS.pending;
-          return COLORS.booked;
-        };
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-          backgroundColor: COLORS.card,
-          borderRadius: 16,
-          padding: "20px",
-          marginBottom: 16,
-          border: `1px solid ${COLORS.border}`,
-          boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
-        }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8, marginBottom: 16, textAlign: "center", borderBottom: `1px solid ${COLORS.borderLight}`, paddingBottom: 16 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Travelers" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }, children: editingTravelers ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "input",
-                {
-                  type: "number",
-                  min: 1,
-                  defaultValue: trip.travelers,
-                  autoFocus: true,
-                  style: { width: 48, fontSize: 18, fontWeight: 700, color: COLORS.textMain, textAlign: "center", border: `1px solid ${COLORS.primary}`, borderRadius: 6, outline: "none", padding: "2px 4px", background: COLORS.inputBg },
-                  onBlur: (e) => {
-                    const val = parseInt(e.target.value);
-                    if (!isNaN(val) && val > 0) setTrip((t) => ({ ...t, travelers: val, updatedAt: Date.now() }));
-                    setEditingTravelers(false);
-                  },
-                  onKeyDown: (e) => {
-                    if (e.key === "Enter") e.target.blur();
-                    if (e.key === "Escape") setEditingTravelers(false);
-                  }
+              if (h.to) {
+                hotelCities.add(h.to);
+                return;
+              }
+              if (h.date && sortedMCLegs.length > 0) {
+                let city = null;
+                for (const leg of sortedMCLegs) {
+                  if (leg.date <= h.date) city = leg.to;
+                  else break;
                 }
-              ) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: trip.travelers }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "button",
+                if (city) hotelCities.add(city);
+              }
+            });
+            const citiesWithHotel = [...cities].filter((c) => hotelCities.has(c)).length;
+            if (citiesWithHotel === 0) lodgingStatus = "no";
+            else if (citiesWithHotel < cities.size) lodgingStatus = "partial";
+            else lodgingStatus = "yes";
+          }
+          const lodgingColor = lodgingStatus === "yes" ? COLORS.booked : lodgingStatus === "partial" ? COLORS.pending : "#C0392B";
+          const lodgingLabel = lodgingStatus === "yes" ? "Yes" : lodgingStatus === "partial" ? "Partial" : "No";
+          const getStatusColor2 = (booked, total) => {
+            if (total === 0) return COLORS.textMuted;
+            if (booked === 0) return "#C0392B";
+            if (booked < total) return COLORS.pending;
+            return COLORS.booked;
+          };
+          return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+            backgroundColor: COLORS.card,
+            borderRadius: 16,
+            padding: "20px",
+            marginBottom: 16,
+            border: `1px solid ${COLORS.border}`,
+            boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
+          }, children: [
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8, marginBottom: 16, textAlign: "center", borderBottom: `1px solid ${COLORS.borderLight}`, paddingBottom: 16 }, children: [
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Travelers" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }, children: editingTravelers ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "input",
                   {
-                    onClick: () => setEditingTravelers(true),
-                    style: { background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex", alignItems: "center" },
-                    children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 11, color: COLORS.textMuted })
+                    type: "number",
+                    min: 1,
+                    defaultValue: trip.travelers,
+                    autoFocus: true,
+                    style: { width: 48, fontSize: 18, fontWeight: 700, color: COLORS.textMain, textAlign: "center", border: `1px solid ${COLORS.primary}`, borderRadius: 6, outline: "none", padding: "2px 4px", background: COLORS.inputBg },
+                    onBlur: (e) => {
+                      const val = parseInt(e.target.value);
+                      if (!isNaN(val) && val > 0) setTrip((t) => ({ ...t, travelers: val, updatedAt: Date.now() }));
+                      setEditingTravelers(false);
+                    },
+                    onKeyDown: (e) => {
+                      if (e.key === "Enter") e.target.blur();
+                      if (e.key === "Escape") setEditingTravelers(false);
+                    }
                   }
-                )
-              ] }) })
+                ) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: trip.travelers }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "button",
+                    {
+                      onClick: () => setEditingTravelers(true),
+                      style: { background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex", alignItems: "center" },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 11, color: COLORS.textMuted })
+                    }
+                  )
+                ] }) })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Cities" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: cities.size })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Days" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: tripDays > 0 ? tripDays : "\u2014" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Total Cost" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: (() => {
+                  const total = trip.legs.reduce((sum, l) => sum + (l.cost || 0), 0);
+                  return total > 0 ? `$${total.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}` : "\u2014";
+                })() })
+              ] })
             ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Cities" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: cities.size })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Days" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: tripDays > 0 ? tripDays : "\u2014" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Total Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: (() => {
-                const total = trip.legs.reduce((sum, l) => sum + (l.cost || 0), 0);
-                return total > 0 ? `$${total.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}` : "\u2014";
-              })() })
+            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 16px" }, children: [
+              flightLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                  fontSize: 12,
+                  fontWeight: 700,
+                  minWidth: 36,
+                  textAlign: "center",
+                  color: getStatusColor2(flightsBookedCount, flightLegsCount),
+                  backgroundColor: `${getStatusColor2(flightsBookedCount, flightLegsCount)}15`,
+                  padding: "3px 6px",
+                  borderRadius: 6
+                }, children: `${flightsBookedCount}/${flightLegsCount}` }),
+                getModeIcon("plane", 16),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Flights" })
+              ] }),
+              trainLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                  fontSize: 12,
+                  fontWeight: 700,
+                  minWidth: 36,
+                  textAlign: "center",
+                  color: getStatusColor2(0, trainLegsCount),
+                  backgroundColor: `${getStatusColor2(0, trainLegsCount)}15`,
+                  padding: "3px 6px",
+                  borderRadius: 6
+                }, children: `0/${trainLegsCount}` }),
+                getModeIcon("rail", 16),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Trains" })
+              ] }),
+              busLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                  fontSize: 12,
+                  fontWeight: 700,
+                  minWidth: 36,
+                  textAlign: "center",
+                  color: getStatusColor2(0, busLegsCount),
+                  backgroundColor: `${getStatusColor2(0, busLegsCount)}15`,
+                  padding: "3px 6px",
+                  borderRadius: 6
+                }, children: `0/${busLegsCount}` }),
+                getModeIcon("bus", 16),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Buses" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                  fontSize: 12,
+                  fontWeight: 700,
+                  minWidth: 36,
+                  textAlign: "center",
+                  color: lodgingColor,
+                  backgroundColor: `${lodgingColor}15`,
+                  padding: "3px 6px",
+                  borderRadius: 6
+                }, children: lodgingLabel }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: lodgingColor }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Lodging" })
+              ] }),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
+                  fontSize: 12,
+                  fontWeight: 700,
+                  minWidth: 36,
+                  textAlign: "center",
+                  color: getStatusColor2(transportBookedCount, expectedTransportCount),
+                  backgroundColor: `${getStatusColor2(transportBookedCount, expectedTransportCount)}15`,
+                  padding: "3px 6px",
+                  borderRadius: 6
+                }, children: expectedTransportCount > 0 ? `${transportBookedCount}/${expectedTransportCount}` : "\u2014" }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 16, color: getStatusColor2(transportBookedCount, expectedTransportCount) }),
+                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Transport" })
+              ] })
             ] })
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 16px" }, children: [
-            flightLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                fontSize: 12,
-                fontWeight: 700,
-                minWidth: 36,
-                textAlign: "center",
-                color: getStatusColor2(flightsBookedCount, flightLegsCount),
-                backgroundColor: `${getStatusColor2(flightsBookedCount, flightLegsCount)}15`,
-                padding: "3px 6px",
-                borderRadius: 6
-              }, children: `${flightsBookedCount}/${flightLegsCount}` }),
-              getModeIcon("plane", 16),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Flights" })
-            ] }),
-            trainLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                fontSize: 12,
-                fontWeight: 700,
-                minWidth: 36,
-                textAlign: "center",
-                color: getStatusColor2(0, trainLegsCount),
-                backgroundColor: `${getStatusColor2(0, trainLegsCount)}15`,
-                padding: "3px 6px",
-                borderRadius: 6
-              }, children: `0/${trainLegsCount}` }),
-              getModeIcon("rail", 16),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Trains" })
-            ] }),
-            busLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                fontSize: 12,
-                fontWeight: 700,
-                minWidth: 36,
-                textAlign: "center",
-                color: getStatusColor2(0, busLegsCount),
-                backgroundColor: `${getStatusColor2(0, busLegsCount)}15`,
-                padding: "3px 6px",
-                borderRadius: 6
-              }, children: `0/${busLegsCount}` }),
-              getModeIcon("bus", 16),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Buses" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                fontSize: 12,
-                fontWeight: 700,
-                minWidth: 36,
-                textAlign: "center",
-                color: lodgingColor,
-                backgroundColor: `${lodgingColor}15`,
-                padding: "3px 6px",
-                borderRadius: 6
-              }, children: lodgingLabel }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: lodgingColor }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Lodging" })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                fontSize: 12,
-                fontWeight: 700,
-                minWidth: 36,
-                textAlign: "center",
-                color: getStatusColor2(transportBookedCount, expectedTransportCount),
-                backgroundColor: `${getStatusColor2(transportBookedCount, expectedTransportCount)}15`,
-                padding: "3px 6px",
-                borderRadius: 6
-              }, children: expectedTransportCount > 0 ? `${transportBookedCount}/${expectedTransportCount}` : "\u2014" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 16, color: getStatusColor2(transportBookedCount, expectedTransportCount) }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Transport" })
-            ] })
-          ] })
-        ] });
-      })(),
-      (() => {
-        let viewDepartureDate = trip.departureDate;
-        let viewReturnDate = trip.returnDate;
-        if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-          const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
-          if (sortedDates.length > 0) {
-            viewDepartureDate = sortedDates[0];
-            viewReturnDate = sortedDates[sortedDates.length - 1];
+          ] });
+        })(),
+        (() => {
+          let viewDepartureDate = trip.departureDate;
+          let viewReturnDate = trip.returnDate;
+          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
+            const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
+            if (sortedDates.length > 0) {
+              viewDepartureDate = sortedDates[0];
+              viewReturnDate = sortedDates[sortedDates.length - 1];
+            }
           }
-        }
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          DayByDayView,
-          {
-            legs: trip.legs,
-            onUpdateLeg: handleUpdateLeg,
-            onDeleteLeg: handleDeleteLeg,
-            onAddLeg: handleAddLeg,
-            expandedLegs,
-            toggleLegExpand,
-            departureDate: viewDepartureDate,
-            returnDate: viewReturnDate,
-            primaryTransportMode: trip.departureMode || "plane",
-            multiCityLegs: trip.tripType === "multi_city" ? trip.multiCityLegs : void 0,
-            travelers: trip.travelers
-          }
-        );
-      })()
-    ] }) }),
+          return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+            DayByDayView,
+            {
+              legs: trip.legs,
+              onUpdateLeg: handleUpdateLeg,
+              onDeleteLeg: handleDeleteLeg,
+              onAddLeg: handleAddLeg,
+              expandedLegs,
+              toggleLegExpand,
+              departureDate: viewDepartureDate,
+              returnDate: viewReturnDate,
+              primaryTransportMode: trip.departureMode || "plane",
+              multiCityLegs: trip.tripType === "multi_city" ? trip.multiCityLegs : void 0,
+              travelers: trip.travelers
+            }
+          );
+        })()
+      ] })
+    ] }),
     showAddModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddLegModal, { onAdd: handleAddLeg, onClose: () => setShowAddModal(false) }),
     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "16px 20px", borderTop: `1px solid ${COLORS.borderLight}` }, className: "no-print", children: [
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.textMuted, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 10 }, children: "Related Apps" }),
@@ -27890,6 +27924,48 @@ function TripPlanner({ initialData: initialData2 }) {
         subscribeStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.urgent, fontSize: 14, marginBottom: 16, textAlign: "center" }, children: subscribeMessage }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleSubscribe, disabled: subscribeStatus === "loading", style: { width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer" }, children: subscribeStatus === "loading" ? "Subscribing..." : "Subscribe" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: COLORS.textSecondary, textAlign: "center", marginTop: 12, lineHeight: 1.4 }, children: "By subscribing, you agree to receive emails. Unsubscribe anytime." })
+      ] })
+    ] }) }),
+    confirmDialog && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }, onClick: () => setConfirmDialog(null), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 16, padding: 24, maxWidth: 340, width: "100%", textAlign: "center" }, onClick: (e) => e.stopPropagation(), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 16, fontWeight: 600, color: COLORS.textMain, marginBottom: 20 }, children: confirmDialog.message }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 10 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => setConfirmDialog(null), style: { flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Cancel" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => {
+          confirmDialog.onConfirm();
+          setConfirmDialog(null);
+        }, style: { flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.urgent, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Delete" })
+      ] })
+    ] }) }),
+    showNameTripModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }, onClick: () => setShowNameTripModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 16, padding: 24, maxWidth: 380, width: "100%" }, onClick: (e) => e.stopPropagation(), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 18, fontWeight: 700, color: COLORS.textMain, marginBottom: 4 }, children: "Name Your Trip" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, color: COLORS.textSecondary, marginBottom: 16 }, children: "Give this trip a name so you can find it later." }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        "input",
+        {
+          autoFocus: true,
+          value: nameTripValue,
+          onChange: (e) => setNameTripValue(e.target.value),
+          onKeyDown: (e) => {
+            if (e.key === "Enter" && nameTripValue.trim()) {
+              const named = { ...trip, name: nameTripValue.trim() };
+              setTrip(named);
+              doSaveTrip(named);
+              setShowNameTripModal(false);
+            }
+          },
+          placeholder: "e.g. Paris Summer 2026",
+          style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 15, boxSizing: "border-box", outline: "none", marginBottom: 16, fontFamily: "inherit" }
+        }
+      ),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 10 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => setShowNameTripModal(false), style: { flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Cancel" }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => {
+          const name = nameTripValue.trim() || "My Trip";
+          const named = { ...trip, name };
+          setTrip(named);
+          doSaveTrip(named);
+          setShowNameTripModal(false);
+        }, style: { flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Save" })
       ] })
     ] }) }),
     showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, padding: 20 }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }, onClick: (e) => e.stopPropagation(), children: [

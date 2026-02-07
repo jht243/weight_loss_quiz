@@ -1349,7 +1349,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                         {chipLabel}
                         {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
                         <span
-                          onClick={e => { e.stopPropagation(); if (confirm(`Delete "${chipLabel}"?`)) onDeleteLeg(leg.id); }}
+                          onClick={e => { e.stopPropagation(); onDeleteLeg(leg.id); }}
                           style={{ marginLeft: 2, display: "flex", alignItems: "center", opacity: 0.6, cursor: "pointer" }}
                           onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
                           onMouseLeave={e => (e.currentTarget.style.opacity = "0.6")}
@@ -1512,7 +1512,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   <Edit2 size={12} />
                                 </button>
                                 <button 
-                                  onClick={() => { if (confirm("Delete this transport?")) onDeleteLeg(toHubLeg.id); }}
+                                  onClick={() => onDeleteLeg(toHubLeg.id)}
                                   style={{ padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" }}
                                 >
                                   <Trash2 size={12} />
@@ -1619,7 +1619,7 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                                   <Edit2 size={12} />
                                 </button>
                                 <button 
-                                  onClick={() => { if (confirm("Delete this transport?")) onDeleteLeg(fromHubLeg.id); }}
+                                  onClick={() => onDeleteLeg(fromHubLeg.id)}
                                   style={{ padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" }}
                                 >
                                   <Trash2 size={12} />
@@ -1994,6 +1994,9 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [confirmDialog, setConfirmDialog] = useState<{ message: string; onConfirm: () => void } | null>(null);
+  const [showNameTripModal, setShowNameTripModal] = useState(false);
+  const [nameTripValue, setNameTripValue] = useState("");
 
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() })); } catch {} }, [trip]);
 
@@ -2559,14 +2562,19 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   };
 
   const handleUpdateLeg = (legId: string, updates: Partial<TripLeg>) => setTrip(t => ({ ...t, legs: t.legs.map(l => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
-  const handleDeleteLeg = (legId: string) => { setTrip(t => ({ ...t, legs: t.legs.filter(l => l.id !== legId), updatedAt: Date.now() })); setExpandedLegs(p => { const n = new Set(p); n.delete(legId); return n; }); };
+  const doDeleteLeg = (legId: string) => { setTrip(t => ({ ...t, legs: t.legs.filter(l => l.id !== legId), updatedAt: Date.now() })); setExpandedLegs(p => { const n = new Set(p); n.delete(legId); return n; }); };
+  const handleDeleteLeg = (legId: string) => {
+    const leg = trip.legs.find(l => l.id === legId);
+    const label = leg?.title || leg?.type || "this item";
+    setConfirmDialog({ message: `Delete "${label}"?`, onConfirm: () => doDeleteLeg(legId) });
+  };
   const toggleLegExpand = (legId: string) => setExpandedLegs(p => { const n = new Set(p); n.has(legId) ? n.delete(legId) : n.add(legId); return n; });
-  const handleReset = () => { if (confirm("Clear all trip data?")) { setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() }); setTripDescription(""); setExpandedLegs(new Set()); } };
+  const handleReset = () => { setConfirmDialog({ message: "Clear all trip data?", onConfirm: () => { setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() }); setTripDescription(""); setExpandedLegs(new Set()); } }); };
 
   // Trip management functions
-  const saveCurrentTrip = () => {
-    const updatedTrip = { ...trip, updatedAt: Date.now() };
-    const existingIndex = savedTrips.findIndex(t => t.id === trip.id);
+  const doSaveTrip = (tripToSave: Trip) => {
+    const updatedTrip = { ...tripToSave, updatedAt: Date.now() };
+    const existingIndex = savedTrips.findIndex(t => t.id === updatedTrip.id);
     let newTrips: Trip[];
     if (existingIndex >= 0) {
       newTrips = savedTrips.map((t, i) => i === existingIndex ? updatedTrip : t);
@@ -2575,6 +2583,20 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     }
     setSavedTrips(newTrips);
     saveTripsToStorage(newTrips);
+    setTrip(updatedTrip);
+  };
+
+  const saveCurrentTrip = () => {
+    const isFirstSave = !savedTrips.some(t => t.id === trip.id);
+    if (isFirstSave && trip.name === "My Trip") {
+      // Suggest a name based on destination
+      const flights = trip.legs.filter(l => l.type === "flight");
+      const dest = flights[0]?.to || "";
+      setNameTripValue(dest ? `Trip to ${dest}` : "");
+      setShowNameTripModal(true);
+    } else {
+      doSaveTrip(trip);
+    }
   };
 
   const handleOpenTrip = (tripToOpen: Trip) => {
@@ -2584,10 +2606,11 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   };
 
   const handleDeleteTrip = (tripId: string) => {
-    if (!confirm("Delete this trip?")) return;
-    const newTrips = savedTrips.filter(t => t.id !== tripId);
-    setSavedTrips(newTrips);
-    saveTripsToStorage(newTrips);
+    setConfirmDialog({ message: "Delete this trip?", onConfirm: () => {
+      const newTrips = savedTrips.filter(t => t.id !== tripId);
+      setSavedTrips(newTrips);
+      saveTripsToStorage(newTrips);
+    }});
   };
 
   const handleDuplicateTrip = (tripToDupe: Trip) => {
@@ -2701,6 +2724,19 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
       </div>
 
       <div style={{ maxWidth: 600, margin: "0 auto", padding: 20, overflow: "hidden", boxSizing: "border-box" }}>
+        {/* Trip Name Display */}
+        {trip.name && trip.name !== "My Trip" && (
+          <div style={{ marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }}>
+            <h2 style={{ margin: 0, fontSize: 20, fontWeight: 700, color: COLORS.textMain }}>{trip.name}</h2>
+            <button
+              className="btn-press"
+              onClick={() => { setNameTripValue(trip.name); setShowNameTripModal(true); }}
+              style={{ background: "none", border: "none", cursor: "pointer", color: COLORS.textMuted, display: "flex", alignItems: "center" }}
+            >
+              <Edit2 size={14} />
+            </button>
+          </div>
+        )}
         {trip.legs.length === 0 ? (
           <div style={{ backgroundColor: COLORS.card, borderRadius: 20, padding: 24, marginBottom: 20, border: `1px solid ${COLORS.border}` }}>
             <h2 style={{ margin: "0 0 8px", fontSize: 18, fontWeight: 700 }}>Describe Your Trip</h2>
@@ -3377,6 +3413,41 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
                 </div>
               </>
             )}
+          </div>
+        </div>
+      )}
+
+      {/* Confirmation Dialog */}
+      {confirmDialog && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }} onClick={() => setConfirmDialog(null)}>
+          <div style={{ backgroundColor: "white", borderRadius: 16, padding: 24, maxWidth: 340, width: "100%", textAlign: "center" }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontSize: 16, fontWeight: 600, color: COLORS.textMain, marginBottom: 20 }}>{confirmDialog.message}</div>
+            <div style={{ display: "flex", gap: 10 }}>
+              <button className="btn-press" onClick={() => setConfirmDialog(null)} style={{ flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel</button>
+              <button className="btn-press" onClick={() => { confirmDialog.onConfirm(); setConfirmDialog(null); }} style={{ flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.urgent, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Delete</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Name Trip Modal */}
+      {showNameTripModal && (
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }} onClick={() => setShowNameTripModal(false)}>
+          <div style={{ backgroundColor: "white", borderRadius: 16, padding: 24, maxWidth: 380, width: "100%" }} onClick={e => e.stopPropagation()}>
+            <div style={{ fontSize: 18, fontWeight: 700, color: COLORS.textMain, marginBottom: 4 }}>Name Your Trip</div>
+            <div style={{ fontSize: 13, color: COLORS.textSecondary, marginBottom: 16 }}>Give this trip a name so you can find it later.</div>
+            <input
+              autoFocus
+              value={nameTripValue}
+              onChange={e => setNameTripValue(e.target.value)}
+              onKeyDown={e => { if (e.key === "Enter" && nameTripValue.trim()) { const named = { ...trip, name: nameTripValue.trim() }; setTrip(named); doSaveTrip(named); setShowNameTripModal(false); } }}
+              placeholder="e.g. Paris Summer 2026"
+              style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 15, boxSizing: "border-box", outline: "none", marginBottom: 16, fontFamily: "inherit" }}
+            />
+            <div style={{ display: "flex", gap: 10 }}>
+              <button className="btn-press" onClick={() => setShowNameTripModal(false)} style={{ flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel</button>
+              <button className="btn-press" onClick={() => { const name = nameTripValue.trim() || "My Trip"; const named = { ...trip, name }; setTrip(named); doSaveTrip(named); setShowNameTripModal(false); }} style={{ flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Save</button>
+            </div>
           </div>
         </div>
       )}
