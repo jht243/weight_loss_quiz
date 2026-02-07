@@ -24987,6 +24987,14 @@ var saveTripsToStorage = (trips) => {
   } catch {
   }
 };
+var trackEvent = (event, data) => {
+  fetch("/api/track", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event, data: data || {} })
+  }).catch(() => {
+  });
+};
 var formatDate = (dateStr) => {
   if (!dateStr) return "";
   try {
@@ -26653,8 +26661,7 @@ function TripPlanner({ initialData: initialData2 }) {
       localStorage.setItem("enjoyVote", vote);
     } catch {
     }
-    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "app_enjoyment_vote", data: { vote, tripName: trip.name || null, tripType: trip.tripType || null } }) }).catch(() => {
-    });
+    trackEvent("enjoy_vote", { vote, tripName: trip.name || null, tripType: trip.tripType || null });
     setShowFeedbackModal(true);
   };
   const hasHydrated = (0, import_react3.useRef)(false);
@@ -27039,7 +27046,7 @@ function TripPlanner({ initialData: initialData2 }) {
       const response = await fetch("/api/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null } })
+        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null, tripName: trip.name || null } })
       });
       if (response.ok) {
         setFeedbackStatus("success");
@@ -27058,6 +27065,7 @@ function TripPlanner({ initialData: initialData2 }) {
   };
   const handleParseDescription = async () => {
     if (!tripDescription.trim() || isAnalyzing) return;
+    trackEvent("parse_trip", { tripType: trip.tripType, descriptionLength: tripDescription.length });
     setIsAnalyzing(true);
     try {
       const response = await fetch("/api/parse-trip", {
@@ -27134,9 +27142,12 @@ function TripPlanner({ initialData: initialData2 }) {
     const newLeg = { ...legData, id: generateId(), type: legData.type || "other", status: legData.status || "pending", title: legData.title || "", date: legData.date || "" };
     setTrip((t) => ({ ...t, legs: [...t.legs, newLeg], updatedAt: Date.now() }));
     setExpandedLegs((p) => new Set(p).add(newLeg.id));
+    trackEvent("add_leg", { legType: newLeg.type, title: newLeg.title });
   };
   const handleUpdateLeg = (legId, updates) => setTrip((t) => ({ ...t, legs: t.legs.map((l) => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
   const doDeleteLeg = (legId) => {
+    const leg = trip.legs.find((l) => l.id === legId);
+    trackEvent("delete_leg", { legType: leg?.type, title: leg?.title });
     setTrip((t) => ({ ...t, legs: t.legs.filter((l) => l.id !== legId), updatedAt: Date.now() }));
     setExpandedLegs((p) => {
       const n = new Set(p);
@@ -27156,6 +27167,7 @@ function TripPlanner({ initialData: initialData2 }) {
   });
   const handleReset = () => {
     setConfirmDialog({ message: "Clear all trip data?", onConfirm: () => {
+      trackEvent("reset", { tripName: trip.name, legCount: trip.legs.length });
       setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() });
       setTripDescription("");
       setExpandedLegs(/* @__PURE__ */ new Set());
@@ -27173,6 +27185,7 @@ function TripPlanner({ initialData: initialData2 }) {
     setSavedTrips(newTrips);
     saveTripsToStorage(newTrips);
     setTrip(updatedTrip);
+    trackEvent("save_trip", { tripName: updatedTrip.name, tripType: updatedTrip.tripType, legCount: updatedTrip.legs.length, isNew: existingIndex < 0 });
   };
   const saveCurrentTrip = () => {
     const isFirstSave = !savedTrips.some((t) => t.id === trip.id);
@@ -27190,9 +27203,12 @@ function TripPlanner({ initialData: initialData2 }) {
     setTrip(tripToOpen);
     setCurrentView("trip");
     setExpandedLegs(/* @__PURE__ */ new Set());
+    trackEvent("open_trip", { tripName: tripToOpen.name, tripType: tripToOpen.tripType, legCount: tripToOpen.legs.length });
   };
   const handleDeleteTrip = (tripId) => {
+    const tripToDelete = savedTrips.find((t) => t.id === tripId);
     setConfirmDialog({ message: "Delete this trip?", onConfirm: () => {
+      trackEvent("delete_trip", { tripName: tripToDelete?.name });
       const newTrips = savedTrips.filter((t) => t.id !== tripId);
       setSavedTrips(newTrips);
       saveTripsToStorage(newTrips);
@@ -27209,6 +27225,7 @@ function TripPlanner({ initialData: initialData2 }) {
     const newTrips = [...savedTrips, newTrip];
     setSavedTrips(newTrips);
     saveTripsToStorage(newTrips);
+    trackEvent("duplicate_trip", { tripName: tripToDupe.name });
   };
   const handleRenameTrip = (tripId, newName) => {
     const newTrips = savedTrips.map((t) => t.id === tripId ? { ...t, name: newName, updatedAt: Date.now() } : t);
@@ -27225,8 +27242,10 @@ function TripPlanner({ initialData: initialData2 }) {
     setCurrentView("trip");
     setTripDescription("");
     setExpandedLegs(/* @__PURE__ */ new Set());
+    trackEvent("new_trip");
   };
   const handleBackToHome = () => {
+    trackEvent("back_to_home", { tripName: trip.name, legCount: trip.legs.length });
     if (trip.legs.length > 0) {
       saveCurrentTrip();
     }
@@ -27339,11 +27358,17 @@ function TripPlanner({ initialData: initialData2 }) {
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 8px", fontSize: 18, fontWeight: 700 }, children: "Describe Your Trip" }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 16px", fontSize: 14, color: COLORS.textSecondary }, children: "Tell us about your travel plans in plain English." }),
         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("freeform"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => {
+            setInputMode("freeform");
+            trackEvent("input_mode", { mode: "freeform" });
+          }, style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 18 }),
             " Describe Trip"
           ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setInputMode("manual"), style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
+          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => {
+            setInputMode("manual");
+            trackEvent("input_mode", { mode: "manual" });
+          }, style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
             /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 18 }),
             " Add Manually"
           ] })
@@ -27993,7 +28018,7 @@ function TripPlanner({ initialData: initialData2 }) {
       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" }, children: [
         { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Shield, { size: 16 }), label: "Travel Safety Ratings", desc: "Check safety scores for destinations worldwide" },
         { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ClipboardList, { size: 16 }), label: "Travel Checklist Generator", desc: "Generate packing & prep checklists for your trip" }
-      ].map((app, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: {
+      ].map((app, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", onClick: () => trackEvent("related_app_click", { app: app.label }), style: {
         flex: "1 1 0",
         minWidth: 200,
         display: "flex",
@@ -28022,7 +28047,10 @@ function TripPlanner({ initialData: initialData2 }) {
       gap: 8,
       flexWrap: "wrap"
     }, className: "no-print", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => setShowSubscribeModal(true), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => {
+        trackEvent("subscribe_click");
+        setShowSubscribeModal(true);
+      }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 15 }),
         " Subscribe"
       ] }),
@@ -28030,15 +28058,21 @@ function TripPlanner({ initialData: initialData2 }) {
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 15 }),
         " Reset"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => trackEvent("donate_click"), children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 15 }),
         " Donate"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => setShowFeedbackModal(true), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => {
+        trackEvent("feedback_click");
+        setShowFeedbackModal(true);
+      }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 15 }),
         " Feedback"
       ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => window.print(), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => {
+        trackEvent("print_click");
+        window.print();
+      }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { size: 15 }),
         " Print"
       ] })

@@ -794,21 +794,41 @@ function checkAnalyticsAuth(req: IncomingMessage): boolean {
 
 function humanizeEventName(event: string): string {
   const eventMap: Record<string, string> = {
-    tool_call_success: "Tool Call Success",
-    tool_call_error: "Tool Call Error",
+    // Server-side
+    tool_call_success: "Tool Call (Success)",
+    tool_call_error: "Tool Call (Error)",
+    tool_call_empty: "Tool Call (Empty)",
     parameter_parse_error: "Parameter Parse Error",
-    widget_carousel_prev: "Carousel Previous",
-    widget_carousel_next: "Carousel Next",
-    widget_filter_age_change: "Filter: Age Change",
-    widget_filter_state_change: "Filter: State Change",
-    widget_filter_sort_change: "Filter: Sort Change",
-    widget_filter_category_change: "Filter: Category Change",
-    widget_user_feedback: "User Feedback",
-    widget_test_event: "Test Event",
-    widget_followup_click: "Follow-up Click",
+    // In-app trip actions
+    widget_parse_trip: "Analyze Trip (AI)",
+    widget_add_leg: "Add Leg",
+    widget_delete_leg: "Delete Leg",
+    widget_save_trip: "Save Trip",
+    widget_open_trip: "Open Trip",
+    widget_new_trip: "New Trip",
+    widget_delete_trip: "Delete Trip",
+    widget_duplicate_trip: "Duplicate Trip",
+    widget_reset: "Reset Trip",
+    widget_back_to_home: "Back to Home",
+    widget_input_mode: "Input Mode Toggle",
+    // Footer buttons
+    widget_subscribe_click: "Subscribe (Click)",
+    widget_donate_click: "Donate (Click)",
+    widget_feedback_click: "Feedback (Click)",
+    widget_print_click: "Print (Click)",
+    // Feedback & rating
+    widget_enjoy_vote: "Enjoy Vote",
+    widget_user_feedback: "Feedback (Submitted)",
+    widget_app_enjoyment_vote: "Enjoy Vote (Legacy)",
+    // Related apps
+    widget_related_app_click: "Related App (Click)",
+    // Subscriptions
+    widget_notify_me_subscribe: "Email Subscribe",
+    widget_notify_me_subscribe_error: "Email Subscribe (Error)",
+    // Errors
     widget_crash: "Widget Crash",
   };
-  return eventMap[event] || event;
+  return eventMap[event] || event.replace(/^widget_/, "").replace(/_/g, " ").replace(/\b\w/g, c => c.toUpperCase());
 }
 
 function formatEventDetails(log: AnalyticsEvent): string {
@@ -940,6 +960,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
           successLogs.length).toFixed(0)
       : "N/A";
 
+  // --- Prompt-level analytics (from tool calls) ---
   const paramUsage: Record<string, number> = {};
   const tripTypeDist: Record<string, number> = {};
   const transportModeDist: Record<string, number> = {};
@@ -951,27 +972,16 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
           paramUsage[key] = (paramUsage[key] || 0) + 1;
         }
       });
-      // Track trip type distribution
       if (log.params.trip_type) {
         const tt = log.params.trip_type;
         tripTypeDist[tt] = (tripTypeDist[tt] || 0) + 1;
       }
-      // Track transport mode distribution
       if (log.params.departure_mode) {
         const mode = log.params.departure_mode;
         transportModeDist[mode] = (transportModeDist[mode] || 0) + 1;
       }
     }
   });
-  
-  const widgetInteractions: Record<string, number> = {};
-  widgetEvents.forEach((log) => {
-    const humanName = humanizeEventName(log.event);
-    widgetInteractions[humanName] = (widgetInteractions[humanName] || 0) + 1;
-  });
-  
-  // Transport mode distribution
-  // (tripTypeDist already computed above)
 
   // Destinations (top 10)
   const destinationDist: Record<string, number> = {};
@@ -991,26 +1001,98 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     }
   });
 
-  // Trip Organizer Actions
-  const actionCounts: Record<string, number> = {
-    "Parse Trip": 0,
-    "Add Leg": 0,
-    "Save Trip": 0,
-    "New Trip": 0,
-    "Subscribe": 0,
-    "Print": 0,
-    "Feedback": 0
-  };
+  // --- In-app analytics (from widget events) ---
+  // Trip management actions
+  const tripActions: Record<string, number> = {};
+  const tripActionEvents = ["widget_parse_trip", "widget_add_leg", "widget_delete_leg", "widget_save_trip", "widget_open_trip", "widget_new_trip", "widget_delete_trip", "widget_duplicate_trip", "widget_reset", "widget_back_to_home", "widget_input_mode"];
+  tripActionEvents.forEach(e => { tripActions[humanizeEventName(e)] = 0; });
+  
+  // Footer button clicks
+  const footerClicks: Record<string, number> = {};
+  const footerEvents = ["widget_subscribe_click", "widget_donate_click", "widget_feedback_click", "widget_print_click"];
+  footerEvents.forEach(e => { footerClicks[humanizeEventName(e)] = 0; });
 
-  widgetEvents.forEach(log => {
-      if (log.event === "widget_parse_trip") actionCounts["Parse Trip"]++;
-      if (log.event === "widget_add_leg") actionCounts["Add Leg"]++;
-      if (log.event === "widget_save_trip") actionCounts["Save Trip"]++;
-      if (log.event === "widget_new_trip") actionCounts["New Trip"]++;
-      if (log.event === "widget_notify_me_subscribe") actionCounts["Subscribe"]++;
-      if (log.event === "widget_print") actionCounts["Print"]++;
-      if (log.event === "widget_user_feedback") actionCounts["Feedback"]++;
+  // Related app clicks
+  const relatedAppClicks: Record<string, number> = {};
+
+  // Enjoy votes
+  let enjoyUp = 0;
+  let enjoyDown = 0;
+
+  // Feedback with votes
+  const feedbackLogs: AnalyticsEvent[] = [];
+
+  // Input mode preferences
+  let freeformCount = 0;
+  let manualCount = 0;
+
+  // Leg type distribution (from add_leg events)
+  const legTypeDist: Record<string, number> = {};
+
+  // All widget interactions (catch-all)
+  const allWidgetCounts: Record<string, number> = {};
+
+  widgetEvents.forEach((log) => {
+    const humanName = humanizeEventName(log.event);
+    allWidgetCounts[humanName] = (allWidgetCounts[humanName] || 0) + 1;
+
+    // Trip management
+    if (tripActionEvents.includes(log.event)) {
+      tripActions[humanName] = (tripActions[humanName] || 0) + 1;
+    }
+    // Footer
+    if (footerEvents.includes(log.event)) {
+      footerClicks[humanName] = (footerClicks[humanName] || 0) + 1;
+    }
+    // Related apps
+    if (log.event === "widget_related_app_click") {
+      const app = log.app || "Unknown";
+      relatedAppClicks[app] = (relatedAppClicks[app] || 0) + 1;
+    }
+    // Enjoy votes
+    if (log.event === "widget_enjoy_vote" || log.event === "widget_app_enjoyment_vote") {
+      if (log.vote === "up") enjoyUp++;
+      else if (log.vote === "down") enjoyDown++;
+    }
+    // Feedback
+    if (log.event === "widget_user_feedback") {
+      feedbackLogs.push(log);
+    }
+    // Input mode
+    if (log.event === "widget_input_mode") {
+      if (log.mode === "freeform") freeformCount++;
+      else if (log.mode === "manual") manualCount++;
+    }
+    // Leg types
+    if (log.event === "widget_add_leg" && log.legType) {
+      legTypeDist[log.legType] = (legTypeDist[log.legType] || 0) + 1;
+    }
   });
+
+  const totalEnjoyVotes = enjoyUp + enjoyDown;
+  const enjoyPct = totalEnjoyVotes > 0 ? ((enjoyUp / totalEnjoyVotes) * 100).toFixed(0) : "—";
+
+  // Daily call volume (last 7 days)
+  const dailyCounts: Record<string, { toolCalls: number; widgetEvents: number; errors: number }> = {};
+  for (let i = 6; i >= 0; i--) {
+    const d = new Date(); d.setDate(d.getDate() - i);
+    const key = d.toISOString().split("T")[0];
+    dailyCounts[key] = { toolCalls: 0, widgetEvents: 0, errors: 0 };
+  }
+  logs.forEach(l => {
+    const day = l.timestamp?.split("T")[0];
+    if (dailyCounts[day]) {
+      if (l.event === "tool_call_success") dailyCounts[day].toolCalls++;
+      if (l.event.startsWith("widget_")) dailyCounts[day].widgetEvents++;
+      if (l.event.includes("error")) dailyCounts[day].errors++;
+    }
+  });
+
+  // Helper to render a simple table
+  const renderTable = (headers: string[], rows: string[][], emptyMsg: string) => {
+    if (rows.length === 0) return `<table><thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody><tr><td colspan="${headers.length}" style="text-align:center;color:#9ca3af;">${emptyMsg}</td></tr></tbody></table>`;
+    return `<table><thead><tr>${headers.map(h => `<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r => `<tr>${r.map(c => `<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+  };
 
   return `<!DOCTYPE html>
 <html>
@@ -1020,273 +1102,308 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
   <title>Trip Planner Analytics</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; }
-    .container { max-width: 1200px; margin: 0 auto; }
-    h1 { color: #1a1a1a; margin-bottom: 10px; }
-    .subtitle { color: #666; margin-bottom: 30px; }
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-bottom: 30px; }
-    .card { background: white; border-radius: 8px; padding: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    .card h2 { font-size: 14px; color: #666; text-transform: uppercase; margin-bottom: 10px; }
-    .card .value { font-size: 32px; font-weight: bold; color: #1a1a1a; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; color: #1f2937; }
+    .container { max-width: 1400px; margin: 0 auto; }
+    h1 { color: #1a1a1a; margin-bottom: 6px; font-size: 28px; }
+    .subtitle { color: #666; margin-bottom: 24px; font-size: 14px; }
+    .section-title { font-size: 18px; font-weight: 700; color: #1a1a1a; margin: 28px 0 14px; padding-bottom: 8px; border-bottom: 2px solid #e5e7eb; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .card { background: white; border-radius: 10px; padding: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); border: 1px solid #e5e7eb; }
+    .card h2 { font-size: 12px; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
+    .card .value { font-size: 36px; font-weight: 800; color: #1a1a1a; line-height: 1.1; }
+    .card .value .unit { font-size: 14px; font-weight: 500; color: #9ca3af; }
     .card.error .value { color: #dc2626; }
     .card.success .value { color: #16a34a; }
     .card.warning .value { color: #ea580c; }
-    table { width: 100%; background: white; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
-    th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e5e5e5; }
-    th { background: #f9fafb; font-weight: 600; color: #374151; font-size: 12px; text-transform: uppercase; }
-    td { color: #1f2937; font-size: 14px; }
+    .card.info .value { color: #2563eb; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #f3f4f6; font-size: 13px; }
+    th { font-weight: 600; color: #6b7280; font-size: 11px; text-transform: uppercase; letter-spacing: 0.3px; background: #f9fafb; }
+    td { color: #374151; }
     tr:last-child td { border-bottom: none; }
     .error-row { background: #fef2f2; }
-    code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 12px; }
-    .timestamp { color: #9ca3af; font-size: 12px; }
-    td strong { color: #1f2937; font-weight: 600; }
+    code { background: #f3f4f6; padding: 2px 6px; border-radius: 4px; font-size: 12px; color: #374151; }
+    .timestamp { color: #9ca3af; font-size: 12px; white-space: nowrap; }
+    .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+    .badge-green { background: #dcfce7; color: #16a34a; }
+    .badge-red { background: #fef2f2; color: #dc2626; }
+    .badge-blue { background: #dbeafe; color: #2563eb; }
+    .badge-orange { background: #fff7ed; color: #ea580c; }
+    .bar { height: 8px; border-radius: 4px; background: #e5e7eb; overflow: hidden; margin-top: 4px; }
+    .bar-fill { height: 100%; border-radius: 4px; }
+    .pct { font-size: 11px; color: #9ca3af; }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>📊 Trip Planner Analytics</h1>
-    <p class="subtitle">Last 7 days • Auto-refresh every 60s</p>
-    
+    <p class="subtitle">Last 7 days · ${logs.length} total events · Auto-refresh 60s</p>
+
+    <!-- ========== ALERTS ========== -->
+    ${alerts.length > 0 ? `
+    <div class="card" style="margin-bottom:20px; border-left: 4px solid ${alerts.some(a => a.level === "critical") ? "#dc2626" : "#ea580c"};">
+      <h2>⚠️ Active Alerts</h2>
+      <ul style="padding-left:16px;margin:4px 0 0;">
+        ${alerts.map(a => `<li style="margin-bottom:4px;"><span class="badge ${a.level === "critical" ? "badge-red" : "badge-orange"}">${a.level.toUpperCase()}</span> ${a.message}</li>`).join("")}
+      </ul>
+    </div>` : ""}
+
+    <!-- ========== OVERVIEW CARDS ========== -->
+    <div class="section-title">📈 Overview</div>
     <div class="grid">
-      <div class="card ${alerts.length ? "warning" : ""}">
-        <h2>Alerts</h2>
-        ${
-          alerts.length
-            ? `<ul style="padding-left:16px;margin:0;">${alerts
-                .map(
-                  (a) =>
-                    `<li><strong>${a.level.toUpperCase()}</strong> — ${a.message}</li>`
-                )
-                .join("")}</ul>`
-            : '<p style="color:#16a34a;">No active alerts</p>'
-        }
-      </div>
       <div class="card success">
-        <h2>Total Calls</h2>
+        <h2>Tool Calls (Prompt)</h2>
         <div class="value">${successLogs.length}</div>
+      </div>
+      <div class="card info">
+        <h2>Widget Events (In-App)</h2>
+        <div class="value">${widgetEvents.length}</div>
       </div>
       <div class="card error">
         <h2>Errors</h2>
         <div class="value">${errorLogs.length}</div>
       </div>
-      <div class="card warning">
-        <h2>Parse Errors</h2>
-        <div class="value">${parseLogs.length}</div>
-      </div>
       <div class="card">
-        <h2>Avg Response Time</h2>
-        <div class="value">${avgResponseTime}<span style="font-size: 16px; color: #666;">ms</span></div>
+        <h2>Avg Response</h2>
+        <div class="value">${avgResponseTime}<span class="unit">ms</span></div>
+      </div>
+      <div class="card ${totalEnjoyVotes > 0 ? (parseInt(enjoyPct) >= 70 ? "success" : parseInt(enjoyPct) >= 40 ? "warning" : "error") : ""}">
+        <h2>Satisfaction</h2>
+        <div class="value">${enjoyPct}${totalEnjoyVotes > 0 ? '<span class="unit">%</span>' : ""}</div>
+        <div class="pct">${enjoyUp} 👍 / ${enjoyDown} 👎 (${totalEnjoyVotes} votes)</div>
       </div>
     </div>
 
-    <div class="card" style="margin-bottom: 20px;">
-      <h2>Parameter Usage</h2>
-      <table>
-        <thead><tr><th>Parameter</th><th>Times Used</th><th>Usage %</th></tr></thead>
-        <tbody>
-          ${Object.entries(paramUsage)
-            .sort((a, b) => b[1] - a[1])
-            .map(
-              ([param, count]) => `
-            <tr>
-              <td><code>${param}</code></td>
-              <td>${count}</td>
-              <td>${((count / successLogs.length) * 100).toFixed(1)}%</td>
-            </tr>
-          `
-            )
-            .join("")}
-        </tbody>
-      </table>
+    <!-- ========== DAILY VOLUME ========== -->
+    <div class="card" style="margin-bottom:20px;">
+      <h2>📅 Daily Volume (7 Days)</h2>
+      ${renderTable(
+        ["Date", "Tool Calls", "Widget Events", "Errors"],
+        Object.entries(dailyCounts).map(([day, c]) => [
+          `<span class="timestamp">${day}</span>`,
+          String(c.toolCalls),
+          String(c.widgetEvents),
+          c.errors > 0 ? `<span style="color:#dc2626;font-weight:600;">${c.errors}</span>` : "0"
+        ]),
+        "No data"
+      )}
     </div>
 
-    <div class="grid" style="margin-bottom: 20px;">
+    <!-- ========== PROMPT ANALYTICS ========== -->
+    <div class="section-title">🔍 Prompt Analytics (What's Being Called)</div>
+    <div class="grid-3">
       <div class="card">
-        <h2>Trip Type</h2>
-        <table>
-          <thead><tr><th>Type</th><th>Count</th></tr></thead>
-          <tbody>
-            ${Object.entries(tripTypeDist).length > 0 ? Object.entries(tripTypeDist)
-              .sort((a, b) => (b[1] as number) - (a[1] as number))
-              .map(
-                ([tt, count]) => `
-              <tr>
-                <td>${tt}</td>
-                <td>${count}</td>
-              </tr>
-            `
-              )
-              .join("") : '<tr><td colspan="2" style="text-align: center; color: #9ca3af;">No data yet</td></tr>'}
-          </tbody>
-        </table>
+        <h2>Trip Type Distribution</h2>
+        ${renderTable(
+          ["Type", "Count", "%"],
+          Object.entries(tripTypeDist).sort((a, b) => b[1] - a[1]).map(([tt, count]) => {
+            const pct = successLogs.length > 0 ? ((count / successLogs.length) * 100).toFixed(0) : "0";
+            const label = tt === "round_trip" ? "🔄 Round Trip" : tt === "one_way" ? "➡️ One Way" : tt === "multi_city" ? "🌍 Multi-City" : tt;
+            return [label, String(count), `${pct}%`];
+          }),
+          "No data yet"
+        )}
       </div>
-      
-       <div class="card">
-        <h2>User Actions</h2>
-        <table>
-          <thead><tr><th>Action</th><th>Count</th></tr></thead>
-          <tbody>
-            ${Object.entries(actionCounts)
-              .sort((a, b) => b[1] - a[1])
-              .map(
-                ([action, count]) => `
-              <tr>
-                <td>${action}</td>
-                <td>${count}</td>
-              </tr>
-            `
-              )
-              .join("")}
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-
-    <div class="card" style="margin-bottom: 20px;">
-      <h2>Widget Interactions</h2>
-      <table>
-        <thead><tr><th>Action</th><th>Count</th></tr></thead>
-        <tbody>
-          ${Object.entries(widgetInteractions).length > 0 ? Object.entries(widgetInteractions)
-            .sort((a, b) => b[1] - a[1])
-            .map(
-              ([action, count]) => `
-            <tr>
-              <td>${action}</td>
-              <td>${count}</td>
-            </tr>
-          `
-            )
-            .join("") : '<tr><td colspan="2" style="text-align: center; color: #9ca3af;">No data yet</td></tr>'}
-        </tbody>
-      </table>
-    </div>
-
-    <div class="grid" style="margin-bottom: 20px;">
       <div class="card">
         <h2>Transport Mode</h2>
-        <table>
-          <thead><tr><th>Mode</th><th>Users</th></tr></thead>
-          <tbody>
-            ${Object.entries(transportModeDist).length > 0 ? Object.entries(transportModeDist)
-              .sort((a, b) => (b[1] as number) - (a[1] as number))
-              .map(
-                ([mode, count]) => `
-              <tr>
-                <td>${mode}</td>
-                <td>${count}</td>
-              </tr>
-            `
-              )
-              .join("") : '<tr><td colspan="2" style="text-align: center; color: #9ca3af;">No data yet</td></tr>'}
-          </tbody>
-        </table>
+        ${renderTable(
+          ["Mode", "Count"],
+          Object.entries(transportModeDist).sort((a, b) => b[1] - a[1]).map(([mode, count]) => {
+            const icon = mode === "plane" ? "✈️" : mode === "car" ? "🚗" : mode === "train" ? "🚂" : mode === "bus" ? "🚌" : mode === "ferry" ? "⛴️" : "🚐";
+            return [`${icon} ${mode}`, String(count)];
+          }),
+          "No data yet"
+        )}
       </div>
-      
       <div class="card">
-        <h2>Top Destinations</h2>
-        <table>
-          <thead><tr><th>Destination</th><th>Users</th></tr></thead>
-          <tbody>
-            ${Object.entries(destinationDist).length > 0 ? Object.entries(destinationDist)
-              .sort((a, b) => (b[1] as number) - (a[1] as number))
-              .slice(0, 10)
-              .map(
-                ([dest, count]) => `
-              <tr>
-                <td>${dest}</td>
-                <td>${count}</td>
-              </tr>
-            `
-              )
-              .join("") : '<tr><td colspan="2" style="text-align: center; color: #9ca3af;">No data yet</td></tr>'}
-          </tbody>
-        </table>
+        <h2>Parameter Usage</h2>
+        ${renderTable(
+          ["Parameter", "Used", "%"],
+          Object.entries(paramUsage).sort((a, b) => b[1] - a[1]).map(([p, c]) => [
+            `<code>${p}</code>`,
+            String(c),
+            successLogs.length > 0 ? `${((c / successLogs.length) * 100).toFixed(0)}%` : "0%"
+          ]),
+          "No data yet"
+        )}
       </div>
-      
+    </div>
+
+    <div class="grid-3">
       <div class="card">
-        <h2>Top Departure Cities</h2>
-        <table>
-          <thead><tr><th>City</th><th>Users</th></tr></thead>
-          <tbody>
-            ${Object.entries(departureCityDist).length > 0 ? Object.entries(departureCityDist)
-              .sort((a, b) => (b[1] as number) - (a[1] as number))
-              .slice(0, 10)
-              .map(
-                ([city, count]) => `
-              <tr>
-                <td>${city}</td>
-                <td>${count}</td>
-              </tr>
-            `
-              )
-              .join("") : '<tr><td colspan="2" style="text-align: center; color: #9ca3af;">No data yet</td></tr>'}
-          </tbody>
-        </table>
+        <h2>🏙️ Top Destinations</h2>
+        ${renderTable(
+          ["City", "Count"],
+          Object.entries(destinationDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
+          "No data yet"
+        )}
+      </div>
+      <div class="card">
+        <h2>🛫 Top Departure Cities</h2>
+        ${renderTable(
+          ["City", "Count"],
+          Object.entries(departureCityDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
+          "No data yet"
+        )}
+      </div>
+      <div class="card">
+        <h2>🗺️ Popular Routes</h2>
+        ${(() => {
+          const routes: Record<string, number> = {};
+          successLogs.forEach(l => {
+            if (l.params?.departure_city && l.params?.destination) {
+              const route = l.params.departure_city + " → " + l.params.destination;
+              routes[route] = (routes[route] || 0) + 1;
+            }
+          });
+          return renderTable(
+            ["Route", "Count"],
+            Object.entries(routes).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([r, c]) => [r, String(c)]),
+            "No data yet"
+          );
+        })()}
       </div>
     </div>
 
-    <div class="card" style="margin-bottom: 20px;">
-      <h2>User Queries (Inferred from Tool Calls)</h2>
-      <table>
-        <thead><tr><th>Date</th><th>Query</th><th>Location</th><th>Locale</th></tr></thead>
-        <tbody>
-          ${successLogs.length > 0 ? successLogs
-            .slice(0, 20)
-            .map(
-              (log) => `
-            <tr>
-              <td class="timestamp" style="white-space: nowrap;">${new Date(log.timestamp).toLocaleString()}</td>
-              <td style="max-width: 400px;">${log.inferredQuery || "general search"}</td>
-              <td style="font-size: 12px; color: #6b7280;">${log.userLocation ? `${log.userLocation.city || ''}, ${log.userLocation.region || ''}, ${log.userLocation.country || ''}`.replace(/^, |, $/g, '') : '—'}</td>
-              <td style="font-size: 12px; color: #6b7280;">${log.userLocale || '—'}</td>
-            </tr>
-          `
-            )
-            .join("") : '<tr><td colspan="4" style="text-align: center; color: #9ca3af;">No queries yet</td></tr>'}
-        </tbody>
-      </table>
+    <!-- ========== IN-APP ANALYTICS ========== -->
+    <div class="section-title">🖱️ In-App Actions (After Tool Call)</div>
+    <div class="grid-3">
+      <div class="card">
+        <h2>Trip Management</h2>
+        ${renderTable(
+          ["Action", "Count"],
+          Object.entries(tripActions).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
+          "No in-app actions yet"
+        )}
+      </div>
+      <div class="card">
+        <h2>Footer Buttons</h2>
+        ${renderTable(
+          ["Button", "Clicks"],
+          Object.entries(footerClicks).sort((a, b) => b[1] - a[1]).map(([b, c]) => [b, String(c)]),
+          "No clicks yet"
+        )}
+      </div>
+      <div class="card">
+        <h2>Related App Clicks</h2>
+        ${renderTable(
+          ["App", "Clicks"],
+          Object.entries(relatedAppClicks).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
+          "No clicks yet"
+        )}
+      </div>
     </div>
 
-    <div class="card" style="margin-bottom: 20px;">
-      <h2>User Feedback</h2>
-      <table>
-        <thead><tr><th>Date</th><th>Feedback</th></tr></thead>
-        <tbody>
-          ${logs.filter(l => l.event === "widget_user_feedback").length > 0 ? logs
-            .filter(l => l.event === "widget_user_feedback")
-            .slice(0, 20)
-            .map(
-              (log) => `
-            <tr>
-              <td class="timestamp" style="white-space: nowrap;">${new Date(log.timestamp).toLocaleString()}</td>
-              <td style="max-width: 600px;">${log.feedback || "—"}</td>
-            </tr>
-          `
-            )
-            .join("") : '<tr><td colspan="2" style="text-align: center; color: #9ca3af;">No feedback yet</td></tr>'}
-        </tbody>
-      </table>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="card">
+        <h2>Input Mode Preference</h2>
+        ${renderTable(
+          ["Mode", "Count"],
+          [
+            ["✨ Freeform (AI Describe)", String(freeformCount)],
+            ["✏️ Manual (Add Manually)", String(manualCount)],
+          ],
+          "No data yet"
+        )}
+      </div>
+      <div class="card">
+        <h2>Leg Types Added</h2>
+        ${renderTable(
+          ["Type", "Count"],
+          Object.entries(legTypeDist).sort((a, b) => b[1] - a[1]).map(([t, c]) => {
+            const icon = t === "flight" ? "✈️" : t === "hotel" ? "🏨" : t === "car" ? "🚗" : t === "train" ? "🚂" : t === "bus" ? "🚌" : "📌";
+            return [`${icon} ${t}`, String(c)];
+          }),
+          "No legs added yet"
+        )}
+      </div>
     </div>
 
-    <div class="card">
-      <h2>Recent Events (Last 50)</h2>
+    <!-- ========== USER EXPERIENCE ========== -->
+    <div class="section-title">❤️ User Experience & Feedback</div>
+    <div class="grid-2" style="margin-bottom:20px;">
+      <div class="card">
+        <h2>Enjoy Vote Breakdown</h2>
+        <div style="display:flex;gap:20px;align-items:center;margin-bottom:12px;">
+          <div style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:#16a34a;">${enjoyUp}</div>
+            <div style="font-size:12px;color:#6b7280;">👍 Thumbs Up</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:#dc2626;">${enjoyDown}</div>
+            <div style="font-size:12px;color:#6b7280;">👎 Thumbs Down</div>
+          </div>
+          <div style="text-align:center;">
+            <div style="font-size:32px;font-weight:800;color:#2563eb;">${totalEnjoyVotes}</div>
+            <div style="font-size:12px;color:#6b7280;">Total Votes</div>
+          </div>
+        </div>
+        ${totalEnjoyVotes > 0 ? `
+        <div class="bar" style="height:12px;">
+          <div class="bar-fill" style="width:${enjoyPct}%;background:linear-gradient(90deg,#16a34a,#22c55e);"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:4px;">
+          <span class="pct">👍 ${enjoyPct}%</span>
+          <span class="pct">👎 ${100 - parseInt(enjoyPct)}%</span>
+        </div>` : '<p style="color:#9ca3af;font-size:13px;margin-top:8px;">No votes yet</p>'}
+      </div>
+      <div class="card">
+        <h2>Feedback Submissions</h2>
+        ${feedbackLogs.length > 0 ? renderTable(
+          ["Date", "Vote", "Feedback", "Trip"],
+          feedbackLogs.slice(0, 15).map(l => [
+            `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
+            l.enjoymentVote === "up" ? '<span class="badge badge-green">👍</span>' : l.enjoymentVote === "down" ? '<span class="badge badge-red">👎</span>' : "—",
+            `<div style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${l.feedback || "—"}</div>`,
+            l.tripName || "—"
+          ]),
+          "No feedback yet"
+        ) : '<p style="color:#9ca3af;font-size:13px;">No feedback submitted yet</p>'}
+      </div>
+    </div>
+
+    <!-- ========== QUERIES LOG ========== -->
+    <div class="section-title">📋 Recent Queries</div>
+    <div class="card" style="margin-bottom:20px;">
+      ${renderTable(
+        ["Date", "Query", "Trip Type", "From → To", "Location", "Locale"],
+        successLogs.slice(0, 25).map(l => [
+          `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
+          `<div style="max-width:250px;overflow:hidden;text-overflow:ellipsis;">${l.inferredQuery || "—"}</div>`,
+          l.params?.trip_type ? `<span class="badge badge-blue">${l.params.trip_type}</span>` : "—",
+          l.params?.departure_city && l.params?.destination ? `${l.params.departure_city} → ${l.params.destination}` : (l.params?.destination || "—"),
+          l.userLocation ? `${l.userLocation.city || ""}${l.userLocation.region ? ", " + l.userLocation.region : ""}${l.userLocation.country ? ", " + l.userLocation.country : ""}`.replace(/^, /, "") : "—",
+          l.userLocale || "—"
+        ]),
+        "No queries yet"
+      )}
+    </div>
+
+    <!-- ========== ALL WIDGET EVENTS ========== -->
+    <div class="section-title">📊 All Widget Interactions (Aggregated)</div>
+    <div class="card" style="margin-bottom:20px;">
+      ${renderTable(
+        ["Event", "Count"],
+        Object.entries(allWidgetCounts).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
+        "No widget events yet"
+      )}
+    </div>
+
+    <!-- ========== RAW EVENT LOG ========== -->
+    <div class="section-title">🔎 Recent Events (Last 50)</div>
+    <div class="card" style="margin-bottom:20px;">
       <table>
         <thead><tr><th>Time</th><th>Event</th><th>Details</th></tr></thead>
         <tbody>
-          ${logs
-            .slice(0, 50)
-            .map(
-              (log) => `
+          ${logs.slice(0, 50).map(log => `
             <tr class="${log.event.includes("error") ? "error-row" : ""}">
               <td class="timestamp">${new Date(log.timestamp).toLocaleString()}</td>
               <td><strong>${humanizeEventName(log.event)}</strong></td>
-              <td style="font-size: 12px; max-width: 600px; overflow: hidden; text-overflow: ellipsis;">${formatEventDetails(log)}</td>
+              <td style="font-size:12px;max-width:500px;overflow:hidden;text-overflow:ellipsis;">${formatEventDetails(log)}</td>
             </tr>
-          `
-            )
-            .join("")}
+          `).join("")}
         </tbody>
       </table>
     </div>

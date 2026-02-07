@@ -157,6 +157,15 @@ const saveTripsToStorage = (trips: Trip[]) => {
   } catch {}
 };
 
+// Analytics event tracker — fire-and-forget POST to /api/track
+const trackEvent = (event: string, data?: Record<string, any>) => {
+  fetch("/api/track", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event, data: data || {} }),
+  }).catch(() => {});
+};
+
 const formatDate = (dateStr: string): string => {
   if (!dateStr) return "";
   try {
@@ -2010,7 +2019,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     if (enjoyVote) return;
     setEnjoyVote(vote);
     try { localStorage.setItem("enjoyVote", vote); } catch {}
-    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "app_enjoyment_vote", data: { vote, tripName: trip.name || null, tripType: trip.tripType || null } }) }).catch(() => {});
+    trackEvent("enjoy_vote", { vote, tripName: trip.name || null, tripType: trip.tripType || null });
     setShowFeedbackModal(true);
   };
 
@@ -2468,7 +2477,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
       const response = await fetch("/api/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null } })
+        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null, tripName: trip.name || null } })
       });
       if (response.ok) {
         setFeedbackStatus("success");
@@ -2484,7 +2493,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
 
   const handleParseDescription = async () => {
     if (!tripDescription.trim() || isAnalyzing) return;
-    
+    trackEvent("parse_trip", { tripType: trip.tripType, descriptionLength: tripDescription.length });
     setIsAnalyzing(true);
     
     try {
@@ -2577,17 +2586,18 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     const newLeg: TripLeg = { ...legData, id: generateId(), type: legData.type || "other", status: legData.status || "pending", title: legData.title || "", date: legData.date || "" } as TripLeg;
     setTrip(t => ({ ...t, legs: [...t.legs, newLeg], updatedAt: Date.now() }));
     setExpandedLegs(p => new Set(p).add(newLeg.id));
+    trackEvent("add_leg", { legType: newLeg.type, title: newLeg.title });
   };
 
   const handleUpdateLeg = (legId: string, updates: Partial<TripLeg>) => setTrip(t => ({ ...t, legs: t.legs.map(l => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
-  const doDeleteLeg = (legId: string) => { setTrip(t => ({ ...t, legs: t.legs.filter(l => l.id !== legId), updatedAt: Date.now() })); setExpandedLegs(p => { const n = new Set(p); n.delete(legId); return n; }); };
+  const doDeleteLeg = (legId: string) => { const leg = trip.legs.find(l => l.id === legId); trackEvent("delete_leg", { legType: leg?.type, title: leg?.title }); setTrip(t => ({ ...t, legs: t.legs.filter(l => l.id !== legId), updatedAt: Date.now() })); setExpandedLegs(p => { const n = new Set(p); n.delete(legId); return n; }); };
   const handleDeleteLeg = (legId: string) => {
     const leg = trip.legs.find(l => l.id === legId);
     const label = leg?.title || leg?.type || "this item";
     setConfirmDialog({ message: `Delete "${label}"?`, onConfirm: () => doDeleteLeg(legId) });
   };
   const toggleLegExpand = (legId: string) => setExpandedLegs(p => { const n = new Set(p); n.has(legId) ? n.delete(legId) : n.add(legId); return n; });
-  const handleReset = () => { setConfirmDialog({ message: "Clear all trip data?", onConfirm: () => { setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() }); setTripDescription(""); setExpandedLegs(new Set()); } }); };
+  const handleReset = () => { setConfirmDialog({ message: "Clear all trip data?", onConfirm: () => { trackEvent("reset", { tripName: trip.name, legCount: trip.legs.length }); setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() }); setTripDescription(""); setExpandedLegs(new Set()); } }); };
 
   // Trip management functions
   const doSaveTrip = (tripToSave: Trip) => {
@@ -2602,6 +2612,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     setSavedTrips(newTrips);
     saveTripsToStorage(newTrips);
     setTrip(updatedTrip);
+    trackEvent("save_trip", { tripName: updatedTrip.name, tripType: updatedTrip.tripType, legCount: updatedTrip.legs.length, isNew: existingIndex < 0 });
   };
 
   const saveCurrentTrip = () => {
@@ -2622,10 +2633,13 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     setTrip(tripToOpen);
     setCurrentView("trip");
     setExpandedLegs(new Set());
+    trackEvent("open_trip", { tripName: tripToOpen.name, tripType: tripToOpen.tripType, legCount: tripToOpen.legs.length });
   };
 
   const handleDeleteTrip = (tripId: string) => {
+    const tripToDelete = savedTrips.find(t => t.id === tripId);
     setConfirmDialog({ message: "Delete this trip?", onConfirm: () => {
+      trackEvent("delete_trip", { tripName: tripToDelete?.name });
       const newTrips = savedTrips.filter(t => t.id !== tripId);
       setSavedTrips(newTrips);
       saveTripsToStorage(newTrips);
@@ -2643,6 +2657,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     const newTrips = [...savedTrips, newTrip];
     setSavedTrips(newTrips);
     saveTripsToStorage(newTrips);
+    trackEvent("duplicate_trip", { tripName: tripToDupe.name });
   };
 
   const handleRenameTrip = (tripId: string, newName: string) => {
@@ -2662,9 +2677,11 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
     setCurrentView("trip");
     setTripDescription("");
     setExpandedLegs(new Set());
+    trackEvent("new_trip");
   };
 
   const handleBackToHome = () => {
+    trackEvent("back_to_home", { tripName: trip.name, legCount: trip.legs.length });
     // Auto-save current trip if it has content
     if (trip.legs.length > 0) {
       saveCurrentTrip();
@@ -2765,8 +2782,8 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
             <h2 style={{ margin: "0 0 8px", fontSize: 18, fontWeight: 700 }}>Describe Your Trip</h2>
             <p style={{ margin: "0 0 16px", fontSize: 14, color: COLORS.textSecondary }}>Tell us about your travel plans in plain English.</p>
             <div style={{ display: "flex", gap: 8, marginBottom: 16 }}>
-              <button onClick={() => setInputMode("freeform")} style={{ flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Sparkles size={18} /> Describe Trip</button>
-              <button onClick={() => setInputMode("manual")} style={{ flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Edit3 size={18} /> Add Manually</button>
+              <button onClick={() => { setInputMode("freeform"); trackEvent("input_mode", { mode: "freeform" }); }} style={{ flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Sparkles size={18} /> Describe Trip</button>
+              <button onClick={() => { setInputMode("manual"); trackEvent("input_mode", { mode: "manual" }); }} style={{ flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }}><Edit3 size={18} /> Add Manually</button>
             </div>
             {inputMode === "freeform" ? (
               <>
@@ -3436,7 +3453,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
             { icon: <Shield size={16} />, label: "Travel Safety Ratings", desc: "Check safety scores for destinations worldwide" },
             { icon: <ClipboardList size={16} />, label: "Travel Checklist Generator", desc: "Generate packing & prep checklists for your trip" },
           ].map((app, i) => (
-            <button key={i} className="btn-press" style={{
+            <button key={i} className="btn-press" onClick={() => trackEvent("related_app_click", { app: app.label })} style={{
               flex: "1 1 0", minWidth: 200, display: "flex", alignItems: "center", gap: 10,
               padding: "12px 14px", borderRadius: 12,
               border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card,
@@ -3464,19 +3481,19 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
         gap: 8,
         flexWrap: "wrap"
       }} className="no-print">
-        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => setShowSubscribeModal(true)}>
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => { trackEvent("subscribe_click"); setShowSubscribeModal(true); }}>
           <Mail size={15} /> Subscribe
         </button>
         <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={handleReset}>
           <RotateCcw size={15} /> Reset
         </button>
-        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }}>
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => trackEvent("donate_click")}>
           <Heart size={15} /> Donate
         </button>
-        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => setShowFeedbackModal(true)}>
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => { trackEvent("feedback_click"); setShowFeedbackModal(true); }}>
           <MessageSquare size={15} /> Feedback
         </button>
-        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => window.print()}>
+        <button className="btn-press" style={{ padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }} onClick={() => { trackEvent("print_click"); window.print(); }}>
           <Printer size={15} /> Print
         </button>
       </div>
