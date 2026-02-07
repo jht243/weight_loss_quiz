@@ -2986,13 +2986,15 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
               // Remove starting city from count if it appears as a destination (round trip back home)
               if (startingCity) cities.delete(startingCity);
               
-              // Count booked items
-              const flightsBookedCount = flights.filter(f => f.status === "booked" || f.flightNumber).length;
-              const hotelsBookedCount = hotels.filter(h => h.status === "booked" || h.confirmationNumber).length;
-              const transportBookedCount = transport.filter(t => t.status === "booked" || t.confirmationNumber).length;
+              // Count items with actual info filled in
+              const flightsBookedCount = flights.filter(f => f.flightNumber || f.airline || f.confirmationNumber || f.from || f.to || f.time).length;
+              const hotelsBookedCount = hotels.filter(h => h.hotelName || h.confirmationNumber || h.location || h.notes || h.title).length;
+              const transportBookedCount = transport.filter(t => t.confirmationNumber || t.rentalCompany || t.notes || t.from || t.to || t.time).length;
               
               // For multi-city: determine lodging coverage per destination city
-              let lodgingStatus: "yes" | "no" | "partial" = hotels.length > 0 ? "yes" : "no";
+              // Only count hotels that have actual info filled in
+              const hotelsWithInfo = hotels.filter(h => h.hotelName || h.confirmationNumber || h.location || h.notes || h.title);
+              let lodgingStatus: "yes" | "no" | "partial" = hotelsWithInfo.length > 0 ? "yes" : "no";
               if (trip.tripType === "multi_city" && cities.size > 0 && trip.multiCityLegs?.length) {
                 const hotelCities = new Set<string>();
                 const sortedMCLegs = [...trip.multiCityLegs].filter(l => l.date).sort((a, b) => a.date.localeCompare(b.date));

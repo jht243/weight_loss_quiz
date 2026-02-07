@@ -27501,10 +27501,11 @@ function TripPlanner({ initialData: initialData2 }) {
           });
         }
         if (startingCity) cities.delete(startingCity);
-        const flightsBookedCount = flights.filter((f) => f.status === "booked" || f.flightNumber).length;
-        const hotelsBookedCount = hotels.filter((h) => h.status === "booked" || h.confirmationNumber).length;
-        const transportBookedCount = transport.filter((t) => t.status === "booked" || t.confirmationNumber).length;
-        let lodgingStatus = hotels.length > 0 ? "yes" : "no";
+        const flightsBookedCount = flights.filter((f) => f.flightNumber || f.airline || f.confirmationNumber || f.from || f.to || f.time).length;
+        const hotelsBookedCount = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location || h.notes || h.title).length;
+        const transportBookedCount = transport.filter((t) => t.confirmationNumber || t.rentalCompany || t.notes || t.from || t.to || t.time).length;
+        const hotelsWithInfo = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location || h.notes || h.title);
+        let lodgingStatus = hotelsWithInfo.length > 0 ? "yes" : "no";
         if (trip.tripType === "multi_city" && cities.size > 0 && trip.multiCityLegs?.length) {
           const hotelCities = /* @__PURE__ */ new Set();
           const sortedMCLegs = [...trip.multiCityLegs].filter((l) => l.date).sort((a, b) => a.date.localeCompare(b.date));
