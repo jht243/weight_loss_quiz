@@ -27235,7 +27235,11 @@ function TripPlanner({ initialData: initialData2 }) {
           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 28 }),
           "The Trip Organizer"
         ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", fontSize: 14, opacity: 0.9 }, children: "Your complete pre-departure checklist for flights, hotels, transport & confirmations" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { margin: "4px 0 0", fontSize: 14, opacity: 0.9 }, children: [
+          "Your complete pre-departure checklist for flights,",
+          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
+          "hotels, transport & confirmations"
+        ] })
       ] }),
       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleBackToHome, style: { padding: 8, borderRadius: 8, border: "none", backgroundColor: "rgba(255,255,255,0.2)", color: "white", cursor: "pointer", display: "flex", alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(House, { size: 18 }) }),

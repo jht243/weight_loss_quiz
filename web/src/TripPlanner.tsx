@@ -2690,7 +2690,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
             <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}><Plane size={28} />The Trip Organizer</h1>
-            <p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.9 }}>Your complete pre-departure checklist for flights, hotels, transport & confirmations</p>
+            <p style={{ margin: "4px 0 0", fontSize: 14, opacity: 0.9 }}>Your complete pre-departure checklist for flights,<br/>hotels, transport & confirmations</p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
             <button className="btn-press" onClick={handleBackToHome} style={{ padding: 8, borderRadius: 8, border: "none", backgroundColor: "rgba(255,255,255,0.2)", color: "white", cursor: "pointer", display: "flex", alignItems: "center" }}><Home size={18} /></button>
