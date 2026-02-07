@@ -1348,6 +1348,14 @@ const DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, 
                         <Icon size={13} />
                         {chipLabel}
                         {isExpanded ? <ChevronUp size={12} /> : <ChevronDown size={12} />}
+                        <span
+                          onClick={e => { e.stopPropagation(); if (confirm(`Delete "${chipLabel}"?`)) onDeleteLeg(leg.id); }}
+                          style={{ marginLeft: 2, display: "flex", alignItems: "center", opacity: 0.6, cursor: "pointer" }}
+                          onMouseEnter={e => (e.currentTarget.style.opacity = "1")}
+                          onMouseLeave={e => (e.currentTarget.style.opacity = "0.6")}
+                        >
+                          <X size={11} />
+                        </span>
                       </button>
                     );
                   })}

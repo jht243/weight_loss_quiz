@@ -25893,7 +25893,20 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                       children: [
                         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 13 }),
                         chipLabel,
-                        isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 12 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 12 })
+                        isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 12 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 12 }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                          "span",
+                          {
+                            onClick: (e) => {
+                              e.stopPropagation();
+                              if (confirm(`Delete "${chipLabel}"?`)) onDeleteLeg(leg.id);
+                            },
+                            style: { marginLeft: 2, display: "flex", alignItems: "center", opacity: 0.6, cursor: "pointer" },
+                            onMouseEnter: (e) => e.currentTarget.style.opacity = "1",
+                            onMouseLeave: (e) => e.currentTarget.style.opacity = "0.6",
+                            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 11 })
+                          }
+                        )
                       ]
                     },
                     leg.id
