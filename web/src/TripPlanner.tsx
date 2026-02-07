@@ -2748,7 +2748,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   }
 
   return (
-    <div style={{ backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }}>
+    <div style={{ backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", boxSizing: "border-box" }}>
       <div style={{ backgroundColor: COLORS.primary, padding: "24px 20px", color: "white", borderRadius: "0 0 0 0" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
@@ -3498,6 +3498,67 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
         </button>
       </div>
 
+      {/* Sticky App Enjoyment Pill - right after footer, before modals */}
+      {!enjoyVote && (
+        <div className="no-print" style={{
+          position: 'sticky',
+          bottom: 12,
+          display: 'flex',
+          justifyContent: 'flex-end',
+          padding: '0 12px 12px 0',
+          pointerEvents: 'none',
+          zIndex: 900,
+        }}>
+          <div style={{
+            backgroundColor: 'white',
+            border: `1px solid ${COLORS.border}`,
+            borderRadius: 999,
+            boxShadow: '0 8px 24px rgba(17, 24, 39, 0.12)',
+            padding: '6px 10px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            pointerEvents: 'auto',
+          }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.textMain, whiteSpace: 'nowrap' }}>
+              Enjoying This App?
+            </div>
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button
+                onClick={() => handleEnjoyVote('up')}
+                disabled={!!enjoyVote}
+                title="Thumbs up"
+                style={{
+                  width: 30, height: 28, borderRadius: 8,
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: 'white',
+                  cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'all 0.2s', padding: 0,
+                }}
+              >
+                <ThumbsUp size={14} style={{ color: COLORS.textSecondary }} />
+              </button>
+              <button
+                onClick={() => handleEnjoyVote('down')}
+                disabled={!!enjoyVote}
+                title="Thumbs down"
+                style={{
+                  width: 30, height: 28, borderRadius: 8,
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: 'white',
+                  cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  transition: 'all 0.2s', padding: 0,
+                }}
+              >
+                <ThumbsDown size={14} style={{ color: COLORS.textSecondary }} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Subscribe Modal */}
       {showSubscribeModal && (
         <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 }} onClick={() => setShowSubscribeModal(false)}>
@@ -3561,63 +3622,6 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
             <div style={{ display: "flex", gap: 10 }}>
               <button className="btn-press" onClick={() => setShowNameTripModal(false)} style={{ flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Cancel</button>
               <button className="btn-press" onClick={() => { const name = nameTripValue.trim() || "My Trip"; const named = { ...trip, name }; setTrip(named); doSaveTrip(named); setShowNameTripModal(false); }} style={{ flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }}>Save</button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Floating App Enjoyment Pill */}
-      {!enjoyVote && (
-        <div className="no-print" style={{
-          position: "fixed",
-          bottom: 12,
-          right: 12,
-          pointerEvents: "none",
-          zIndex: 900,
-        }}>
-          <div style={{
-            backgroundColor: "white",
-            border: `1px solid ${COLORS.border}`,
-            borderRadius: 999,
-            boxShadow: "0 8px 24px rgba(17, 24, 39, 0.12)",
-            padding: "6px 10px",
-            display: "flex",
-            alignItems: "center",
-            gap: 8,
-            pointerEvents: "auto",
-          }}>
-            <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.textMain, whiteSpace: "nowrap" }}>
-              Enjoying This App?
-            </div>
-            <div style={{ display: "flex", gap: 6 }}>
-              <button
-                onClick={() => handleEnjoyVote("up")}
-                title="Thumbs up"
-                style={{
-                  width: 30, height: 28, borderRadius: 8,
-                  border: `1px solid ${COLORS.border}`,
-                  backgroundColor: "white",
-                  cursor: "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "all 0.2s", padding: 0,
-                }}
-              >
-                <ThumbsUp size={14} style={{ color: COLORS.textSecondary }} />
-              </button>
-              <button
-                onClick={() => handleEnjoyVote("down")}
-                title="Thumbs down"
-                style={{
-                  width: 30, height: 28, borderRadius: 8,
-                  border: `1px solid ${COLORS.border}`,
-                  backgroundColor: "white",
-                  cursor: "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center",
-                  transition: "all 0.2s", padding: 0,
-                }}
-              >
-                <ThumbsDown size={14} style={{ color: COLORS.textSecondary }} />
-              </button>
             </div>
           </div>
         </div>
