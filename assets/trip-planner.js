@@ -25573,6 +25573,13 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
   const [expandedCategory, setExpandedCategory] = (0, import_react3.useState)({});
   const [editingTransport, setEditingTransport] = (0, import_react3.useState)(null);
   const [transportForm, setTransportForm] = (0, import_react3.useState)({ type: "uber", notes: "", rentalCompany: "", startDate: "", endDate: "" });
+  const [addDropdownDate, setAddDropdownDate] = (0, import_react3.useState)(null);
+  (0, import_react3.useEffect)(() => {
+    if (!addDropdownDate) return;
+    const handler = () => setAddDropdownDate(null);
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [addDropdownDate]);
   const allDays = (0, import_react3.useMemo)(() => {
     const days = [];
     if (departureDate) {
@@ -25852,7 +25859,99 @@ var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, to
                     transportMode: dayMode
                   }
                 );
-              })()
+              })(),
+              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { position: "relative" }, children: [
+                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                  "button",
+                  {
+                    onClick: (e) => {
+                      e.stopPropagation();
+                      setAddDropdownDate((prev) => prev === date ? null : date);
+                    },
+                    className: "btn-press",
+                    style: {
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 4,
+                      padding: "6px 10px",
+                      borderRadius: 20,
+                      backgroundColor: "white",
+                      border: `1.5px dashed ${COLORS.textMuted}`,
+                      cursor: "pointer",
+                      fontSize: 11,
+                      fontWeight: 600,
+                      color: COLORS.textMuted,
+                      whiteSpace: "nowrap",
+                      outline: "none"
+                    },
+                    children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 13 }),
+                      " Add"
+                    ]
+                  }
+                ),
+                addDropdownDate === date && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                  "div",
+                  {
+                    onClick: (e) => e.stopPropagation(),
+                    style: {
+                      position: "absolute",
+                      top: "100%",
+                      left: 0,
+                      marginTop: 4,
+                      backgroundColor: "white",
+                      borderRadius: 12,
+                      padding: 6,
+                      border: `1px solid ${COLORS.border}`,
+                      boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
+                      zIndex: 100,
+                      minWidth: 180
+                    },
+                    children: [
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 14 }), label: "Flight", type: "flight", title: "" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TramFront, { size: 14 }), label: "Train", type: "train", title: "" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bus, { size: 14 }), label: "Bus", type: "bus", title: "" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ship, { size: 14 }), label: "Ferry / Cruise", type: "ferry", title: "" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }), label: "Lodging", type: "hotel", title: "" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 14 }), label: "Rental Car", type: "car", title: "" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 14 }), label: "Ride (Uber/Taxi)", type: "car", title: "Ride" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 14 }), label: "Activity", type: "other", title: "" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 14 }), label: "Restaurant / Dining", type: "other", title: "Dining" },
+                      { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { size: 14 }), label: "Insurance / Document", type: "other", title: "Insurance" }
+                    ].map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "button",
+                      {
+                        onClick: () => {
+                          onAddLeg({ type: item.type, date, status: "pending", title: item.title });
+                          setAddDropdownDate(null);
+                        },
+                        style: {
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 10,
+                          width: "100%",
+                          padding: "8px 10px",
+                          borderRadius: 8,
+                          border: "none",
+                          backgroundColor: "transparent",
+                          cursor: "pointer",
+                          fontSize: 13,
+                          color: COLORS.textMain,
+                          fontWeight: 500,
+                          textAlign: "left"
+                        },
+                        onMouseEnter: (e) => e.currentTarget.style.backgroundColor = COLORS.inputBg,
+                        onMouseLeave: (e) => e.currentTarget.style.backgroundColor = "transparent",
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textSecondary, display: "flex", alignItems: "center" }, children: item.icon }),
+                          item.label
+                        ]
+                      },
+                      i
+                    ))
+                  }
+                )
+              ] })
             ]
           }
         );
