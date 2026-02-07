@@ -106,7 +106,7 @@ function createMcpServer() {
     const targetUri = variant === 'main' ? "ui://widget/test?variant=main" : "ui://widget/test?variant=test";
 
     return {
-      content: [{ type: "text", text: "Connection successful. Loading widget..." }],
+      content: [{ type: "text", text: "Connection successful (Legacy SDK 0.5.0). Loading widget..." }],
       _meta: {
         ...widgetMeta,
         ui: { ...widgetMeta.ui, resourceUri: targetUri }
