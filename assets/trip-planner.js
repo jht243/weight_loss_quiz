@@ -24844,8 +24844,34 @@ var __iconNode29 = [
 ];
 var Sparkles = createLucideIcon("sparkles", __iconNode29);
 
-// node_modules/lucide-react/dist/esm/icons/tram-front.js
+// node_modules/lucide-react/dist/esm/icons/thumbs-down.js
 var __iconNode30 = [
+  ["path", { d: "M17 14V2", key: "8ymqnk" }],
+  [
+    "path",
+    {
+      d: "M9 18.12 10 14H4.17a2 2 0 0 1-1.92-2.56l2.33-8A2 2 0 0 1 6.5 2H20a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-2.76a2 2 0 0 0-1.79 1.11L12 22a3.13 3.13 0 0 1-3-3.88Z",
+      key: "m61m77"
+    }
+  ]
+];
+var ThumbsDown = createLucideIcon("thumbs-down", __iconNode30);
+
+// node_modules/lucide-react/dist/esm/icons/thumbs-up.js
+var __iconNode31 = [
+  ["path", { d: "M7 10v12", key: "1qc93n" }],
+  [
+    "path",
+    {
+      d: "M15 5.88 14 10h5.83a2 2 0 0 1 1.92 2.56l-2.33 8A2 2 0 0 1 17.5 22H4a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2.76a2 2 0 0 0 1.79-1.11L12 2a3.13 3.13 0 0 1 3 3.88Z",
+      key: "emmmcr"
+    }
+  ]
+];
+var ThumbsUp = createLucideIcon("thumbs-up", __iconNode31);
+
+// node_modules/lucide-react/dist/esm/icons/tram-front.js
+var __iconNode32 = [
   ["rect", { width: "16", height: "16", x: "4", y: "3", rx: "2", key: "1wxw4b" }],
   ["path", { d: "M4 11h16", key: "mpoxn0" }],
   ["path", { d: "M12 3v8", key: "1h2ygw" }],
@@ -24854,33 +24880,33 @@ var __iconNode30 = [
   ["path", { d: "M8 15h.01", key: "a7atzg" }],
   ["path", { d: "M16 15h.01", key: "rnfrdf" }]
 ];
-var TramFront = createLucideIcon("tram-front", __iconNode30);
+var TramFront = createLucideIcon("tram-front", __iconNode32);
 
 // node_modules/lucide-react/dist/esm/icons/trash-2.js
-var __iconNode31 = [
+var __iconNode33 = [
   ["path", { d: "M10 11v6", key: "nco0om" }],
   ["path", { d: "M14 11v6", key: "outv1u" }],
   ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
   ["path", { d: "M3 6h18", key: "d0wm0j" }],
   ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
 ];
-var Trash2 = createLucideIcon("trash-2", __iconNode31);
+var Trash2 = createLucideIcon("trash-2", __iconNode33);
 
 // node_modules/lucide-react/dist/esm/icons/users.js
-var __iconNode32 = [
+var __iconNode34 = [
   ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
   ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
   ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
   ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
 ];
-var Users = createLucideIcon("users", __iconNode32);
+var Users = createLucideIcon("users", __iconNode34);
 
 // node_modules/lucide-react/dist/esm/icons/x.js
-var __iconNode33 = [
+var __iconNode35 = [
   ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
   ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
 ];
-var X = createLucideIcon("x", __iconNode33);
+var X = createLucideIcon("x", __iconNode35);
 
 // src/TripPlanner.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
@@ -26603,6 +26629,7 @@ function TripPlanner({ initialData: initialData2 }) {
   const [showFeedbackModal, setShowFeedbackModal] = (0, import_react3.useState)(false);
   const [feedbackText, setFeedbackText] = (0, import_react3.useState)("");
   const [feedbackStatus, setFeedbackStatus] = (0, import_react3.useState)("idle");
+  const [enjoyVote, setEnjoyVote] = (0, import_react3.useState)(null);
   const [confirmDialog, setConfirmDialog] = (0, import_react3.useState)(null);
   const [showNameTripModal, setShowNameTripModal] = (0, import_react3.useState)(false);
   const [nameTripValue, setNameTripValue] = (0, import_react3.useState)("");
@@ -26612,6 +26639,24 @@ function TripPlanner({ initialData: initialData2 }) {
     } catch {
     }
   }, [trip]);
+  (0, import_react3.useEffect)(() => {
+    try {
+      const v = localStorage.getItem("enjoyVote");
+      if (v === "up" || v === "down") setEnjoyVote(v);
+    } catch {
+    }
+  }, []);
+  const handleEnjoyVote = (vote) => {
+    if (enjoyVote) return;
+    setEnjoyVote(vote);
+    try {
+      localStorage.setItem("enjoyVote", vote);
+    } catch {
+    }
+    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "app_enjoyment_vote", data: { vote, tripName: trip.name || null, tripType: trip.tripType || null } }) }).catch(() => {
+    });
+    setShowFeedbackModal(true);
+  };
   const hasHydrated = (0, import_react3.useRef)(false);
   (0, import_react3.useEffect)(() => {
     if (hasHydrated.current) return;
@@ -26983,7 +27028,7 @@ function TripPlanner({ initialData: initialData2 }) {
       const response = await fetch("/api/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner" } })
+        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null } })
       });
       if (response.ok) {
         setFeedbackStatus("success");
@@ -28045,14 +28090,103 @@ function TripPlanner({ initialData: initialData2 }) {
         }, style: { flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Save" })
       ] })
     ] }) }),
-    showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, padding: 20 }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: { position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer" }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 24, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }, children: "Feedback" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 24 }, children: "Help us improve My Travel Organizer." }),
+    !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "no-print", style: {
+      position: "sticky",
+      bottom: 12,
+      display: "flex",
+      justifyContent: "flex-end",
+      padding: "0 12px 12px 0",
+      pointerEvents: "none",
+      zIndex: 900
+    }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+      backgroundColor: "white",
+      border: `1px solid ${COLORS.border}`,
+      borderRadius: 999,
+      boxShadow: "0 8px 24px rgba(17, 24, 39, 0.12)",
+      padding: "6px 10px",
+      display: "flex",
+      alignItems: "center",
+      gap: 8,
+      pointerEvents: "auto"
+    }, children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 700, color: COLORS.textMain, whiteSpace: "nowrap" }, children: "Enjoying This App?" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6 }, children: [
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            onClick: () => handleEnjoyVote("up"),
+            title: "Thumbs up",
+            style: {
+              width: 30,
+              height: 28,
+              borderRadius: 8,
+              border: `1px solid ${COLORS.border}`,
+              backgroundColor: "white",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "all 0.2s",
+              padding: 0
+            },
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 14, style: { color: COLORS.textSecondary } })
+          }
+        ),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "button",
+          {
+            onClick: () => handleEnjoyVote("down"),
+            title: "Thumbs down",
+            style: {
+              width: 30,
+              height: 28,
+              borderRadius: 8,
+              border: `1px solid ${COLORS.border}`,
+              backgroundColor: "white",
+              cursor: "pointer",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              transition: "all 0.2s",
+              padding: 0
+            },
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 14, style: { color: COLORS.textSecondary } })
+          }
+        )
+      ] })
+    ] }) }),
+    showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }, onClick: (e) => e.stopPropagation(), children: [
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: { position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: COLORS.textMuted, padding: 4 }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
+      enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
+        marginBottom: 16,
+        padding: "12px 16px",
+        backgroundColor: enjoyVote === "up" ? COLORS.bookedBg : COLORS.urgentBg,
+        borderRadius: 12,
+        border: `1px solid ${enjoyVote === "up" ? COLORS.booked : COLORS.urgent}`
+      }, children: [
+        enjoyVote === "up" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 22, style: { color: COLORS.booked } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 22, style: { color: COLORS.urgent } }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontWeight: 600, color: enjoyVote === "up" ? COLORS.booked : COLORS.urgent }, children: "Thank you for rating the app!" })
+      ] }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 22, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }, children: enjoyVote ? "Share Your Thoughts" : "Feedback" }),
+      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 20 }, children: enjoyVote ? "Please share your feedback below to help us improve." : "Help us improve My Travel Organizer." }),
       feedbackStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }, children: "Thanks for your feedback!" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", { style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none", height: 120, resize: "none", fontFamily: "inherit" }, placeholder: "Tell us what you think...", value: feedbackText, onChange: (e) => setFeedbackText(e.target.value) }),
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "textarea",
+          {
+            autoFocus: true,
+            style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none", height: 120, resize: "none", fontFamily: "inherit", marginBottom: 12 },
+            placeholder: enjoyVote === "up" ? "What do you love about this app?" : enjoyVote === "down" ? "What can we improve?" : "Tell us what you think...",
+            value: feedbackText,
+            onChange: (e) => setFeedbackText(e.target.value),
+            onFocus: (e) => e.currentTarget.style.borderColor = COLORS.primary,
+            onBlur: (e) => e.currentTarget.style.borderColor = COLORS.border
+          }
+        ),
         feedbackStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.urgent, fontSize: 14, marginBottom: 10 }, children: "Failed to send. Please try again." }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleFeedbackSubmit, disabled: feedbackStatus === "submitting" || !feedbackText.trim(), style: { width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer", marginTop: 12 }, children: feedbackStatus === "submitting" ? "Sending..." : "Send Feedback" })
+        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleFeedbackSubmit, disabled: feedbackStatus === "submitting" || !feedbackText.trim(), style: { width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: feedbackStatus === "submitting" || !feedbackText.trim() ? "not-allowed" : "pointer", opacity: feedbackStatus === "submitting" || !feedbackText.trim() ? 0.7 : 1 }, children: feedbackStatus === "submitting" ? "Sending..." : "Send Feedback" })
       ] })
     ] }) })
   ] });
@@ -28499,6 +28633,22 @@ lucide-react/dist/esm/icons/ship.js:
    *)
 
 lucide-react/dist/esm/icons/sparkles.js:
+  (**
+   * @license lucide-react v0.554.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+lucide-react/dist/esm/icons/thumbs-down.js:
+  (**
+   * @license lucide-react v0.554.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+lucide-react/dist/esm/icons/thumbs-up.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *

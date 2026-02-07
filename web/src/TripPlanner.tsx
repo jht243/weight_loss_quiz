@@ -4,7 +4,7 @@ import {
   Plane, Hotel, Car, Train, Bus, Ship, MapPin, Calendar, Clock, 
   CheckCircle2, Circle, AlertCircle, Plus, X, ChevronDown, ChevronUp,
   Edit2, Edit3, Trash2, Save, RotateCcw, Sparkles, ArrowRight, Loader2, Check, FileText, Users, Home,
-  Printer, Heart, Mail, MessageSquare, Shield, ClipboardList
+  Printer, Heart, Mail, MessageSquare, Shield, ClipboardList, ThumbsUp, ThumbsDown
 } from "lucide-react";
 
 // Add spinner animation and hide scrollbar
@@ -1994,11 +1994,25 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [enjoyVote, setEnjoyVote] = useState<"up" | "down" | null>(null);
   const [confirmDialog, setConfirmDialog] = useState<{ message: string; onConfirm: () => void } | null>(null);
   const [showNameTripModal, setShowNameTripModal] = useState(false);
   const [nameTripValue, setNameTripValue] = useState("");
 
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() })); } catch {} }, [trip]);
+
+  // Load enjoyVote from localStorage
+  useEffect(() => {
+    try { const v = localStorage.getItem("enjoyVote"); if (v === "up" || v === "down") setEnjoyVote(v); } catch {}
+  }, []);
+
+  const handleEnjoyVote = (vote: "up" | "down") => {
+    if (enjoyVote) return;
+    setEnjoyVote(vote);
+    try { localStorage.setItem("enjoyVote", vote); } catch {}
+    fetch("/api/track", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ event: "app_enjoyment_vote", data: { vote, tripName: trip.name || null, tripType: trip.tripType || null } }) }).catch(() => {});
+    setShowFeedbackModal(true);
+  };
 
   // Hydrate from ChatGPT tool result (structuredContent)
   const hasHydrated = useRef(false);
@@ -2441,7 +2455,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
       const response = await fetch("/api/track", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner" } })
+        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null } })
       });
       if (response.ok) {
         setFeedbackStatus("success");
@@ -3518,22 +3532,108 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
         </div>
       )}
 
+      {/* Sticky App Enjoyment Pill */}
+      {!enjoyVote && (
+        <div className="no-print" style={{
+          position: "sticky",
+          bottom: 12,
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "0 12px 12px 0",
+          pointerEvents: "none",
+          zIndex: 900,
+        }}>
+          <div style={{
+            backgroundColor: "white",
+            border: `1px solid ${COLORS.border}`,
+            borderRadius: 999,
+            boxShadow: "0 8px 24px rgba(17, 24, 39, 0.12)",
+            padding: "6px 10px",
+            display: "flex",
+            alignItems: "center",
+            gap: 8,
+            pointerEvents: "auto",
+          }}>
+            <div style={{ fontSize: 11, fontWeight: 700, color: COLORS.textMain, whiteSpace: "nowrap" }}>
+              Enjoying This App?
+            </div>
+            <div style={{ display: "flex", gap: 6 }}>
+              <button
+                onClick={() => handleEnjoyVote("up")}
+                title="Thumbs up"
+                style={{
+                  width: 30, height: 28, borderRadius: 8,
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: "white",
+                  cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "all 0.2s", padding: 0,
+                }}
+              >
+                <ThumbsUp size={14} style={{ color: COLORS.textSecondary }} />
+              </button>
+              <button
+                onClick={() => handleEnjoyVote("down")}
+                title="Thumbs down"
+                style={{
+                  width: 30, height: 28, borderRadius: 8,
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: "white",
+                  cursor: "pointer",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  transition: "all 0.2s", padding: 0,
+                }}
+              >
+                <ThumbsDown size={14} style={{ color: COLORS.textSecondary }} />
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Feedback Modal */}
       {showFeedbackModal && (
-        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1000, padding: 20 }} onClick={() => setShowFeedbackModal(false)}>
-          <div style={{ backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }} onClick={e => e.stopPropagation()}>
-            <button style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer" }} onClick={() => setShowFeedbackModal(false)}><X size={20} /></button>
-            <div style={{ fontSize: 24, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }}>Feedback</div>
-            <div style={{ fontSize: 14, color: COLORS.textSecondary, marginBottom: 24 }}>Help us improve My Travel Organizer.</div>
+        <div style={{ position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }} onClick={() => setShowFeedbackModal(false)}>
+          <div style={{ backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }} onClick={e => e.stopPropagation()}>
+            <button style={{ position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: COLORS.textMuted, padding: 4 }} onClick={() => setShowFeedbackModal(false)}><X size={20} /></button>
+
+            {enjoyVote && (
+              <div style={{
+                display: "flex", alignItems: "center", gap: 12, marginBottom: 16, padding: "12px 16px",
+                backgroundColor: enjoyVote === "up" ? COLORS.bookedBg : COLORS.urgentBg,
+                borderRadius: 12,
+                border: `1px solid ${enjoyVote === "up" ? COLORS.booked : COLORS.urgent}`,
+              }}>
+                {enjoyVote === "up" ? <ThumbsUp size={22} style={{ color: COLORS.booked }} /> : <ThumbsDown size={22} style={{ color: COLORS.urgent }} />}
+                <div style={{ fontSize: 14, fontWeight: 600, color: enjoyVote === "up" ? COLORS.booked : COLORS.urgent }}>
+                  Thank you for rating the app!
+                </div>
+              </div>
+            )}
+
+            <div style={{ fontSize: 22, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }}>
+              {enjoyVote ? "Share Your Thoughts" : "Feedback"}
+            </div>
+            <div style={{ fontSize: 14, color: COLORS.textSecondary, marginBottom: 20 }}>
+              {enjoyVote ? "Please share your feedback below to help us improve." : "Help us improve My Travel Organizer."}
+            </div>
             {feedbackStatus === "success" ? (
               <div style={{ textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }}>Thanks for your feedback!</div>
             ) : (
               <>
-                <textarea style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none", height: 120, resize: "none", fontFamily: "inherit" }} placeholder="Tell us what you think..." value={feedbackText} onChange={e => setFeedbackText(e.target.value)} />
+                <textarea
+                  autoFocus
+                  style={{ width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none", height: 120, resize: "none", fontFamily: "inherit", marginBottom: 12 }}
+                  placeholder={enjoyVote === "up" ? "What do you love about this app?" : enjoyVote === "down" ? "What can we improve?" : "Tell us what you think..."}
+                  value={feedbackText}
+                  onChange={e => setFeedbackText(e.target.value)}
+                  onFocus={e => e.currentTarget.style.borderColor = COLORS.primary}
+                  onBlur={e => e.currentTarget.style.borderColor = COLORS.border}
+                />
                 {feedbackStatus === "error" && (
                   <div style={{ color: COLORS.urgent, fontSize: 14, marginBottom: 10 }}>Failed to send. Please try again.</div>
                 )}
-                <button className="btn-press" onClick={handleFeedbackSubmit} disabled={feedbackStatus === "submitting" || !feedbackText.trim()} style={{ width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer", marginTop: 12 }}>
+                <button className="btn-press" onClick={handleFeedbackSubmit} disabled={feedbackStatus === "submitting" || !feedbackText.trim()} style={{ width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: feedbackStatus === "submitting" || !feedbackText.trim() ? "not-allowed" : "pointer", opacity: feedbackStatus === "submitting" || !feedbackText.trim() ? 0.7 : 1 }}>
                   {feedbackStatus === "submitting" ? "Sending..." : "Send Feedback"}
                 </button>
               </>
