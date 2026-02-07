@@ -2694,7 +2694,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   // Homepage view - list of saved trips
   if (currentView === "home") {
     return (
-      <div style={{ minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }}>
+      <div style={{ backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }}>
         <div style={{ backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }}>
           <div>
             <h1 style={{ margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }}><Plane size={28} />My Travel Organizer</h1>
@@ -2748,7 +2748,7 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
   }
 
   return (
-    <div style={{ minHeight: "100vh", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }}>
+    <div style={{ backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }}>
       <div style={{ backgroundColor: COLORS.primary, padding: "24px 20px", color: "white", borderRadius: "0 0 0 0" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
           <div>
@@ -3566,14 +3566,12 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
         </div>
       )}
 
-      {/* Sticky App Enjoyment Pill */}
+      {/* Floating App Enjoyment Pill */}
       {!enjoyVote && (
         <div className="no-print" style={{
-          position: "sticky",
+          position: "fixed",
           bottom: 12,
-          display: "flex",
-          justifyContent: "flex-end",
-          padding: "0 12px 12px 0",
+          right: 12,
           pointerEvents: "none",
           zIndex: 900,
         }}>
