@@ -212,7 +212,7 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
   return {
     "openai/outputTemplate": templateUri,
     "openai/widgetDescription":
-      "A trip planner and organizer that helps users keep track of all their travel reservations — flights, hotels, trains, rental cars, and ground transport — in one place. Supports round-trip, one-way, and multi-city itineraries. Call this tool immediately with NO arguments to let the user enter their trip details manually. Only provide arguments if the user has explicitly stated them.",
+      "The Trip Organizer — your complete pre-departure checklist for flights, hotels, transport & confirmations. Helps users keep track of all their travel reservations in one place so nothing gets missed. Supports round-trip, one-way, and multi-city itineraries. Call this tool immediately with NO arguments to let the user enter their trip details manually. Only provide arguments if the user has explicitly stated them.",
     "openai/componentDescriptions": {
       "trip-form": "Input form for describing a trip in plain language or manually adding legs (flights, hotels, transport).",
       "itinerary-display": "Day-by-day itinerary view showing all trip legs with booking status indicators.",
@@ -233,7 +233,7 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
       "trip legs"
     ],
     "openai/sampleConversations": [
-      { "user": "Help me organize my trip", "assistant": "Here is the Trip Planner. Describe your trip or add flights, hotels, and transport manually." },
+      { "user": "Help me organize my trip", "assistant": "Here is The Trip Organizer. Describe your trip or add flights, hotels, and transport to build your pre-departure checklist." },
       { "user": "I'm flying from Boston to Paris on June 11, then Paris to Geneva, then back to Boston on June 24", "assistant": "I've set up a multi-city trip with 3 legs. You can now add hotels and ground transport for each city." },
       { "user": "Plan a round trip from NYC to London for 2 weeks", "assistant": "I've created a round-trip itinerary from NYC to London. Add your flight details, hotel, and airport transport." },
     ],
@@ -269,12 +269,12 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
 const widgets: TripPlannerWidget[] = [
   {
     id: "trip-planner",
-    title: "Trip Planner & Organizer — Keep all your travel reservations in one place",
+    title: "The Trip Organizer — Your complete pre-departure checklist for flights, hotels, transport & confirmations",
     templateUri: `ui://widget/trip-planner.html?v=${VERSION}`,
     invoking:
-      "Opening the Trip Planner & Organizer...",
+      "Opening The Trip Organizer...",
     invoked:
-      "Here is the Trip Planner & Organizer. Describe your trip or manually add flights, hotels, and transport to build your itinerary.",
+      "Here is The Trip Organizer. Describe your trip or manually add flights, hotels, and transport to build your complete pre-departure checklist.",
     html: readWidgetHtml("trip-planner"),
   },
 ];
@@ -376,7 +376,7 @@ const resources: Resource[] = widgets.map((widget) => ({
   uri: widget.templateUri,
   name: widget.title,
   description:
-    "HTML template for the Trip Planner & Organizer widget.",
+    "HTML template for The Trip Organizer widget.",
   mimeType: "text/html+skybridge",
   _meta: widgetMeta(widget),
 }));
@@ -385,7 +385,7 @@ const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
   uriTemplate: widget.templateUri,
   name: widget.title,
   description:
-    "Template descriptor for the Trip Planner & Organizer widget.",
+    "Template descriptor for The Trip Organizer widget.",
   mimeType: "text/html+skybridge",
   _meta: widgetMeta(widget),
 }));
@@ -396,7 +396,7 @@ function createTripPlannerServer(): Server {
       name: "trip-planner",
       version: "0.1.0",
       description:
-        "Smart Trip Planner helps users organize all legs of their trip to ensure they don't miss any flights, hotels, or travel reservations.",
+        "The Trip Organizer — your complete pre-departure checklist. Helps users organize all legs of their trip to ensure they don't miss any flights, hotels, or travel reservations.",
     },
     {
       capabilities: {
