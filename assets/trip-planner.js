@@ -26668,6 +26668,21 @@ function TripPlanner({ initialData: initialData2 }) {
     }
   }, [trip]);
   (0, import_react3.useEffect)(() => {
+    const block = () => {
+      const el = containerRef.current || document;
+      el.querySelectorAll("input, textarea").forEach((input) => {
+        input.setAttribute("autocomplete", "off");
+        input.setAttribute("data-form-type", "other");
+        input.setAttribute("data-lpignore", "true");
+        input.setAttribute("data-1p-ignore", "");
+      });
+    };
+    block();
+    const mo = new MutationObserver(block);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+  (0, import_react3.useEffect)(() => {
     try {
       const v = localStorage.getItem("enjoyVote");
       if (v === "up" || v === "down") setEnjoyVote(v);

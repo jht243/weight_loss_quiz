@@ -2032,6 +2032,23 @@ export default function TripPlanner({ initialData }: { initialData?: any }) {
 
   useEffect(() => { try { localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() })); } catch {} }, [trip]);
 
+  // Disable password-manager autofill (Dashlane, LastPass, 1Password, etc.) on all inputs/textareas
+  useEffect(() => {
+    const block = () => {
+      const el = containerRef.current || document;
+      el.querySelectorAll("input, textarea").forEach((input: Element) => {
+        input.setAttribute("autocomplete", "off");
+        input.setAttribute("data-form-type", "other");
+        input.setAttribute("data-lpignore", "true");
+        input.setAttribute("data-1p-ignore", "");
+      });
+    };
+    block();
+    const mo = new MutationObserver(block);
+    mo.observe(document.body, { childList: true, subtree: true });
+    return () => mo.disconnect();
+  }, []);
+
   // Load enjoyVote from localStorage
   useEffect(() => {
     try { const v = localStorage.getItem("enjoyVote"); if (v === "up" || v === "down") setEnjoyVote(v); } catch {}
