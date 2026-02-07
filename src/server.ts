@@ -3,6 +3,7 @@ import {
   type IncomingMessage,
   type ServerResponse,
 } from "node:http";
+import { randomUUID } from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { URL, fileURLToPath } from "node:url";
@@ -12,7 +13,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
-import { SSEServerTransport } from "@modelcontextprotocol/sdk/server/sse.js";
+import { StreamableHTTPServerTransport } from "@modelcontextprotocol/sdk/server/streamableHttp.js";
 import {
   CallToolRequestSchema,
   ListResourceTemplatesRequestSchema,
@@ -760,13 +761,12 @@ function createTripPlannerServer(): Server {
 
 type SessionRecord = {
   server: Server;
-  transport: SSEServerTransport;
+  transport: StreamableHTTPServerTransport;
 };
 
 const sessions = new Map<string, SessionRecord>();
 
-const ssePath = "/mcp";
-const postPath = "/mcp/messages";
+const mcpPath = "/mcp";
 const subscribePath = "/api/subscribe";
 const analyticsPath = "/analytics";
 const trackEventPath = "/api/track";
@@ -1908,63 +1908,71 @@ function fallbackParseTripText(text: string): any[] {
   return legs;
 }
 
-async function handleSseRequest(res: ServerResponse) {
+async function handleMcpRequest(req: IncomingMessage, res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  const server = createTripPlannerServer();
-  const transport = new SSEServerTransport(postPath, res);
-  const sessionId = transport.sessionId;
+  res.setHeader("Access-Control-Allow-Headers", "content-type, mcp-session-id");
+  res.setHeader("Access-Control-Expose-Headers", "mcp-session-id");
 
-  sessions.set(sessionId, { server, transport });
+  const sessionId = req.headers["mcp-session-id"] as string | undefined;
 
-  transport.onclose = async () => {
-    sessions.delete(sessionId);
-    await server.close();
-  };
+  // For POST without session ID, this is an initialization request — create new session
+  if (req.method === "POST" && !sessionId) {
+    const server = createTripPlannerServer();
+    const transport = new StreamableHTTPServerTransport({
+      sessionIdGenerator: () => randomUUID(),
+    });
 
-  transport.onerror = (error) => {
-    console.error("SSE transport error", error);
-  };
+    transport.onclose = async () => {
+      const sid = transport.sessionId;
+      if (sid) sessions.delete(sid);
+      await server.close();
+    };
 
-  try {
-    await server.connect(transport);
-  } catch (error) {
-    sessions.delete(sessionId);
-    console.error("Failed to start SSE session", error);
-    if (!res.headersSent) {
-      res.writeHead(500).end("Failed to establish SSE connection");
+    transport.onerror = (error) => {
+      console.error("Streamable HTTP transport error", error);
+    };
+
+    try {
+      await server.connect(transport);
+      // Store session after connect so sessionId is available
+      const sid = transport.sessionId;
+      if (sid) sessions.set(sid, { server, transport });
+      await transport.handleRequest(req, res);
+    } catch (error) {
+      console.error("Failed to initialize MCP session", error);
+      if (!res.headersSent) {
+        res.writeHead(500).end("Failed to initialize MCP session");
+      }
     }
-  }
-}
-
-async function handlePostMessage(
-  req: IncomingMessage,
-  res: ServerResponse,
-  url: URL
-) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Headers", "content-type");
-  const sessionId = url.searchParams.get("sessionId");
-
-  if (!sessionId) {
-    res.writeHead(400).end("Missing sessionId query parameter");
     return;
   }
 
-  const session = sessions.get(sessionId);
-
-  if (!session) {
-    res.writeHead(404).end("Unknown session");
+  // For requests with a session ID, look up existing session
+  if (sessionId) {
+    const session = sessions.get(sessionId);
+    if (!session) {
+      res.writeHead(404).end("Unknown session");
+      return;
+    }
+    try {
+      await session.transport.handleRequest(req, res);
+    } catch (error) {
+      console.error("Failed to handle MCP request", error);
+      if (!res.headersSent) {
+        res.writeHead(500).end("Failed to handle MCP request");
+      }
+    }
     return;
   }
 
-  try {
-    await session.transport.handlePostMessage(req, res);
-  } catch (error) {
-    console.error("Failed to process message", error);
-    if (!res.headersSent) {
-      res.writeHead(500).end("Failed to process message");
-    }
+  // GET without session ID (for SSE stream) or other methods without session
+  if (req.method === "GET") {
+    // Streamable HTTP GET without session ID is not valid for stateful mode
+    res.writeHead(400).end("Missing mcp-session-id header");
+    return;
   }
+
+  res.writeHead(400).end("Missing mcp-session-id header");
 }
 
 const portEnv = Number(process.env.PORT ?? 8000);
@@ -1979,14 +1987,12 @@ const httpServer = createServer(
 
     const url = new URL(req.url, `http://${req.headers.host ?? "localhost"}`);
 
-    if (
-      req.method === "OPTIONS" &&
-      (url.pathname === ssePath || url.pathname === postPath)
-    ) {
+    if (req.method === "OPTIONS" && url.pathname === mcpPath) {
       res.writeHead(204, {
         "Access-Control-Allow-Origin": "*",
-        "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
-        "Access-Control-Allow-Headers": "content-type",
+        "Access-Control-Allow-Methods": "GET, POST, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "content-type, mcp-session-id",
+        "Access-Control-Expose-Headers": "mcp-session-id",
       });
       res.end();
       return;
@@ -2004,13 +2010,8 @@ const httpServer = createServer(
       return;
     }
 
-    if (req.method === "GET" && url.pathname === ssePath) {
-      await handleSseRequest(res);
-      return;
-    }
-
-    if (req.method === "POST" && url.pathname === postPath) {
-      await handlePostMessage(req, res, url);
+    if (url.pathname === mcpPath && (req.method === "POST" || req.method === "GET" || req.method === "DELETE")) {
+      await handleMcpRequest(req, res);
       return;
     }
 
@@ -2120,8 +2121,5 @@ function startMonitoring() {
 httpServer.listen(port, () => {
   startMonitoring();
   console.log(`Trip Planner MCP server listening on http://localhost:${port}`);
-  console.log(`  SSE stream: GET http://localhost:${port}${ssePath}`);
-  console.log(
-    `  Message post endpoint: POST http://localhost:${port}${postPath}?sessionId=...`
-  );
+  console.log(`  Streamable HTTP endpoint: http://localhost:${port}${mcpPath}`);
 });
