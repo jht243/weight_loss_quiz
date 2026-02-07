@@ -13,7 +13,7 @@
     "vacation"
   ],
   "scripts": {
-    "start": "tsx src/server.ts",
+    "start": "tsx src/minimal-test.ts",
     "build": "cd web && pnpm run build && cd .. && node scripts/inline-bundle-encoded.js",
     "build:web": "cd web && pnpm run build",
     "build:inline": "node scripts/inline-bundle-encoded.js"
