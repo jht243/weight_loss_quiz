@@ -61,6 +61,44 @@ const ROOT_DIR = (() => {
 
 const ASSETS_DIR = path.resolve(ROOT_DIR, "assets");
 const LOGS_DIR = path.resolve(__dirname, "..", "logs");
+const portEnv = Number(process.env.PORT ?? 8000);
+const port = Number.isFinite(portEnv) ? portEnv : 8000;
+
+const normalizeOrigin = (value?: string): string | null => {
+  if (!value) return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.replace(/\/+$/, "");
+};
+
+const WIDGET_API_BASE_URL = normalizeOrigin(
+  process.env.WIDGET_API_BASE_URL ||
+    process.env.PUBLIC_API_BASE_URL ||
+    process.env.RENDER_EXTERNAL_URL ||
+    `http://localhost:${port}`
+) || `http://localhost:${port}`;
+
+const LOCALHOST_API_ORIGIN = `http://localhost:${port}`;
+const LOCALHOST_LOOPBACK_API_ORIGIN = `http://127.0.0.1:${port}`;
+
+const WIDGET_CONNECT_DOMAINS = Array.from(
+  new Set([
+    WIDGET_API_BASE_URL,
+    LOCALHOST_API_ORIGIN,
+    LOCALHOST_LOOPBACK_API_ORIGIN,
+    "https://trip-planner-da2g.onrender.com",
+    "https://nominatim.openstreetmap.org",
+    "https://api.open-meteo.com",
+    "https://geocoding-api.open-meteo.com",
+  ])
+);
+
+const WIDGET_RESOURCE_DOMAINS = Array.from(
+  new Set([
+    "https://trip-planner-da2g.onrender.com",
+    ...(WIDGET_API_BASE_URL.startsWith("https://") ? [WIDGET_API_BASE_URL] : []),
+  ])
+);
 
 if (!fs.existsSync(LOGS_DIR)) {
   fs.mkdirSync(LOGS_DIR, { recursive: true });
@@ -248,15 +286,8 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
     ],
     "openai/widgetPrefersBorder": true,
     "openai/widgetCSP": {
-      connect_domains: [
-        "https://trip-planner-da2g.onrender.com",
-        "https://nominatim.openstreetmap.org",
-        "https://api.open-meteo.com",
-        "https://geocoding-api.open-meteo.com"
-      ],
-      resource_domains: [
-        "https://trip-planner-da2g.onrender.com"
-      ],
+      connect_domains: WIDGET_CONNECT_DOMAINS,
+      resource_domains: WIDGET_RESOURCE_DOMAINS,
     },
     "openai/widgetDomain": "https://web-sandbox.oaiusercontent.com",
     "openai/toolInvocation/invoking": widget.invoking,
@@ -682,6 +713,7 @@ function createTripPlannerServer(): Server {
         const structured = {
           ready: true,
           timestamp: new Date().toISOString(),
+          api_base_url: WIDGET_API_BASE_URL,
           ...args,
           input_source: usedDefaults ? "default" : "user",
           // Summary + follow-ups for natural language UX
@@ -1705,6 +1737,8 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
 async function handleParseTripAI(req: IncomingMessage, res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "content-type");
+  res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
+  res.setHeader("Access-Control-Allow-Private-Network", "true");
   
   if (req.method !== "POST") {
     res.writeHead(405).end("Method not allowed");
@@ -1966,9 +2000,6 @@ async function handlePostMessage(
   }
 }
 
-const portEnv = Number(process.env.PORT ?? 8000);
-const port = Number.isFinite(portEnv) ? portEnv : 8000;
-
 const httpServer = createServer(
   async (req: IncomingMessage, res: ServerResponse) => {
     if (!req.url) {
@@ -2032,6 +2063,7 @@ const httpServer = createServer(
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
         "Access-Control-Allow-Headers": "content-type",
+        "Access-Control-Allow-Private-Network": "true",
       });
       res.end();
       return;

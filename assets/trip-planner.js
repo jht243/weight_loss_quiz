@@ -24973,6 +24973,29 @@ var COLORS = {
 var STORAGE_KEY = "TRIP_PLANNER_DATA";
 var TRIPS_LIST_KEY = "TRIP_PLANNER_TRIPS_LIST";
 var generateId = () => Math.random().toString(36).substr(2, 9);
+var normalizeApiBaseUrl = (value) => {
+  if (typeof value !== "string") return null;
+  const trimmed = value.trim();
+  if (!trimmed) return null;
+  return trimmed.replace(/\/+$/, "");
+};
+var resolveApiBaseUrl = (initialData2) => {
+  const fromHydration = normalizeApiBaseUrl(initialData2?.api_base_url || initialData2?.apiBaseUrl);
+  if (fromHydration) return fromHydration;
+  if (typeof window !== "undefined") {
+    const fromGlobal = normalizeApiBaseUrl(window.__TRIP_PLANNER_API_BASE_URL__);
+    if (fromGlobal) return fromGlobal;
+    const origin = window.location.origin;
+    if (origin && origin !== "null" && !origin.includes("web-sandbox.oaiusercontent.com")) {
+      return origin;
+    }
+  }
+  return "http://localhost:8001";
+};
+var buildApiUrl = (apiBaseUrl, path) => {
+  if (/^https?:\/\//i.test(path)) return path;
+  return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
+};
 var loadSavedTrips = () => {
   try {
     const data = localStorage.getItem(TRIPS_LIST_KEY);
@@ -26616,6 +26639,7 @@ var MissingInfoBar = ({
   ] });
 };
 function TripPlanner({ initialData: initialData2 }) {
+  const apiBaseUrl = (0, import_react3.useMemo)(() => resolveApiBaseUrl(initialData2), [initialData2]);
   const [savedTrips, setSavedTrips] = (0, import_react3.useState)(() => loadSavedTrips());
   const [currentView, setCurrentView] = (0, import_react3.useState)(() => {
     try {
@@ -27069,7 +27093,7 @@ function TripPlanner({ initialData: initialData2 }) {
     }
     setSubscribeStatus("loading");
     try {
-      const response = await fetch("/api/subscribe", {
+      const response = await fetch(buildApiUrl(apiBaseUrl, "/api/subscribe"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: subscribeEmail, topicId: "trip-planner-news", topicName: "Trip Planner Updates" })
@@ -27098,7 +27122,7 @@ function TripPlanner({ initialData: initialData2 }) {
     if (!feedbackText.trim()) return;
     setFeedbackStatus("submitting");
     try {
-      const response = await fetch("/api/track", {
+      const response = await fetch(buildApiUrl(apiBaseUrl, "/api/track"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null, tripName: trip.name || null } })
@@ -27123,7 +27147,7 @@ function TripPlanner({ initialData: initialData2 }) {
     trackEvent("parse_trip", { tripType: trip.tripType, descriptionLength: tripDescription.length });
     setIsAnalyzing(true);
     try {
-      const response = await fetch("/api/parse-trip", {
+      const response = await fetch(buildApiUrl(apiBaseUrl, "/api/parse-trip"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -27138,25 +27162,45 @@ function TripPlanner({ initialData: initialData2 }) {
       }
       const data = await response.json();
       const parsed = data.legs || [];
+      const isPrimaryTravelType = (type) => {
+        const t = (type || "").toLowerCase();
+        return t === "flight" || t === "train" || t === "bus" || t === "ferry";
+      };
+      const toTransportMode = (type) => {
+        const t = (type || "").toLowerCase();
+        if (t === "flight") return "plane";
+        if (t === "train") return "rail";
+        if (t === "bus") return "bus";
+        if (t === "ferry") return "other";
+        if (t === "car") return "car";
+        return void 0;
+      };
+      const primaryTravelLegs = parsed.filter((p) => isPrimaryTravelType(p?.type));
+      const inferredDepartureMode = toTransportMode(primaryTravelLegs[0]?.type);
+      const inferredReturnMode = toTransportMode(primaryTravelLegs[1]?.type);
+      const inferredTripType = primaryTravelLegs.length === 1 ? "one_way" : void 0;
       if (parsed.length > 0) {
         const newLegs = parsed.map((l, idx) => {
+          const parsedType = (l.type || "").toLowerCase();
+          const normalizedType = parsedType === "train" || parsedType === "bus" || parsedType === "ferry" ? "flight" : parsedType === "flight" || parsedType === "hotel" || parsedType === "car" ? parsedType : "other";
           let legDate = l.date || "";
           let legEndDate = l.endDate;
           if (!legDate) {
-            if (l.type === "flight") {
-              const flightIndex = parsed.filter((p, i) => p.type === "flight" && i < idx).length;
+            if (normalizedType === "flight") {
+              const flightIndex = parsed.filter((p, i) => isPrimaryTravelType(p?.type) && i < idx).length;
               legDate = flightIndex === 0 ? trip.departureDate || "" : trip.returnDate || "";
-            } else if (l.type === "hotel") {
+            } else if (normalizedType === "hotel") {
               legDate = trip.departureDate || "";
               legEndDate = legEndDate || trip.returnDate;
-            } else if (l.type === "car") {
-              const isOutbound = l.title?.toLowerCase().includes(parsed.find((p) => p.type === "flight")?.from?.toLowerCase() || "");
+            } else if (normalizedType === "car") {
+              const primaryLeg = parsed.find((p) => isPrimaryTravelType(p?.type));
+              const isOutbound = l.title?.toLowerCase().includes(primaryLeg?.from?.toLowerCase() || "");
               legDate = isOutbound ? trip.departureDate || "" : trip.returnDate || "";
             }
           }
           return {
             id: generateId(),
-            type: l.type || "other",
+            type: normalizedType,
             status: l.status || "pending",
             title: l.title || "",
             date: legDate,
@@ -27176,11 +27220,16 @@ function TripPlanner({ initialData: initialData2 }) {
         const returnDate = flights.length > 1 ? flights[flights.length - 1]?.date : "";
         const hotel = newLegs.find((l) => l.type === "hotel");
         const hotelEndDate = hotel?.endDate || returnDate;
+        const destination = flights[0]?.to || hotel?.location || "";
         const updatedTrip = {
           ...trip,
+          tripType: inferredTripType || trip.tripType,
           legs: [...trip.legs, ...newLegs],
           departureDate: departureDate || trip.departureDate,
           returnDate: returnDate || hotelEndDate || trip.returnDate,
+          departureMode: inferredDepartureMode || trip.departureMode,
+          returnMode: inferredReturnMode || trip.returnMode || inferredDepartureMode,
+          name: trip.name === "My Trip" && destination ? `Trip to ${destination}` : trip.name,
           updatedAt: Date.now()
         };
         setTrip(updatedTrip);
