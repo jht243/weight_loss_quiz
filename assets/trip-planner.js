@@ -24829,6 +24829,102 @@ var PROFILES = {
 };
 var QUESTIONS = [
   {
+    id: "vision_goal",
+    prompt: "Let's start with your vision: what outcome matters most right now?",
+    hint: "Pick the result that would make you feel the most proud.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trophy, { size: 20 }),
+    choices: [
+      {
+        id: "vision_scale_down",
+        title: "Drop body weight steadily",
+        detail: "I want measurable fat-loss progress.",
+        scores: { structured_achiever: 2, craving_crusher: 1, busy_minimalist: 1 }
+      },
+      {
+        id: "vision_more_energy",
+        title: "Feel more energized every day",
+        detail: "I want energy and momentum back.",
+        scores: { momentum_builder: 2, busy_minimalist: 1, craving_crusher: 1 }
+      },
+      {
+        id: "vision_confidence",
+        title: "Feel confident in my body",
+        detail: "I want to feel proud in photos and clothes.",
+        scores: { weekend_warrior: 2, structured_achiever: 1, momentum_builder: 1 }
+      },
+      {
+        id: "vision_health",
+        title: "Improve my long-term health",
+        detail: "I want better markers and sustainable habits.",
+        scores: { structured_achiever: 2, momentum_builder: 2 }
+      }
+    ]
+  },
+  {
+    id: "vision_dream",
+    prompt: "If this plan works, what would feel most exciting in 3 months?",
+    hint: "This helps us design for motivation, not just discipline.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 20 }),
+    choices: [
+      {
+        id: "dream_clothes",
+        title: "Clothes fit and look better",
+        detail: "I want to see visible changes in the mirror.",
+        scores: { structured_achiever: 1, weekend_warrior: 2, craving_crusher: 1 }
+      },
+      {
+        id: "dream_energy",
+        title: "Wake up with energy and focus",
+        detail: "I want to feel stronger and less sluggish.",
+        scores: { momentum_builder: 2, busy_minimalist: 1, craving_crusher: 1 }
+      },
+      {
+        id: "dream_consistency",
+        title: "Finally stay consistent",
+        detail: "I want to trust myself to follow through.",
+        scores: { momentum_builder: 2, busy_minimalist: 2 }
+      },
+      {
+        id: "dream_strength",
+        title: "Look and perform like an athlete",
+        detail: "I want to train hard and see body recomposition.",
+        scores: { structured_achiever: 3, weekend_warrior: 1 }
+      }
+    ]
+  },
+  {
+    id: "vision_change",
+    prompt: "What do you most want to change first?",
+    hint: "We'll prioritize your biggest leverage point.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { size: 20 }),
+    choices: [
+      {
+        id: "change_eating_structure",
+        title: "My eating structure",
+        detail: "I need better daily meal rhythm.",
+        scores: { structured_achiever: 2, busy_minimalist: 2 }
+      },
+      {
+        id: "change_cravings",
+        title: "Cravings and snacking",
+        detail: "I need better appetite control.",
+        scores: { craving_crusher: 3, momentum_builder: 1 }
+      },
+      {
+        id: "change_consistency",
+        title: "Consistency and follow-through",
+        detail: "I need habits that stick on busy days.",
+        scores: { momentum_builder: 3, busy_minimalist: 1 }
+      },
+      {
+        id: "change_social_control",
+        title: "Social and weekend control",
+        detail: "I need a strategy for events and weekends.",
+        scores: { weekend_warrior: 3, craving_crusher: 1 }
+      }
+    ]
+  },
+  {
     id: "derailer",
     prompt: "What derails your progress most often?",
     hint: "Choose the one that happens most consistently.",
@@ -25053,38 +25149,6 @@ var QUESTIONS = [
     ]
   },
   {
-    id: "goal_priority",
-    prompt: "What outcome matters most right now?",
-    hint: "This sets the tone of your plan.",
-    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trophy, { size: 20 }),
-    choices: [
-      {
-        id: "scale_down",
-        title: "Scale trend down",
-        detail: "I want measurable weight loss.",
-        scores: { structured_achiever: 2, craving_crusher: 1, busy_minimalist: 1 }
-      },
-      {
-        id: "more_energy",
-        title: "More energy",
-        detail: "I want to feel better daily.",
-        scores: { momentum_builder: 2, busy_minimalist: 1, craving_crusher: 1 }
-      },
-      {
-        id: "confidence",
-        title: "Confidence and appearance",
-        detail: "I want visible body changes.",
-        scores: { weekend_warrior: 2, structured_achiever: 1, momentum_builder: 1 }
-      },
-      {
-        id: "overall_health",
-        title: "Health markers",
-        detail: "I care about long-term metabolic health.",
-        scores: { structured_achiever: 2, momentum_builder: 2 }
-      }
-    ]
-  },
-  {
     id: "pace",
     prompt: "Preferred pace:",
     hint: "Sustainable plans are the fastest in the long run.",
@@ -25224,6 +25288,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   const answeredCount = Object.keys(answers).length;
   const progress = Math.round(answeredCount / QUESTIONS.length * 100);
   const activeQuestion = QUESTIONS[Math.min(currentIndex, QUESTIONS.length - 1)];
+  const isVisionStage = !showResults && currentIndex < 3;
   const scores = (0, import_react3.useMemo)(() => scoreQuiz(answers), [answers]);
   const topProfile = (0, import_react3.useMemo)(() => pickTopProfile(scores), [scores]);
   const profile = PROFILES[topProfile];
@@ -25437,8 +25502,29 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                               children: activeQuestion.icon
                             }
                           ),
-                          "Question ",
-                          currentIndex + 1
+                          isVisionStage ? `Vision step ${currentIndex + 1} of 3` : `Question ${currentIndex + 1}`
+                        ]
+                      }
+                    ),
+                    isVisionStage && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "div",
+                      {
+                        style: {
+                          marginBottom: 12,
+                          padding: "10px 12px",
+                          borderRadius: 12,
+                          background: `linear-gradient(135deg, ${COLORS.accentLight} 0%, #F6FBF8 100%)`,
+                          border: `1px solid ${COLORS.borderLight}`,
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 8,
+                          fontSize: 12,
+                          color: COLORS.primaryDark,
+                          fontWeight: 600
+                        },
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 14 }),
+                          "Build your vision first. Then we turn it into a practical weekly blueprint."
                         ]
                       }
                     ),
