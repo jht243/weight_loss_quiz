@@ -25181,6 +25181,12 @@ var QUESTIONS = [
     ]
   }
 ];
+var QUESTION_CHOICE_LOOKUP = new Map(
+  QUESTIONS.map((question) => [
+    question.id,
+    new Set(question.choices.map((choice) => choice.id))
+  ])
+);
 var trackEvent = (event, data) => {
   fetch("/api/track", {
     method: "POST",
@@ -25212,13 +25218,26 @@ var buildApiUrl = (apiBaseUrl, path) => {
   if (/^https?:\/\//i.test(path)) return path;
   return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
 };
+var sanitizeAnswers = (value) => {
+  if (!value || typeof value !== "object") return {};
+  const input = value;
+  const cleaned = {};
+  QUESTIONS.forEach((question) => {
+    const candidate = input[question.id];
+    const validChoices = QUESTION_CHOICE_LOOKUP.get(question.id);
+    if (typeof candidate === "string" && validChoices?.has(candidate)) {
+      cleaned[question.id] = candidate;
+    }
+  });
+  return cleaned;
+};
 var getSavedAnswers = () => {
   try {
     const raw = localStorage.getItem(QUIZ_STATE_KEY);
     if (!raw) return {};
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object" && parsed.answers && typeof parsed.answers === "object") {
-      return parsed.answers;
+      return sanitizeAnswers(parsed.answers);
     }
   } catch {
   }
@@ -25285,8 +25304,8 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   (0, import_react3.useEffect)(() => {
     trackEvent("quiz_view", { fromHydration: Boolean(initialData2 && Object.keys(initialData2).length > 0) });
   }, [initialData2]);
-  const answeredCount = Object.keys(answers).length;
-  const progress = Math.round(answeredCount / QUESTIONS.length * 100);
+  const answeredCount = Math.min(Object.keys(answers).length, QUESTIONS.length);
+  const progress = Math.min(100, Math.round(answeredCount / QUESTIONS.length * 100));
   const activeQuestion = QUESTIONS[Math.min(currentIndex, QUESTIONS.length - 1)];
   const isVisionStage = !showResults && currentIndex < 3;
   const scores = (0, import_react3.useMemo)(() => scoreQuiz(answers), [answers]);

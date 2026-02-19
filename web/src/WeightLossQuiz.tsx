@@ -541,6 +541,13 @@ const QUESTIONS: QuizQuestion[] = [
   },
 ];
 
+const QUESTION_CHOICE_LOOKUP = new Map(
+  QUESTIONS.map((question) => [
+    question.id,
+    new Set(question.choices.map((choice) => choice.id)),
+  ])
+);
+
 const trackEvent = (event: string, data?: Record<string, any>) => {
   fetch("/api/track", {
     method: "POST",
@@ -580,13 +587,29 @@ const buildApiUrl = (apiBaseUrl: string, path: string): string => {
   return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
 };
 
+const sanitizeAnswers = (value: unknown): QuizAnswerMap => {
+  if (!value || typeof value !== "object") return {};
+  const input = value as Record<string, unknown>;
+  const cleaned: QuizAnswerMap = {};
+
+  QUESTIONS.forEach((question) => {
+    const candidate = input[question.id];
+    const validChoices = QUESTION_CHOICE_LOOKUP.get(question.id);
+    if (typeof candidate === "string" && validChoices?.has(candidate)) {
+      cleaned[question.id] = candidate;
+    }
+  });
+
+  return cleaned;
+};
+
 const getSavedAnswers = (): QuizAnswerMap => {
   try {
     const raw = localStorage.getItem(QUIZ_STATE_KEY);
     if (!raw) return {};
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === "object" && parsed.answers && typeof parsed.answers === "object") {
-      return parsed.answers;
+      return sanitizeAnswers(parsed.answers);
     }
   } catch {
     // no-op
@@ -667,8 +690,8 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
     trackEvent("quiz_view", { fromHydration: Boolean(initialData && Object.keys(initialData).length > 0) });
   }, [initialData]);
 
-  const answeredCount = Object.keys(answers).length;
-  const progress = Math.round((answeredCount / QUESTIONS.length) * 100);
+  const answeredCount = Math.min(Object.keys(answers).length, QUESTIONS.length);
+  const progress = Math.min(100, Math.round((answeredCount / QUESTIONS.length) * 100));
   const activeQuestion = QUESTIONS[Math.min(currentIndex, QUESTIONS.length - 1)];
   const isVisionStage = !showResults && currentIndex < 3;
 
