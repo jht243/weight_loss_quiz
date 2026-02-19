@@ -1091,7 +1091,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef2(initialValue) {
+        function useRef(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
@@ -1885,7 +1885,7 @@ var require_react_development = __commonJS({
         exports.useLayoutEffect = useLayoutEffect;
         exports.useMemo = useMemo2;
         exports.useReducer = useReducer;
-        exports.useRef = useRef2;
+        exports.useRef = useRef;
         exports.useState = useState2;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition;
@@ -24431,9 +24431,8 @@ var require_jsx_runtime = __commonJS({
 var import_react4 = __toESM(require_react(), 1);
 var import_client = __toESM(require_client(), 1);
 
-// src/TripPlanner.tsx
+// src/WeightLossQuiz.tsx
 var import_react3 = __toESM(require_react(), 1);
-var import_react_dom = __toESM(require_react_dom(), 1);
 
 // node_modules/lucide-react/dist/esm/createLucideIcon.js
 var import_react2 = __toESM(require_react());
@@ -24524,128 +24523,80 @@ var createLucideIcon = (iconName, iconNode) => {
   return Component;
 };
 
-// node_modules/lucide-react/dist/esm/icons/arrow-right.js
+// node_modules/lucide-react/dist/esm/icons/activity.js
 var __iconNode = [
+  [
+    "path",
+    {
+      d: "M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2",
+      key: "169zse"
+    }
+  ]
+];
+var Activity = createLucideIcon("activity", __iconNode);
+
+// node_modules/lucide-react/dist/esm/icons/arrow-right.js
+var __iconNode2 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
-var ArrowRight = createLucideIcon("arrow-right", __iconNode);
+var ArrowRight = createLucideIcon("arrow-right", __iconNode2);
 
-// node_modules/lucide-react/dist/esm/icons/bus.js
-var __iconNode2 = [
-  ["path", { d: "M8 6v6", key: "18i7km" }],
-  ["path", { d: "M15 6v6", key: "1sg6z9" }],
-  ["path", { d: "M2 12h19.6", key: "de5uta" }],
-  [
-    "path",
-    {
-      d: "M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3",
-      key: "1wwztk"
-    }
-  ],
-  ["circle", { cx: "7", cy: "18", r: "2", key: "19iecd" }],
-  ["path", { d: "M9 18h5", key: "lrx6i" }],
-  ["circle", { cx: "16", cy: "18", r: "2", key: "1v4tcr" }]
-];
-var Bus = createLucideIcon("bus", __iconNode2);
-
-// node_modules/lucide-react/dist/esm/icons/calendar.js
+// node_modules/lucide-react/dist/esm/icons/chart-column.js
 var __iconNode3 = [
-  ["path", { d: "M8 2v4", key: "1cmpym" }],
-  ["path", { d: "M16 2v4", key: "4m81vk" }],
-  ["rect", { width: "18", height: "18", x: "3", y: "4", rx: "2", key: "1hopcy" }],
-  ["path", { d: "M3 10h18", key: "8toen8" }]
+  ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
+  ["path", { d: "M18 17V9", key: "2bz60n" }],
+  ["path", { d: "M13 17V5", key: "1frdt8" }],
+  ["path", { d: "M8 17v-3", key: "17ska0" }]
 ];
-var Calendar = createLucideIcon("calendar", __iconNode3);
+var ChartColumn = createLucideIcon("chart-column", __iconNode3);
 
-// node_modules/lucide-react/dist/esm/icons/car.js
-var __iconNode4 = [
-  [
-    "path",
-    {
-      d: "M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2",
-      key: "5owen"
-    }
-  ],
-  ["circle", { cx: "7", cy: "17", r: "2", key: "u2ysq9" }],
-  ["path", { d: "M9 17h6", key: "r8uit2" }],
-  ["circle", { cx: "17", cy: "17", r: "2", key: "axvx0g" }]
-];
-var Car = createLucideIcon("car", __iconNode4);
-
-// node_modules/lucide-react/dist/esm/icons/check.js
-var __iconNode5 = [["path", { d: "M20 6 9 17l-5-5", key: "1gmf2c" }]];
-var Check = createLucideIcon("check", __iconNode5);
-
-// node_modules/lucide-react/dist/esm/icons/chevron-down.js
-var __iconNode6 = [["path", { d: "m6 9 6 6 6-6", key: "qrunsl" }]];
-var ChevronDown = createLucideIcon("chevron-down", __iconNode6);
-
-// node_modules/lucide-react/dist/esm/icons/chevron-up.js
-var __iconNode7 = [["path", { d: "m18 15-6-6-6 6", key: "153udz" }]];
-var ChevronUp = createLucideIcon("chevron-up", __iconNode7);
-
-// node_modules/lucide-react/dist/esm/icons/circle-alert.js
-var __iconNode8 = [
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
-  ["line", { x1: "12", x2: "12", y1: "8", y2: "12", key: "1pkeuh" }],
-  ["line", { x1: "12", x2: "12.01", y1: "16", y2: "16", key: "4dfq90" }]
-];
-var CircleAlert = createLucideIcon("circle-alert", __iconNode8);
+// node_modules/lucide-react/dist/esm/icons/chevron-left.js
+var __iconNode4 = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
+var ChevronLeft = createLucideIcon("chevron-left", __iconNode4);
 
 // node_modules/lucide-react/dist/esm/icons/circle-check.js
-var __iconNode9 = [
+var __iconNode5 = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
-var CircleCheck = createLucideIcon("circle-check", __iconNode9);
+var CircleCheck = createLucideIcon("circle-check", __iconNode5);
 
-// node_modules/lucide-react/dist/esm/icons/circle.js
-var __iconNode10 = [["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]];
-var Circle = createLucideIcon("circle", __iconNode10);
-
-// node_modules/lucide-react/dist/esm/icons/clipboard-list.js
-var __iconNode11 = [
-  ["rect", { width: "8", height: "4", x: "8", y: "2", rx: "1", ry: "1", key: "tgr4d6" }],
+// node_modules/lucide-react/dist/esm/icons/flame.js
+var __iconNode6 = [
   [
     "path",
     {
-      d: "M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2",
-      key: "116196"
+      d: "M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4",
+      key: "1slcih"
     }
-  ],
-  ["path", { d: "M12 11h4", key: "1jrz19" }],
-  ["path", { d: "M12 16h4", key: "n85exb" }],
-  ["path", { d: "M8 11h.01", key: "1dfujw" }],
-  ["path", { d: "M8 16h.01", key: "18s6g9" }]
+  ]
 ];
-var ClipboardList = createLucideIcon("clipboard-list", __iconNode11);
+var Flame = createLucideIcon("flame", __iconNode6);
 
-// node_modules/lucide-react/dist/esm/icons/clock.js
-var __iconNode12 = [
-  ["path", { d: "M12 6v6l4 2", key: "mmk7yg" }],
-  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }]
-];
-var Clock = createLucideIcon("clock", __iconNode12);
-
-// node_modules/lucide-react/dist/esm/icons/file-text.js
-var __iconNode13 = [
+// node_modules/lucide-react/dist/esm/icons/footprints.js
+var __iconNode7 = [
   [
     "path",
     {
-      d: "M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z",
-      key: "1oefj6"
+      d: "M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z",
+      key: "1dudjm"
     }
   ],
-  ["path", { d: "M14 2v5a1 1 0 0 0 1 1h5", key: "wfsgrz" }],
-  ["path", { d: "M10 9H8", key: "b1mrlr" }],
-  ["path", { d: "M16 13H8", key: "t4e002" }],
-  ["path", { d: "M16 17H8", key: "z1uh3a" }]
+  [
+    "path",
+    {
+      d: "M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z",
+      key: "l2t8xc"
+    }
+  ],
+  ["path", { d: "M16 17h4", key: "1dejxt" }],
+  ["path", { d: "M4 13h4", key: "1bwh8b" }]
 ];
-var FileText = createLucideIcon("file-text", __iconNode13);
+var Footprints = createLucideIcon("footprints", __iconNode7);
 
 // node_modules/lucide-react/dist/esm/icons/heart.js
-var __iconNode14 = [
+var __iconNode8 = [
   [
     "path",
     {
@@ -24654,58 +24605,21 @@ var __iconNode14 = [
     }
   ]
 ];
-var Heart = createLucideIcon("heart", __iconNode14);
+var Heart = createLucideIcon("heart", __iconNode8);
 
-// node_modules/lucide-react/dist/esm/icons/hotel.js
-var __iconNode15 = [
-  ["path", { d: "M10 22v-6.57", key: "1wmca3" }],
-  ["path", { d: "M12 11h.01", key: "z322tv" }],
-  ["path", { d: "M12 7h.01", key: "1ivr5q" }],
-  ["path", { d: "M14 15.43V22", key: "1q2vjd" }],
-  ["path", { d: "M15 16a5 5 0 0 0-6 0", key: "o9wqvi" }],
-  ["path", { d: "M16 11h.01", key: "xkw8gn" }],
-  ["path", { d: "M16 7h.01", key: "1kdx03" }],
-  ["path", { d: "M8 11h.01", key: "1dfujw" }],
-  ["path", { d: "M8 7h.01", key: "1vti4s" }],
-  ["rect", { x: "4", y: "2", width: "16", height: "20", rx: "2", key: "1uxh74" }]
-];
-var Hotel = createLucideIcon("hotel", __iconNode15);
-
-// node_modules/lucide-react/dist/esm/icons/house.js
-var __iconNode16 = [
-  ["path", { d: "M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8", key: "5wwlr5" }],
-  [
-    "path",
-    {
-      d: "M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z",
-      key: "r6nss1"
-    }
-  ]
-];
-var House = createLucideIcon("house", __iconNode16);
+// node_modules/lucide-react/dist/esm/icons/loader-circle.js
+var __iconNode9 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
+var LoaderCircle = createLucideIcon("loader-circle", __iconNode9);
 
 // node_modules/lucide-react/dist/esm/icons/mail.js
-var __iconNode17 = [
+var __iconNode10 = [
   ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
   ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
 ];
-var Mail = createLucideIcon("mail", __iconNode17);
-
-// node_modules/lucide-react/dist/esm/icons/map-pin.js
-var __iconNode18 = [
-  [
-    "path",
-    {
-      d: "M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0",
-      key: "1r0f0z"
-    }
-  ],
-  ["circle", { cx: "12", cy: "10", r: "3", key: "ilqhr7" }]
-];
-var MapPin = createLucideIcon("map-pin", __iconNode18);
+var Mail = createLucideIcon("mail", __iconNode10);
 
 // node_modules/lucide-react/dist/esm/icons/message-square.js
-var __iconNode19 = [
+var __iconNode11 = [
   [
     "path",
     {
@@ -24714,123 +24628,17 @@ var __iconNode19 = [
     }
   ]
 ];
-var MessageSquare = createLucideIcon("message-square", __iconNode19);
-
-// node_modules/lucide-react/dist/esm/icons/pen-line.js
-var __iconNode20 = [
-  ["path", { d: "M13 21h8", key: "1jsn5i" }],
-  [
-    "path",
-    {
-      d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
-      key: "1a8usu"
-    }
-  ]
-];
-var PenLine = createLucideIcon("pen-line", __iconNode20);
-
-// node_modules/lucide-react/dist/esm/icons/pen.js
-var __iconNode21 = [
-  [
-    "path",
-    {
-      d: "M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z",
-      key: "1a8usu"
-    }
-  ]
-];
-var Pen = createLucideIcon("pen", __iconNode21);
-
-// node_modules/lucide-react/dist/esm/icons/plane.js
-var __iconNode22 = [
-  [
-    "path",
-    {
-      d: "M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z",
-      key: "1v9wt8"
-    }
-  ]
-];
-var Plane = createLucideIcon("plane", __iconNode22);
-
-// node_modules/lucide-react/dist/esm/icons/plus.js
-var __iconNode23 = [
-  ["path", { d: "M5 12h14", key: "1ays0h" }],
-  ["path", { d: "M12 5v14", key: "s699le" }]
-];
-var Plus = createLucideIcon("plus", __iconNode23);
-
-// node_modules/lucide-react/dist/esm/icons/printer.js
-var __iconNode24 = [
-  [
-    "path",
-    {
-      d: "M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2",
-      key: "143wyd"
-    }
-  ],
-  ["path", { d: "M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6", key: "1itne7" }],
-  ["rect", { x: "6", y: "14", width: "12", height: "8", rx: "1", key: "1ue0tg" }]
-];
-var Printer = createLucideIcon("printer", __iconNode24);
+var MessageSquare = createLucideIcon("message-square", __iconNode11);
 
 // node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
-var __iconNode25 = [
+var __iconNode12 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
-var RotateCcw = createLucideIcon("rotate-ccw", __iconNode25);
-
-// node_modules/lucide-react/dist/esm/icons/save.js
-var __iconNode26 = [
-  [
-    "path",
-    {
-      d: "M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z",
-      key: "1c8476"
-    }
-  ],
-  ["path", { d: "M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7", key: "1ydtos" }],
-  ["path", { d: "M7 3v4a1 1 0 0 0 1 1h7", key: "t51u73" }]
-];
-var Save = createLucideIcon("save", __iconNode26);
-
-// node_modules/lucide-react/dist/esm/icons/shield.js
-var __iconNode27 = [
-  [
-    "path",
-    {
-      d: "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z",
-      key: "oel41y"
-    }
-  ]
-];
-var Shield = createLucideIcon("shield", __iconNode27);
-
-// node_modules/lucide-react/dist/esm/icons/ship.js
-var __iconNode28 = [
-  ["path", { d: "M12 10.189V14", key: "1p8cqu" }],
-  ["path", { d: "M12 2v3", key: "qbqxhf" }],
-  ["path", { d: "M19 13V7a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v6", key: "qpkstq" }],
-  [
-    "path",
-    {
-      d: "M19.38 20A11.6 11.6 0 0 0 21 14l-8.188-3.639a2 2 0 0 0-1.624 0L3 14a11.6 11.6 0 0 0 2.81 7.76",
-      key: "7tigtc"
-    }
-  ],
-  [
-    "path",
-    {
-      d: "M2 21c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1s1.2 1 2.5 1c2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1",
-      key: "1924j5"
-    }
-  ]
-];
-var Ship = createLucideIcon("ship", __iconNode28);
+var RotateCcw = createLucideIcon("rotate-ccw", __iconNode12);
 
 // node_modules/lucide-react/dist/esm/icons/sparkles.js
-var __iconNode29 = [
+var __iconNode13 = [
   [
     "path",
     {
@@ -24842,10 +24650,18 @@ var __iconNode29 = [
   ["path", { d: "M22 4h-4", key: "gwowj6" }],
   ["circle", { cx: "4", cy: "20", r: "2", key: "6kqj1y" }]
 ];
-var Sparkles = createLucideIcon("sparkles", __iconNode29);
+var Sparkles = createLucideIcon("sparkles", __iconNode13);
+
+// node_modules/lucide-react/dist/esm/icons/target.js
+var __iconNode14 = [
+  ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
+  ["circle", { cx: "12", cy: "12", r: "6", key: "1vlfrh" }],
+  ["circle", { cx: "12", cy: "12", r: "2", key: "1c9p78" }]
+];
+var Target = createLucideIcon("target", __iconNode14);
 
 // node_modules/lucide-react/dist/esm/icons/thumbs-down.js
-var __iconNode30 = [
+var __iconNode15 = [
   ["path", { d: "M17 14V2", key: "8ymqnk" }],
   [
     "path",
@@ -24855,10 +24671,10 @@ var __iconNode30 = [
     }
   ]
 ];
-var ThumbsDown = createLucideIcon("thumbs-down", __iconNode30);
+var ThumbsDown = createLucideIcon("thumbs-down", __iconNode15);
 
 // node_modules/lucide-react/dist/esm/icons/thumbs-up.js
-var __iconNode31 = [
+var __iconNode16 = [
   ["path", { d: "M7 10v12", key: "1qc93n" }],
   [
     "path",
@@ -24868,81 +24684,44 @@ var __iconNode31 = [
     }
   ]
 ];
-var ThumbsUp = createLucideIcon("thumbs-up", __iconNode31);
+var ThumbsUp = createLucideIcon("thumbs-up", __iconNode16);
 
-// node_modules/lucide-react/dist/esm/icons/tram-front.js
-var __iconNode32 = [
-  ["rect", { width: "16", height: "16", x: "4", y: "3", rx: "2", key: "1wxw4b" }],
-  ["path", { d: "M4 11h16", key: "mpoxn0" }],
-  ["path", { d: "M12 3v8", key: "1h2ygw" }],
-  ["path", { d: "m8 19-2 3", key: "13i0xs" }],
-  ["path", { d: "m18 22-2-3", key: "1p0ohu" }],
-  ["path", { d: "M8 15h.01", key: "a7atzg" }],
-  ["path", { d: "M16 15h.01", key: "rnfrdf" }]
+// node_modules/lucide-react/dist/esm/icons/timer.js
+var __iconNode17 = [
+  ["line", { x1: "10", x2: "14", y1: "2", y2: "2", key: "14vaq8" }],
+  ["line", { x1: "12", x2: "15", y1: "14", y2: "11", key: "17fdiu" }],
+  ["circle", { cx: "12", cy: "14", r: "8", key: "1e1u0o" }]
 ];
-var TramFront = createLucideIcon("tram-front", __iconNode32);
+var Timer = createLucideIcon("timer", __iconNode17);
 
-// node_modules/lucide-react/dist/esm/icons/trash-2.js
-var __iconNode33 = [
-  ["path", { d: "M10 11v6", key: "nco0om" }],
-  ["path", { d: "M14 11v6", key: "outv1u" }],
-  ["path", { d: "M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6", key: "miytrc" }],
-  ["path", { d: "M3 6h18", key: "d0wm0j" }],
-  ["path", { d: "M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2", key: "e791ji" }]
+// node_modules/lucide-react/dist/esm/icons/trophy.js
+var __iconNode18 = [
+  ["path", { d: "M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978", key: "1n3hpd" }],
+  ["path", { d: "M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978", key: "rfe1zi" }],
+  ["path", { d: "M18 9h1.5a1 1 0 0 0 0-5H18", key: "7xy6bh" }],
+  ["path", { d: "M4 22h16", key: "57wxv0" }],
+  ["path", { d: "M6 9a6 6 0 0 0 12 0V3a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1z", key: "1mhfuq" }],
+  ["path", { d: "M6 9H4.5a1 1 0 0 1 0-5H6", key: "tex48p" }]
 ];
-var Trash2 = createLucideIcon("trash-2", __iconNode33);
+var Trophy = createLucideIcon("trophy", __iconNode18);
 
-// node_modules/lucide-react/dist/esm/icons/users.js
-var __iconNode34 = [
-  ["path", { d: "M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2", key: "1yyitq" }],
-  ["path", { d: "M16 3.128a4 4 0 0 1 0 7.744", key: "16gr8j" }],
-  ["path", { d: "M22 21v-2a4 4 0 0 0-3-3.87", key: "kshegd" }],
-  ["circle", { cx: "9", cy: "7", r: "4", key: "nufk8" }]
-];
-var Users = createLucideIcon("users", __iconNode34);
-
-// node_modules/lucide-react/dist/esm/icons/x.js
-var __iconNode35 = [
-  ["path", { d: "M18 6 6 18", key: "1bl5f8" }],
-  ["path", { d: "m6 6 12 12", key: "d8bk6v" }]
-];
-var X = createLucideIcon("x", __iconNode35);
-
-// src/TripPlanner.tsx
+// src/WeightLossQuiz.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
-var spinnerStyle = `
-@keyframes spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+var injectedStyles = `
+@keyframes floatIn {
+  from { transform: translateY(10px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
-.hide-scrollbar::-webkit-scrollbar {
-  display: none;
-}
-.hide-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.btn-press {
-  transition: transform 0.1s ease, opacity 0.2s;
-}
-.btn-press:active {
-  transform: scale(0.95);
-}
-.btn-press:hover {
-  opacity: 0.7;
-}
-@media print {
-  body {
-    background-color: white;
-  }
-  .no-print {
-    display: none !important;
-  }
-}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+.hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+.btn-press { transition: transform 0.1s ease, opacity 0.2s ease; }
+.btn-press:active { transform: scale(0.97); }
+.btn-press:hover { opacity: 0.85; }
 `;
-if (typeof document !== "undefined") {
+if (typeof document !== "undefined" && !document.getElementById("weight-loss-quiz-styles")) {
   const styleEl = document.createElement("style");
-  styleEl.textContent = spinnerStyle;
+  styleEl.id = "weight-loss-quiz-styles";
+  styleEl.textContent = injectedStyles;
   document.head.appendChild(styleEl);
 }
 var COLORS = {
@@ -24957,22 +24736,395 @@ var COLORS = {
   borderLight: "#EBE6DE",
   inputBg: "#F5F0E8",
   accentLight: "#E2EDE6",
-  booked: "#2D6A4F",
-  bookedBg: "#D8E8DF",
-  pending: "#C4953A",
-  pendingBg: "#F5EDD8",
-  urgent: "#C0392B",
-  urgentBg: "#F5DEDA",
-  flight: "#2D6A4F",
-  flightBg: "#E2EDE6",
-  hotel: "#6B705C",
-  hotelBg: "#ECEAE2",
-  transport: "#A68A64",
-  transportBg: "#F0E8D8"
+  warning: "#C4953A",
+  warningBg: "#F5EDD8",
+  danger: "#C0392B",
+  dangerBg: "#F5DEDA"
 };
-var STORAGE_KEY = "TRIP_PLANNER_DATA";
-var TRIPS_LIST_KEY = "TRIP_PLANNER_TRIPS_LIST";
-var generateId = () => Math.random().toString(36).substr(2, 9);
+var QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
+var ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
+var PROFILE_ORDER = [
+  "structured_achiever",
+  "busy_minimalist",
+  "craving_crusher",
+  "weekend_warrior",
+  "momentum_builder"
+];
+var PROFILES = {
+  structured_achiever: {
+    label: "Structured Achiever",
+    tag: "Data-friendly and routine-driven",
+    description: "You do best with clarity, measurable targets, and a weekly checkpoint rhythm.",
+    firstFocus: "Build a weekly scorecard and keep your plan visible.",
+    steps: [
+      "Set a daily protein minimum and calorie range.",
+      "Log meals for 7 days and review patterns nightly.",
+      "Do 3 strength sessions and track body weight trend."
+    ],
+    avoid: "Avoid perfection mode where one off-plan meal turns into an off-plan week.",
+    timeline: "Expect visible momentum in 2-3 weeks with consistent tracking.",
+    accent: COLORS.primary,
+    bg: COLORS.accentLight
+  },
+  busy_minimalist: {
+    label: "Busy Minimalist",
+    tag: "Low-friction habits win",
+    description: "You need fast defaults that survive packed days and decision fatigue.",
+    firstFocus: "Reduce choices by creating repeatable meals and movement defaults.",
+    steps: [
+      "Choose 3 go-to meals you can repeat all week.",
+      "Hit a non-negotiable step floor each day.",
+      "Use a simple evening cutoff for extra snacking."
+    ],
+    avoid: "Avoid overcomplicated plans with too many rules.",
+    timeline: "Expect consistency gains in the first week and fat-loss trend in 3-4 weeks.",
+    accent: "#6B705C",
+    bg: "#ECEAE2"
+  },
+  craving_crusher: {
+    label: "Craving Crusher",
+    tag: "Appetite and triggers are the lever",
+    description: "Your biggest progress unlock is hunger control and better trigger response.",
+    firstFocus: "Make every meal more filling and remove high-risk trigger setups.",
+    steps: [
+      "Anchor each meal with protein + fiber first.",
+      "Pre-plan a high-volume evening snack option.",
+      "Swap high-trigger foods at home for portion-safe versions."
+    ],
+    avoid: "Avoid long under-eating stretches that rebound into night overeating.",
+    timeline: "Expect fewer cravings in 7-10 days and steadier fat loss by week 3.",
+    accent: COLORS.warning,
+    bg: COLORS.warningBg
+  },
+  weekend_warrior: {
+    label: "Weekend Warrior",
+    tag: "Strong weekdays, loose weekends",
+    description: "You are close. Your key move is protecting progress in social situations.",
+    firstFocus: "Create a weekend strategy before social plans begin.",
+    steps: [
+      "Set a weekend alcohol and dessert ceiling in advance.",
+      "Front-load protein earlier on social days.",
+      "Use one reset routine Sunday evening: groceries, walk, meal prep."
+    ],
+    avoid: "Avoid the all-or-nothing reset mentality every Monday.",
+    timeline: "Expect faster visible changes once weekends are controlled (2-4 weeks).",
+    accent: "#A68A64",
+    bg: "#F0E8D8"
+  },
+  momentum_builder: {
+    label: "Momentum Builder",
+    tag: "Confidence and consistency first",
+    description: "Your best path is stacking small wins before intensity.",
+    firstFocus: "Build a streak you can protect, even on low-energy days.",
+    steps: [
+      "Pick one nutrition habit and one movement habit for 7 days.",
+      "Track only completion streaks, not perfection.",
+      "Celebrate non-scale wins: energy, sleep, confidence, fit of clothes."
+    ],
+    avoid: "Avoid jumping into aggressive plans that are hard to sustain.",
+    timeline: "Expect habit confidence in 1-2 weeks and physical changes over 4+ weeks.",
+    accent: "#4C7D5A",
+    bg: "#E7F1EB"
+  }
+};
+var QUESTIONS = [
+  {
+    id: "derailer",
+    prompt: "What derails your progress most often?",
+    hint: "Choose the one that happens most consistently.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Flame, { size: 20 }),
+    choices: [
+      {
+        id: "night_cravings",
+        title: "Night cravings",
+        detail: "Evenings are where calories spike.",
+        scores: { craving_crusher: 3, momentum_builder: 1 }
+      },
+      {
+        id: "stress_eating",
+        title: "Stress eating",
+        detail: "Food becomes the quick decompression tool.",
+        scores: { craving_crusher: 2, momentum_builder: 2 }
+      },
+      {
+        id: "no_time",
+        title: "No time to prep",
+        detail: "Busy schedule knocks out good choices.",
+        scores: { busy_minimalist: 3, weekend_warrior: 1 }
+      },
+      {
+        id: "social_weekends",
+        title: "Social weekends",
+        detail: "Weekends undo weekday momentum.",
+        scores: { weekend_warrior: 3, structured_achiever: 1 }
+      }
+    ]
+  },
+  {
+    id: "routine",
+    prompt: "Your current activity baseline is closest to:",
+    hint: "This helps calibrate your first movement target.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Activity, { size: 20 }),
+    choices: [
+      {
+        id: "mostly_sitting",
+        title: "Mostly sitting",
+        detail: "Desk-heavy days and low movement.",
+        scores: { momentum_builder: 2, busy_minimalist: 2 }
+      },
+      {
+        id: "some_walking",
+        title: "Some walking",
+        detail: "A little activity, but inconsistent.",
+        scores: { busy_minimalist: 2, momentum_builder: 2 }
+      },
+      {
+        id: "regular_workouts",
+        title: "2-3 workouts/week",
+        detail: "You already have some structure.",
+        scores: { structured_achiever: 2, weekend_warrior: 2 }
+      },
+      {
+        id: "very_active",
+        title: "Very active",
+        detail: "Training is not the issue.",
+        scores: { structured_achiever: 3, craving_crusher: 1 }
+      }
+    ]
+  },
+  {
+    id: "overeating_time",
+    prompt: "When do you overeat the most?",
+    hint: "Pinpointing timing improves strategy quality.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Timer, { size: 20 }),
+    choices: [
+      {
+        id: "evening",
+        title: "Evening",
+        detail: "Late-day hunger and habit eating.",
+        scores: { craving_crusher: 3, momentum_builder: 1 }
+      },
+      {
+        id: "meals",
+        title: "At main meals",
+        detail: "Portions creep bigger than planned.",
+        scores: { structured_achiever: 2, busy_minimalist: 2 }
+      },
+      {
+        id: "social_events",
+        title: "Social events",
+        detail: "Restaurants and gatherings are hardest.",
+        scores: { weekend_warrior: 3, craving_crusher: 1 }
+      },
+      {
+        id: "random_snacking",
+        title: "Random snacking",
+        detail: "Unplanned bites all day.",
+        scores: { busy_minimalist: 2, craving_crusher: 2 }
+      }
+    ]
+  },
+  {
+    id: "tracking",
+    prompt: "How do you feel about tracking food data?",
+    hint: "No right answer. We tailor the plan to your preference.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChartColumn, { size: 20 }),
+    choices: [
+      {
+        id: "love_data",
+        title: "I like data",
+        detail: "Numbers help me stay accountable.",
+        scores: { structured_achiever: 3 }
+      },
+      {
+        id: "short_term",
+        title: "Okay short-term",
+        detail: "Helpful for a while, then annoying.",
+        scores: { structured_achiever: 1, busy_minimalist: 2, weekend_warrior: 1 }
+      },
+      {
+        id: "simple_rules",
+        title: "Prefer simple rules",
+        detail: "I want guardrails, not spreadsheets.",
+        scores: { busy_minimalist: 3, momentum_builder: 1 }
+      },
+      {
+        id: "no_tracking",
+        title: "I do not want tracking",
+        detail: "I want behavior-first tools only.",
+        scores: { momentum_builder: 3, craving_crusher: 1 }
+      }
+    ]
+  },
+  {
+    id: "mornings",
+    prompt: "Your mornings usually look like:",
+    hint: "Morning rhythm predicts daily consistency.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 20 }),
+    choices: [
+      {
+        id: "chaotic",
+        title: "Chaotic",
+        detail: "I am rushing from the start.",
+        scores: { busy_minimalist: 3, momentum_builder: 1 }
+      },
+      {
+        id: "quick_simple",
+        title: "Quick and simple",
+        detail: "I can do one easy routine.",
+        scores: { busy_minimalist: 2, momentum_builder: 2 }
+      },
+      {
+        id: "structured",
+        title: "Structured",
+        detail: "I can execute a set plan.",
+        scores: { structured_achiever: 3 }
+      },
+      {
+        id: "plenty_time",
+        title: "Plenty of time",
+        detail: "Time is available, consistency varies.",
+        scores: { structured_achiever: 2, craving_crusher: 1, weekend_warrior: 1 }
+      }
+    ]
+  },
+  {
+    id: "movement_style",
+    prompt: "Best movement style for you right now:",
+    hint: "Pick what you would actually do this week.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Footprints, { size: 20 }),
+    choices: [
+      {
+        id: "walking",
+        title: "Walking and steps",
+        detail: "Simple, repeatable, low barrier.",
+        scores: { busy_minimalist: 2, momentum_builder: 2 }
+      },
+      {
+        id: "home_workouts",
+        title: "Home workouts",
+        detail: "Efficient and schedule-friendly.",
+        scores: { busy_minimalist: 2, structured_achiever: 1, momentum_builder: 1 }
+      },
+      {
+        id: "gym_strength",
+        title: "Gym strength",
+        detail: "I like progressive training.",
+        scores: { structured_achiever: 3 }
+      },
+      {
+        id: "classes_sports",
+        title: "Classes or sports",
+        detail: "Fun keeps me consistent.",
+        scores: { weekend_warrior: 2, momentum_builder: 2 }
+      }
+    ]
+  },
+  {
+    id: "consistency_barrier",
+    prompt: "Biggest consistency challenge:",
+    hint: "Be honest. This drives your main action plan.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { size: 20 }),
+    choices: [
+      {
+        id: "motivation_dips",
+        title: "Motivation dips",
+        detail: "Good start, then fade.",
+        scores: { momentum_builder: 3 }
+      },
+      {
+        id: "busy_schedule",
+        title: "Busy schedule",
+        detail: "Too much context switching.",
+        scores: { busy_minimalist: 3 }
+      },
+      {
+        id: "hunger_cravings",
+        title: "Hunger and cravings",
+        detail: "Appetite keeps pulling me off-plan.",
+        scores: { craving_crusher: 3 }
+      },
+      {
+        id: "social_events",
+        title: "Social events",
+        detail: "Dinners and weekends are hard.",
+        scores: { weekend_warrior: 3 }
+      }
+    ]
+  },
+  {
+    id: "goal_priority",
+    prompt: "What outcome matters most right now?",
+    hint: "This sets the tone of your plan.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trophy, { size: 20 }),
+    choices: [
+      {
+        id: "scale_down",
+        title: "Scale trend down",
+        detail: "I want measurable weight loss.",
+        scores: { structured_achiever: 2, craving_crusher: 1, busy_minimalist: 1 }
+      },
+      {
+        id: "more_energy",
+        title: "More energy",
+        detail: "I want to feel better daily.",
+        scores: { momentum_builder: 2, busy_minimalist: 1, craving_crusher: 1 }
+      },
+      {
+        id: "confidence",
+        title: "Confidence and appearance",
+        detail: "I want visible body changes.",
+        scores: { weekend_warrior: 2, structured_achiever: 1, momentum_builder: 1 }
+      },
+      {
+        id: "overall_health",
+        title: "Health markers",
+        detail: "I care about long-term metabolic health.",
+        scores: { structured_achiever: 2, momentum_builder: 2 }
+      }
+    ]
+  },
+  {
+    id: "pace",
+    prompt: "Preferred pace:",
+    hint: "Sustainable plans are the fastest in the long run.",
+    icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 20 }),
+    choices: [
+      {
+        id: "slow_easy",
+        title: "Slow and easy",
+        detail: "Small wins I can keep.",
+        scores: { momentum_builder: 3, busy_minimalist: 1 }
+      },
+      {
+        id: "moderate",
+        title: "Moderate and balanced",
+        detail: "Steady progress, low burnout risk.",
+        scores: { busy_minimalist: 2, structured_achiever: 1, weekend_warrior: 1 }
+      },
+      {
+        id: "aggressive",
+        title: "Aggressive but safe",
+        detail: "I can handle tighter structure.",
+        scores: { structured_achiever: 3, craving_crusher: 1 }
+      },
+      {
+        id: "need_guidance",
+        title: "Not sure, guide me",
+        detail: "I need a realistic starting point.",
+        scores: { momentum_builder: 2, busy_minimalist: 2 }
+      }
+    ]
+  }
+];
+var trackEvent = (event, data) => {
+  fetch("/api/track", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ event, data: data || {} })
+  }).catch(() => {
+  });
+};
 var normalizeApiBaseUrl = (value) => {
   if (typeof value !== "string") return null;
   const trimmed = value.trim();
@@ -24996,1684 +25148,54 @@ var buildApiUrl = (apiBaseUrl, path) => {
   if (/^https?:\/\//i.test(path)) return path;
   return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
 };
-var loadSavedTrips = () => {
+var getSavedAnswers = () => {
   try {
-    const data = localStorage.getItem(TRIPS_LIST_KEY);
-    if (data) return JSON.parse(data);
+    const raw = localStorage.getItem(QUIZ_STATE_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    if (parsed && typeof parsed === "object" && parsed.answers && typeof parsed.answers === "object") {
+      return parsed.answers;
+    }
   } catch {
   }
-  return [];
+  return {};
 };
-var saveTripsToStorage = (trips) => {
-  try {
-    localStorage.setItem(TRIPS_LIST_KEY, JSON.stringify(trips));
-  } catch {
-  }
-};
-var trackEvent = (event, data) => {
-  fetch("/api/track", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ event, data: data || {} })
-  }).catch(() => {
+var scoreQuiz = (answers) => {
+  const totals = {
+    structured_achiever: 0,
+    busy_minimalist: 0,
+    craving_crusher: 0,
+    weekend_warrior: 0,
+    momentum_builder: 0
+  };
+  QUESTIONS.forEach((question) => {
+    const selected = question.choices.find((choice) => choice.id === answers[question.id]);
+    if (!selected) return;
+    PROFILE_ORDER.forEach((profile) => {
+      totals[profile] += selected.scores[profile] || 0;
+    });
   });
+  return totals;
 };
-var formatDate = (dateStr) => {
-  if (!dateStr) return "";
-  try {
-    const date = /* @__PURE__ */ new Date(dateStr + "T00:00:00");
-    return date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric" });
-  } catch {
-    return dateStr;
-  }
+var pickTopProfile = (scores) => {
+  return PROFILE_ORDER.slice().sort((a, b) => {
+    const scoreDiff = scores[b] - scores[a];
+    if (scoreDiff !== 0) return scoreDiff;
+    return PROFILE_ORDER.indexOf(a) - PROFILE_ORDER.indexOf(b);
+  })[0];
 };
-var getModeLabel = (mode) => {
-  switch (mode) {
-    case "plane":
-      return "Flight";
-    case "car":
-      return "Drive";
-    case "rail":
-      return "Train";
-    case "bus":
-      return "Bus";
-    case "other":
-      return "Cruise";
-  }
-};
-var getModeConfirmationLabel = (mode) => {
-  switch (mode) {
-    case "plane":
-      return "flight #";
-    case "car":
-      return "rental confirmation";
-    case "rail":
-      return "train confirmation";
-    case "bus":
-      return "bus confirmation";
-    case "other":
-      return "cruise confirmation";
-  }
-};
-var getModeIcon = (mode, size = 20) => {
-  switch (mode) {
-    case "plane":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size });
-    case "car":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size });
-    case "rail":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TramFront, { size });
-    case "bus":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bus, { size });
-    case "other":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ship, { size });
-  }
-};
-var getLegIcon = (type, size = 20) => {
-  switch (type) {
-    case "flight":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size });
-    case "hotel":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size });
-    case "car":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size });
-    case "train":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TramFront, { size });
-    case "bus":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bus, { size });
-    case "ferry":
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ship, { size });
-    default:
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size });
-  }
-};
-var getLegColor = (type) => {
-  switch (type) {
-    case "flight":
-      return { main: COLORS.flight, bg: COLORS.flightBg };
-    case "hotel":
-      return { main: COLORS.hotel, bg: COLORS.hotelBg };
-    default:
-      return { main: COLORS.transport, bg: COLORS.transportBg };
-  }
-};
-var getStatusColor = (status) => {
-  switch (status) {
-    case "booked":
-      return { main: COLORS.booked, bg: COLORS.bookedBg };
-    case "pending":
-      return { main: COLORS.pending, bg: COLORS.pendingBg };
-    case "urgent":
-      return { main: COLORS.urgent, bg: COLORS.urgentBg };
-  }
-};
-var TransportModeSelector = ({
-  value,
-  onChange
-}) => {
-  const modes = [
-    { value: "plane", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 18 }), label: "Plane" },
-    { value: "car", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 18 }), label: "Car" },
-    { value: "rail", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TramFront, { size: 18 }), label: "Rail" },
-    { value: "bus", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bus, { size: 18 }), label: "Bus" },
-    { value: "other", icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ship, { size: 18 }), label: "Other" }
-  ];
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 6, marginTop: 8 }, children: modes.map((m) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-    "button",
-    {
-      onClick: () => onChange(m.value),
-      title: m.label,
-      style: {
-        flex: 1,
-        padding: "8px 4px",
-        borderRadius: 8,
-        border: value === m.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-        backgroundColor: value === m.value ? COLORS.accentLight : "white",
-        color: value === m.value ? COLORS.primary : COLORS.textSecondary,
-        cursor: "pointer",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-      },
-      children: m.icon
-    },
-    m.value
-  )) });
-};
-var StatusIcon = ({ status }) => {
-  const colors = getStatusColor(status);
-  const icons = {
-    booked: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { size: 18 }),
-    pending: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Circle, { size: 18 }),
-    urgent: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleAlert, { size: 18 })
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: colors.main }, title: status, children: icons[status] });
-};
-var PickerPopover = ({ type, value, onChange, onClick, style, min, max }) => {
-  const [isOpen, setIsOpen] = (0, import_react3.useState)(false);
-  const [tempValue, setTempValue] = (0, import_react3.useState)(value);
-  const ref = (0, import_react3.useRef)(null);
-  (0, import_react3.useEffect)(() => {
-    setTempValue(value);
-  }, [value]);
-  (0, import_react3.useEffect)(() => {
-    if (!isOpen) return;
-    const handler = (e) => {
-      if (ref.current && !ref.current.contains(e.target)) {
-        setIsOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, [isOpen]);
-  const formatDisplay = () => {
-    if (type === "date") {
-      if (!value) return "Select date";
-      const d = /* @__PURE__ */ new Date(value + "T00:00:00");
-      return d.toLocaleDateString("en-US", { month: "2-digit", day: "2-digit", year: "numeric" });
-    }
-    if (!value) return "Select time";
-    const [h, m] = value.split(":").map(Number);
-    const ampm = h >= 12 ? "PM" : "AM";
-    const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
-    return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
-  };
-  const iconColor = value ? COLORS.textMuted : COLORS.primary;
-  const icon = type === "date" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14, style: { color: iconColor } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14, style: { color: iconColor } });
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { ref, style: { position: "relative", ...style || {} }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-      "button",
-      {
-        type: "button",
-        onClick: (e) => {
-          onClick?.(e);
-          e.stopPropagation();
-          setTempValue(value);
-          setIsOpen(!isOpen);
-        },
-        style: { width: "100%", padding: "10px 12px", borderRadius: 10, border: `1px solid ${value ? COLORS.border : COLORS.primary + "60"}`, backgroundColor: value ? "white" : COLORS.accentLight, fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "space-between", gap: 8, color: value ? COLORS.textMain : COLORS.primary, fontWeight: value ? 400 : 500, textAlign: "left" },
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: formatDisplay() }),
-          icon
-        ]
-      }
-    ),
-    isOpen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-      "div",
-      {
-        onClick: (e) => e.stopPropagation(),
-        style: { position: "absolute", top: "calc(100% + 4px)", left: 0, minWidth: 220, zIndex: 1e3, backgroundColor: "white", borderRadius: 12, boxShadow: "0 4px 20px rgba(0,0,0,0.15)", border: `1px solid ${COLORS.border}`, overflow: "hidden" },
-        children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "12px 12px 8px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            "input",
-            {
-              type,
-              value: tempValue,
-              min,
-              max,
-              onChange: (e) => setTempValue(e.target.value),
-              style: { width: "100%", padding: "10px 12px", borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 14, outline: "none", boxSizing: "border-box" },
-              autoFocus: true
-            }
-          ) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "4px 12px 10px", display: "flex", gap: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                type: "button",
-                onClick: (e) => {
-                  e.stopPropagation();
-                  setIsOpen(false);
-                },
-                style: { flex: 1, padding: "8px 0", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer" },
-                children: "Cancel"
-              }
-            ),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-              "button",
-              {
-                type: "button",
-                onClick: (e) => {
-                  e.stopPropagation();
-                  onChange(tempValue);
-                  setIsOpen(false);
-                },
-                style: { flex: 1, padding: "8px 0", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 13, fontWeight: 600, cursor: "pointer" },
-                children: "Done"
-              }
-            )
-          ] })
-        ]
-      }
-    )
-  ] });
-};
-var TripLegCard = ({ leg, onUpdate, onDelete, isExpanded, onToggleExpand, tripDepartureDate, tripReturnDate, travelers = 1 }) => {
-  const initialEditData = leg.type === "hotel" ? {
-    ...leg,
-    date: leg.date || tripDepartureDate || "",
-    endDate: leg.endDate || tripReturnDate || ""
-  } : leg;
-  const [editData, setEditData] = (0, import_react3.useState)(initialEditData);
-  const legColors = getLegColor(leg.type);
-  const cycleStatus = () => {
-    const order = ["pending", "booked", "urgent"];
-    const next = order[(order.indexOf(leg.status) + 1) % order.length];
-    onUpdate({ status: next });
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 16, border: `1px solid ${leg.status === "booked" ? COLORS.booked : COLORS.border}`, borderLeft: `4px solid ${legColors.main}`, marginBottom: 12, overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { onClick: onToggleExpand, style: { padding: "16px 20px", display: "flex", alignItems: "center", gap: 16, cursor: "pointer", overflow: "hidden", maxWidth: "100%" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 44, height: 44, borderRadius: 12, backgroundColor: legColors.bg, color: legColors.main, display: "flex", alignItems: "center", justifyContent: "center" }, children: getLegIcon(leg.type, 22) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, minWidth: 0, overflow: "hidden" }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, fontSize: 15, color: COLORS.textMain, marginBottom: 4, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }, children: leg.title }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 12, flexWrap: "wrap" }, children: [
-          leg.date && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
-            formatDate(leg.date)
-          ] }),
-          leg.time && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Clock, { size: 14 }),
-            (() => {
-              const [h, m] = leg.time.split(":").map(Number);
-              const ampm = h >= 12 ? "PM" : "AM";
-              const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
-              return `${h12}:${String(m).padStart(2, "0")} ${ampm}`;
-            })(),
-            leg.endTime ? (() => {
-              const [h, m] = leg.endTime.split(":").map(Number);
-              const ampm = h >= 12 ? "PM" : "AM";
-              const h12 = h === 0 ? 12 : h > 12 ? h - 12 : h;
-              return ` \u2013 ${h12}:${String(m).padStart(2, "0")} ${ampm}`;
-            })() : ""
-          ] }),
-          leg.location && !["hotel", "flight", "car", "train", "bus", "ferry"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { display: "flex", alignItems: "center", gap: 4, fontSize: 13, color: COLORS.textSecondary }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 14 }),
-            leg.location
-          ] }),
-          leg.flightNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: legColors.main, fontWeight: 600 }, children: leg.flightNumber })
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(StatusIcon, { status: leg.status }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 20 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 20 }) })
-    ] }),
-    isExpanded && (() => {
-      const hasPrimaryRoute = leg.from && leg.to;
-      const showPerPassenger = travelers > 1 && ["flight", "train", "bus", "ferry"].includes(leg.type);
-      const lblStyle = { display: "block", fontSize: 11, fontWeight: 600, color: COLORS.textMuted, marginBottom: 4 };
-      const inpStyle = { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, boxSizing: "border-box" };
-      const fullStyle = { ...inpStyle, gridColumn: "1 / -1" };
-      const stop = (e) => e.stopPropagation();
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "0 20px 16px", borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 16 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
-          leg.type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: stop, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Hotel Name", style: fullStyle }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Check-in Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.date, onClick: stop, onChange: (val) => setEditData({ ...editData, date: val }) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Check-out Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.endDate || "", onClick: stop, onChange: (val) => setEditData({ ...editData, endDate: val }) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Address", style: fullStyle }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: fullStyle }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "number", min: "0", step: "0.01", value: editData.cost ?? "", onClick: stop, onChange: (e) => setEditData({ ...editData, cost: e.target.value ? parseFloat(e.target.value) : void 0 }), placeholder: "$ 0.00", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes", style: fullStyle })
-          ] }),
-          leg.type === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            hasPrimaryRoute ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { gridColumn: "1 / -1", padding: "8px 12px", borderRadius: 8, backgroundColor: COLORS.inputBg, fontSize: 13, color: COLORS.textSecondary }, children: [
-              "\u2708 ",
-              leg.from,
-              " \u2192 ",
-              leg.to
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.from || "", onClick: stop, onChange: (e) => setEditData({ ...editData, from: e.target.value }), placeholder: "Departure Airport", style: inpStyle }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.to || "", onClick: stop, onChange: (e) => setEditData({ ...editData, to: e.target.value }), placeholder: "Arrival Airport", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Airline" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.airline || "", onClick: stop, onChange: (e) => setEditData({ ...editData, airline: e.target.value }), placeholder: "e.g. Delta, United", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Flight #" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.flightNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, flightNumber: e.target.value }), placeholder: "e.g. DL 1234", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
-            ] }),
-            !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "number", min: "0", step: "0.01", value: editData.cost ?? "", onClick: stop, onChange: (e) => setEditData({ ...editData, cost: e.target.value ? parseFloat(e.target.value) : void 0 }), placeholder: "$ 0.00", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. terminal, gate, seat)", style: fullStyle })
-          ] }),
-          leg.type === "car" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            hasPrimaryRoute ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { gridColumn: "1 / -1", padding: "8px 12px", borderRadius: 8, backgroundColor: COLORS.inputBg, fontSize: 13, color: COLORS.textSecondary }, children: [
-              "\u{1F697} ",
-              leg.from,
-              " \u2192 ",
-              leg.to
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Pickup Location", style: fullStyle }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Rental Company" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.rentalCompany || "", onClick: stop, onChange: (e) => setEditData({ ...editData, rentalCompany: e.target.value }), placeholder: "e.g. Hertz, Enterprise", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Pickup Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.date, onClick: stop, onChange: (val) => setEditData({ ...editData, date: val }) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Return Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.endDate || "", onClick: stop, onChange: (val) => setEditData({ ...editData, endDate: val }) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "number", min: "0", step: "0.01", value: editData.cost ?? "", onClick: stop, onChange: (e) => setEditData({ ...editData, cost: e.target.value ? parseFloat(e.target.value) : void 0 }), placeholder: "$ 0.00", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. car type, insurance, extras)", style: fullStyle })
-          ] }),
-          leg.type === "train" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            hasPrimaryRoute ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { gridColumn: "1 / -1", padding: "8px 12px", borderRadius: 8, backgroundColor: COLORS.inputBg, fontSize: 13, color: COLORS.textSecondary }, children: [
-              "\u{1F686} ",
-              leg.from,
-              " \u2192 ",
-              leg.to
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.from || "", onClick: stop, onChange: (e) => setEditData({ ...editData, from: e.target.value }), placeholder: "Departure Station", style: inpStyle }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.to || "", onClick: stop, onChange: (e) => setEditData({ ...editData, to: e.target.value }), placeholder: "Arrival Station", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
-            ] }),
-            !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "number", min: "0", step: "0.01", value: editData.cost ?? "", onClick: stop, onChange: (e) => setEditData({ ...editData, cost: e.target.value ? parseFloat(e.target.value) : void 0 }), placeholder: "$ 0.00", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. platform, car #, seat)", style: fullStyle })
-          ] }),
-          leg.type === "bus" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            hasPrimaryRoute ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { gridColumn: "1 / -1", padding: "8px 12px", borderRadius: 8, backgroundColor: COLORS.inputBg, fontSize: 13, color: COLORS.textSecondary }, children: [
-              "\u{1F68C} ",
-              leg.from,
-              " \u2192 ",
-              leg.to
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.from || "", onClick: stop, onChange: (e) => setEditData({ ...editData, from: e.target.value }), placeholder: "Departure Stop", style: inpStyle }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.to || "", onClick: stop, onChange: (e) => setEditData({ ...editData, to: e.target.value }), placeholder: "Arrival Stop", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
-            ] }),
-            !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "number", min: "0", step: "0.01", value: editData.cost ?? "", onClick: stop, onChange: (e) => setEditData({ ...editData, cost: e.target.value ? parseFloat(e.target.value) : void 0 }), placeholder: "$ 0.00", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. bus line, platform, seat)", style: fullStyle })
-          ] }),
-          leg.type === "ferry" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            hasPrimaryRoute ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { gridColumn: "1 / -1", padding: "8px 12px", borderRadius: 8, backgroundColor: COLORS.inputBg, fontSize: 13, color: COLORS.textSecondary }, children: [
-              "\u{1F6A2} ",
-              leg.from,
-              " \u2192 ",
-              leg.to
-            ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.from || "", onClick: stop, onChange: (e) => setEditData({ ...editData, from: e.target.value }), placeholder: "Departure Port", style: inpStyle }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.to || "", onClick: stop, onChange: (e) => setEditData({ ...editData, to: e.target.value }), placeholder: "Arrival Port", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Departure Time" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
-            ] }),
-            !showPerPassenger && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Confirmation #" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.confirmationNumber || "", onClick: stop, onChange: (e) => setEditData({ ...editData, confirmationNumber: e.target.value }), placeholder: "Confirmation #", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "number", min: "0", step: "0.01", value: editData.cost ?? "", onClick: stop, onChange: (e) => setEditData({ ...editData, cost: e.target.value ? parseFloat(e.target.value) : void 0 }), placeholder: "$ 0.00", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes (e.g. cabin #, deck, meal plan)", style: fullStyle })
-          ] }),
-          !["hotel", "flight", "car", "train", "bus", "ferry"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.title, onClick: stop, onChange: (e) => setEditData({ ...editData, title: e.target.value }), placeholder: "Activity Name", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Date" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: editData.date, onClick: stop, onChange: (val) => setEditData({ ...editData, date: val }) })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Start Time" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.time || "", onClick: stop, onChange: (val) => setEditData({ ...editData, time: val }) })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "End Time" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: editData.endTime || "", onClick: stop, onChange: (val) => setEditData({ ...editData, endTime: val }) })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.location || "", onClick: stop, onChange: (e) => setEditData({ ...editData, location: e.target.value }), placeholder: "Location", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: lblStyle, children: "Cost" }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { type: "number", min: "0", step: "0.01", value: editData.cost ?? "", onClick: stop, onChange: (e) => setEditData({ ...editData, cost: e.target.value ? parseFloat(e.target.value) : void 0 }), placeholder: "$ 0.00", style: inpStyle })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: editData.notes || "", onClick: stop, onChange: (e) => setEditData({ ...editData, notes: e.target.value }), placeholder: "Notes / Confirmation #", autoComplete: "off", "data-form-type": "other", "data-lpignore": "true", "data-1p-ignore": true, style: fullStyle })
-          ] })
-        ] }),
-        travelers > 1 && ["flight", "train", "bus", "ferry"].includes(leg.type) && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: 16, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 12 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 8 }, children: "Passenger Tickets" }),
-          Array.from({ length: travelers }, (_, i) => {
-            const ticket = leg.passengerTickets?.find((t) => t.passenger === i + 1);
-            const tBooked = ticket?.booked || false;
-            return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 6, padding: "6px 10px", borderRadius: 8, backgroundColor: tBooked ? COLORS.bookedBg : COLORS.inputBg, border: `1px solid ${tBooked ? COLORS.booked : COLORS.borderLight}` }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, fontWeight: 600, color: tBooked ? COLORS.booked : COLORS.textMain, flex: 1 }, children: [
-                leg.type === "flight" ? "\u2708" : leg.type === "train" ? "\u{1F686}" : leg.type === "ferry" ? "\u{1F6A2}" : "\u{1F68C}",
-                " Passenger ",
-                i + 1
-              ] }),
-              tBooked ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                ticket?.confirmationNumber && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 11, color: COLORS.booked, fontFamily: "monospace" }, children: ticket.confirmationNumber }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: (e) => {
-                  e.stopPropagation();
-                  const tickets = [...leg.passengerTickets || []];
-                  const idx = tickets.findIndex((t) => t.passenger === i + 1);
-                  if (idx >= 0) tickets.splice(idx, 1);
-                  onUpdate({ passengerTickets: tickets });
-                }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: "white", color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer" }, children: "Undo" })
-              ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
-                  {
-                    placeholder: "Confirmation #",
-                    onClick: (e) => e.stopPropagation(),
-                    onChange: () => {
-                    },
-                    onBlur: (e) => {
-                      const val = e.target.value.trim();
-                      if (val) {
-                        const tickets = [...leg.passengerTickets || []];
-                        const idx = tickets.findIndex((t) => t.passenger === i + 1);
-                        if (idx >= 0) {
-                          tickets[idx] = { ...tickets[idx], confirmationNumber: val, booked: true };
-                        } else {
-                          tickets.push({ passenger: i + 1, confirmationNumber: val, booked: true });
-                        }
-                        onUpdate({ passengerTickets: tickets });
-                      }
-                    },
-                    onKeyDown: (e) => {
-                      if (e.key === "Enter") e.target.blur();
-                    },
-                    style: { width: 100, padding: "4px 8px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 11, outline: "none" }
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-                  e.stopPropagation();
-                  const tickets = [...leg.passengerTickets || []];
-                  const idx = tickets.findIndex((t) => t.passenger === i + 1);
-                  if (idx >= 0) {
-                    tickets[idx] = { ...tickets[idx], booked: true };
-                  } else {
-                    tickets.push({ passenger: i + 1, booked: true });
-                  }
-                  onUpdate({ passengerTickets: tickets });
-                }, className: "btn-press", style: { padding: "3px 8px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: COLORS.bookedBg, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", whiteSpace: "nowrap" }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 11 }),
-                  " Done"
-                ] })
-              ] })
-            ] }, i);
-          })
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 16 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-            e.stopPropagation();
-            onUpdate(editData);
-            onToggleExpand();
-          }, className: "btn-press", style: { padding: "8px 16px", borderRadius: 8, border: "none", backgroundColor: COLORS.primary, color: "white", fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { size: 14 }),
-            " Save"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: (e) => {
-            e.stopPropagation();
-            onDelete();
-          }, style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.urgent}`, backgroundColor: "white", color: COLORS.urgent, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 14 }),
-            " Delete"
-          ] })
-        ] })
-      ] });
-    })()
-  ] });
-};
-var CategoryChip = ({
-  type,
-  hasItem,
-  isBooked,
-  isExpanded,
-  onClick,
-  label,
-  partialComplete,
-  transportMode
-}) => {
-  const getModeConfig = (mode) => {
-    switch (mode) {
-      case "plane":
-        return { icon: Plane, name: "Flight" };
-      case "car":
-        return { icon: Car, name: "Drive" };
-      case "rail":
-        return { icon: TramFront, name: "Train" };
-      case "bus":
-        return { icon: Bus, name: "Bus" };
-      case "other":
-        return { icon: Ship, name: "Cruise" };
-    }
-  };
-  const flightConfig = transportMode ? getModeConfig(transportMode) : { icon: Plane, name: "Flight" };
-  const config = {
-    flight: { icon: flightConfig.icon, color: COLORS.flight, bg: COLORS.flightBg, name: flightConfig.name, priority: true },
-    hotel: { icon: Hotel, color: COLORS.hotel, bg: COLORS.hotelBg, name: "Stay", priority: true },
-    transport: { icon: Car, color: COLORS.transport, bg: COLORS.transportBg, name: "Ride", priority: false },
-    activity: { icon: MapPin, color: "#6B705C", bg: "#ECEAE2", name: "Activity", priority: false }
-  };
-  const { icon: Icon2, name } = config[type];
-  const GREEN = "#2D6A4F";
-  const GREEN_BG = "#E2EDE6";
-  const YELLOW = "#C4953A";
-  const YELLOW_BG = "#F5EDD8";
-  const RED = "#C0392B";
-  const RED_BG = "#F5DEDA";
-  const GRAY = "#9C9588";
-  const GRAY_BG = "#F8F6F2";
-  let chipColor, chipBg;
-  if (hasItem && !partialComplete) {
-    chipColor = GREEN;
-    chipBg = GREEN_BG;
-  } else if (partialComplete) {
-    chipColor = YELLOW;
-    chipBg = YELLOW_BG;
-  } else if (hasItem) {
-    chipColor = RED;
-    chipBg = RED_BG;
-  } else {
-    chipColor = RED;
-    chipBg = RED_BG;
-  }
-  if (!hasItem && !partialComplete) {
-    chipColor = RED;
-    chipBg = RED_BG;
-  }
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-    "button",
-    {
-      onClick: (e) => {
-        e.stopPropagation();
-        onClick();
-      },
-      className: "btn-press",
-      style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 5,
-        padding: "6px 10px",
-        borderRadius: 20,
-        backgroundColor: chipBg,
-        border: `1.5px solid ${isExpanded ? chipColor : chipColor}`,
-        cursor: "pointer",
-        fontSize: 11,
-        fontWeight: 600,
-        color: chipColor,
-        whiteSpace: "nowrap",
-        transition: "all 0.15s ease",
-        outline: "none"
-      },
-      children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 14, color: chipColor }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: label || name }),
-        hasItem && !partialComplete && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12, color: GREEN })
-      ]
-    }
-  );
-};
-var DayByDayView = ({ legs, onUpdateLeg, onDeleteLeg, onAddLeg, expandedLegs, toggleLegExpand, departureDate, returnDate, primaryTransportMode, multiCityLegs, travelers = 1 }) => {
-  const [expandedCategory, setExpandedCategory] = (0, import_react3.useState)({});
-  const [editingTransport, setEditingTransport] = (0, import_react3.useState)(null);
-  const [transportForm, setTransportForm] = (0, import_react3.useState)({ type: "uber", notes: "", rentalCompany: "", startDate: "", endDate: "" });
-  const [addDropdownDate, setAddDropdownDate] = (0, import_react3.useState)(null);
-  const [addDropdownPos, setAddDropdownPos] = (0, import_react3.useState)({ top: 0, left: 0 });
-  const allDays = (0, import_react3.useMemo)(() => {
-    const days = [];
-    if (departureDate) {
-      const start = /* @__PURE__ */ new Date(departureDate + "T00:00:00");
-      const end = returnDate ? /* @__PURE__ */ new Date(returnDate + "T00:00:00") : start;
-      const current = new Date(start);
-      while (current <= end) {
-        days.push(current.toISOString().split("T")[0]);
-        current.setDate(current.getDate() + 1);
-      }
-    }
-    return days;
-  }, [departureDate, returnDate]);
-  const legsByDate = (0, import_react3.useMemo)(() => {
-    const groups = {};
-    const noDateLegs = [];
-    const primaryLegIds = new Set(multiCityLegs?.map((l) => l.id) || []);
-    allDays.forEach((day) => {
-      groups[day] = { flights: [], hotels: [], transport: [], activities: [], standalone: [] };
-    });
-    legs.forEach((leg) => {
-      if (leg.standalone && leg.date && groups[leg.date]) {
-        groups[leg.date].standalone.push(leg);
-        return;
-      }
-      if (leg.type === "hotel" && leg.date) {
-        const checkIn = /* @__PURE__ */ new Date(leg.date + "T00:00:00");
-        const lastDay = allDays.length > 0 ? allDays[allDays.length - 1] : leg.date;
-        const checkOutDate = leg.endDate || returnDate || lastDay;
-        const checkOut = /* @__PURE__ */ new Date(checkOutDate + "T00:00:00");
-        const current = new Date(checkIn);
-        let isFirst = true;
-        while (current <= checkOut) {
-          const dateStr = current.toISOString().split("T")[0];
-          if (groups[dateStr]) {
-            groups[dateStr].hotels.push({ leg, isContinuation: !isFirst });
-          }
-          current.setDate(current.getDate() + 1);
-          isFirst = false;
-        }
-      } else if (["car", "train", "bus", "ferry"].includes(leg.type) && !primaryLegIds.has(leg.id) && leg.date && leg.endDate) {
-        const startDate = /* @__PURE__ */ new Date(leg.date + "T00:00:00");
-        const endDate = /* @__PURE__ */ new Date(leg.endDate + "T00:00:00");
-        const current = new Date(startDate);
-        while (current <= endDate) {
-          const dateStr = current.toISOString().split("T")[0];
-          if (groups[dateStr]) {
-            groups[dateStr].transport.push(leg);
-          }
-          current.setDate(current.getDate() + 1);
-        }
-      } else if (leg.date && groups[leg.date]) {
-        if (leg.type === "flight" || primaryLegIds.has(leg.id)) groups[leg.date].flights.push(leg);
-        else if (["car", "train", "bus", "ferry"].includes(leg.type)) groups[leg.date].transport.push(leg);
-        else groups[leg.date].activities.push(leg);
-      } else if (!leg.date) {
-        noDateLegs.push(leg);
-      }
-    });
-    return { groups, sortedDates: allDays, noDateLegs };
-  }, [legs, allDays, multiCityLegs]);
-  const formatDayHeader = (dateStr, dayNum) => {
-    try {
-      const date = /* @__PURE__ */ new Date(dateStr + "T00:00:00");
-      return `Day ${dayNum} \xB7 ${date.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" })}`;
-    } catch {
-      return `Day ${dayNum}`;
-    }
-  };
-  const getTravelDayIcon = (flights) => {
-    if (flights.length === 0) return null;
-    const leg = flights[0];
-    switch (leg.type) {
-      case "car":
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 14, color: "white" });
-      case "train":
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TramFront, { size: 14, color: "white" });
-      case "bus":
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bus, { size: 14, color: "white" });
-      case "ferry":
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ship, { size: 14, color: "white" });
-      default:
-        return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 14, color: "white" });
-    }
-  };
-  const getCityForDate = (dateStr) => {
-    if (!multiCityLegs || multiCityLegs.length === 0) return null;
-    const sortedLegs = [...multiCityLegs].filter((l) => l.date).sort((a, b) => a.date.localeCompare(b.date));
-    if (sortedLegs.length === 0) return null;
-    let currentCity = null;
-    for (const leg of sortedLegs) {
-      if (leg.date <= dateStr) {
-        currentCity = leg.to;
-      } else {
-        break;
-      }
-    }
-    if (!currentCity && sortedLegs.length > 0 && dateStr < sortedLegs[0].date) {
-      currentCity = sortedLegs[0].from;
-    }
-    return currentCity;
-  };
-  const toggleCategory = (date, category) => {
-    setExpandedCategory((prev) => ({
-      ...prev,
-      [date]: prev[date] === category ? null : category
-    }));
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { width: "100%", overflow: "hidden" }, children: [
-    legsByDate.sortedDates.map((date, idx) => {
-      const dayData = legsByDate.groups[date];
-      const expanded = expandedCategory[date];
-      const flightBooked = dayData.flights.some((f) => f.status === "booked");
-      const hotelBooked = dayData.hotels.some((h) => h.leg.status === "booked");
-      const transportBooked = dayData.transport.some((t) => t.status === "booked");
-      const activityBooked = dayData.activities.some((a) => a.status === "booked");
-      const isTravelDay = dayData.flights.length > 0;
-      const hasTransport = dayData.transport.length > 0;
-      const hasUserInfo = (leg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
-      const displayedCategories = [
-        dayData.hotels.length > 0 && dayData.hotels.some((h) => h.leg.hotelName || h.leg.title),
-        dayData.activities.length > 0
-      ];
-      if (isTravelDay || hasTransport) {
-        displayedCategories.push(dayData.transport.some((t) => hasUserInfo(t)));
-      }
-      if (isTravelDay) {
-        displayedCategories.push(dayData.flights.some((f) => hasUserInfo(f) || f.flightNumber));
-      }
-      const completed = displayedCategories.filter((c) => c).length;
-      const total = displayedCategories.length;
-      const dayStatusColor = completed === 0 ? "#C0392B" : completed === total ? COLORS.booked : COLORS.pending;
-      const dayStatusBg = completed === 0 ? "#F5DEDA" : completed === total ? COLORS.bookedBg : COLORS.pendingBg;
-      return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-        marginBottom: 8,
-        backgroundColor: COLORS.card,
-        borderRadius: 12,
-        border: `1px solid ${COLORS.border}`,
-        borderLeft: `3px solid ${dayStatusColor}`,
-        overflow: "hidden"
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-          display: "flex",
-          alignItems: "center",
-          gap: 8,
-          padding: "8px 12px"
-        }, children: [
-          isTravelDay && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-            width: 24,
-            height: 24,
-            borderRadius: "50%",
-            backgroundColor: COLORS.primary,
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            flexShrink: 0
-          }, children: getTravelDayIcon(dayData.flights) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: 1, display: "flex", alignItems: "center", gap: 6, minWidth: 0 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, color: COLORS.textMain }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("strong", { children: [
-                "Day ",
-                idx + 1
-              ] }),
-              " ",
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { color: COLORS.textSecondary, fontWeight: 400 }, children: [
-                "\xB7 ",
-                (() => {
-                  try {
-                    const d = /* @__PURE__ */ new Date(date + "T00:00:00");
-                    return d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
-                  } catch {
-                    return "";
-                  }
-                })()
-              ] })
-            ] }),
-            (() => {
-              const city = getCityForDate(date);
-              return city ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                fontSize: 10,
-                padding: "1px 6px",
-                borderRadius: 4,
-                backgroundColor: COLORS.accentLight,
-                color: COLORS.primaryDark,
-                fontWeight: 600
-              }, children: city }) : null;
-            })()
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: {
-            fontSize: 11,
-            fontWeight: 600,
-            color: dayStatusColor
-          }, children: [
-            completed,
-            "/",
-            total
-          ] })
-        ] }),
-        (() => {
-          const isTravelDay2 = dayData.flights.length > 0;
-          const hasUserInfo2 = (leg) => leg.status === "booked" || leg.confirmationNumber || leg.notes;
-          const isIntermediateTravelDay = isTravelDay2 && multiCityLegs && multiCityLegs.length > 0 && idx > 0 && idx < legsByDate.sortedDates.length - 1;
-          const checkoutHotels = isIntermediateTravelDay ? dayData.hotels.filter((h) => h.isContinuation) : [];
-          const checkinHotels = isIntermediateTravelDay ? dayData.hotels.filter((h) => !h.isContinuation) : [];
-          const checkoutBooked = checkoutHotels.some((h) => h.leg.status === "booked" || h.leg.hotelName || h.leg.title);
-          const checkinBooked = checkinHotels.some((h) => h.leg.status === "booked" || h.leg.hotelName || h.leg.title);
-          const hotelComplete = isIntermediateTravelDay ? checkoutBooked && checkinBooked : dayData.hotels.length > 0 && dayData.hotels.some((h) => h.leg.hotelName || h.leg.title);
-          const hotelPartialComplete = isIntermediateTravelDay && (checkoutBooked || checkinBooked) && !(checkoutBooked && checkinBooked);
-          const activityComplete = dayData.activities.length > 0;
-          const isToHub = (t) => t.title?.toLowerCase().startsWith("to ") || t.to?.toLowerCase().includes("airport") || t.to?.toLowerCase().includes("station") || t.to?.toLowerCase().includes("port");
-          const isFromHub = (t) => t.title?.toLowerCase().startsWith("from ") || t.from?.toLowerCase().includes("airport") || t.from?.toLowerCase().includes("station") || t.from?.toLowerCase().includes("port");
-          const toHubLeg = dayData.transport.find(isToHub);
-          const fromHubLeg = dayData.transport.find(isFromHub);
-          const toAirportBooked = toHubLeg && hasUserInfo2(toHubLeg);
-          const fromAirportBooked = fromHubLeg && hasUserInfo2(fromHubLeg);
-          const transportNeeded = isTravelDay2 ? 2 : dayData.transport.length > 0 ? dayData.transport.length : 0;
-          const transportBookedCount = isTravelDay2 ? (toAirportBooked ? 1 : 0) + (fromAirportBooked ? 1 : 0) : dayData.transport.filter((t) => hasUserInfo2(t)).length;
-          const transportAllComplete = transportNeeded > 0 && transportBookedCount >= transportNeeded;
-          const transportPartial = transportBookedCount > 0 && transportBookedCount < transportNeeded;
-          const transportHasAny = transportBookedCount > 0;
-          const flightComplete = dayData.flights.some((f) => hasUserInfo2(f) || f.flightNumber);
-          return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-            "div",
-            {
-              onClick: () => {
-                if (expanded) setExpandedCategory((prev) => ({ ...prev, [date]: null }));
-              },
-              style: {
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 6,
-                padding: "8px 12px",
-                borderBottom: expanded ? `1px solid ${COLORS.border}` : "none",
-                cursor: expanded ? "pointer" : "default"
-              },
-              children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  CategoryChip,
-                  {
-                    type: "hotel",
-                    hasItem: hotelComplete,
-                    isBooked: hotelBooked,
-                    isExpanded: expanded === "hotel",
-                    onClick: () => toggleCategory(date, "hotel"),
-                    label: "Stay",
-                    partialComplete: hotelPartialComplete
-                  }
-                ),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  CategoryChip,
-                  {
-                    type: "activity",
-                    hasItem: activityComplete,
-                    isBooked: activityBooked,
-                    isExpanded: expanded === "activity",
-                    onClick: () => toggleCategory(date, "activity")
-                  }
-                ),
-                (isTravelDay2 || dayData.transport.length > 0) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  CategoryChip,
-                  {
-                    type: "transport",
-                    hasItem: transportHasAny,
-                    isBooked: transportBooked,
-                    isExpanded: expanded === "transport",
-                    onClick: () => toggleCategory(date, "transport"),
-                    partialComplete: transportPartial
-                  }
-                ),
-                isTravelDay2 && (() => {
-                  const dayLeg = dayData.flights[0];
-                  const dayMode = dayLeg ? dayLeg.type === "car" ? "car" : dayLeg.type === "train" ? "rail" : dayLeg.type === "bus" ? "bus" : dayLeg.type === "ferry" ? "other" : "plane" : primaryTransportMode || "plane";
-                  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    CategoryChip,
-                    {
-                      type: "flight",
-                      hasItem: flightComplete,
-                      isBooked: flightBooked,
-                      isExpanded: expanded === "flight",
-                      onClick: () => toggleCategory(date, "flight"),
-                      transportMode: dayMode
-                    }
-                  );
-                })(),
-                dayData.standalone.map((leg) => {
-                  const chipLabel = leg.title || leg.type.charAt(0).toUpperCase() + leg.type.slice(1);
-                  const isExpanded = expanded === `standalone-${leg.id}`;
-                  const hasInfo = !!(leg.confirmationNumber || leg.notes || leg.hotelName || leg.flightNumber || leg.airline || leg.rentalCompany || leg.location || leg.time || leg.from || leg.to || leg.cost);
-                  const chipColor = hasInfo ? COLORS.booked : "#C0392B";
-                  const chipBg = isExpanded ? `${chipColor}15` : hasInfo ? COLORS.bookedBg : "#F5DEDA";
-                  const Icon2 = leg.type === "flight" ? Plane : leg.type === "train" ? TramFront : leg.type === "bus" ? Bus : leg.type === "ferry" ? Ship : leg.type === "hotel" ? Hotel : leg.type === "car" ? Car : MapPin;
-                  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                    "button",
-                    {
-                      onClick: (e) => {
-                        e.stopPropagation();
-                        toggleCategory(date, `standalone-${leg.id}`);
-                      },
-                      className: "btn-press",
-                      style: {
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 5,
-                        padding: "6px 10px",
-                        borderRadius: 20,
-                        backgroundColor: chipBg,
-                        border: `1.5px solid ${chipColor}`,
-                        cursor: "pointer",
-                        fontSize: 11,
-                        fontWeight: 600,
-                        color: chipColor,
-                        whiteSpace: "nowrap"
-                      },
-                      children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Icon2, { size: 13 }),
-                        chipLabel,
-                        isExpanded ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 12 }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronDown, { size: 12 }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                          "span",
-                          {
-                            onClick: (e) => {
-                              e.stopPropagation();
-                              onDeleteLeg(leg.id);
-                            },
-                            style: { marginLeft: 2, display: "flex", alignItems: "center", opacity: 0.6, cursor: "pointer" },
-                            onMouseEnter: (e) => e.currentTarget.style.opacity = "1",
-                            onMouseLeave: (e) => e.currentTarget.style.opacity = "0.6",
-                            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 11 })
-                          }
-                        )
-                      ]
-                    },
-                    leg.id
-                  );
-                }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "relative" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                  "button",
-                  {
-                    onClick: (e) => {
-                      e.stopPropagation();
-                      const rect = e.currentTarget.getBoundingClientRect();
-                      setAddDropdownPos({ top: rect.bottom + 4, left: rect.left });
-                      setAddDropdownDate((prev) => prev === date ? null : date);
-                    },
-                    className: "btn-press",
-                    style: {
-                      display: "flex",
-                      alignItems: "center",
-                      gap: 4,
-                      padding: "6px 10px",
-                      borderRadius: 20,
-                      backgroundColor: "white",
-                      border: `1.5px dashed ${COLORS.textMuted}`,
-                      cursor: "pointer",
-                      fontSize: 11,
-                      fontWeight: 600,
-                      color: COLORS.textMuted,
-                      whiteSpace: "nowrap",
-                      outline: "none"
-                    },
-                    children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 13 }),
-                      " Add"
-                    ]
-                  }
-                ) })
-              ]
-            }
-          );
-        })(),
-        expanded && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 12px", overflow: "hidden", maxWidth: "100%", boxSizing: "border-box" }, children: [
-          expanded === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.flights.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, leg.id)) }),
-          expanded === "hotel" && (() => {
-            const isTravelDay2 = dayData.flights.length > 0;
-            const isIntermediateTravelDay = isTravelDay2 && multiCityLegs && multiCityLegs.length > 0 && idx > 0 && idx < legsByDate.sortedDates.length - 1;
-            if (isIntermediateTravelDay) {
-              const leavingCity = dayData.flights[0]?.from || "previous city";
-              const arrivingCity = dayData.flights[0]?.to || "next city";
-              const checkoutHotels = dayData.hotels.filter((h) => h.isContinuation);
-              const checkinHotels = dayData.hotels.filter((h) => !h.isContinuation);
-              return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 11, fontWeight: 700, color: COLORS.textSecondary, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 12, style: { transform: "rotate(180deg)" } }),
-                    " Lodging Checkout \u2014 leaving ",
-                    leavingCity
-                  ] }),
-                  checkoutHotels.length > 0 ? checkoutHotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-checkout-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date: legsByDate.sortedDates[idx - 1] || date, status: "pending", title: "", location: leavingCity }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-                    " Add Hotel in ",
-                    leavingCity
-                  ] })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 11, fontWeight: 700, color: COLORS.textSecondary, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 6, display: "flex", alignItems: "center", gap: 6 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 12 }),
-                    " Lodging Checkin \u2014 arriving ",
-                    arrivingCity
-                  ] }),
-                  checkinHotels.length > 0 ? checkinHotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-checkin-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: arrivingCity }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-                    " Add Hotel in ",
-                    arrivingCity
-                  ] })
-                ] })
-              ] });
-            }
-            return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: dayData.hotels.length > 0 ? dayData.hotels.map(({ leg }) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, `${leg.id}-${date}`)) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "hotel", date, status: "pending", title: "", location: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed ${COLORS.hotel}`, backgroundColor: COLORS.hotelBg, color: COLORS.hotel, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-              " Add Hotel"
-            ] }) });
-          })(),
-          expanded === "transport" && (() => {
-            const dayLeg = dayData.flights[0];
-            const hubName = dayLeg ? dayLeg.type === "train" ? "Train Station" : dayLeg.type === "bus" ? "Bus Station" : dayLeg.type === "ferry" ? "Ship" : dayLeg.type === "car" ? "Rental Car Pickup" : "Airport" : "Airport";
-            const isToHubLeg = (t) => t.title?.toLowerCase().startsWith("to ") || t.to?.toLowerCase().includes("airport") || t.to?.toLowerCase().includes("station") || t.to?.toLowerCase().includes("port");
-            const isFromHubLeg = (t) => t.title?.toLowerCase().startsWith("from ") || t.from?.toLowerCase().includes("airport") || t.from?.toLowerCase().includes("station") || t.from?.toLowerCase().includes("port");
-            const toHubLeg = dayData.transport.find(isToHubLeg);
-            const fromHubLeg = dayData.transport.find(isFromHubLeg);
-            const toTitle = `To ${hubName}`;
-            const fromTitle = `From ${hubName}`;
-            return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-              (() => {
-                const toHubComplete = toHubLeg?.status === "booked";
-                const isEditing = editingTransport === `to-${date}`;
-                return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12, padding: 12, backgroundColor: COLORS.transportBg, borderRadius: 10, border: `1px solid ${COLORS.transport}30` }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: toHubLeg || isEditing ? 8 : 0 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 16, color: COLORS.transport }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: [
-                        "Getting to ",
-                        hubName
-                      ] })
-                    ] }),
-                    !toHubLeg && !isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6 }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                        "button",
-                        {
-                          onClick: () => onAddLeg({ type: "car", date, status: "booked", title: toTitle, notes: "Quick complete" }),
-                          style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                            " Mark Complete"
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                        "button",
-                        {
-                          onClick: () => {
-                            setEditingTransport(`to-${date}`);
-                            setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date });
-                          },
-                          style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.transport}`, backgroundColor: "white", color: COLORS.transport, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 12 }),
-                            " Add Details"
-                          ]
-                        }
-                      )
-                    ] }) : toHubLeg && !isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                      toHubComplete ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 11, color: COLORS.booked, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }, children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                        " Complete"
-                      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                        "button",
-                        {
-                          onClick: () => onUpdateLeg(toHubLeg.id, { status: "booked" }),
-                          style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                            " Mark Done"
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          onClick: () => {
-                            setEditingTransport(`to-${date}`);
-                            setTransportForm({ type: toHubLeg.rentalCompany || toHubLeg.notes?.startsWith("Rental") ? "rental" : toHubLeg.notes?.includes("Uber") ? "uber" : "other", notes: toHubLeg.notes || "", rentalCompany: toHubLeg.rentalCompany || "", startDate: toHubLeg.date || date, endDate: toHubLeg.endDate || date });
-                          },
-                          style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" },
-                          children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 12 })
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          onClick: () => onDeleteLeg(toHubLeg.id),
-                          style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" },
-                          children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 })
-                        }
-                      )
-                    ] }) : null
-                  ] }),
-                  isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: 8 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 6 }, children: ["uber", "rental", "other"].map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "button",
-                      {
-                        onClick: () => setTransportForm((f) => ({ ...f, type: t })),
-                        style: { padding: "6px 12px", borderRadius: 6, border: `1px solid ${transportForm.type === t ? COLORS.transport : COLORS.border}`, backgroundColor: transportForm.type === t ? COLORS.transportBg : "white", color: transportForm.type === t ? COLORS.transport : COLORS.textSecondary, fontSize: 12, fontWeight: 500, cursor: "pointer" },
-                        children: t === "uber" ? "\u{1F695} Uber/Lyft" : t === "rental" ? "\u{1F697} Rental Car" : "\u{1F4DD} Other"
-                      },
-                      t
-                    )) }),
-                    transportForm.type === "rental" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "input",
-                        {
-                          placeholder: "Rental company (e.g., Hertz, Enterprise)",
-                          value: transportForm.rentalCompany,
-                          onChange: (e) => setTransportForm((f) => ({ ...f, rentalCompany: e.target.value })),
-                          style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, alignItems: "center" }, children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Pickup:" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.startDate, onChange: (val) => setTransportForm((f) => ({ ...f, startDate: val })) }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Return:" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.endDate, onChange: (val) => setTransportForm((f) => ({ ...f, endDate: val })) })
-                      ] })
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        placeholder: "Notes (optional)",
-                        value: transportForm.notes,
-                        onChange: (e) => setTransportForm((f) => ({ ...f, notes: e.target.value })),
-                        style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6, justifyContent: "flex-end" }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setEditingTransport(null), style: { padding: "6px 12px", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 12, cursor: "pointer" }, children: "Cancel" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => {
-                        const notes = transportForm.type === "uber" ? "Uber/Lyft" : transportForm.type === "rental" ? `Rental: ${transportForm.rentalCompany}` : transportForm.notes;
-                        if (toHubLeg) {
-                          onUpdateLeg(toHubLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany, date: transportForm.startDate, endDate: transportForm.endDate, status: "booked", title: toTitle });
-                        } else {
-                          onAddLeg({ type: "car", date: transportForm.startDate || date, endDate: transportForm.endDate, status: "booked", title: toTitle, notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
-                        }
-                        setEditingTransport(null);
-                      }, style: { padding: "6px 12px", borderRadius: 6, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }, children: "Save" })
-                    ] })
-                  ] }) : toHubLeg && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }, onClick: () => {
-                    setEditingTransport(`to-${date}`);
-                    setTransportForm({ type: toHubLeg.rentalCompany || toHubLeg.notes?.startsWith("Rental") ? "rental" : toHubLeg.notes?.includes("Uber") ? "uber" : "other", notes: toHubLeg.notes || "", rentalCompany: toHubLeg.rentalCompany || "", startDate: toHubLeg.date || date, endDate: toHubLeg.endDate || date });
-                  }, children: toHubLeg.notes === "Quick complete" ? "Marked complete" : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                    toHubLeg.rentalCompany && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { marginRight: 8 }, children: [
-                      "\u{1F697} ",
-                      toHubLeg.rentalCompany
-                    ] }),
-                    toHubLeg.notes && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: toHubLeg.notes }),
-                    !toHubLeg.rentalCompany && !toHubLeg.notes && toHubLeg.status !== "booked" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.pending }, children: "Click to add details (Rental car, Uber, etc.)" })
-                  ] }) })
-                ] });
-              })(),
-              (() => {
-                const fromHubComplete = fromHubLeg?.status === "booked";
-                const isEditing = editingTransport === `from-${date}`;
-                return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: 12, backgroundColor: COLORS.transportBg, borderRadius: 10, border: `1px solid ${COLORS.transport}30` }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: fromHubLeg || isEditing ? 8 : 0 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 16, color: COLORS.transport, style: { transform: "rotate(180deg)" } }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: [
-                        "Leaving from ",
-                        hubName
-                      ] })
-                    ] }),
-                    !fromHubLeg && !isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6 }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                        "button",
-                        {
-                          onClick: () => onAddLeg({ type: "car", date, status: "booked", title: fromTitle, notes: "Quick complete" }),
-                          style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                            " Mark Complete"
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                        "button",
-                        {
-                          onClick: () => {
-                            setEditingTransport(`from-${date}`);
-                            setTransportForm({ type: "uber", notes: "", rentalCompany: "", startDate: date, endDate: date });
-                          },
-                          style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.transport}`, backgroundColor: "white", color: COLORS.transport, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 12 }),
-                            " Add Details"
-                          ]
-                        }
-                      )
-                    ] }) : fromHubLeg && !isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                      fromHubComplete ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { fontSize: 11, color: COLORS.booked, fontWeight: 600, display: "flex", alignItems: "center", gap: 4 }, children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                        " Complete"
-                      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                        "button",
-                        {
-                          onClick: () => onUpdateLeg(fromHubLeg.id, { status: "booked" }),
-                          style: { padding: "4px 10px", borderRadius: 6, border: `1px solid ${COLORS.booked}`, backgroundColor: `${COLORS.booked}15`, color: COLORS.booked, fontSize: 11, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 },
-                          children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 12 }),
-                            " Mark Done"
-                          ]
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          onClick: () => {
-                            setEditingTransport(`from-${date}`);
-                            setTransportForm({ type: fromHubLeg.rentalCompany || fromHubLeg.notes?.startsWith("Rental") ? "rental" : fromHubLeg.notes?.includes("Uber") ? "uber" : "other", notes: fromHubLeg.notes || "", rentalCompany: fromHubLeg.rentalCompany || "", startDate: fromHubLeg.date || date, endDate: fromHubLeg.endDate || date });
-                          },
-                          style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: COLORS.textMuted, fontSize: 11, cursor: "pointer" },
-                          children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 12 })
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          onClick: () => onDeleteLeg(fromHubLeg.id),
-                          style: { padding: "4px 8px", borderRadius: 6, border: "none", backgroundColor: "transparent", color: "#C0392B", fontSize: 11, cursor: "pointer" },
-                          children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 })
-                        }
-                      )
-                    ] }) : null
-                  ] }),
-                  isEditing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", flexDirection: "column", gap: 8 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 6 }, children: ["uber", "rental", "other"].map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "button",
-                      {
-                        onClick: () => setTransportForm((f) => ({ ...f, type: t })),
-                        style: { padding: "6px 12px", borderRadius: 6, border: `1px solid ${transportForm.type === t ? COLORS.transport : COLORS.border}`, backgroundColor: transportForm.type === t ? COLORS.transportBg : "white", color: transportForm.type === t ? COLORS.transport : COLORS.textSecondary, fontSize: 12, fontWeight: 500, cursor: "pointer" },
-                        children: t === "uber" ? "\u{1F695} Uber/Lyft" : t === "rental" ? "\u{1F697} Rental Car" : "\u{1F4DD} Other"
-                      },
-                      t
-                    )) }),
-                    transportForm.type === "rental" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "input",
-                        {
-                          placeholder: "Rental company (e.g., Hertz, Enterprise)",
-                          value: transportForm.rentalCompany,
-                          onChange: (e) => setTransportForm((f) => ({ ...f, rentalCompany: e.target.value })),
-                          style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, alignItems: "center" }, children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Pickup:" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.startDate, onChange: (val) => setTransportForm((f) => ({ ...f, startDate: val })) }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { fontSize: 12, color: COLORS.textSecondary }, children: "Return:" }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: transportForm.endDate, onChange: (val) => setTransportForm((f) => ({ ...f, endDate: val })) })
-                      ] })
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        placeholder: "Notes (optional)",
-                        value: transportForm.notes,
-                        onChange: (e) => setTransportForm((f) => ({ ...f, notes: e.target.value })),
-                        style: { padding: "8px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 12, outline: "none" }
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6, justifyContent: "flex-end" }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => setEditingTransport(null), style: { padding: "6px 12px", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 12, cursor: "pointer" }, children: "Cancel" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => {
-                        const notes = transportForm.type === "uber" ? "Uber/Lyft" : transportForm.type === "rental" ? `Rental: ${transportForm.rentalCompany}` : transportForm.notes;
-                        if (fromHubLeg) {
-                          onUpdateLeg(fromHubLeg.id, { notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany, date: transportForm.startDate, endDate: transportForm.endDate, status: "booked", title: fromTitle });
-                        } else {
-                          onAddLeg({ type: "car", date: transportForm.startDate || date, endDate: transportForm.endDate, status: "booked", title: fromTitle, notes: transportForm.notes || notes, rentalCompany: transportForm.rentalCompany });
-                        }
-                        setEditingTransport(null);
-                      }, style: { padding: "6px 12px", borderRadius: 6, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }, children: "Save" })
-                    ] })
-                  ] }) : fromHubLeg && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, color: COLORS.textSecondary, cursor: "pointer" }, onClick: () => {
-                    setEditingTransport(`from-${date}`);
-                    setTransportForm({ type: fromHubLeg.rentalCompany || fromHubLeg.notes?.startsWith("Rental") ? "rental" : fromHubLeg.notes?.includes("Uber") ? "uber" : "other", notes: fromHubLeg.notes || "", rentalCompany: fromHubLeg.rentalCompany || "", startDate: fromHubLeg.date || date, endDate: fromHubLeg.endDate || date });
-                  }, children: fromHubLeg.notes === "Quick complete" ? "Marked complete" : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                    fromHubLeg.rentalCompany && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { style: { marginRight: 8 }, children: [
-                      "\u{1F697} ",
-                      fromHubLeg.rentalCompany
-                    ] }),
-                    fromHubLeg.notes && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: fromHubLeg.notes }),
-                    !fromHubLeg.rentalCompany && !fromHubLeg.notes && fromHubLeg.status !== "booked" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.pending }, children: "Click to add details (Rental car, Uber, etc.)" })
-                  ] }) })
-                ] });
-              })()
-            ] });
-          })(),
-          expanded === "activity" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            dayData.activities.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }, leg.id)),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => onAddLeg({ type: "other", date, status: "pending", title: "" }), style: { width: "100%", padding: 12, borderRadius: 10, border: `2px dashed #6B705C`, backgroundColor: "#ECEAE2", color: "#6B705C", fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginTop: dayData.activities.length > 0 ? 8 : 0 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-              " Add Activity"
-            ] })
-          ] })
-        ] }),
-        dayData.standalone.map((leg) => expanded === `standalone-${leg.id}` && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { padding: "8px 12px" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TripLegCard, { leg, onUpdate: (u) => onUpdateLeg(leg.id, u), onDelete: () => onDeleteLeg(leg.id), isExpanded: expandedLegs.has(leg.id), onToggleExpand: () => toggleLegExpand(leg.id), tripDepartureDate: departureDate, tripReturnDate: returnDate, travelers }) }, leg.id))
-      ] }, date);
-    }),
-    addDropdownDate && import_react_dom.default.createPortal(
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { onClick: () => setAddDropdownDate(null), style: { position: "fixed", inset: 0, zIndex: 9999 } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: {
-          position: "fixed",
-          top: addDropdownPos.top,
-          left: addDropdownPos.left,
-          backgroundColor: "white",
-          borderRadius: 12,
-          padding: 6,
-          border: `1px solid ${COLORS.border}`,
-          boxShadow: "0 4px 16px rgba(0,0,0,0.12)",
-          zIndex: 1e4,
-          minWidth: 200
-        }, children: [
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 14 }), label: "Flight", type: "flight", title: "" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(TramFront, { size: 14 }), label: "Train", type: "train", title: "" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Bus, { size: 14 }), label: "Bus", type: "bus", title: "" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Ship, { size: 14 }), label: "Ferry / Cruise", type: "ferry", title: "" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }), label: "Lodging", type: "hotel", title: "" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 14 }), label: "Rental Car", type: "car", title: "" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 14 }), label: "Ride (Uber/Taxi)", type: "car", title: "Ride" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MapPin, { size: 14 }), label: "Activity", type: "other", title: "" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 14 }), label: "Restaurant / Dining", type: "other", title: "Dining" },
-          { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { size: 14 }), label: "Insurance / Document", type: "other", title: "Insurance" }
-        ].map((item, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-          "button",
-          {
-            onClick: () => {
-              onAddLeg({ type: item.type, date: addDropdownDate, status: "pending", title: item.title, standalone: true });
-              setAddDropdownDate(null);
-            },
-            style: {
-              display: "flex",
-              alignItems: "center",
-              gap: 10,
-              width: "100%",
-              padding: "8px 10px",
-              borderRadius: 8,
-              border: "none",
-              backgroundColor: "transparent",
-              cursor: "pointer",
-              fontSize: 13,
-              color: COLORS.textMain,
-              fontWeight: 500,
-              textAlign: "left"
-            },
-            onMouseEnter: (e) => e.currentTarget.style.backgroundColor = COLORS.inputBg,
-            onMouseLeave: (e) => e.currentTarget.style.backgroundColor = "transparent",
-            children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textSecondary, display: "flex", alignItems: "center" }, children: item.icon }),
-              item.label
-            ]
-          },
-          i
-        )) })
-      ] }),
-      document.body
-    ),
-    legsByDate.noDateLegs.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 20 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h3", { style: { margin: "0 0 12px", fontSize: 14, fontWeight: 600, color: COLORS.textMain, display: "flex", alignItems: "center", gap: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 16, color: COLORS.textMuted }),
-        "Trip Items (No Dates Set)"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: 8 }, children: legsByDate.noDateLegs.map((leg) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-        TripLegCard,
-        {
-          leg,
-          onUpdate: (u) => onUpdateLeg(leg.id, u),
-          onDelete: () => onDeleteLeg(leg.id),
-          isExpanded: expandedLegs.has(leg.id),
-          onToggleExpand: () => toggleLegExpand(leg.id),
-          tripDepartureDate: departureDate,
-          tripReturnDate: returnDate,
-          travelers
-        },
-        leg.id
-      )) })
-    ] })
-  ] });
-};
-var AddLegModal = ({ onAdd, onClose }) => {
-  const [type, setType] = (0, import_react3.useState)("flight");
-  const [formData, setFormData] = (0, import_react3.useState)({ status: "pending", title: "", date: "" });
-  const legTypes = [{ type: "flight", label: "Flight" }, { type: "hotel", label: "Hotel" }, { type: "car", label: "Car/Taxi" }, { type: "train", label: "Train" }, { type: "bus", label: "Bus" }];
-  const handleSubmit = () => {
-    let title = formData.title || "";
-    if (!title && type === "flight" && formData.from && formData.to) title = `Flight: ${formData.from} \u2192 ${formData.to}`;
-    else if (!title && type === "hotel" && formData.location) title = `Hotel in ${formData.location}`;
-    else if (!title) title = type.charAt(0).toUpperCase() + type.slice(1);
-    onAdd({ ...formData, type, title });
-    onClose();
-  };
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, padding: 20 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 500, width: "100%", maxHeight: "90vh", overflow: "auto" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 20 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 18, fontWeight: 700 }, children: "Add Trip Leg" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: onClose, style: { background: "none", border: "none", cursor: "pointer" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 24 }) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexWrap: "wrap", gap: 8, marginBottom: 20 }, children: legTypes.map((lt) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setType(lt.type), style: { padding: "10px 16px", borderRadius: 10, border: type === lt.type ? `2px solid ${getLegColor(lt.type).main}` : `1px solid ${COLORS.border}`, backgroundColor: type === lt.type ? getLegColor(lt.type).bg : "white", color: type === lt.type ? getLegColor(lt.type).main : COLORS.textSecondary, fontWeight: 600, fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-      getLegIcon(lt.type, 18),
-      " ",
-      lt.label
-    ] }, lt.type)) }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gap: 16 }, children: [
-      type !== "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.from || "", onChange: (e) => setFormData({ ...formData, from: e.target.value }), placeholder: "From", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.to || "", onChange: (e) => setFormData({ ...formData, to: e.target.value }), placeholder: "To", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } })
-      ] }),
-      type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.location || "", onChange: (e) => setFormData({ ...formData, location: e.target.value }), placeholder: "Location", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: formData.date || "", onChange: (val) => setFormData({ ...formData, date: val }) }),
-        type !== "hotel" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "time", value: formData.time || "", onChange: (val) => setFormData({ ...formData, time: val }) }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PickerPopover, { type: "date", value: formData.endDate || "", onChange: (val) => setFormData({ ...formData, endDate: val }) })
-      ] }),
-      type === "flight" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.flightNumber || "", onChange: (e) => setFormData({ ...formData, flightNumber: e.target.value }), placeholder: "Flight Number (e.g. AA1234)", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
-      type === "hotel" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.hotelName || "", onChange: (e) => setFormData({ ...formData, hotelName: e.target.value }), placeholder: "Hotel Name", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: formData.confirmationNumber || "", onChange: (e) => setFormData({ ...formData, confirmationNumber: e.target.value }), placeholder: "Confirmation # (optional)", style: { padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}` } })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 12, marginTop: 24 }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: handleSubmit, style: { flex: 1, padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 15, fontWeight: 700, cursor: "pointer" }, children: "Add to Trip" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: onClose, style: { padding: "14px 24px", borderRadius: 12, border: `1px solid ${COLORS.border}`, backgroundColor: "white", fontSize: 15, fontWeight: 600, cursor: "pointer" }, children: "Cancel" })
-    ] })
-  ] }) });
-};
-var MissingInfoBar = ({
-  missingItems,
-  onAddInfo,
-  editingItem,
-  setEditingItem,
-  editValue,
-  setEditValue,
-  onSaveEdit
-}) => {
-  const scrollRef = import_react3.default.useRef(null);
-  const [canScrollLeft, setCanScrollLeft] = import_react3.default.useState(false);
-  const [canScrollRight, setCanScrollRight] = import_react3.default.useState(false);
-  const checkScroll = () => {
-    if (scrollRef.current) {
-      const { scrollLeft, scrollWidth, clientWidth } = scrollRef.current;
-      setCanScrollLeft(scrollLeft > 0);
-      setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 5);
-    }
-  };
-  import_react3.default.useEffect(() => {
-    checkScroll();
-    const el = scrollRef.current;
-    if (el) el.addEventListener("scroll", checkScroll);
-    return () => {
-      if (el) el.removeEventListener("scroll", checkScroll);
-    };
-  }, [missingItems]);
-  const scroll = (direction) => {
-    if (scrollRef.current) {
-      const amount = direction === "left" ? -200 : 200;
-      scrollRef.current.scrollBy({ left: amount, behavior: "smooth" });
-    }
-  };
-  if (missingItems.length === 0) return null;
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 16 }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-      display: "flex",
-      alignItems: "center",
-      gap: 8,
-      marginBottom: 8,
-      color: COLORS.pending
-    }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleAlert, { size: 16 }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600 }, children: "Complete your itinerary:" })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-      canScrollLeft && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => scroll("left"), style: { padding: 6, borderRadius: 8, border: "none", backgroundColor: COLORS.card, color: COLORS.textSecondary, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 18, style: { transform: "rotate(-90deg)" } }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { ref: scrollRef, style: {
-        display: "flex",
-        gap: 8,
-        overflowX: "auto",
-        flex: 1,
-        scrollbarWidth: "none",
-        msOverflowStyle: "none"
-      }, className: "hide-scrollbar", children: missingItems.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { flexShrink: 0 }, children: editingItem === item.id ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 6,
-        padding: "8px 12px",
-        backgroundColor: COLORS.card,
-        borderRadius: 10,
-        border: `2px solid ${COLORS.primary}`,
-        minWidth: 180
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "input",
-          {
-            type: item.type.includes("date") ? "date" : item.type === "travelers" ? "number" : "text",
-            value: editValue,
-            onChange: (e) => setEditValue(e.target.value),
-            placeholder: item.label,
-            autoFocus: true,
-            min: item.type === "travelers" ? "1" : void 0,
-            style: {
-              flex: 1,
-              border: "none",
-              outline: "none",
-              fontSize: 13,
-              padding: 0,
-              width: item.type.includes("date") ? 130 : 80,
-              backgroundColor: "transparent"
-            },
-            onKeyDown: (e) => {
-              if (e.key === "Enter") onSaveEdit();
-              if (e.key === "Escape") setEditingItem(null);
-            }
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: onSaveEdit,
-            style: {
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: COLORS.primary,
-              padding: 2
-            },
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Check, { size: 16 })
-          }
-        ),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: () => setEditingItem(null),
-            style: {
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              color: COLORS.textMuted,
-              padding: 2
-            },
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 16 })
-          }
-        )
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-        "button",
-        {
-          onClick: () => {
-            setEditingItem(item.id);
-            setEditValue("");
-          },
-          style: {
-            display: "flex",
-            alignItems: "center",
-            gap: 6,
-            padding: "8px 14px",
-            backgroundColor: COLORS.pendingBg,
-            border: `1px solid ${COLORS.pending}`,
-            borderRadius: 10,
-            color: COLORS.pending,
-            fontSize: 13,
-            fontWeight: 600,
-            cursor: "pointer",
-            whiteSpace: "nowrap"
-          },
-          children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14 }),
-            item.label
-          ]
-        }
-      ) }, item.id)) }),
-      canScrollRight && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => scroll("right"), style: { padding: 6, borderRadius: 8, border: "none", backgroundColor: COLORS.card, color: COLORS.textSecondary, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 1px 3px rgba(0,0,0,0.1)" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronUp, { size: 18, style: { transform: "rotate(90deg)" } }) })
-    ] })
-  ] });
-};
-function TripPlanner({ initialData: initialData2 }) {
+function WeightLossQuiz({ initialData: initialData2 }) {
   const apiBaseUrl = (0, import_react3.useMemo)(() => resolveApiBaseUrl(initialData2), [initialData2]);
-  const [savedTrips, setSavedTrips] = (0, import_react3.useState)(() => loadSavedTrips());
-  const [currentView, setCurrentView] = (0, import_react3.useState)(() => {
-    try {
-      const s = localStorage.getItem(STORAGE_KEY);
-      if (s) {
-        const d = JSON.parse(s);
-        if (d.trip && d.trip.legs.length > 0) return "trip";
-      }
-    } catch {
-    }
-    return savedTrips.length > 0 ? "home" : "trip";
+  const [answers, setAnswers] = (0, import_react3.useState)(() => getSavedAnswers());
+  const [currentIndex, setCurrentIndex] = (0, import_react3.useState)(() => {
+    const saved = getSavedAnswers();
+    const nextOpen = QUESTIONS.findIndex((q) => !saved[q.id]);
+    return nextOpen === -1 ? QUESTIONS.length - 1 : nextOpen;
   });
-  const [trip, setTrip] = (0, import_react3.useState)(() => {
-    try {
-      const s = localStorage.getItem(STORAGE_KEY);
-      if (s) {
-        const d = JSON.parse(s);
-        if (d.trip) return d.trip;
-      }
-    } catch {
-    }
-    return { id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() };
+  const [showResults, setShowResults] = (0, import_react3.useState)(() => {
+    const saved = getSavedAnswers();
+    return QUESTIONS.every((q) => Boolean(saved[q.id]));
   });
-  const [tripDescription, setTripDescription] = (0, import_react3.useState)("");
-  const [showAddModal, setShowAddModal] = (0, import_react3.useState)(false);
-  const [expandedLegs, setExpandedLegs] = (0, import_react3.useState)(/* @__PURE__ */ new Set());
-  const [inputMode, setInputMode] = (0, import_react3.useState)("freeform");
-  const [renamingTripId, setRenamingTripId] = (0, import_react3.useState)(null);
-  const [renameValue, setRenameValue] = (0, import_react3.useState)("");
-  const [isAnalyzing, setIsAnalyzing] = (0, import_react3.useState)(false);
-  const [isEditingDates, setIsEditingDates] = (0, import_react3.useState)(false);
-  const [editingItem, setEditingItem] = (0, import_react3.useState)(null);
-  const [editValue, setEditValue] = (0, import_react3.useState)("");
-  const [editingTravelers, setEditingTravelers] = (0, import_react3.useState)(false);
   const [showSubscribeModal, setShowSubscribeModal] = (0, import_react3.useState)(false);
   const [subscribeEmail, setSubscribeEmail] = (0, import_react3.useState)("");
   const [subscribeStatus, setSubscribeStatus] = (0, import_react3.useState)("idle");
@@ -26681,414 +25203,88 @@ function TripPlanner({ initialData: initialData2 }) {
   const [showFeedbackModal, setShowFeedbackModal] = (0, import_react3.useState)(false);
   const [feedbackText, setFeedbackText] = (0, import_react3.useState)("");
   const [feedbackStatus, setFeedbackStatus] = (0, import_react3.useState)("idle");
-  const [enjoyVote, setEnjoyVote] = (0, import_react3.useState)(null);
-  const [confirmDialog, setConfirmDialog] = (0, import_react3.useState)(null);
-  const [showNameTripModal, setShowNameTripModal] = (0, import_react3.useState)(false);
-  const [nameTripValue, setNameTripValue] = (0, import_react3.useState)("");
-  const containerRef = (0, import_react3.useRef)(null);
-  const [pillRight, setPillRight] = (0, import_react3.useState)(16);
-  (0, import_react3.useEffect)(() => {
-    const update = () => {
-      if (containerRef.current) {
-        const rect = containerRef.current.getBoundingClientRect();
-        setPillRight(Math.max(16, window.innerWidth - rect.right + 16));
-      }
-    };
-    update();
-    window.addEventListener("resize", update);
-    window.addEventListener("scroll", update);
-    const ro = typeof ResizeObserver !== "undefined" ? new ResizeObserver(update) : null;
-    if (ro && containerRef.current) ro.observe(containerRef.current);
-    return () => {
-      window.removeEventListener("resize", update);
-      window.removeEventListener("scroll", update);
-      ro?.disconnect();
-    };
-  }, []);
+  const [enjoyVote, setEnjoyVote] = (0, import_react3.useState)(() => {
+    try {
+      const saved = localStorage.getItem(ENJOY_VOTE_KEY);
+      return saved === "up" || saved === "down" ? saved : null;
+    } catch {
+      return null;
+    }
+  });
+  const [copied, setCopied] = (0, import_react3.useState)(false);
   (0, import_react3.useEffect)(() => {
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify({ trip, timestamp: Date.now() }));
+      localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify({ answers, updatedAt: Date.now() }));
     } catch {
     }
-  }, [trip]);
+  }, [answers]);
   (0, import_react3.useEffect)(() => {
-    const block = () => {
-      const el = containerRef.current || document;
-      el.querySelectorAll("input, textarea").forEach((input) => {
-        input.setAttribute("autocomplete", "off");
-        input.setAttribute("data-form-type", "other");
-        input.setAttribute("data-lpignore", "true");
-        input.setAttribute("data-1p-ignore", "");
-      });
-    };
-    block();
-    const mo = new MutationObserver(block);
-    mo.observe(document.body, { childList: true, subtree: true });
-    return () => mo.disconnect();
-  }, []);
-  (0, import_react3.useEffect)(() => {
-    try {
-      const v = localStorage.getItem("enjoyVote");
-      if (v === "up" || v === "down") setEnjoyVote(v);
-    } catch {
-    }
-  }, []);
-  const handleEnjoyVote = (vote) => {
-    if (enjoyVote) return;
-    setEnjoyVote(vote);
-    try {
-      localStorage.setItem("enjoyVote", vote);
-    } catch {
-    }
-    trackEvent("enjoy_vote", { vote, tripName: trip.name || null, tripType: trip.tripType || null });
-    setShowFeedbackModal(true);
-  };
-  const hasHydrated = (0, import_react3.useRef)(false);
-  (0, import_react3.useEffect)(() => {
-    if (hasHydrated.current) return;
-    if (!initialData2 || typeof initialData2 !== "object" || Object.keys(initialData2).length === 0) return;
-    const {
-      destination,
-      departure_city,
-      trip_type,
-      departure_date,
-      return_date,
-      travelers,
-      departure_mode,
-      multi_city_legs,
-      trip_description
-    } = initialData2;
-    if (!destination && !departure_city && !trip_description && !multi_city_legs?.length) return;
-    hasHydrated.current = true;
-    console.log("[TripPlanner] Hydrating with data:", initialData2);
-    if (trip.legs.length > 0) {
-      const existing = loadSavedTrips();
-      const idx = existing.findIndex((t) => t.id === trip.id);
-      if (idx >= 0) {
-        existing[idx] = { ...trip, updatedAt: Date.now() };
-      } else {
-        existing.push({ ...trip, updatedAt: Date.now() });
-      }
-      saveTripsToStorage(existing);
-      setSavedTrips(existing);
-    }
-    const tripType = trip_type || (return_date ? "round_trip" : "one_way");
-    const rawMode = departure_mode || "plane";
-    const mode = rawMode === "ferry" ? "other" : rawMode;
-    const newTrip = {
-      id: generateId(),
-      name: destination ? `Trip to ${destination}` : "My Trip",
-      tripType,
-      legs: [],
-      travelers: travelers || 1,
-      departureDate: departure_date,
-      returnDate: return_date,
-      departureMode: mode,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    };
-    if (trip_type === "multi_city" && multi_city_legs?.length) {
-      newTrip.multiCityLegs = multi_city_legs.map((leg) => ({
-        id: generateId(),
-        from: leg.from || "",
-        to: leg.to || "",
-        date: leg.date || "",
-        mode: leg.mode || "plane"
-      }));
-    } else if (departure_city && destination) {
-      const outboundFlight = {
-        id: generateId(),
-        type: mode === "plane" ? "flight" : mode === "rail" ? "train" : mode === "bus" ? "bus" : mode === "other" ? "ferry" : "flight",
-        status: "pending",
-        title: `${getModeLabel(mode)}: ${departure_city} \u2192 ${destination}`,
-        from: departure_city,
-        to: destination,
-        date: departure_date || ""
-      };
-      newTrip.legs.push(outboundFlight);
-      if (tripType !== "one_way") {
-        const returnLeg = {
-          id: generateId(),
-          type: outboundFlight.type,
-          status: "pending",
-          title: `${getModeLabel(mode)}: ${destination} \u2192 ${departure_city}`,
-          from: destination,
-          to: departure_city,
-          date: return_date || ""
-        };
-        newTrip.legs.push(returnLeg);
-      }
-    }
-    const looksLikeToken = (s) => !s.includes(" ") && s.length > 20 || /^v\d+\//.test(s) || /^[A-Za-z0-9+/=]{20,}$/.test(s);
-    if (trip_description && !looksLikeToken(trip_description) && newTrip.legs.length === 0 && !newTrip.multiCityLegs?.length) {
-      setTripDescription(trip_description);
-    }
-    setTrip(newTrip);
-    setCurrentView("trip");
+    trackEvent("quiz_view", { fromHydration: Boolean(initialData2 && Object.keys(initialData2).length > 0) });
   }, [initialData2]);
-  (0, import_react3.useEffect)(() => {
-    if (trip.tripType === "multi_city" && trip.multiCityLegs && trip.multiCityLegs.length > 0) {
-      const modeToLegType = (mode) => {
-        switch (mode) {
-          case "car":
-            return "car";
-          case "rail":
-            return "train";
-          case "bus":
-            return "bus";
-          case "other":
-            return "ferry";
-          default:
-            return "flight";
-        }
-      };
-      const multiCityLegIds = new Set(trip.multiCityLegs.map((l) => l.id));
-      const newTransportLegs = trip.multiCityLegs.filter((leg) => leg.from && leg.to && leg.date).map((leg) => {
-        const legType = modeToLegType(leg.mode || "plane");
-        const existing = trip.legs.find((l) => l.id === leg.id);
-        return {
-          id: leg.id,
-          type: legType,
-          status: existing?.status || "pending",
-          title: `${getModeLabel(leg.mode || "plane")}: ${leg.from} \u2192 ${leg.to}`,
-          from: leg.from,
-          to: leg.to,
-          date: leg.date,
-          ...existing?.confirmationNumber ? { confirmationNumber: existing.confirmationNumber } : {},
-          ...existing?.passengerTickets ? { passengerTickets: existing.passengerTickets } : {}
-        };
-      });
-      const otherLegs = trip.legs.filter((l) => !multiCityLegIds.has(l.id));
-      const currentTransportLegs = trip.legs.filter((l) => multiCityLegIds.has(l.id));
-      const legsChanged = JSON.stringify(newTransportLegs.map((l) => ({ id: l.id, type: l.type, from: l.from, to: l.to, date: l.date, title: l.title }))) !== JSON.stringify(currentTransportLegs.map((l) => ({ id: l.id, type: l.type, from: l.from, to: l.to, date: l.date, title: l.title })));
-      if (legsChanged && newTransportLegs.length > 0) {
-        setTrip((t) => ({
-          ...t,
-          legs: [...newTransportLegs, ...otherLegs],
-          updatedAt: Date.now()
-        }));
-      }
-    }
-  }, [trip.tripType, trip.multiCityLegs]);
-  (0, import_react3.useEffect)(() => {
-    if (trip.tripType === "round_trip" && trip.returnDate && trip.departureDate) {
-      const flights = trip.legs.filter((l) => l.type === "flight");
-      const hasReturnFlight = flights.some((f) => f.date === trip.returnDate);
-      if (flights.length > 0 && !hasReturnFlight) {
-        const outboundFlight = flights[0];
-        const origin = outboundFlight.from;
-        const destination = outboundFlight.to;
-        if (origin && destination) {
-          const returnFlight = {
-            id: generateId(),
-            type: "flight",
-            status: "pending",
-            title: `Flight: ${destination} \u2192 ${origin}`,
-            from: destination,
-            to: origin,
-            date: trip.returnDate
-          };
-          setTrip((t) => ({ ...t, legs: [...t.legs, returnFlight], updatedAt: Date.now() }));
-        }
-      }
-    }
-  }, [trip.tripType, trip.returnDate, trip.departureDate, trip.legs.filter((l) => l.type === "flight").length]);
-  (0, import_react3.useEffect)(() => {
-    const flights = trip.legs.filter((l) => l.type === "flight");
-    const hotels = trip.legs.filter((l) => l.type === "hotel");
-    if (flights.length > 0 && hotels.length > 0) {
-      const outboundFlight = flights[0];
-      const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
-      let needsUpdate = false;
-      const updatedLegs = trip.legs.map((leg) => {
-        if (leg.type === "hotel") {
-          const updates = {};
-          if (!leg.date && outboundFlight?.date) {
-            updates.date = outboundFlight.date;
-            needsUpdate = true;
-          }
-          if (!leg.endDate && returnFlight?.date) {
-            updates.endDate = returnFlight.date;
-            needsUpdate = true;
-          }
-          if (Object.keys(updates).length > 0) {
-            return { ...leg, ...updates };
-          }
-        }
-        return leg;
-      });
-      if (needsUpdate) {
-        setTrip((t) => ({ ...t, legs: updatedLegs, updatedAt: Date.now() }));
-      }
-    }
-  }, [trip.legs.filter((l) => l.type === "flight").map((f) => f.date).join(",")]);
-  const missingInfo = (0, import_react3.useMemo)(() => {
-    const items = [];
-    const flights = trip.legs.filter((l) => l.type === "flight");
-    const hotels = trip.legs.filter((l) => l.type === "hotel");
-    const outboundFlight = flights[0];
-    const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
-    if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-      const sortedLegs2 = [...trip.multiCityLegs].filter((l) => l.date && l.to).sort((a, b) => a.date.localeCompare(b.date));
-      for (let i = 0; i < sortedLegs2.length; i++) {
-        const leg = sortedLegs2[i];
-        const nextLeg = sortedLegs2[i + 1];
-        const city = leg.to;
-        const startDate = leg.date;
-        const endDate = nextLeg ? (() => {
-          const d = /* @__PURE__ */ new Date(nextLeg.date + "T00:00:00");
-          d.setDate(d.getDate() - 1);
-          return d.toISOString().split("T")[0];
-        })() : startDate;
-        const hasHotelForCity = hotels.some((h) => h.hotelName && (h.location === city || h.hotelName.toLowerCase().includes(city.toLowerCase())));
-        if (!hasHotelForCity && city) {
-          items.push({
-            id: `add-hotel-${city}`,
-            type: "hotel_name",
-            label: `Add hotel (${city})`,
-            icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
-            priority: 1,
-            city,
-            startDate,
-            endDate
-          });
-        }
-      }
-    } else if (!hotels.some((h) => h.hotelName)) {
-      items.push({
-        id: "add-hotel",
-        type: "hotel_name",
-        label: "Add hotel",
-        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
-        priority: 1
-      });
-    }
-    const primaryMode = trip.departureMode || "plane";
-    const confirmLabel = getModeConfirmationLabel(primaryMode);
-    flights.forEach((f) => {
-      if (!f.flightNumber) {
-        const routeLabel = f.from && f.to ? `${f.from} \u2192 ${f.to}` : getModeLabel(primaryMode).toLowerCase();
-        items.push({
-          id: `flight-${f.id}`,
-          type: "flight_number",
-          label: `Add ${confirmLabel} (${routeLabel})`,
-          icon: getModeIcon(primaryMode, 14),
-          legId: f.id,
-          priority: 2
-        });
-      }
-    });
-    if (trip.travelers === 1) {
-      items.push({
-        id: "travelers",
-        type: "travelers",
-        label: "Confirm # travelers",
-        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Users, { size: 14 }),
-        priority: 3
-      });
-    }
-    if (outboundFlight && !outboundFlight.date) {
-      items.push({
-        id: `date-${outboundFlight.id}`,
-        type: "departure_date",
-        label: "Add departure date",
-        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
-        legId: outboundFlight.id,
-        priority: 4
-      });
-    }
-    if (returnFlight && !returnFlight.date) {
-      items.push({
-        id: `date-${returnFlight.id}`,
-        type: "return_date",
-        label: "Add return date",
-        icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 14 }),
-        legId: returnFlight.id,
-        priority: 5
-      });
-    }
-    hotels.forEach((h) => {
-      if (!h.hotelName && !items.some((i) => i.type === "hotel_name")) {
-        items.push({
-          id: `hotel-${h.id}`,
-          type: "hotel_name",
-          label: "Add hotel name",
-          icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 14 }),
-          legId: h.id,
-          priority: 6
-        });
-      }
-    });
-    [...flights, ...hotels].forEach((leg) => {
-      if (!leg.confirmationNumber && leg.status === "booked") {
-        items.push({
-          id: `conf-${leg.id}`,
-          type: "confirmation",
-          label: `Add confirmation #`,
-          icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(FileText, { size: 14 }),
-          legId: leg.id,
-          priority: 7
-        });
-      }
-    });
-    return items.sort((a, b) => a.priority - b.priority).slice(0, 4);
-  }, [trip]);
-  const handleSaveEdit = () => {
-    if (!editingItem || !editValue.trim()) {
-      setEditingItem(null);
+  const answeredCount = Object.keys(answers).length;
+  const progress = Math.round(answeredCount / QUESTIONS.length * 100);
+  const activeQuestion = QUESTIONS[Math.min(currentIndex, QUESTIONS.length - 1)];
+  const scores = (0, import_react3.useMemo)(() => scoreQuiz(answers), [answers]);
+  const topProfile = (0, import_react3.useMemo)(() => pickTopProfile(scores), [scores]);
+  const profile = PROFILES[topProfile];
+  const maxScore = Math.max(...Object.values(scores), 1);
+  const handleAnswer = (questionId, choiceId) => {
+    const nextAnswers = { ...answers, [questionId]: choiceId };
+    setAnswers(nextAnswers);
+    trackEvent("quiz_answered", { questionId, choiceId, answeredCount: Object.keys(nextAnswers).length });
+    const isLastQuestion = currentIndex >= QUESTIONS.length - 1;
+    if (isLastQuestion) {
+      setShowResults(true);
+      trackEvent("quiz_completed", { profile: pickTopProfile(scoreQuiz(nextAnswers)) });
       return;
     }
-    const item = missingInfo.find((i) => i.id === editingItem);
-    if (!item) return;
-    if (item.type === "travelers") {
-      setTrip((t) => ({ ...t, travelers: parseInt(editValue) || 1, updatedAt: Date.now() }));
-    } else if (item.id === "add-hotel" || item.id.startsWith("add-hotel-")) {
-      const newHotel = {
-        id: generateId(),
-        type: "hotel",
-        status: "pending",
-        title: editValue,
-        hotelName: editValue,
-        date: item.startDate || trip.departureDate || "",
-        endDate: item.endDate || trip.returnDate || "",
-        location: item.city || ""
-      };
-      setTrip((t) => ({ ...t, legs: [...t.legs, newHotel], updatedAt: Date.now() }));
-    } else if (item.type === "departure_date" && item.legId) {
-      setTrip((t) => ({
-        ...t,
-        departureDate: editValue,
-        legs: t.legs.map((l) => l.id === item.legId ? { ...l, date: editValue } : l),
-        updatedAt: Date.now()
-      }));
-    } else if (item.type === "return_date" && item.legId) {
-      setTrip((t) => ({
-        ...t,
-        returnDate: editValue,
-        legs: t.legs.map((l) => l.id === item.legId ? { ...l, date: editValue } : l),
-        updatedAt: Date.now()
-      }));
-    } else if (item.legId) {
-      const updates = {};
-      if (item.type === "flight_number") updates.flightNumber = editValue;
-      if (item.type === "hotel_name") {
-        updates.hotelName = editValue;
-        updates.title = editValue;
-      }
-      if (item.type === "confirmation") updates.confirmationNumber = editValue;
-      setTrip((t) => ({
-        ...t,
-        legs: t.legs.map((l) => l.id === item.legId ? { ...l, ...updates } : l),
-        updatedAt: Date.now()
-      }));
+    window.setTimeout(() => {
+      setCurrentIndex((prev) => Math.min(prev + 1, QUESTIONS.length - 1));
+    }, 120);
+  };
+  const handleRestart = () => {
+    setAnswers({});
+    setCurrentIndex(0);
+    setShowResults(false);
+    setCopied(false);
+    try {
+      localStorage.removeItem(QUIZ_STATE_KEY);
+    } catch {
     }
-    setEditingItem(null);
-    setEditValue("");
+    trackEvent("quiz_reset");
+  };
+  const handleCopyPlan = async () => {
+    const text = [
+      `Weight-Loss Quiz Result: ${profile.label}`,
+      profile.description,
+      `First focus: ${profile.firstFocus}`,
+      "7-day starter plan:",
+      ...profile.steps.map((step, idx) => `${idx + 1}. ${step}`),
+      `Avoid: ${profile.avoid}`,
+      `Timeline: ${profile.timeline}`
+    ].join("\n");
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(true);
+      window.setTimeout(() => setCopied(false), 1800);
+      trackEvent("quiz_copy_plan", { profile: profile.label });
+    } catch {
+      setCopied(false);
+    }
+  };
+  const handleEnjoyVote = (vote) => {
+    setEnjoyVote(vote);
+    try {
+      localStorage.setItem(ENJOY_VOTE_KEY, vote);
+    } catch {
+    }
+    trackEvent("enjoy_vote", { vote, tool: "weight-loss-quiz" });
+    setShowFeedbackModal(true);
   };
   const handleSubscribe = async () => {
     if (!subscribeEmail || !subscribeEmail.includes("@")) {
-      setSubscribeMessage("Please enter a valid email.");
       setSubscribeStatus("error");
+      setSubscribeMessage("Please enter a valid email.");
       return;
     }
     setSubscribeStatus("loading");
@@ -27096,24 +25292,22 @@ function TripPlanner({ initialData: initialData2 }) {
       const response = await fetch(buildApiUrl(apiBaseUrl, "/api/subscribe"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: subscribeEmail, topicId: "trip-planner-news", topicName: "Trip Planner Updates" })
+        body: JSON.stringify({
+          email: subscribeEmail,
+          topicId: "weight-loss-quiz-news",
+          topicName: "Weight-Loss Quiz Updates"
+        })
       });
       const data = await response.json();
       if (response.ok && data.success) {
         setSubscribeStatus("success");
-        setSubscribeMessage(data.message);
-        setTimeout(() => {
-          setShowSubscribeModal(false);
-          setSubscribeEmail("");
-          setSubscribeStatus("idle");
-          setSubscribeMessage("");
-        }, 3e3);
+        setSubscribeMessage(data.message || "Subscribed.");
+        trackEvent("notify_me_subscribe", { topic: "weight-loss-quiz-news" });
       } else {
         setSubscribeStatus("error");
-        setSubscribeMessage(data.error || "Failed to subscribe.");
+        setSubscribeMessage(data.error || "Unable to subscribe right now.");
       }
-    } catch (e) {
-      console.error("Subscribe error:", e);
+    } catch {
       setSubscribeStatus("error");
       setSubscribeMessage("Network error. Please try again.");
     }
@@ -27125,1228 +25319,648 @@ function TripPlanner({ initialData: initialData2 }) {
       const response = await fetch(buildApiUrl(apiBaseUrl, "/api/track"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ event: "user_feedback", data: { feedback: feedbackText, tool: "trip-planner", enjoymentVote: enjoyVote || null, tripName: trip.name || null } })
-      });
-      if (response.ok) {
-        setFeedbackStatus("success");
-        setTimeout(() => {
-          setShowFeedbackModal(false);
-          setFeedbackText("");
-          setFeedbackStatus("idle");
-        }, 2e3);
-      } else {
-        setFeedbackStatus("error");
-      }
-    } catch (e) {
-      console.error("Feedback error:", e);
-      setFeedbackStatus("error");
-    }
-  };
-  const handleParseDescription = async () => {
-    if (!tripDescription.trim() || isAnalyzing) return;
-    trackEvent("parse_trip", { tripType: trip.tripType, descriptionLength: tripDescription.length });
-    setIsAnalyzing(true);
-    try {
-      const response = await fetch(buildApiUrl(apiBaseUrl, "/api/parse-trip"), {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          text: tripDescription,
-          departureDate: trip.departureDate,
-          returnDate: trip.returnDate,
-          tripType: trip.tripType
+          event: "user_feedback",
+          data: {
+            tool: "weight-loss-quiz",
+            enjoymentVote: enjoyVote,
+            profile: profile.label,
+            feedback: feedbackText
+          }
         })
       });
       if (!response.ok) {
-        throw new Error("Failed to analyze trip");
+        setFeedbackStatus("error");
+        return;
       }
-      const data = await response.json();
-      const parsed = data.legs || [];
-      const isPrimaryTravelType = (type) => {
-        const t = (type || "").toLowerCase();
-        return t === "flight" || t === "train" || t === "bus" || t === "ferry";
-      };
-      const toTransportMode = (type) => {
-        const t = (type || "").toLowerCase();
-        if (t === "flight") return "plane";
-        if (t === "train") return "rail";
-        if (t === "bus") return "bus";
-        if (t === "ferry") return "other";
-        if (t === "car") return "car";
-        return void 0;
-      };
-      const primaryTravelLegs = parsed.filter((p) => isPrimaryTravelType(p?.type));
-      const inferredDepartureMode = toTransportMode(primaryTravelLegs[0]?.type);
-      const inferredReturnMode = toTransportMode(primaryTravelLegs[1]?.type);
-      const inferredTripType = primaryTravelLegs.length === 1 ? "one_way" : void 0;
-      if (parsed.length > 0) {
-        const newLegs = parsed.map((l, idx) => {
-          const parsedType = (l.type || "").toLowerCase();
-          const normalizedType = parsedType === "train" || parsedType === "bus" || parsedType === "ferry" ? "flight" : parsedType === "flight" || parsedType === "hotel" || parsedType === "car" ? parsedType : "other";
-          let legDate = l.date || "";
-          let legEndDate = l.endDate;
-          if (!legDate) {
-            if (normalizedType === "flight") {
-              const flightIndex = parsed.filter((p, i) => isPrimaryTravelType(p?.type) && i < idx).length;
-              legDate = flightIndex === 0 ? trip.departureDate || "" : trip.returnDate || "";
-            } else if (normalizedType === "hotel") {
-              legDate = trip.departureDate || "";
-              legEndDate = legEndDate || trip.returnDate;
-            } else if (normalizedType === "car") {
-              const primaryLeg = parsed.find((p) => isPrimaryTravelType(p?.type));
-              const isOutbound = l.title?.toLowerCase().includes(primaryLeg?.from?.toLowerCase() || "");
-              legDate = isOutbound ? trip.departureDate || "" : trip.returnDate || "";
-            }
-          }
-          return {
-            id: generateId(),
-            type: normalizedType,
-            status: l.status || "pending",
-            title: l.title || "",
-            date: legDate,
-            time: l.time,
-            endDate: legEndDate,
-            from: l.from,
-            to: l.to,
-            location: l.location,
-            flightNumber: l.flightNumber,
-            airline: l.airline,
-            hotelName: l.hotelName,
-            confirmationNumber: l.confirmationNumber
-          };
-        });
-        const flights = newLegs.filter((l) => l.type === "flight");
-        const departureDate = flights[0]?.date || "";
-        const returnDate = flights.length > 1 ? flights[flights.length - 1]?.date : "";
-        const hotel = newLegs.find((l) => l.type === "hotel");
-        const hotelEndDate = hotel?.endDate || returnDate;
-        const destination = flights[0]?.to || hotel?.location || "";
-        const updatedTrip = {
-          ...trip,
-          tripType: inferredTripType || trip.tripType,
-          legs: [...trip.legs, ...newLegs],
-          departureDate: departureDate || trip.departureDate,
-          returnDate: returnDate || hotelEndDate || trip.returnDate,
-          departureMode: inferredDepartureMode || trip.departureMode,
-          returnMode: inferredReturnMode || trip.returnMode || inferredDepartureMode,
-          name: trip.name === "My Trip" && destination ? `Trip to ${destination}` : trip.name,
-          updatedAt: Date.now()
-        };
-        setTrip(updatedTrip);
-        setTripDescription("");
-      }
-    } catch (error) {
-      console.error("Failed to parse trip:", error);
-      alert("Failed to analyze trip. Please try again.");
-    } finally {
-      setIsAnalyzing(false);
+      setFeedbackStatus("success");
+      trackEvent("user_feedback", { profile: profile.label, enjoymentVote: enjoyVote || null });
+      window.setTimeout(() => {
+        setShowFeedbackModal(false);
+        setFeedbackText("");
+        setFeedbackStatus("idle");
+      }, 900);
+    } catch {
+      setFeedbackStatus("error");
     }
   };
-  const handleAddLeg = (legData) => {
-    const newLeg = { ...legData, id: generateId(), type: legData.type || "other", status: legData.status || "pending", title: legData.title || "", date: legData.date || "" };
-    setTrip((t) => ({ ...t, legs: [...t.legs, newLeg], updatedAt: Date.now() }));
-    setExpandedLegs((p) => new Set(p).add(newLeg.id));
-    trackEvent("add_leg", { legType: newLeg.type, title: newLeg.title });
-  };
-  const handleUpdateLeg = (legId, updates) => setTrip((t) => ({ ...t, legs: t.legs.map((l) => l.id === legId ? { ...l, ...updates } : l), updatedAt: Date.now() }));
-  const doDeleteLeg = (legId) => {
-    const leg = trip.legs.find((l) => l.id === legId);
-    trackEvent("delete_leg", { legType: leg?.type, title: leg?.title });
-    setTrip((t) => ({ ...t, legs: t.legs.filter((l) => l.id !== legId), updatedAt: Date.now() }));
-    setExpandedLegs((p) => {
-      const n = new Set(p);
-      n.delete(legId);
-      return n;
-    });
-  };
-  const handleDeleteLeg = (legId) => {
-    const leg = trip.legs.find((l) => l.id === legId);
-    const label = leg?.title || leg?.type || "this item";
-    setConfirmDialog({ message: `Delete "${label}"?`, onConfirm: () => doDeleteLeg(legId) });
-  };
-  const toggleLegExpand = (legId) => setExpandedLegs((p) => {
-    const n = new Set(p);
-    n.has(legId) ? n.delete(legId) : n.add(legId);
-    return n;
-  });
-  const handleReset = () => {
-    setConfirmDialog({ message: "Clear all trip data?", onConfirm: () => {
-      trackEvent("reset", { tripName: trip.name, legCount: trip.legs.length });
-      setTrip({ id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() });
-      setTripDescription("");
-      setExpandedLegs(/* @__PURE__ */ new Set());
-    } });
-  };
-  const doSaveTrip = (tripToSave) => {
-    const updatedTrip = { ...tripToSave, updatedAt: Date.now() };
-    const existingIndex = savedTrips.findIndex((t) => t.id === updatedTrip.id);
-    let newTrips;
-    if (existingIndex >= 0) {
-      newTrips = savedTrips.map((t, i) => i === existingIndex ? updatedTrip : t);
-    } else {
-      newTrips = [...savedTrips, updatedTrip];
-    }
-    setSavedTrips(newTrips);
-    saveTripsToStorage(newTrips);
-    setTrip(updatedTrip);
-    trackEvent("save_trip", { tripName: updatedTrip.name, tripType: updatedTrip.tripType, legCount: updatedTrip.legs.length, isNew: existingIndex < 0 });
-  };
-  const saveCurrentTrip = () => {
-    const isFirstSave = !savedTrips.some((t) => t.id === trip.id);
-    if (isFirstSave) {
-      const flights = trip.legs.filter((l) => l.type === "flight");
-      const dest = flights[0]?.to || "";
-      const suggested = trip.name !== "My Trip" ? trip.name : dest ? `Trip to ${dest}` : "";
-      setNameTripValue(suggested);
-      setShowNameTripModal(true);
-    } else {
-      doSaveTrip(trip);
-    }
-  };
-  const handleOpenTrip = (tripToOpen) => {
-    setTrip(tripToOpen);
-    setCurrentView("trip");
-    setExpandedLegs(/* @__PURE__ */ new Set());
-    trackEvent("open_trip", { tripName: tripToOpen.name, tripType: tripToOpen.tripType, legCount: tripToOpen.legs.length });
-  };
-  const handleDeleteTrip = (tripId) => {
-    const tripToDelete = savedTrips.find((t) => t.id === tripId);
-    setConfirmDialog({ message: "Delete this trip?", onConfirm: () => {
-      trackEvent("delete_trip", { tripName: tripToDelete?.name });
-      const newTrips = savedTrips.filter((t) => t.id !== tripId);
-      setSavedTrips(newTrips);
-      saveTripsToStorage(newTrips);
-    } });
-  };
-  const handleDuplicateTrip = (tripToDupe) => {
-    const newTrip = {
-      ...tripToDupe,
-      id: generateId(),
-      name: `${tripToDupe.name} (Copy)`,
-      createdAt: Date.now(),
-      updatedAt: Date.now()
-    };
-    const newTrips = [...savedTrips, newTrip];
-    setSavedTrips(newTrips);
-    saveTripsToStorage(newTrips);
-    trackEvent("duplicate_trip", { tripName: tripToDupe.name });
-  };
-  const handleRenameTrip = (tripId, newName) => {
-    const newTrips = savedTrips.map((t) => t.id === tripId ? { ...t, name: newName, updatedAt: Date.now() } : t);
-    setSavedTrips(newTrips);
-    saveTripsToStorage(newTrips);
-    setRenamingTripId(null);
-  };
-  const handleNewTrip = () => {
-    if (trip.legs.length > 0) {
-      doSaveTrip(trip);
-    }
-    const newTrip = { id: generateId(), name: "My Trip", tripType: "round_trip", legs: [], travelers: 1, createdAt: Date.now(), updatedAt: Date.now() };
-    setTrip(newTrip);
-    setCurrentView("trip");
-    setTripDescription("");
-    setExpandedLegs(/* @__PURE__ */ new Set());
-    trackEvent("new_trip");
-  };
-  const handleBackToHome = () => {
-    trackEvent("back_to_home", { tripName: trip.name, legCount: trip.legs.length });
-    setCurrentView("home");
-  };
-  const sortedLegs = (0, import_react3.useMemo)(() => [...trip.legs].sort((a, b) => {
-    if (!a.date && !b.date) return 0;
-    if (!a.date) return 1;
-    if (!b.date) return -1;
-    return a.date.localeCompare(b.date);
-  }), [trip.legs]);
-  if (currentView === "home") {
-    return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", overflow: "hidden", boxSizing: "border-box" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { style: { margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 28 }),
-          "My Travel Organizer"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "4px 0 0", fontSize: 14, opacity: 0.9 }, children: "Your saved trips" })
-      ] }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: 20 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: handleNewTrip, style: { width: "100%", padding: 16, borderRadius: 12, border: `2px dashed ${COLORS.primary}`, backgroundColor: COLORS.accentLight, color: COLORS.primaryDark, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 20 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 20 }),
-          " Create New Trip"
-        ] }),
-        savedTrips.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "center", padding: 40, color: COLORS.textSecondary }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 48, style: { opacity: 0.3, marginBottom: 16 } }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0 }, children: "No saved trips yet" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "8px 0 0", fontSize: 14 }, children: "Create your first trip to get started!" })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", flexDirection: "column", gap: 12 }, children: savedTrips.sort((a, b) => b.updatedAt - a.updatedAt).map((t) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 12, border: `1px solid ${COLORS.border}`, overflow: "hidden" }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { onClick: () => handleOpenTrip(t), style: { padding: 16, cursor: "pointer" }, children: renamingTripId === t.id ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8 }, onClick: (e) => e.stopPropagation(), children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { value: renameValue, onChange: (e) => setRenameValue(e.target.value), autoFocus: true, style: { flex: 1, padding: 8, borderRadius: 6, border: `1px solid ${COLORS.border}`, fontSize: 14 }, onKeyDown: (e) => {
-              if (e.key === "Enter") handleRenameTrip(t.id, renameValue);
-              if (e.key === "Escape") setRenamingTripId(null);
-            } }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: () => handleRenameTrip(t.id, renameValue), style: { padding: "6px 12px", borderRadius: 6, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 12, fontWeight: 600, cursor: "pointer" }, children: "Save" })
-          ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, fontSize: 16, color: COLORS.textMain, marginBottom: 4 }, children: t.name }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 13, color: COLORS.textSecondary, display: "flex", alignItems: "center", gap: 12 }, children: [
-              t.departureDate && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: formatDate(t.departureDate) }),
-              t.departureDate && t.returnDate && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: "\u2192" }),
-              t.returnDate && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: formatDate(t.returnDate) }),
-              !t.departureDate && !t.returnDate && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("span", { children: [
-                t.legs.length,
-                " leg",
-                t.legs.length !== 1 ? "s" : ""
-              ] })
-            ] })
-          ] }) }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 16px", borderTop: `1px solid ${COLORS.borderLight}`, display: "flex", gap: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => {
-              setRenamingTripId(t.id);
-              setRenameValue(t.name);
-            }, style: { padding: "6px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 11, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 12 }),
-              " Rename"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => handleDuplicateTrip(t), style: { padding: "6px 10px", borderRadius: 6, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 11, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 12 }),
-              " Duplicate"
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => handleDeleteTrip(t.id), style: { padding: "6px 10px", borderRadius: 6, border: `1px solid #F5DEDA`, backgroundColor: "#FAF0EE", color: "#C0392B", fontSize: 11, cursor: "pointer", display: "flex", alignItems: "center", gap: 4 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Trash2, { size: 12 }),
-              " Delete"
-            ] })
-          ] })
-        ] }, t.id)) })
-      ] }),
-      confirmDialog && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }, onClick: () => setConfirmDialog(null), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 16, padding: 24, maxWidth: 340, width: "100%", textAlign: "center" }, onClick: (e) => e.stopPropagation(), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 16, fontWeight: 600, color: COLORS.textMain, marginBottom: 20 }, children: confirmDialog.message }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 10 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => setConfirmDialog(null), style: { flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Cancel" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => {
-            confirmDialog.onConfirm();
-            setConfirmDialog(null);
-          }, style: { flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.urgent, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Delete" })
-        ] })
-      ] }) })
-    ] });
-  }
-  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { ref: containerRef, style: { position: "relative", backgroundColor: COLORS.bg, fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif", maxWidth: 600, margin: "0 auto", boxSizing: "border-box" }, children: [
-    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { backgroundColor: COLORS.primary, padding: "24px 20px", color: "white", borderRadius: "0 0 0 0" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", justifyContent: "space-between" }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("h1", { style: { margin: 0, fontSize: 24, fontWeight: 700, display: "flex", alignItems: "center", gap: 10 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plane, { size: 28 }),
-          "My Travel Organizer"
-        ] }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("p", { style: { margin: "4px 0 0", fontSize: 14, opacity: 0.9 }, children: [
-          "Your complete pre-departure checklist for flights,",
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("br", {}),
-          "hotels, transport & confirmations"
-        ] })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleBackToHome, style: { padding: 8, borderRadius: 8, border: "none", backgroundColor: "rgba(255,255,255,0.2)", color: "white", cursor: "pointer", display: "flex", alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(House, { size: 18 }) }),
-        trip.legs.length > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: saveCurrentTrip, style: { padding: 8, borderRadius: 8, border: "none", backgroundColor: "rgba(255,255,255,0.2)", color: "white", cursor: "pointer", display: "flex", alignItems: "center" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Save, { size: 18 }) }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", onClick: handleNewTrip, style: { padding: "8px 14px", borderRadius: 8, border: "none", backgroundColor: "white", color: COLORS.primary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 16 }),
-          " New Trip"
-        ] })
-      ] })
-    ] }) }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { maxWidth: 600, margin: "0 auto", padding: 20, overflow: "hidden", boxSizing: "border-box" }, children: [
-      trip.name && trip.name !== "My Trip" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12, display: "flex", alignItems: "center", gap: 8 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: 0, fontSize: 20, fontWeight: 700, color: COLORS.textMain }, children: trip.name }),
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+    "div",
+    {
+      style: {
+        minHeight: "100vh",
+        background: `linear-gradient(160deg, ${COLORS.bg} 0%, #EFE8DD 45%, #E5EFE8 100%)`,
+        padding: "20px 12px 32px",
+        color: COLORS.textMain
+      },
+      children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
+          "div",
           {
-            className: "btn-press",
-            onClick: () => {
-              setNameTripValue(trip.name);
-              setShowNameTripModal(true);
+            style: {
+              width: "100%",
+              maxWidth: 600,
+              margin: "0 auto",
+              animation: "floatIn 220ms ease"
             },
-            style: { background: "none", border: "none", cursor: "pointer", color: COLORS.textMuted, display: "flex", alignItems: "center" },
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 14 })
-          }
-        )
-      ] }),
-      trip.legs.length === 0 ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: COLORS.card, borderRadius: 20, padding: 24, marginBottom: 20, border: `1px solid ${COLORS.border}` }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 8px", fontSize: 18, fontWeight: 700 }, children: "Describe Your Trip" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 16px", fontSize: 14, color: COLORS.textSecondary }, children: "Tell us about your travel plans in plain English." }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => {
-            setInputMode("freeform");
-            trackEvent("input_mode", { mode: "freeform" });
-          }, style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "freeform" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "freeform" ? COLORS.accentLight : "white", color: inputMode === "freeform" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 18 }),
-            " Describe Trip"
-          ] }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => {
-            setInputMode("manual");
-            trackEvent("input_mode", { mode: "manual" });
-          }, style: { flex: 1, padding: 12, borderRadius: 10, border: inputMode === "manual" ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`, backgroundColor: inputMode === "manual" ? COLORS.accentLight : "white", color: inputMode === "manual" ? COLORS.primaryDark : COLORS.textSecondary, fontWeight: 600, fontSize: 14, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 18 }),
-            " Add Manually"
-          ] })
-        ] }),
-        inputMode === "freeform" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("textarea", { value: tripDescription, onChange: (e) => setTripDescription(e.target.value), placeholder: "e.g. I am flying from Medellin to Boston on June 11th, 2026 and I will return to Medellin on June 15th.", rows: 4, style: { width: "100%", padding: 16, borderRadius: 12, border: `1px solid ${COLORS.border}`, fontSize: 15, resize: "vertical", fontFamily: "inherit", boxSizing: "border-box", marginBottom: 16 } }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { onClick: handleParseDescription, disabled: !tripDescription.trim() || isAnalyzing, style: { width: "100%", padding: 16, borderRadius: 12, border: "none", backgroundColor: tripDescription.trim() && !isAnalyzing ? COLORS.primary : COLORS.border, color: tripDescription.trim() && !isAnalyzing ? "white" : COLORS.textMuted, fontSize: 16, fontWeight: 700, cursor: tripDescription.trim() && !isAnalyzing ? "pointer" : "not-allowed", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: isAnalyzing ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { display: "inline-block", width: 20, height: 20, border: "2px solid white", borderTopColor: "transparent", borderRadius: "50%", animation: "spin 1s linear infinite" } }),
-            " Analyzing..."
-          ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 20 }),
-            " Analyze & Create Trip"
-          ] }) })
-        ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { onClick: () => setShowAddModal(true), style: { width: "100%", padding: 16, borderRadius: 12, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 20 }),
-          " Add First Trip Leg"
-        ] })
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        (() => {
-          const datesComplete = trip.departureDate && (trip.tripType === "one_way" || trip.returnDate);
-          return datesComplete && !isEditingDates ? (
-            // Collapsed view - just show summary
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
               "div",
               {
-                onClick: () => setIsEditingDates(true),
                 style: {
                   backgroundColor: COLORS.card,
-                  borderRadius: 12,
-                  padding: "12px 16px",
-                  marginBottom: 16,
-                  border: `1px solid ${COLORS.border}`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  cursor: "pointer"
+                  border: `1px solid ${COLORS.borderLight}`,
+                  borderRadius: 22,
+                  padding: 20,
+                  boxShadow: "0 12px 30px rgba(26,26,26,0.07)"
                 },
                 children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 16 }, children: [
-                    (() => {
-                      const displayStartDate = trip.tripType === "multi_city" && trip.multiCityLegs?.length ? trip.multiCityLegs[0].date : trip.departureDate;
-                      const displayEndDate = trip.tripType === "multi_city" && trip.multiCityLegs?.length ? trip.multiCityLegs[trip.multiCityLegs.length - 1].date : trip.returnDate;
-                      return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 6 }, children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Calendar, { size: 16, color: COLORS.primary }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: displayStartDate ? formatDate(displayStartDate) : "Set dates" })
-                        ] }),
-                        trip.tripType !== "one_way" && displayEndDate && displayEndDate !== displayStartDate && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 14, color: COLORS.textMuted }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, fontWeight: 600, color: COLORS.textMain }, children: formatDate(displayEndDate) })
-                        ] })
-                      ] });
-                    })(),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                      fontSize: 11,
-                      padding: "2px 8px",
-                      borderRadius: 4,
-                      backgroundColor: COLORS.accentLight,
-                      color: COLORS.primaryDark,
-                      fontWeight: 600
-                    }, children: trip.tripType === "one_way" ? "One Way" : trip.tripType === "round_trip" ? "Round Trip" : "Multi-City" })
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 14 }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, letterSpacing: 0.3, textTransform: "uppercase" }, children: "Weight-Loss Blueprint Quiz" }),
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: "6px 0 0", fontSize: 24, lineHeight: 1.15 }, children: "Find your easiest fat-loss strategy" })
+                    ] }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "div",
+                      {
+                        style: {
+                          minWidth: 72,
+                          padding: "8px 10px",
+                          borderRadius: 999,
+                          backgroundColor: COLORS.inputBg,
+                          border: `1px solid ${COLORS.border}`,
+                          textAlign: "center",
+                          fontWeight: 700,
+                          fontSize: 12
+                        },
+                        children: showResults ? "Done" : `${answeredCount}/${QUESTIONS.length}`
+                      }
+                    )
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(PenLine, { size: 16, color: COLORS.textSecondary })
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginBottom: 18 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: 8, borderRadius: 999, backgroundColor: COLORS.inputBg, border: `1px solid ${COLORS.borderLight}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "div",
+                    {
+                      style: {
+                        width: `${showResults ? 100 : progress}%`,
+                        height: "100%",
+                        borderRadius: 999,
+                        background: `linear-gradient(90deg, ${COLORS.primaryDark}, ${COLORS.primary})`,
+                        transition: "width 220ms ease"
+                      }
+                    }
+                  ) }) }),
+                  !showResults && activeQuestion && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "div",
+                      {
+                        style: {
+                          display: "flex",
+                          alignItems: "center",
+                          gap: 10,
+                          marginBottom: 10,
+                          color: COLORS.primaryDark,
+                          fontWeight: 600,
+                          fontSize: 14
+                        },
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                            "span",
+                            {
+                              style: {
+                                display: "inline-flex",
+                                alignItems: "center",
+                                justifyContent: "center",
+                                width: 34,
+                                height: 34,
+                                borderRadius: 10,
+                                backgroundColor: COLORS.accentLight
+                              },
+                              children: activeQuestion.icon
+                            }
+                          ),
+                          "Question ",
+                          currentIndex + 1
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 8px", fontSize: 21, lineHeight: 1.25 }, children: activeQuestion.prompt }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 16px", fontSize: 13, color: COLORS.textSecondary }, children: activeQuestion.hint }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 10 }, children: activeQuestion.choices.map((choice) => {
+                      const isSelected = answers[activeQuestion.id] === choice.id;
+                      return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                        "button",
+                        {
+                          className: "btn-press",
+                          onClick: () => handleAnswer(activeQuestion.id, choice.id),
+                          style: {
+                            textAlign: "left",
+                            padding: "14px 14px",
+                            borderRadius: 14,
+                            border: isSelected ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
+                            backgroundColor: isSelected ? COLORS.accentLight : COLORS.card,
+                            cursor: "pointer",
+                            transition: "all 0.15s ease"
+                          },
+                          children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 12 }, children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, color: COLORS.textMain, fontSize: 14 }, children: choice.title }),
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 12, color: COLORS.textSecondary }, children: choice.detail })
+                            ] }),
+                            isSelected && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(CircleCheck, { size: 18, color: COLORS.primaryDark })
+                          ] })
+                        },
+                        choice.id
+                      );
+                    }) }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", marginTop: 16 }, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                        "button",
+                        {
+                          className: "btn-press",
+                          onClick: () => setCurrentIndex((p) => Math.max(0, p - 1)),
+                          disabled: currentIndex === 0,
+                          style: {
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            borderRadius: 10,
+                            border: `1px solid ${COLORS.border}`,
+                            backgroundColor: "white",
+                            color: currentIndex === 0 ? COLORS.textMuted : COLORS.textMain,
+                            fontSize: 13,
+                            padding: "9px 12px",
+                            cursor: currentIndex === 0 ? "not-allowed" : "pointer"
+                          },
+                          children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChevronLeft, { size: 15 }),
+                            " Back"
+                          ]
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                        "button",
+                        {
+                          className: "btn-press",
+                          onClick: () => {
+                            if (currentIndex >= QUESTIONS.length - 1) {
+                              setShowResults(true);
+                              trackEvent("quiz_completed", { profile: topProfile });
+                            } else {
+                              setCurrentIndex((p) => Math.min(QUESTIONS.length - 1, p + 1));
+                            }
+                          },
+                          style: {
+                            display: "inline-flex",
+                            alignItems: "center",
+                            gap: 6,
+                            borderRadius: 10,
+                            border: "none",
+                            backgroundColor: COLORS.primary,
+                            color: "white",
+                            fontSize: 13,
+                            fontWeight: 700,
+                            padding: "9px 12px",
+                            cursor: "pointer"
+                          },
+                          children: [
+                            currentIndex >= QUESTIONS.length - 1 ? "Show result" : "Next",
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 15 })
+                          ]
+                        }
+                      )
+                    ] })
+                  ] }),
+                  showResults && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { animation: "floatIn 220ms ease" }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "div",
+                      {
+                        style: {
+                          background: `linear-gradient(145deg, ${profile.bg} 0%, #FFFFFF 100%)`,
+                          border: `1px solid ${COLORS.border}`,
+                          borderRadius: 16,
+                          padding: 16,
+                          marginBottom: 14
+                        },
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: profile.accent, textTransform: "uppercase", letterSpacing: 0.4 }, children: "Your profile" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "6px 0 4px", fontSize: 24 }, children: profile.label }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 13, color: COLORS.textSecondary }, children: profile.tag }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "10px 0 0", fontSize: 14 }, children: profile.description })
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "div",
+                      {
+                        style: {
+                          border: `1px solid ${COLORS.borderLight}`,
+                          borderRadius: 14,
+                          padding: 14,
+                          backgroundColor: "#fff",
+                          marginBottom: 12
+                        },
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 8px", fontSize: 15 }, children: "Your first focus" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 12px", fontSize: 13, color: COLORS.textSecondary }, children: profile.firstFocus }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "7-day starter plan" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ol", { style: { margin: 0, paddingLeft: 18, display: "grid", gap: 6, fontSize: 13, color: COLORS.textMain }, children: profile.steps.map((step, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: step }, idx)) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "div",
+                            {
+                              style: {
+                                marginTop: 12,
+                                padding: 10,
+                                borderRadius: 10,
+                                backgroundColor: COLORS.warningBg,
+                                border: `1px solid #EBD9BA`,
+                                fontSize: 12,
+                                color: "#6F4D1A"
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Avoid this:" }),
+                                " ",
+                                profile.avoid
+                              ]
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, fontSize: 12, color: COLORS.textSecondary }, children: profile.timeline })
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "div",
+                      {
+                        style: {
+                          border: `1px solid ${COLORS.borderLight}`,
+                          borderRadius: 14,
+                          padding: 14,
+                          backgroundColor: "#fff",
+                          marginBottom: 14
+                        },
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 10px", fontSize: 15 }, children: "Profile score breakdown" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8 }, children: PROFILE_ORDER.map((profileKey) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 12, marginBottom: 4 }, children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { children: PROFILES[profileKey].label }),
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textSecondary }, children: scores[profileKey] })
+                            ] }),
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: 8, borderRadius: 999, backgroundColor: COLORS.inputBg }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                              "div",
+                              {
+                                style: {
+                                  width: `${Math.max(8, Math.round(scores[profileKey] / maxScore * 100))}%`,
+                                  height: "100%",
+                                  borderRadius: 999,
+                                  backgroundColor: PROFILES[profileKey].accent
+                                }
+                              }
+                            ) })
+                          ] }, profileKey)) })
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, flexWrap: "wrap" }, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                        "button",
+                        {
+                          className: "btn-press",
+                          onClick: handleCopyPlan,
+                          style: {
+                            flex: 1,
+                            minWidth: 160,
+                            borderRadius: 11,
+                            border: "none",
+                            backgroundColor: COLORS.primary,
+                            color: "white",
+                            fontWeight: 700,
+                            fontSize: 13,
+                            padding: "11px 14px",
+                            cursor: "pointer"
+                          },
+                          children: copied ? "Copied" : "Copy my 7-day plan"
+                        }
+                      ),
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                        "button",
+                        {
+                          className: "btn-press",
+                          onClick: handleRestart,
+                          style: {
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            gap: 7,
+                            borderRadius: 11,
+                            border: `1px solid ${COLORS.border}`,
+                            backgroundColor: "white",
+                            color: COLORS.textMain,
+                            fontWeight: 600,
+                            fontSize: 13,
+                            padding: "11px 14px",
+                            cursor: "pointer"
+                          },
+                          children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 14 }),
+                            " Retake quiz"
+                          ]
+                        }
+                      )
+                    ] })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                    "div",
+                    {
+                      style: {
+                        marginTop: 18,
+                        paddingTop: 14,
+                        borderTop: `1px solid ${COLORS.borderLight}`,
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 8
+                      },
+                      children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: () => setShowSubscribeModal(true),
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 7,
+                              borderRadius: 10,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "white",
+                              padding: "8px 10px",
+                              fontSize: 12,
+                              cursor: "pointer"
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
+                              " Weekly tips"
+                            ]
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: () => setShowFeedbackModal(true),
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 7,
+                              borderRadius: 10,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "white",
+                              padding: "8px 10px",
+                              fontSize: 12,
+                              cursor: "pointer"
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 14 }),
+                              " Feedback"
+                            ]
+                          }
+                        ),
+                        !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "div",
+                          {
+                            style: {
+                              marginLeft: "auto",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 6,
+                              backgroundColor: COLORS.inputBg,
+                              border: `1px solid ${COLORS.border}`,
+                              borderRadius: 10,
+                              padding: "6px 8px",
+                              fontSize: 12
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textSecondary }, children: "Enjoying this quiz?" }),
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                "button",
+                                {
+                                  onClick: () => handleEnjoyVote("up"),
+                                  className: "btn-press",
+                                  style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.primaryDark },
+                                  children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 14 })
+                                }
+                              ),
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                "button",
+                                {
+                                  onClick: () => handleEnjoyVote("down"),
+                                  className: "btn-press",
+                                  style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.danger },
+                                  children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 14 })
+                                }
+                              )
+                            ]
+                          }
+                        )
+                      ]
+                    }
+                  )
                 ]
               }
             )
-          ) : (
-            // Expanded view - full form
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-              backgroundColor: COLORS.card,
-              borderRadius: 16,
-              padding: 16,
-              marginBottom: 16,
-              border: `1px solid ${COLORS.border}`
-            }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 8, marginBottom: 16 }, children: [
-                { value: "one_way", label: "One Way" },
-                { value: "round_trip", label: "Round Trip" },
-                { value: "multi_city", label: "Multi-City" }
-              ].map((opt) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  onClick: () => setTrip((t) => {
-                    const updates = { tripType: opt.value, updatedAt: Date.now() };
-                    if (opt.value === "multi_city" && (!t.multiCityLegs || t.multiCityLegs.length < 2)) {
-                      updates.multiCityLegs = [
-                        { id: generateId(), from: "", to: "", date: "", mode: "plane" },
-                        { id: generateId(), from: "", to: "", date: "", mode: "plane" }
-                      ];
-                    }
-                    return { ...t, ...updates };
-                  }),
-                  style: {
-                    flex: 1,
-                    padding: "10px 12px",
-                    borderRadius: 10,
-                    border: trip.tripType === opt.value ? `2px solid ${COLORS.primary}` : `1px solid ${COLORS.border}`,
-                    backgroundColor: trip.tripType === opt.value ? COLORS.accentLight : "white",
-                    color: trip.tripType === opt.value ? COLORS.primaryDark : COLORS.textSecondary,
-                    fontWeight: 600,
-                    fontSize: 13,
-                    cursor: "pointer"
-                  },
-                  children: opt.label
+          }
+        ),
+        showSubscribeModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "div",
+          {
+            style: {
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "rgba(0,0,0,0.45)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: 12,
+              zIndex: 20
+            },
+            onClick: () => setShowSubscribeModal(false),
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "div",
+              {
+                onClick: (e) => e.stopPropagation(),
+                style: {
+                  width: "100%",
+                  maxWidth: 420,
+                  backgroundColor: "white",
+                  borderRadius: 16,
+                  padding: 18,
+                  border: `1px solid ${COLORS.border}`
                 },
-                opt.value
-              )) }),
-              trip.tripType === "multi_city" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 8 }, children: "Flight Legs" }),
-                (trip.multiCityLegs || []).map((leg, idx) => {
-                  const prevLeg = idx > 0 ? (trip.multiCityLegs || [])[idx - 1] : null;
-                  const minDate = prevLeg?.date || "";
-                  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 12, padding: 12, backgroundColor: COLORS.bg, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr auto", gap: 8, alignItems: "center" }, children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "input",
-                        {
-                          type: "text",
-                          placeholder: "From",
-                          value: leg.from,
-                          onChange: (e) => {
-                            const newFrom = e.target.value;
-                            setTrip((t) => ({
-                              ...t,
-                              multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, from: newFrom } : l),
-                              updatedAt: Date.now()
-                            }));
-                          },
-                          style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "input",
-                        {
-                          type: "text",
-                          placeholder: "To",
-                          value: leg.to,
-                          onChange: (e) => {
-                            const newTo = e.target.value;
-                            setTrip((t) => ({
-                              ...t,
-                              multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, to: newTo } : l),
-                              updatedAt: Date.now()
-                            }));
-                          },
-                          style: { padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13 }
-                        }
-                      ),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        PickerPopover,
-                        {
-                          type: "date",
-                          value: leg.date,
-                          min: minDate,
-                          onChange: (newDate) => {
-                            setTrip((t) => ({
-                              ...t,
-                              multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, date: newDate } : l),
-                              updatedAt: Date.now()
-                            }));
-                          }
-                        }
-                      ),
-                      (trip.multiCityLegs || []).length > 2 && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                        "button",
-                        {
-                          onClick: () => setTrip((t) => ({
-                            ...t,
-                            multiCityLegs: (t.multiCityLegs || []).filter((l) => l.id !== leg.id),
-                            updatedAt: Date.now()
-                          })),
-                          style: { padding: 6, borderRadius: 6, border: "none", backgroundColor: "#F5DEDA", color: "#C0392B", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center" },
-                          children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 14 })
-                        }
-                      )
-                    ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      TransportModeSelector,
-                      {
-                        value: leg.mode || "plane",
-                        onChange: (mode) => setTrip((t) => ({
-                          ...t,
-                          multiCityLegs: (t.multiCityLegs || []).map((l) => l.id === leg.id ? { ...l, mode } : l),
-                          updatedAt: Date.now()
-                        }))
-                      }
-                    )
-                  ] }, leg.id);
-                }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                  "button",
-                  {
-                    onClick: () => setTrip((t) => ({
-                      ...t,
-                      multiCityLegs: [...t.multiCityLegs || [], { id: generateId(), from: "", to: "", date: "", mode: "plane" }],
-                      updatedAt: Date.now()
-                    })),
-                    style: { width: "100%", padding: 10, borderRadius: 8, border: `2px dashed ${COLORS.border}`, backgroundColor: "transparent", color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 },
-                    children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Plus, { size: 14 }),
-                      " Add Flight Leg"
-                    ]
-                  }
-                )
-              ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12, marginBottom: 12 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "From" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "Departure city",
-                        value: (() => {
-                          const f = trip.legs.find((l) => l.type === "flight");
-                          return f?.from || "";
-                        })(),
-                        onChange: (e) => {
-                          const val = e.target.value;
-                          setTrip((t) => {
-                            const flights = t.legs.filter((l) => l.type === "flight");
-                            if (flights.length === 0) return t;
-                            const outbound = flights[0];
-                            const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
-                            let updatedLegs = t.legs.map((l) => l.id === outbound.id ? { ...l, from: val, title: `${getModeLabel(t.departureMode || "plane")}: ${val} \u2192 ${outbound.to || ""}` } : l);
-                            if (returnFlight) {
-                              updatedLegs = updatedLegs.map((l) => l.id === returnFlight.id ? { ...l, to: val, title: `${getModeLabel(t.returnMode || t.departureMode || "plane")}: ${returnFlight.from || ""} \u2192 ${val}` } : l);
-                            }
-                            return { ...t, legs: updatedLegs, updatedAt: Date.now() };
-                          });
-                        },
-                        style: { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13, boxSizing: "border-box" }
-                      }
-                    )
-                  ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "To" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      "input",
-                      {
-                        type: "text",
-                        placeholder: "Destination city",
-                        value: (() => {
-                          const f = trip.legs.find((l) => l.type === "flight");
-                          return f?.to || "";
-                        })(),
-                        onChange: (e) => {
-                          const val = e.target.value;
-                          setTrip((t) => {
-                            const flights = t.legs.filter((l) => l.type === "flight");
-                            if (flights.length === 0) return t;
-                            const outbound = flights[0];
-                            const returnFlight = flights.length > 1 ? flights[flights.length - 1] : null;
-                            let updatedLegs = t.legs.map((l) => l.id === outbound.id ? { ...l, to: val, title: `${getModeLabel(t.departureMode || "plane")}: ${outbound.from || ""} \u2192 ${val}` } : l);
-                            if (returnFlight) {
-                              updatedLegs = updatedLegs.map((l) => l.id === returnFlight.id ? { ...l, from: val, title: `${getModeLabel(t.returnMode || t.departureMode || "plane")}: ${val} \u2192 ${returnFlight.to || ""}` } : l);
-                            }
-                            updatedLegs = updatedLegs.map((l) => l.type === "hotel" && !l.hotelName ? { ...l, location: val, title: `Hotel in ${val}` } : l);
-                            return { ...t, legs: updatedLegs, name: t.name === "My Trip" && val ? `Trip to ${val}` : t.name, updatedAt: Date.now() };
-                          });
-                        },
-                        style: { width: "100%", padding: 10, borderRadius: 8, border: `1px solid ${COLORS.border}`, fontSize: 13, boxSizing: "border-box" }
-                      }
-                    )
-                  ] })
-                ] }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: trip.tripType === "one_way" ? "1fr" : "1fr 1fr", gap: 12 }, children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Departure Date" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      PickerPopover,
-                      {
-                        type: "date",
-                        value: trip.departureDate || "",
-                        onChange: (newDate) => {
-                          setTrip((t) => {
-                            const updatedLegs = t.legs.map((leg, idx) => {
-                              if (leg.type === "flight" && idx === 0) {
-                                return { ...leg, date: newDate };
-                              }
-                              if (leg.type === "hotel") {
-                                return { ...leg, date: newDate };
-                              }
-                              if (leg.type === "car" && leg.title.includes("to") && leg.title.includes("Airport") && idx < t.legs.length / 2) {
-                                return { ...leg, date: newDate };
-                              }
-                              return leg;
-                            });
-                            return { ...t, departureDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                          });
-                        }
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      TransportModeSelector,
-                      {
-                        value: trip.departureMode || "plane",
-                        onChange: (mode) => setTrip((t) => ({ ...t, departureMode: mode, updatedAt: Date.now() }))
-                      }
-                    )
-                  ] }),
-                  trip.tripType === "round_trip" && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, marginBottom: 6 }, children: "Return Date" }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      PickerPopover,
-                      {
-                        type: "date",
-                        value: trip.returnDate || "",
-                        onChange: (newDate) => {
-                          setTrip((t) => {
-                            const flights = t.legs.filter((l) => l.type === "flight");
-                            const updatedLegs = t.legs.map((leg, idx) => {
-                              if (leg.type === "flight" && flights.length > 1 && leg.id === flights[flights.length - 1].id) {
-                                return { ...leg, date: newDate };
-                              }
-                              if (leg.type === "hotel") {
-                                return { ...leg, endDate: newDate };
-                              }
-                              if (leg.type === "car" && idx >= t.legs.length / 2) {
-                                return { ...leg, date: newDate };
-                              }
-                              return leg;
-                            });
-                            return { ...t, returnDate: newDate, legs: updatedLegs, updatedAt: Date.now() };
-                          });
-                        }
-                      }
-                    ),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                      TransportModeSelector,
-                      {
-                        value: trip.returnMode || "plane",
-                        onChange: (mode) => setTrip((t) => ({ ...t, returnMode: mode, updatedAt: Date.now() }))
-                      }
-                    )
-                  ] })
-                ] })
-              ] }),
-              (trip.tripType === "multi_city" && (trip.multiCityLegs || []).length >= 2 && (trip.multiCityLegs || []).every((l) => l.from && l.to && l.date) || trip.departureDate && (trip.tripType === "one_way" || trip.returnDate)) && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                "button",
-                {
-                  onClick: () => setIsEditingDates(false),
-                  style: {
-                    width: "100%",
-                    marginTop: 12,
-                    padding: 10,
-                    borderRadius: 8,
-                    border: "none",
-                    backgroundColor: COLORS.primary,
-                    color: "white",
-                    fontSize: 13,
-                    fontWeight: 600,
-                    cursor: "pointer"
-                  },
-                  children: "Done"
-                }
-              )
-            ] })
-          );
-        })(),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          MissingInfoBar,
-          {
-            missingItems: missingInfo,
-            onAddInfo: () => {
-            },
-            editingItem,
-            setEditingItem,
-            editValue,
-            setEditValue,
-            onSaveEdit: handleSaveEdit
-          }
-        ),
-        (() => {
-          const nonStandalone = trip.legs.filter((l) => !l.standalone);
-          const flights = nonStandalone.filter((l) => l.type === "flight");
-          const hotels = nonStandalone.filter((l) => l.type === "hotel");
-          const transport = nonStandalone.filter((l) => !["flight", "hotel"].includes(l.type));
-          let flightLegsCount = 0;
-          let trainLegsCount = 0;
-          let busLegsCount = 0;
-          let otherLegsCount = 0;
-          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-            trip.multiCityLegs.forEach((leg) => {
-              const mode = leg.mode || "plane";
-              if (mode === "plane") flightLegsCount++;
-              else if (mode === "rail") trainLegsCount++;
-              else if (mode === "bus") busLegsCount++;
-              else otherLegsCount++;
-            });
-          } else {
-            const depMode = trip.departureMode || "plane";
-            const retMode = trip.returnMode || depMode;
-            [depMode, ...trip.tripType !== "one_way" ? [retMode] : []].forEach((m) => {
-              if (m === "plane") flightLegsCount++;
-              else if (m === "rail") trainLegsCount++;
-              else if (m === "bus") busLegsCount++;
-              else otherLegsCount++;
-            });
-          }
-          const primaryMode = trip.departureMode || "plane";
-          const expectedLegsCount = trip.tripType === "one_way" ? 1 : trip.tripType === "round_trip" ? 2 : (trip.multiCityLegs || []).length;
-          const expectedTransportCount = expectedLegsCount * 2;
-          let tripDays = 0;
-          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-            const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
-            if (sortedDates.length >= 2) {
-              tripDays = Math.ceil((new Date(sortedDates[sortedDates.length - 1]).getTime() - new Date(sortedDates[0]).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
-            } else if (sortedDates.length === 1) {
-              tripDays = 1;
-            }
-          } else if (trip.departureDate && trip.returnDate) {
-            tripDays = Math.ceil((new Date(trip.returnDate).getTime() - new Date(trip.departureDate).getTime()) / (1e3 * 60 * 60 * 24)) + 1;
-          } else if (trip.departureDate) {
-            tripDays = 1;
-          }
-          const cities = /* @__PURE__ */ new Set();
-          let startingCity = null;
-          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-            startingCity = trip.multiCityLegs[0]?.from || null;
-            trip.multiCityLegs.forEach((l) => {
-              if (l.to) cities.add(l.to);
-            });
-          } else {
-            startingCity = flights[0]?.from || null;
-            flights.forEach((f) => {
-              if (f.to) cities.add(f.to);
-            });
-          }
-          if (startingCity) cities.delete(startingCity);
-          const flightsBookedCount = flights.filter((f) => f.flightNumber || f.airline || f.confirmationNumber || f.time).length;
-          const hotelsBookedCount = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location).length;
-          const transportBookedCount = transport.filter((t) => t.confirmationNumber || t.rentalCompany || t.time || t.notes && t.title !== "Ride").length;
-          const hotelsWithInfo = hotels.filter((h) => h.hotelName || h.confirmationNumber || h.location);
-          let lodgingStatus = hotelsWithInfo.length > 0 ? "yes" : "no";
-          if (trip.tripType === "multi_city" && cities.size > 0 && trip.multiCityLegs?.length) {
-            const hotelCities = /* @__PURE__ */ new Set();
-            const sortedMCLegs = [...trip.multiCityLegs].filter((l) => l.date).sort((a, b) => a.date.localeCompare(b.date));
-            hotels.forEach((h) => {
-              if (h.location) {
-                hotelCities.add(h.location);
-                return;
-              }
-              if (h.to) {
-                hotelCities.add(h.to);
-                return;
-              }
-              if (h.date && sortedMCLegs.length > 0) {
-                let city = null;
-                for (const leg of sortedMCLegs) {
-                  if (leg.date <= h.date) city = leg.to;
-                  else break;
-                }
-                if (city) hotelCities.add(city);
-              }
-            });
-            const citiesWithHotel = [...cities].filter((c) => hotelCities.has(c)).length;
-            if (citiesWithHotel === 0) lodgingStatus = "no";
-            else if (citiesWithHotel < cities.size) lodgingStatus = "partial";
-            else lodgingStatus = "yes";
-          }
-          const lodgingColor = lodgingStatus === "yes" ? COLORS.booked : lodgingStatus === "partial" ? COLORS.pending : "#C0392B";
-          const lodgingLabel = lodgingStatus === "yes" ? "Yes" : lodgingStatus === "partial" ? "Partial" : "No";
-          const getStatusColor2 = (booked, total) => {
-            if (total === 0) return COLORS.textMuted;
-            if (booked === 0) return "#C0392B";
-            if (booked < total) return COLORS.pending;
-            return COLORS.booked;
-          };
-          return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-            backgroundColor: COLORS.card,
-            borderRadius: 16,
-            padding: "20px",
-            marginBottom: 16,
-            border: `1px solid ${COLORS.border}`,
-            boxShadow: "0 2px 8px rgba(0,0,0,0.06)"
-          }, children: [
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr 1fr 1fr", gap: 8, marginBottom: 16, textAlign: "center", borderBottom: `1px solid ${COLORS.borderLight}`, paddingBottom: 16 }, children: [
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Travelers" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }, children: editingTravelers ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                  "input",
-                  {
-                    type: "number",
-                    min: 1,
-                    defaultValue: trip.travelers,
-                    autoFocus: true,
-                    style: { width: 48, fontSize: 18, fontWeight: 700, color: COLORS.textMain, textAlign: "center", border: `1px solid ${COLORS.primary}`, borderRadius: 6, outline: "none", padding: "2px 4px", background: COLORS.inputBg },
-                    onBlur: (e) => {
-                      const val = parseInt(e.target.value);
-                      if (!isNaN(val) && val > 0) setTrip((t) => ({ ...t, travelers: val, updatedAt: Date.now() }));
-                      setEditingTravelers(false);
-                    },
-                    onKeyDown: (e) => {
-                      if (e.key === "Enter") e.target.blur();
-                      if (e.key === "Escape") setEditingTravelers(false);
-                    }
-                  }
-                ) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: trip.travelers }),
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 8px", fontSize: 18 }, children: "Get weekly fat-loss tips" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 12px", fontSize: 13, color: COLORS.textSecondary }, children: "We send practical, no-noise ideas you can apply in real life." }),
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    "button",
+                    "input",
                     {
-                      onClick: () => setEditingTravelers(true),
-                      style: { background: "none", border: "none", cursor: "pointer", padding: 0, display: "flex", alignItems: "center" },
-                      children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Pen, { size: 11, color: COLORS.textMuted })
+                      value: subscribeEmail,
+                      onChange: (e) => setSubscribeEmail(e.target.value),
+                      placeholder: "you@example.com",
+                      style: {
+                        width: "100%",
+                        borderRadius: 10,
+                        border: `1px solid ${COLORS.border}`,
+                        padding: "10px 12px",
+                        fontSize: 14
+                      }
                     }
-                  )
-                ] }) })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Cities" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: cities.size })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Days" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: tripDays > 0 ? tripDays : "\u2014" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 600, color: COLORS.textMuted, textTransform: "uppercase", marginBottom: 4 }, children: "Total Cost" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 18, color: COLORS.textMain, fontWeight: 700 }, children: (() => {
-                  const total = trip.legs.reduce((sum, l) => sum + (l.cost || 0), 0);
-                  return total > 0 ? `$${total.toLocaleString("en-US", { minimumFractionDigits: 0, maximumFractionDigits: 2 })}` : "\u2014";
-                })() })
-              ] })
-            ] }),
-            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px 16px" }, children: [
-              flightLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  fontSize: 12,
-                  fontWeight: 700,
-                  minWidth: 36,
-                  textAlign: "center",
-                  color: getStatusColor2(flightsBookedCount, flightLegsCount),
-                  backgroundColor: `${getStatusColor2(flightsBookedCount, flightLegsCount)}15`,
-                  padding: "3px 6px",
-                  borderRadius: 6
-                }, children: `${flightsBookedCount}/${flightLegsCount}` }),
-                getModeIcon("plane", 16),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Flights" })
-              ] }),
-              trainLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  fontSize: 12,
-                  fontWeight: 700,
-                  minWidth: 36,
-                  textAlign: "center",
-                  color: getStatusColor2(0, trainLegsCount),
-                  backgroundColor: `${getStatusColor2(0, trainLegsCount)}15`,
-                  padding: "3px 6px",
-                  borderRadius: 6
-                }, children: `0/${trainLegsCount}` }),
-                getModeIcon("rail", 16),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Trains" })
-              ] }),
-              busLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  fontSize: 12,
-                  fontWeight: 700,
-                  minWidth: 36,
-                  textAlign: "center",
-                  color: getStatusColor2(0, busLegsCount),
-                  backgroundColor: `${getStatusColor2(0, busLegsCount)}15`,
-                  padding: "3px 6px",
-                  borderRadius: 6
-                }, children: `0/${busLegsCount}` }),
-                getModeIcon("bus", 16),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Buses" })
-              ] }),
-              otherLegsCount > 0 && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  fontSize: 12,
-                  fontWeight: 700,
-                  minWidth: 36,
-                  textAlign: "center",
-                  color: getStatusColor2(0, otherLegsCount),
-                  backgroundColor: `${getStatusColor2(0, otherLegsCount)}15`,
-                  padding: "3px 6px",
-                  borderRadius: 6
-                }, children: `0/${otherLegsCount}` }),
-                getModeIcon("car", 16),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Drives" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  fontSize: 12,
-                  fontWeight: 700,
-                  minWidth: 36,
-                  textAlign: "center",
-                  color: lodgingColor,
-                  backgroundColor: `${lodgingColor}15`,
-                  padding: "3px 6px",
-                  borderRadius: 6
-                }, children: lodgingLabel }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Hotel, { size: 16, color: lodgingColor }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Lodging" })
-              ] }),
-              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 10, padding: "8px 12px", backgroundColor: COLORS.card, borderRadius: 10, border: `1px solid ${COLORS.borderLight}` }, children: [
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: {
-                  fontSize: 12,
-                  fontWeight: 700,
-                  minWidth: 36,
-                  textAlign: "center",
-                  color: getStatusColor2(transportBookedCount, expectedTransportCount),
-                  backgroundColor: `${getStatusColor2(transportBookedCount, expectedTransportCount)}15`,
-                  padding: "3px 6px",
-                  borderRadius: 6
-                }, children: expectedTransportCount > 0 ? `${transportBookedCount}/${expectedTransportCount}` : "\u2014" }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Car, { size: 16, color: getStatusColor2(transportBookedCount, expectedTransportCount) }),
-                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { fontSize: 13, color: COLORS.textMain, fontWeight: 500 }, children: "Transport" })
-              ] })
-            ] })
-          ] });
-        })(),
-        (() => {
-          let viewDepartureDate = trip.departureDate;
-          let viewReturnDate = trip.returnDate;
-          if (trip.tripType === "multi_city" && trip.multiCityLegs?.length) {
-            const sortedDates = trip.multiCityLegs.filter((l) => l.date).map((l) => l.date).sort();
-            if (sortedDates.length > 0) {
-              viewDepartureDate = sortedDates[0];
-              viewReturnDate = sortedDates[sortedDates.length - 1];
-            }
-          }
-          return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-            DayByDayView,
-            {
-              legs: trip.legs,
-              onUpdateLeg: handleUpdateLeg,
-              onDeleteLeg: handleDeleteLeg,
-              onAddLeg: handleAddLeg,
-              expandedLegs,
-              toggleLegExpand,
-              departureDate: viewDepartureDate,
-              returnDate: viewReturnDate,
-              primaryTransportMode: trip.departureMode || "plane",
-              multiCityLegs: trip.tripType === "multi_city" ? trip.multiCityLegs : void 0,
-              travelers: trip.travelers
-            }
-          );
-        })()
-      ] })
-    ] }),
-    showAddModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(AddLegModal, { onAdd: handleAddLeg, onClose: () => setShowAddModal(false) }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "16px 20px", borderTop: `1px solid ${COLORS.borderLight}` }, className: "no-print", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.textMuted, textTransform: "uppercase", letterSpacing: 0.5, marginBottom: 10 }, children: "Related Apps" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "flex", gap: 10, flexWrap: "wrap" }, children: [
-        { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Shield, { size: 16 }), label: "Travel Safety Ratings", desc: "Check safety scores for destinations worldwide" },
-        { icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ClipboardList, { size: 16 }), label: "Travel Checklist Generator", desc: "Generate packing & prep checklists for your trip" }
-      ].map((app, i) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", onClick: () => trackEvent("related_app_click", { app: app.label }), style: {
-        flex: "1 1 0",
-        minWidth: 200,
-        display: "flex",
-        alignItems: "center",
-        gap: 10,
-        padding: "12px 14px",
-        borderRadius: 12,
-        border: `1px solid ${COLORS.border}`,
-        backgroundColor: COLORS.card,
-        cursor: "pointer",
-        textAlign: "left"
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { width: 36, height: 36, borderRadius: 10, backgroundColor: `${COLORS.primary}15`, display: "flex", alignItems: "center", justifyContent: "center", color: COLORS.primary, flexShrink: 0 }, children: app.icon }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, fontWeight: 700, color: COLORS.textMain }, children: app.label }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: COLORS.textSecondary, marginTop: 2 }, children: app.desc })
-        ] })
-      ] }, i)) })
-    ] }),
-    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-      padding: "16px 20px",
-      borderTop: `1px solid ${COLORS.border}`,
-      backgroundColor: COLORS.card,
-      display: "flex",
-      justifyContent: "center",
-      gap: 8,
-      flexWrap: "wrap"
-    }, className: "no-print", children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => {
-        trackEvent("subscribe_click");
-        setShowSubscribeModal(true);
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 15 }),
-        " Subscribe"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: handleReset, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 15 }),
-        " Reset"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => trackEvent("donate_click"), children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 15 }),
-        " Donate"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => {
-        trackEvent("feedback_click");
-        setShowFeedbackModal(true);
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 15 }),
-        " Feedback"
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("button", { className: "btn-press", style: { padding: "8px 14px", borderRadius: 8, border: `1px solid ${COLORS.border}`, backgroundColor: COLORS.card, color: COLORS.textSecondary, fontSize: 13, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 6 }, onClick: () => {
-        trackEvent("print_click");
-        window.print();
-      }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Printer, { size: 15 }),
-        " Print"
-      ] })
-    ] }),
-    !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { className: "no-print", style: {
-      position: "fixed",
-      bottom: 16,
-      right: pillRight,
-      zIndex: 99999,
-      pointerEvents: "none"
-    }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-      backgroundColor: "#ffffff",
-      border: `1px solid ${COLORS.border}`,
-      borderRadius: 999,
-      boxShadow: "0 8px 24px rgba(17, 24, 39, 0.12)",
-      padding: "6px 10px",
-      display: "flex",
-      alignItems: "center",
-      gap: 8,
-      pointerEvents: "auto"
-    }, children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, fontWeight: 700, color: COLORS.textMain, whiteSpace: "nowrap" }, children: "Enjoying This App?" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 6 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
-          {
-            onClick: () => handleEnjoyVote("up"),
-            title: "Thumbs up",
-            style: {
-              width: 30,
-              height: 28,
-              borderRadius: 8,
-              border: `1px solid ${COLORS.border}`,
-              backgroundColor: "white",
-              cursor: "pointer",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              transition: "all 0.2s",
-              padding: 0
-            },
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 14, style: { color: COLORS.textSecondary } })
+                  ),
+                  subscribeMessage && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, fontSize: 12, color: subscribeStatus === "success" ? COLORS.primaryDark : COLORS.danger }, children: subscribeMessage }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 14 }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "button",
+                      {
+                        className: "btn-press",
+                        onClick: handleSubscribe,
+                        disabled: subscribeStatus === "loading",
+                        style: {
+                          flex: 1,
+                          borderRadius: 10,
+                          border: "none",
+                          backgroundColor: COLORS.primary,
+                          color: "white",
+                          padding: "10px 12px",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 6
+                        },
+                        children: [
+                          subscribeStatus === "loading" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { size: 14, style: { animation: "spin 1s linear infinite" } }) : null,
+                          "Subscribe"
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "button",
+                      {
+                        className: "btn-press",
+                        onClick: () => setShowSubscribeModal(false),
+                        style: {
+                          borderRadius: 10,
+                          border: `1px solid ${COLORS.border}`,
+                          backgroundColor: "white",
+                          padding: "10px 12px",
+                          cursor: "pointer"
+                        },
+                        children: "Close"
+                      }
+                    )
+                  ] })
+                ]
+              }
+            )
           }
         ),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "button",
+        showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "div",
           {
-            onClick: () => handleEnjoyVote("down"),
-            title: "Thumbs down",
             style: {
-              width: 30,
-              height: 28,
-              borderRadius: 8,
-              border: `1px solid ${COLORS.border}`,
-              backgroundColor: "white",
-              cursor: "pointer",
+              position: "fixed",
+              inset: 0,
+              backgroundColor: "rgba(0,0,0,0.45)",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              transition: "all 0.2s",
-              padding: 0
+              padding: 12,
+              zIndex: 20
             },
-            children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 14, style: { color: COLORS.textSecondary } })
+            onClick: () => setShowFeedbackModal(false),
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "div",
+              {
+                onClick: (e) => e.stopPropagation(),
+                style: {
+                  width: "100%",
+                  maxWidth: 420,
+                  backgroundColor: "white",
+                  borderRadius: 16,
+                  padding: 18,
+                  border: `1px solid ${COLORS.border}`
+                },
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", alignItems: "center", gap: 8, marginBottom: 8 }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 16, color: COLORS.primaryDark }),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 18 }, children: "Share quick feedback" })
+                  ] }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "textarea",
+                    {
+                      value: feedbackText,
+                      onChange: (e) => setFeedbackText(e.target.value),
+                      placeholder: "What felt useful, confusing, or missing?",
+                      style: {
+                        width: "100%",
+                        minHeight: 110,
+                        borderRadius: 10,
+                        border: `1px solid ${COLORS.border}`,
+                        padding: 10,
+                        fontSize: 13,
+                        resize: "vertical"
+                      }
+                    }
+                  ),
+                  feedbackStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 8, color: COLORS.danger, fontSize: 12 }, children: "Could not submit feedback." }),
+                  feedbackStatus === "success" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 8, color: COLORS.primaryDark, fontSize: 12 }, children: "Feedback sent. Thank you." }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 8, marginTop: 12 }, children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "button",
+                      {
+                        className: "btn-press",
+                        onClick: handleFeedbackSubmit,
+                        disabled: feedbackStatus === "submitting",
+                        style: {
+                          flex: 1,
+                          borderRadius: 10,
+                          border: "none",
+                          backgroundColor: COLORS.primary,
+                          color: "white",
+                          padding: "10px 12px",
+                          fontWeight: 700,
+                          cursor: "pointer",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          gap: 6
+                        },
+                        children: [
+                          feedbackStatus === "submitting" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(LoaderCircle, { size: 14, style: { animation: "spin 1s linear infinite" } }) : null,
+                          "Send"
+                        ]
+                      }
+                    ),
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                      "button",
+                      {
+                        className: "btn-press",
+                        onClick: () => setShowFeedbackModal(false),
+                        style: {
+                          borderRadius: 10,
+                          border: `1px solid ${COLORS.border}`,
+                          backgroundColor: "white",
+                          padding: "10px 12px",
+                          cursor: "pointer"
+                        },
+                        children: "Close"
+                      }
+                    )
+                  ] })
+                ]
+              }
+            )
           }
         )
-      ] })
-    ] }) }),
-    showSubscribeModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1e3, padding: 20 }, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%" }, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: { position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer" }, onClick: () => setShowSubscribeModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 24, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }, children: "Stay Updated" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 24 }, children: "Get trip planning tips and product updates." }),
-      subscribeStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 40, marginBottom: 10 }, children: "\u{1F389}" }),
-        subscribeMessage
-      ] }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginBottom: 16 }, children: [
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("label", { style: { display: "block", fontSize: 14, fontWeight: 600, marginBottom: 8, color: COLORS.textMain }, children: "Email Address" }),
-          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("input", { style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none" }, placeholder: "you@example.com", value: subscribeEmail, onChange: (e) => setSubscribeEmail(e.target.value), onKeyDown: (e) => {
-            if (e.key === "Enter") handleSubscribe();
-          } })
-        ] }),
-        subscribeStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.urgent, fontSize: 14, marginBottom: 16, textAlign: "center" }, children: subscribeMessage }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleSubscribe, disabled: subscribeStatus === "loading", style: { width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: "pointer" }, children: subscribeStatus === "loading" ? "Subscribing..." : "Subscribe" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 11, color: COLORS.textSecondary, textAlign: "center", marginTop: 12, lineHeight: 1.4 }, children: "By subscribing, you agree to receive emails. Unsubscribe anytime." })
-      ] })
-    ] }) }),
-    confirmDialog && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }, onClick: () => setConfirmDialog(null), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 16, padding: 24, maxWidth: 340, width: "100%", textAlign: "center" }, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 16, fontWeight: 600, color: COLORS.textMain, marginBottom: 20 }, children: confirmDialog.message }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 10 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => setConfirmDialog(null), style: { flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Cancel" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => {
-          confirmDialog.onConfirm();
-          setConfirmDialog(null);
-        }, style: { flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.urgent, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Delete" })
-      ] })
-    ] }) }),
-    showNameTripModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }, onClick: () => setShowNameTripModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 16, padding: 24, maxWidth: 380, width: "100%" }, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 18, fontWeight: 700, color: COLORS.textMain, marginBottom: 4 }, children: "Name Your Trip" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, color: COLORS.textSecondary, marginBottom: 16 }, children: "Give this trip a name so you can find it later." }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-        "input",
-        {
-          autoFocus: true,
-          value: nameTripValue,
-          onChange: (e) => setNameTripValue(e.target.value),
-          onKeyDown: (e) => {
-            if (e.key === "Enter" && nameTripValue.trim()) {
-              const named = { ...trip, name: nameTripValue.trim() };
-              setTrip(named);
-              doSaveTrip(named);
-              setShowNameTripModal(false);
-            }
-          },
-          placeholder: "e.g. Paris Summer 2026",
-          style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 15, boxSizing: "border-box", outline: "none", marginBottom: 16, fontFamily: "inherit" }
-        }
-      ),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 10 }, children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => setShowNameTripModal(false), style: { flex: 1, padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, backgroundColor: "white", color: COLORS.textSecondary, fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Cancel" }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: () => {
-          const name = nameTripValue.trim() || "My Trip";
-          const named = { ...trip, name };
-          setTrip(named);
-          doSaveTrip(named);
-          setShowNameTripModal(false);
-        }, style: { flex: 1, padding: 12, borderRadius: 10, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 14, fontWeight: 600, cursor: "pointer" }, children: "Save" })
-      ] })
-    ] }) }),
-    showFeedbackModal && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { position: "fixed", top: 0, left: 0, right: 0, bottom: 0, backgroundColor: "rgba(0,0,0,0.5)", display: "flex", alignItems: "center", justifyContent: "center", zIndex: 1100, padding: 20 }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { backgroundColor: "white", borderRadius: 20, padding: 24, maxWidth: 400, width: "100%", position: "relative", boxShadow: "0 20px 60px rgba(0,0,0,0.2)" }, onClick: (e) => e.stopPropagation(), children: [
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { style: { position: "absolute", top: 16, right: 16, background: "none", border: "none", cursor: "pointer", color: COLORS.textMuted, padding: 4 }, onClick: () => setShowFeedbackModal(false), children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(X, { size: 20 }) }),
-      enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: {
-        display: "flex",
-        alignItems: "center",
-        gap: 12,
-        marginBottom: 16,
-        padding: "12px 16px",
-        backgroundColor: enjoyVote === "up" ? COLORS.bookedBg : COLORS.urgentBg,
-        borderRadius: 12,
-        border: `1px solid ${enjoyVote === "up" ? COLORS.booked : COLORS.urgent}`
-      }, children: [
-        enjoyVote === "up" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 22, style: { color: COLORS.booked } }) : /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 22, style: { color: COLORS.urgent } }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontWeight: 600, color: enjoyVote === "up" ? COLORS.booked : COLORS.urgent }, children: "Thank you for rating the app!" })
-      ] }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 22, fontWeight: 800, marginBottom: 8, color: COLORS.textMain }, children: enjoyVote ? "Share Your Thoughts" : "Feedback" }),
-      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, marginBottom: 20 }, children: enjoyVote ? "Please share your feedback below to help us improve." : "Help us improve My Travel Organizer." }),
-      feedbackStatus === "success" ? /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { textAlign: "center", padding: 20, color: COLORS.primary, fontWeight: 600 }, children: "Thanks for your feedback!" }) : /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-          "textarea",
-          {
-            autoFocus: true,
-            style: { width: "100%", padding: 12, borderRadius: 10, border: `1px solid ${COLORS.border}`, fontSize: 14, boxSizing: "border-box", outline: "none", height: 120, resize: "none", fontFamily: "inherit", marginBottom: 12 },
-            placeholder: enjoyVote === "up" ? "What do you love about this app?" : enjoyVote === "down" ? "What can we improve?" : "Tell us what you think...",
-            value: feedbackText,
-            onChange: (e) => setFeedbackText(e.target.value),
-            onFocus: (e) => e.currentTarget.style.borderColor = COLORS.primary,
-            onBlur: (e) => e.currentTarget.style.borderColor = COLORS.border
-          }
-        ),
-        feedbackStatus === "error" && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.urgent, fontSize: 14, marginBottom: 10 }, children: "Failed to send. Please try again." }),
-        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("button", { className: "btn-press", onClick: handleFeedbackSubmit, disabled: feedbackStatus === "submitting" || !feedbackText.trim(), style: { width: "100%", padding: 14, borderRadius: 12, border: "none", backgroundColor: COLORS.primary, color: "white", fontSize: 16, fontWeight: 700, cursor: feedbackStatus === "submitting" || !feedbackText.trim() ? "not-allowed" : "pointer", opacity: feedbackStatus === "submitting" || !feedbackText.trim() ? 0.7 : 1 }, children: feedbackStatus === "submitting" ? "Sending..." : "Send Feedback" })
-      ] })
-    ] }) })
-  ] });
+      ]
+    }
+  );
 }
 
 // src/main.tsx
@@ -28422,9 +26036,9 @@ var getHydrationData = () => {
   console.log("[Hydration] No data found in any candidate source");
   return {};
 };
-console.log("[Main] Trip Planner main.tsx loading...");
+console.log("[Main] Weight Loss Quiz main.tsx loading...");
 function App({ initialData: initialData2 }) {
-  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(TripPlanner, { initialData: initialData2 });
+  return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(WeightLossQuiz, { initialData: initialData2 });
 }
 var container = document.getElementById("trip-planner-root");
 if (!container) {
@@ -28565,6 +26179,14 @@ lucide-react/dist/esm/createLucideIcon.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
+lucide-react/dist/esm/icons/activity.js:
+  (**
+   * @license lucide-react v0.554.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
 lucide-react/dist/esm/icons/arrow-right.js:
   (**
    * @license lucide-react v0.554.0 - ISC
@@ -28573,7 +26195,7 @@ lucide-react/dist/esm/icons/arrow-right.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/bus.js:
+lucide-react/dist/esm/icons/chart-column.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28581,47 +26203,7 @@ lucide-react/dist/esm/icons/bus.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/calendar.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/car.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/check.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/chevron-down.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/chevron-up.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/circle-alert.js:
+lucide-react/dist/esm/icons/chevron-left.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28637,7 +26219,7 @@ lucide-react/dist/esm/icons/circle-check.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/circle.js:
+lucide-react/dist/esm/icons/flame.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28645,23 +26227,7 @@ lucide-react/dist/esm/icons/circle.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/clipboard-list.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/clock.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/file-text.js:
+lucide-react/dist/esm/icons/footprints.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28677,15 +26243,7 @@ lucide-react/dist/esm/icons/heart.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/hotel.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/house.js:
+lucide-react/dist/esm/icons/loader-circle.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28701,55 +26259,7 @@ lucide-react/dist/esm/icons/mail.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/map-pin.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
 lucide-react/dist/esm/icons/message-square.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/pen-line.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/pen.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/plane.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/plus.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/printer.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28765,31 +26275,15 @@ lucide-react/dist/esm/icons/rotate-ccw.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/save.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/shield.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/ship.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
 lucide-react/dist/esm/icons/sparkles.js:
+  (**
+   * @license lucide-react v0.554.0 - ISC
+   *
+   * This source code is licensed under the ISC license.
+   * See the LICENSE file in the root directory of this source tree.
+   *)
+
+lucide-react/dist/esm/icons/target.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28813,7 +26307,7 @@ lucide-react/dist/esm/icons/thumbs-up.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/tram-front.js:
+lucide-react/dist/esm/icons/timer.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *
@@ -28821,23 +26315,7 @@ lucide-react/dist/esm/icons/tram-front.js:
    * See the LICENSE file in the root directory of this source tree.
    *)
 
-lucide-react/dist/esm/icons/trash-2.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/users.js:
-  (**
-   * @license lucide-react v0.554.0 - ISC
-   *
-   * This source code is licensed under the ISC license.
-   * See the LICENSE file in the root directory of this source tree.
-   *)
-
-lucide-react/dist/esm/icons/x.js:
+lucide-react/dist/esm/icons/trophy.js:
   (**
    * @license lucide-react v0.554.0 - ISC
    *

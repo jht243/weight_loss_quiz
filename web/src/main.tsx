@@ -1,7 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 
-import TripPlanner from "./TripPlanner";
+import WeightLossQuiz from "./WeightLossQuiz";
 
 class ErrorBoundary extends React.Component<
   { children: React.ReactNode },
@@ -107,11 +107,11 @@ const getHydrationData = (): any => {
   return {};
 };
 
-console.log("[Main] Trip Planner main.tsx loading...");
+console.log("[Main] Weight Loss Quiz main.tsx loading...");
 
-// App wrapper - Trip Planner & Organizer
+// App wrapper - Weight Loss Quiz
 function App({ initialData }: { initialData: any }) {
-  return <TripPlanner initialData={initialData} />;
+  return <WeightLossQuiz initialData={initialData} />;
 }
 
 // Get initial data

@@ -73,9 +73,9 @@ const normalizeOrigin = (value?: string): string | null => {
 
 const WIDGET_API_BASE_URL = normalizeOrigin(
   process.env.WIDGET_API_BASE_URL ||
-    process.env.PUBLIC_API_BASE_URL ||
-    process.env.RENDER_EXTERNAL_URL ||
-    `http://localhost:${port}`
+  process.env.PUBLIC_API_BASE_URL ||
+  process.env.RENDER_EXTERNAL_URL ||
+  `http://localhost:${port}`
 ) || `http://localhost:${port}`;
 
 const LOCALHOST_API_ORIGIN = `http://localhost:${port}`;
@@ -141,7 +141,7 @@ function getRecentLogs(days: number = 7): AnalyticsEvent[] {
       lines.forEach((line) => {
         try {
           logs.push(JSON.parse(line));
-        } catch (e) {}
+        } catch (e) { }
       });
     }
   }
@@ -162,38 +162,34 @@ function classifyDevice(userAgent?: string | null): string {
 }
 
 function computeSummary(args: any) {
-  const destination = args.destination || null;
-  const departureCity = args.departure_city || null;
-  const tripType = args.trip_type || "round_trip";
-  const travelers = Number(args.travelers) || 1;
-  const departureDate = args.departure_date || null;
-  const returnDate = args.return_date || null;
-  const departureMode = args.departure_mode || "plane";
-  const multiCityLegs = args.multi_city_legs || [];
-  
-  // Calculate trip duration from dates if available
-  let tripDays: number | null = null;
-  if (departureDate && returnDate) {
-    const diff = new Date(returnDate).getTime() - new Date(departureDate).getTime();
-    tripDays = Math.ceil(diff / (1000 * 60 * 60 * 24)) + 1;
-  }
-  
-  // Count expected legs
-  const expectedFlights = tripType === "one_way" ? 1 : tripType === "round_trip" ? 2 : multiCityLegs.length;
-  const expectedHotels = tripType === "multi_city" ? multiCityLegs.length : (tripType === "one_way" ? 1 : 1);
-  
+  const goal = typeof args.goal === "string" ? args.goal : null;
+  const biggestChallenge = typeof args.biggest_challenge === "string" ? args.biggest_challenge : null;
+  const activityLevel = typeof args.activity_level === "string" ? args.activity_level : null;
+  const trackingPreference = typeof args.tracking_preference === "string" ? args.tracking_preference : null;
+  const timeline = typeof args.timeline === "string" ? args.timeline : null;
+
+  let suggestedProfile = "momentum_builder";
+  if (trackingPreference === "data_friendly") suggestedProfile = "structured_achiever";
+  if (trackingPreference === "simple_rules") suggestedProfile = "busy_minimalist";
+  if (biggestChallenge === "cravings" || biggestChallenge === "hunger") suggestedProfile = "craving_crusher";
+  if (biggestChallenge === "social_events" || biggestChallenge === "weekends") suggestedProfile = "weekend_warrior";
+
+  const starterFocusMap: Record<string, string> = {
+    structured_achiever: "Set measurable daily nutrition targets and weekly check-ins.",
+    busy_minimalist: "Use repeatable meals and a simple step goal.",
+    craving_crusher: "Prioritize protein + fiber and reduce high-trigger moments.",
+    weekend_warrior: "Create a social-event strategy before weekends start.",
+    momentum_builder: "Stack one nutrition habit and one movement habit this week.",
+  };
+
   return {
-    destination,
-    departure_city: departureCity,
-    trip_type: tripType,
-    travelers,
-    departure_date: departureDate,
-    return_date: returnDate,
-    trip_days: tripDays,
-    departure_mode: departureMode,
-    expected_flights: expectedFlights,
-    expected_hotels: expectedHotels,
-    multi_city_legs: multiCityLegs.length > 0 ? multiCityLegs : null,
+    goal,
+    biggest_challenge: biggestChallenge,
+    activity_level: activityLevel,
+    tracking_preference: trackingPreference,
+    timeline,
+    suggested_profile: suggestedProfile,
+    starter_focus: starterFocusMap[suggestedProfile],
   };
 }
 
@@ -250,39 +246,36 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
   return {
     "openai/outputTemplate": templateUri,
     "openai/widgetDescription":
-      "My Travel Organizer — your complete pre-departure checklist for flights, hotels, transport & confirmations. Helps users keep track of all their travel reservations in one place so nothing gets missed. Supports round-trip, one-way, and multi-city itineraries. Call this tool immediately with NO arguments to let the user enter their trip details manually. Only provide arguments if the user has explicitly stated them.",
+      "Weight-Loss Blueprint Quiz — a modern visual quiz that helps users identify the easiest weight-loss strategy for their lifestyle. Call this tool immediately with NO arguments so the user can complete the interactive quiz.",
     "openai/componentDescriptions": {
-      "trip-form": "Input form for describing a trip in plain language or manually adding legs (flights, hotels, transport).",
-      "itinerary-display": "Day-by-day itinerary view showing all trip legs with booking status indicators.",
-      "booking-checklist": "Summary checklist showing booking progress for flights, lodging, and ground transport.",
+      "quiz-flow": "Interactive question-by-question flow with visual answer cards and progress tracking.",
+      "result-profile": "Personalized result profile with a practical 7-day starter plan.",
+      "action-plan": "Simple behavior-first recommendations based on user-selected constraints and goals.",
     },
     "openai/widgetKeywords": [
-      "trip planner",
-      "travel organizer",
-      "itinerary",
-      "flight tracker",
-      "hotel booking",
-      "multi-city trip",
-      "round trip",
-      "one way",
-      "travel reservations",
-      "booking checklist",
-      "vacation planner",
-      "trip legs"
+      "weight loss quiz",
+      "fat loss",
+      "healthy habits",
+      "nutrition",
+      "fitness",
+      "habit plan",
+      "wellness",
+      "goal setting",
+      "behavior change"
     ],
     "openai/sampleConversations": [
-      { "user": "Help me organize my trip", "assistant": "Here is My Travel Organizer. Describe your trip or add flights, hotels, and transport to build your pre-departure checklist." },
-      { "user": "I'm flying from Boston to Paris on June 11, then Paris to Geneva, then back to Boston on June 24", "assistant": "I've set up a multi-city trip with 3 legs. You can now add hotels and ground transport for each city." },
-      { "user": "Plan a round trip from NYC to London for 2 weeks", "assistant": "I've created a round-trip itinerary from NYC to London. Add your flight details, hotel, and airport transport." },
+      { "user": "Help me figure out the best way to lose weight", "assistant": "Here is your Weight-Loss Blueprint Quiz. Answer the visual prompts to get your personalized strategy." },
+      { "user": "I keep falling off on weekends and at social events", "assistant": "Open the Weight-Loss Blueprint Quiz to identify your profile and get a realistic 7-day action plan." },
+      { "user": "I want a simple plan I can actually stick to", "assistant": "Take the quiz and I will tailor a low-friction fat-loss approach to your lifestyle." },
     ],
     "openai/starterPrompts": [
-      "Help me organize my upcoming trip",
-      "Plan a round trip from Boston to Paris",
-      "I need to track my multi-city Europe trip",
-      "Organize my flights and hotels for vacation",
-      "Create an itinerary for my business trip to Tokyo",
-      "Help me plan a trip from NYC to London for 2 weeks",
-      "Track my travel reservations",
+      "Help me find the best weight-loss strategy for me",
+      "I want a personalized fat-loss plan I can stick to",
+      "Make me a modern visual quiz for losing weight",
+      "I struggle with cravings at night",
+      "I need a simple plan for a busy schedule",
+      "Help me stop weekend overeating",
+      "Guide me through a quick lifestyle-based weight-loss quiz",
     ],
     "openai/widgetPrefersBorder": true,
     "openai/widgetCSP": {
@@ -300,12 +293,12 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
 const widgets: TripPlannerWidget[] = [
   {
     id: "trip-planner",
-    title: "My Travel Organizer — Your complete pre-departure checklist for flights, hotels, transport & confirmations",
+    title: "Weight-Loss Blueprint Quiz — Discover your best-fit strategy in minutes",
     templateUri: `ui://widget/trip-planner.html?v=${VERSION}`,
     invoking:
-      "Opening My Travel Organizer...",
+      "Opening Weight-Loss Blueprint Quiz...",
     invoked:
-      "Here is My Travel Organizer. Describe your trip or manually add flights, hotels, and transport to build your complete pre-departure checklist.",
+      "Here is your Weight-Loss Blueprint Quiz. Answer the visual prompts to get a personalized, realistic plan.",
     html: readWidgetHtml("trip-planner"),
   },
 ];
@@ -321,65 +314,51 @@ widgets.forEach((widget) => {
 const toolInputSchema = {
   type: "object",
   properties: {
-    destination: { type: "string", description: "Primary destination city or country." },
-    departure_city: { type: "string", description: "City the traveler is departing from." },
-    trip_type: { type: "string", enum: ["round_trip", "one_way", "multi_city"], description: "Type of trip." },
-    departure_date: { type: "string", description: "Departure date in YYYY-MM-DD format." },
-    return_date: { type: "string", description: "Return date in YYYY-MM-DD format (for round trips)." },
-    travelers: { type: "number", description: "Number of travelers." },
-    departure_mode: { type: "string", enum: ["plane", "rail", "bus", "ferry"], description: "Primary transport mode for the trip." },
-    multi_city_legs: { type: "array", items: { type: "object", properties: { from: { type: "string" }, to: { type: "string" }, date: { type: "string" }, mode: { type: "string" } } }, description: "Array of multi-city leg objects with from, to, date, and mode fields." },
-    trip_description: { type: "string", description: "Freeform text describing the trip for AI-powered parsing." },
+    goal: { type: "string", description: "User's primary weight-loss goal." },
+    biggest_challenge: { type: "string", description: "Main obstacle to consistency (e.g. cravings, schedule, social events)." },
+    activity_level: { type: "string", enum: ["mostly_sitting", "some_walking", "regular_workouts", "very_active"], description: "Current movement baseline." },
+    tracking_preference: { type: "string", enum: ["data_friendly", "short_term_tracking", "simple_rules", "no_tracking"], description: "User preference for structure and tracking." },
+    timeline: { type: "string", enum: ["slow_easy", "moderate", "aggressive", "need_guidance"], description: "Preferred pace for progress." },
   },
   required: [],
-  additionalProperties: false,
+  additionalProperties: true,
   $schema: "http://json-schema.org/draft-07/schema#",
 } as const;
 
 const toolInputParser = z.object({
-  destination: z.string().optional(),
-  departure_city: z.string().optional(),
-  trip_type: z.enum(["round_trip", "one_way", "multi_city"]).optional(),
-  departure_date: z.string().optional(),
-  return_date: z.string().optional(),
-  travelers: z.number().optional(),
-  departure_mode: z.enum(["plane", "rail", "bus", "ferry"]).optional(),
-  multi_city_legs: z.array(z.object({ from: z.string().optional(), to: z.string().optional(), date: z.string().optional(), mode: z.string().optional() })).optional(),
-  trip_description: z.string().optional(),
-});
+  goal: z.string().optional(),
+  biggest_challenge: z.string().optional(),
+  activity_level: z.enum(["mostly_sitting", "some_walking", "regular_workouts", "very_active"]).optional(),
+  tracking_preference: z.enum(["data_friendly", "short_term_tracking", "simple_rules", "no_tracking"]).optional(),
+  timeline: z.enum(["slow_easy", "moderate", "aggressive", "need_guidance"]).optional(),
+}).passthrough();
 
 const tools: Tool[] = widgets.map((widget) => ({
   name: widget.id,
   description:
-    "Use this tool to plan and organize a trip including flights, hotels, trains, and ground transport. Supports round-trip, one-way, and multi-city itineraries. Call this tool immediately with NO arguments to let the user enter their trip details manually. Only provide arguments if the user has explicitly stated them.",
+    "Use this tool to launch a modern visual weight-loss quiz. The quiz identifies the user's weight-loss profile and generates a personalized 7-day action plan. Call this tool immediately with NO arguments so the user can complete the interactive flow.",
   inputSchema: toolInputSchema,
   outputSchema: {
     type: "object",
     properties: {
       ready: { type: "boolean" },
       timestamp: { type: "string" },
-      destination: { type: ["string", "null"] },
-      departure_city: { type: ["string", "null"] },
-      trip_type: { type: ["string", "null"] },
-      departure_date: { type: ["string", "null"] },
-      return_date: { type: ["string", "null"] },
-      travelers: { type: ["number", "null"] },
-      departure_mode: { type: ["string", "null"] },
+      goal: { type: ["string", "null"] },
+      biggest_challenge: { type: ["string", "null"] },
+      activity_level: { type: ["string", "null"] },
+      tracking_preference: { type: ["string", "null"] },
+      timeline: { type: ["string", "null"] },
       input_source: { type: "string", enum: ["user", "default"] },
       summary: {
         type: "object",
         properties: {
-          destination: { type: ["string", "null"] },
-          departure_city: { type: ["string", "null"] },
-          trip_type: { type: ["string", "null"] },
-          travelers: { type: ["number", "null"] },
-          departure_date: { type: ["string", "null"] },
-          return_date: { type: ["string", "null"] },
-          trip_days: { type: ["number", "null"] },
-          departure_mode: { type: ["string", "null"] },
-          expected_flights: { type: ["number", "null"] },
-          expected_hotels: { type: ["number", "null"] },
-          multi_city_legs: { type: ["array", "null"] },
+          goal: { type: ["string", "null"] },
+          biggest_challenge: { type: ["string", "null"] },
+          activity_level: { type: ["string", "null"] },
+          tracking_preference: { type: ["string", "null"] },
+          timeline: { type: ["string", "null"] },
+          suggested_profile: { type: ["string", "null"] },
+          starter_focus: { type: ["string", "null"] },
         },
       },
       suggested_followups: {
@@ -407,7 +386,7 @@ const resources: Resource[] = widgets.map((widget) => ({
   uri: widget.templateUri,
   name: widget.title,
   description:
-    "HTML template for My Travel Organizer widget.",
+    "HTML template for the Weight-Loss Blueprint Quiz widget.",
   mimeType: "text/html+skybridge",
   _meta: widgetMeta(widget),
 }));
@@ -416,7 +395,7 @@ const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
   uriTemplate: widget.templateUri,
   name: widget.title,
   description:
-    "Template descriptor for My Travel Organizer widget.",
+    "Template descriptor for the Weight-Loss Blueprint Quiz widget.",
   mimeType: "text/html+skybridge",
   _meta: widgetMeta(widget),
 }));
@@ -427,7 +406,7 @@ function createTripPlannerServer(): Server {
       name: "trip-planner",
       version: "0.1.0",
       description:
-        "My Travel Organizer — your complete pre-departure checklist. Helps users organize all legs of their trip to ensure they don't miss any flights, hotels, or travel reservations.",
+        "Weight-Loss Blueprint Quiz — helps users discover a personalized and sustainable strategy through a modern interactive quiz.",
     },
     {
       capabilities: {
@@ -488,10 +467,10 @@ function createTripPlannerServer(): Server {
       const startTime = Date.now();
       let userAgentString: string | null = null;
       let deviceCategory = "Unknown";
-      
+
       // Log the full request to debug _meta location
       console.log("Full request object:", JSON.stringify(request, null, 2));
-      
+
       try {
         const widget = widgetsById.get(request.params.name);
 
@@ -503,17 +482,10 @@ function createTripPlannerServer(): Server {
           throw new Error(`Unknown tool: ${request.params.name}`);
         }
 
-        // Helper: detect encoded tokens/hashes that aren't real trip descriptions
-        const looksLikeToken = (s: string) => !s.includes(" ") && s.length > 20 || /^v\d+\//.test(s) || /^[A-Za-z0-9+/=]{20,}$/.test(s);
-
         // Parse and validate input parameters
-        let args: z.infer<typeof toolInputParser> = {};
+        let args: Record<string, any> = {};
         try {
           args = toolInputParser.parse(request.params.arguments ?? {});
-          // Strip trip_description if it looks like an encoded token
-          if (args.trip_description && looksLikeToken(args.trip_description)) {
-            args.trip_description = undefined;
-          }
         } catch (parseError: any) {
           logAnalytics("parameter_parse_error", {
             toolName: request.params.name,
@@ -530,11 +502,11 @@ function createTripPlannerServer(): Server {
         const userAgent = meta["openai/userAgent"];
         userAgentString = typeof userAgent === "string" ? userAgent : null;
         deviceCategory = classifyDevice(userAgentString);
-        
+
         // Debug log
         console.log("Captured meta:", { userLocation, userLocale, userAgent });
 
-        // If ChatGPT didn't pass structured arguments, try to infer trip details from freeform text in meta
+        // If ChatGPT didn't pass structured arguments, infer lightweight quiz context from freeform text
         try {
           const candidates: any[] = [
             meta["openai/subject"],
@@ -546,123 +518,39 @@ function createTripPlannerServer(): Server {
           ];
           const userText = candidates.find((t) => typeof t === "string" && t.trim().length > 0) || "";
 
-          // Infer destination (e.g., "trip to Paris", "vacation in Hawaii", "flying to London")
-          if (args.destination === undefined) {
-            const destMatch = userText.match(/(?:trip|travel|going|vacation|visit|flying|headed)\s+(?:to|in)\s+([A-Za-z\s,]+?)(?:\.|,|for|on|\s+\d|\s*$)/i);
-            if (destMatch) {
-              args.destination = destMatch[1].trim();
+          if (!args.goal) {
+            if (/weight|fat\s*loss|lose\s*weight/i.test(userText)) {
+              args.goal = "lose_weight";
+            } else if (/energy|feel\s*better/i.test(userText)) {
+              args.goal = "more_energy";
             }
           }
 
-          // Infer departure city (e.g., "from Boston", "leaving from NYC")
-          if (args.departure_city === undefined) {
-            const fromMatch = userText.match(/(?:from|leaving|departing)\s+([A-Za-z\s]+?)(?:\s+to\s|\.|,|on|\s*$)/i);
-            if (fromMatch) {
-              args.departure_city = fromMatch[1].trim();
-            }
+          if (!args.biggest_challenge) {
+            if (/craving|hunger|snack/i.test(userText)) args.biggest_challenge = "cravings";
+            else if (/weekend|social|restaurant|party/i.test(userText)) args.biggest_challenge = "social_events";
+            else if (/busy|schedule|time/i.test(userText)) args.biggest_challenge = "schedule";
+            else if (/motivation|consisten/i.test(userText)) args.biggest_challenge = "motivation";
           }
 
-          // Infer multi-city legs from chains like "from X, to Y, to Z, to W"
-          // or "from X to Y to Z" or "X, then Y, then Z"
-          if (!args.multi_city_legs?.length) {
-            // Pattern: "from City1, to City2, to City3, ..." or "from City1 to City2 to City3"
-            const chainMatch = userText.match(/from\s+([A-Za-z][A-Za-z\s]*?)(?:,?\s+to\s+)([A-Za-z][A-Za-z\s]*?)(?:(?:,?\s+(?:to|then(?:\s+to)?)\s+)([A-Za-z][A-Za-z\s]*?))?(?:(?:,?\s+(?:to|then(?:\s+to)?)\s+)([A-Za-z][A-Za-z\s]*?))?(?:(?:,?\s+(?:to|then(?:\s+to)?)\s+)([A-Za-z][A-Za-z\s]*?))?(?:\.|,|\s+(?:i\s|and\s|for\s|on\s|in\s|$)|\s*$)/i);
-            if (chainMatch) {
-              const cities = [chainMatch[1], chainMatch[2], chainMatch[3], chainMatch[4], chainMatch[5]]
-                .filter(Boolean)
-                .map(c => c.trim().replace(/[,.\s]+$/, ""));
-              if (cities.length >= 3) {
-                // Extract per-leg transport modes from text
-                const getMode = (from: string, to: string): string => {
-                  const lcText = userText.toLowerCase();
-                  const lcFrom = from.toLowerCase();
-                  const lcTo = to.toLowerCase();
-                  // Check for specific mode mentions for this leg pair
-                  const legPattern = new RegExp(`(?:${lcFrom}\\s+to\\s+${lcTo}|${lcFrom}[^.]*?${lcTo})[^.]*?\\b(plane|fly|flight|train|rail|bus|ferry|drive|car)\\b`, "i");
-                  const revPattern = new RegExp(`\\b(plane|fly|flight|train|rail|bus|ferry|drive|car)\\b[^.]*?(?:${lcFrom}\\s+to\\s+${lcTo}|${lcFrom}[^.]*?${lcTo})`, "i");
-                  const match = lcText.match(legPattern) || lcText.match(revPattern);
-                  if (match) {
-                    const m = match[1].toLowerCase();
-                    if (["plane", "fly", "flight"].includes(m)) return "plane";
-                    if (["train", "rail"].includes(m)) return "rail";
-                    if (m === "bus") return "bus";
-                    if (["ferry"].includes(m)) return "ferry";
-                    if (["drive", "car"].includes(m)) return "car";
-                  }
-                  return "plane"; // default
-                };
-                
-                // Check for "train for the rest" / "plane for the rest" patterns
-                const restModeMatch = userText.match(/\b(plane|fly|flight|train|rail|bus|ferry|drive|car)\b[^.]*?\b(?:the\s+rest|remaining|other)/i)
-                  || userText.match(/\b(?:the\s+rest|remaining|other)[^.]*?\b(plane|fly|flight|train|rail|bus|ferry|drive|car)\b/i);
-                let restMode = "plane";
-                if (restModeMatch) {
-                  const m = restModeMatch[1].toLowerCase();
-                  if (["plane", "fly", "flight"].includes(m)) restMode = "plane";
-                  else if (["train", "rail"].includes(m)) restMode = "rail";
-                  else if (m === "bus") restMode = "bus";
-                  else if (["ferry"].includes(m)) restMode = "ferry";
-                  else if (["drive", "car"].includes(m)) restMode = "car";
-                }
-                
-                const legs: { from: string; to: string; date: string; mode: string }[] = [];
-                for (let i = 0; i < cities.length - 1; i++) {
-                  let mode = getMode(cities[i], cities[i + 1]);
-                  // If no specific match found and "rest" mode exists, use it for legs after first
-                  if (mode === "plane" && restModeMatch && i > 0) {
-                    mode = restMode;
-                  }
-                  legs.push({ from: cities[i], to: cities[i + 1], date: "", mode });
-                }
-                args.multi_city_legs = legs;
-                args.trip_type = "multi_city";
-                args.departure_city = cities[0];
-                args.destination = cities[cities.length - 1];
-              }
-            }
+          if (!args.activity_level) {
+            if (/sit|desk|inactive/i.test(userText)) args.activity_level = "mostly_sitting";
+            else if (/walk|steps/i.test(userText)) args.activity_level = "some_walking";
+            else if (/gym|workout|train/i.test(userText)) args.activity_level = "regular_workouts";
+            else if (/athlete|very active|daily training/i.test(userText)) args.activity_level = "very_active";
           }
 
-          // Infer trip type
-          if (args.trip_type === undefined) {
-            if (/multi[\s-]?city|multiple\s+cities|several\s+cities|then\s+to/i.test(userText)) {
-              args.trip_type = "multi_city";
-            } else if (/one[\s-]?way|not\s+coming\s+back|moving/i.test(userText)) {
-              args.trip_type = "one_way";
-            } else if (/round[\s-]?trip|return|coming\s+back|back\s+to/i.test(userText)) {
-              args.trip_type = "round_trip";
-            }
+          if (!args.tracking_preference) {
+            if (/track|macro|calorie|data/i.test(userText)) args.tracking_preference = "data_friendly";
+            else if (/simple|easy|rules/i.test(userText)) args.tracking_preference = "simple_rules";
+            else if (/no\s*tracking|hate\s*tracking/i.test(userText)) args.tracking_preference = "no_tracking";
           }
 
-          // Infer dates (e.g., "June 11", "on 2026-06-11")
-          if (args.departure_date === undefined) {
-            const dateMatch = userText.match(/(\d{4}-\d{2}-\d{2})/i);
-            if (dateMatch) {
-              args.departure_date = dateMatch[1];
-            }
-          }
-
-          // Infer travelers count
-          if (args.travelers === undefined) {
-            const travelerMatch = userText.match(/(\d+)\s*(?:traveler|people|person|of us)/i);
-            if (travelerMatch) {
-              args.travelers = parseInt(travelerMatch[1]);
-            } else if (/\b(girlfriend|wife|boyfriend|husband|partner|spouse)\b/i.test(userText)) {
-              args.travelers = 2;
-            } else if (/\bsolo\b|\balone\b|\bjust\s+me\b/i.test(userText)) {
-              args.travelers = 1;
-            }
-          }
-
-          // Infer transport mode
-          if (args.departure_mode === undefined) {
-            if (/\btrain\b|\brail\b|\bamtrak\b|\beurostar\b/i.test(userText)) args.departure_mode = "rail";
-            else if (/\bbus\b|\bgreyhound\b|\bcoach\b/i.test(userText)) args.departure_mode = "bus";
-            else if (/\bferry\b|\bboat\b|\bcruise\b/i.test(userText)) args.departure_mode = "ferry";
-          }
-
-          // Store freeform text as trip_description for AI parsing on the client
-          if (!args.trip_description && userText.length > 10 && !looksLikeToken(userText)) {
-            args.trip_description = userText;
+          if (!args.timeline) {
+            if (/slow|sustainable|easy/i.test(userText)) args.timeline = "slow_easy";
+            else if (/aggressive|fast|quick/i.test(userText)) args.timeline = "aggressive";
+            else if (/moderate|balanced/i.test(userText)) args.timeline = "moderate";
+            else if (/guide|not sure|unsure/i.test(userText)) args.timeline = "need_guidance";
           }
 
         } catch (e) {
@@ -677,28 +565,26 @@ function createTripPlannerServer(): Server {
 
         // Infer likely user query from parameters
         const inferredQuery = [] as string[];
-        if (args.departure_city) inferredQuery.push(`From: ${args.departure_city}`);
-        if (args.destination) inferredQuery.push(`To: ${args.destination}`);
-        if (args.trip_type) inferredQuery.push(`Type: ${args.trip_type}`);
-        if (args.departure_date) inferredQuery.push(`Departs: ${args.departure_date}`);
-        if (args.return_date) inferredQuery.push(`Returns: ${args.return_date}`);
-        if (args.travelers) inferredQuery.push(`Travelers: ${args.travelers}`);
-        if (args.departure_mode) inferredQuery.push(`Mode: ${args.departure_mode}`);
+        if (args.goal) inferredQuery.push(`Goal: ${args.goal}`);
+        if (args.biggest_challenge) inferredQuery.push(`Challenge: ${args.biggest_challenge}`);
+        if (args.activity_level) inferredQuery.push(`Activity: ${args.activity_level}`);
+        if (args.tracking_preference) inferredQuery.push(`Tracking: ${args.tracking_preference}`);
+        if (args.timeline) inferredQuery.push(`Timeline: ${args.timeline}`);
 
         logAnalytics("tool_call_success", {
           toolName: request.params.name,
           params: args,
-          inferredQuery: inferredQuery.length > 0 ? inferredQuery.join(", ") : "Trip Planner",
+          inferredQuery: inferredQuery.length > 0 ? inferredQuery.join(", ") : "Weight Loss Quiz",
           responseTime,
 
           device: deviceCategory,
           userLocation: userLocation
             ? {
-                city: userLocation.city,
-                region: userLocation.region,
-                country: userLocation.country,
-                timezone: userLocation.timezone,
-              }
+              city: userLocation.city,
+              region: userLocation.region,
+              country: userLocation.country,
+              timezone: userLocation.timezone,
+            }
             : null,
           userLocale,
           userAgent,
@@ -709,7 +595,6 @@ function createTripPlannerServer(): Server {
         console.log(`[MCP] Tool called: ${request.params.name}, returning templateUri: ${(widgetMetadata as any)["openai/outputTemplate"]}`);
 
         // Build structured content once so we can log it and return it.
-        // For the trip planner, expose fields relevant to trip details
         const structured = {
           ready: true,
           timestamp: new Date().toISOString(),
@@ -719,10 +604,10 @@ function createTripPlannerServer(): Server {
           // Summary + follow-ups for natural language UX
           summary: computeSummary(args),
           suggested_followups: [
-            "Add hotels for each city",
-            "What ground transport do I need?",
-            "Show me my booking checklist",
-            "Help me add flight details"
+            "Show me a high-protein meal framework",
+            "Give me a simple weekly movement plan",
+            "How do I handle cravings at night?",
+            "Help me stay on track during weekends"
           ],
         } as const;
 
@@ -745,26 +630,26 @@ function createTripPlannerServer(): Server {
 
         // Log success analytics
         try {
-          // Check for "empty" result - when no main travel inputs are provided
-          const hasMainInputs = args.destination || args.departure_city || args.trip_type || args.departure_date;
-          
+          // Check for "empty" result - when no meaningful quiz context is provided
+          const hasMainInputs = args.goal || args.biggest_challenge || args.activity_level || args.tracking_preference || args.timeline;
+
           if (!hasMainInputs) {
-             logAnalytics("tool_call_empty", {
-               toolName: request.params.name,
-               params: request.params.arguments || {},
-               reason: "No trip details provided"
-             });
+            logAnalytics("tool_call_empty", {
+              toolName: request.params.name,
+              params: request.params.arguments || {},
+              reason: "No quiz context provided"
+            });
           } else {
-          logAnalytics("tool_call_success", {
-            responseTime,
-            params: request.params.arguments || {},
-            inferredQuery: inferredQuery.join(", "),
-            userLocation,
-            userLocale,
-            device: deviceCategory,
-          });
+            logAnalytics("tool_call_success", {
+              responseTime,
+              params: request.params.arguments || {},
+              inferredQuery: inferredQuery.join(", "),
+              userLocation,
+              userLocale,
+              device: deviceCategory,
+            });
           }
-        } catch {}
+        } catch { }
 
         // TEXT SUPPRESSION: Return empty content array to prevent ChatGPT from adding
         // any text after the widget. The widget provides all necessary UI.
@@ -862,17 +747,17 @@ function humanizeEventName(event: string): string {
 function formatEventDetails(log: AnalyticsEvent): string {
   const excludeKeys = ["timestamp", "event"];
   const details: Record<string, any> = {};
-  
+
   Object.keys(log).forEach((key) => {
     if (!excludeKeys.includes(key)) {
       details[key] = log[key];
     }
   });
-  
+
   if (Object.keys(details).length === 0) {
     return "—";
   }
-  
+
   return JSON.stringify(details, null, 0);
 }
 
@@ -985,14 +870,14 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
   const avgResponseTime =
     successLogs.length > 0
       ? (successLogs.reduce((sum, l) => sum + (l.responseTime || 0), 0) /
-          successLogs.length).toFixed(0)
+        successLogs.length).toFixed(0)
       : "N/A";
 
   // --- Prompt-level analytics (from tool calls) ---
   const paramUsage: Record<string, number> = {};
   const tripTypeDist: Record<string, number> = {};
   const transportModeDist: Record<string, number> = {};
-  
+
   successLogs.forEach((log) => {
     if (log.params) {
       Object.keys(log.params).forEach((key) => {
@@ -1034,7 +919,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
   const tripActions: Record<string, number> = {};
   const tripActionEvents = ["widget_parse_trip", "widget_add_leg", "widget_delete_leg", "widget_save_trip", "widget_open_trip", "widget_new_trip", "widget_delete_trip", "widget_duplicate_trip", "widget_reset", "widget_back_to_home", "widget_input_mode"];
   tripActionEvents.forEach(e => { tripActions[humanizeEventName(e)] = 0; });
-  
+
   // Footer button clicks
   const footerClicks: Record<string, number> = {};
   const footerEvents = ["widget_subscribe_click", "widget_donate_click", "widget_feedback_click", "widget_print_click"];
@@ -1208,15 +1093,15 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     <div class="card" style="margin-bottom:20px;">
       <h2>📅 Daily Volume (7 Days)</h2>
       ${renderTable(
-        ["Date", "Tool Calls", "Widget Events", "Errors"],
-        Object.entries(dailyCounts).map(([day, c]) => [
-          `<span class="timestamp">${day}</span>`,
-          String(c.toolCalls),
-          String(c.widgetEvents),
-          c.errors > 0 ? `<span style="color:#dc2626;font-weight:600;">${c.errors}</span>` : "0"
-        ]),
-        "No data"
-      )}
+    ["Date", "Tool Calls", "Widget Events", "Errors"],
+    Object.entries(dailyCounts).map(([day, c]) => [
+      `<span class="timestamp">${day}</span>`,
+      String(c.toolCalls),
+      String(c.widgetEvents),
+      c.errors > 0 ? `<span style="color:#dc2626;font-weight:600;">${c.errors}</span>` : "0"
+    ]),
+    "No data"
+  )}
     </div>
 
     <!-- ========== PROMPT ANALYTICS ========== -->
@@ -1225,37 +1110,37 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       <div class="card">
         <h2>Trip Type Distribution</h2>
         ${renderTable(
-          ["Type", "Count", "%"],
-          Object.entries(tripTypeDist).sort((a, b) => b[1] - a[1]).map(([tt, count]) => {
-            const pct = successLogs.length > 0 ? ((count / successLogs.length) * 100).toFixed(0) : "0";
-            const label = tt === "round_trip" ? "🔄 Round Trip" : tt === "one_way" ? "➡️ One Way" : tt === "multi_city" ? "🌍 Multi-City" : tt;
-            return [label, String(count), `${pct}%`];
-          }),
-          "No data yet"
-        )}
+    ["Type", "Count", "%"],
+    Object.entries(tripTypeDist).sort((a, b) => b[1] - a[1]).map(([tt, count]) => {
+      const pct = successLogs.length > 0 ? ((count / successLogs.length) * 100).toFixed(0) : "0";
+      const label = tt === "round_trip" ? "🔄 Round Trip" : tt === "one_way" ? "➡️ One Way" : tt === "multi_city" ? "🌍 Multi-City" : tt;
+      return [label, String(count), `${pct}%`];
+    }),
+    "No data yet"
+  )}
       </div>
       <div class="card">
         <h2>Transport Mode</h2>
         ${renderTable(
-          ["Mode", "Count"],
-          Object.entries(transportModeDist).sort((a, b) => b[1] - a[1]).map(([mode, count]) => {
-            const icon = mode === "plane" ? "✈️" : mode === "car" ? "🚗" : mode === "train" ? "🚂" : mode === "bus" ? "🚌" : mode === "ferry" ? "⛴️" : "🚐";
-            return [`${icon} ${mode}`, String(count)];
-          }),
-          "No data yet"
-        )}
+    ["Mode", "Count"],
+    Object.entries(transportModeDist).sort((a, b) => b[1] - a[1]).map(([mode, count]) => {
+      const icon = mode === "plane" ? "✈️" : mode === "car" ? "🚗" : mode === "train" ? "🚂" : mode === "bus" ? "🚌" : mode === "ferry" ? "⛴️" : "🚐";
+      return [`${icon} ${mode}`, String(count)];
+    }),
+    "No data yet"
+  )}
       </div>
       <div class="card">
         <h2>Parameter Usage</h2>
         ${renderTable(
-          ["Parameter", "Used", "%"],
-          Object.entries(paramUsage).sort((a, b) => b[1] - a[1]).map(([p, c]) => [
-            `<code>${p}</code>`,
-            String(c),
-            successLogs.length > 0 ? `${((c / successLogs.length) * 100).toFixed(0)}%` : "0%"
-          ]),
-          "No data yet"
-        )}
+    ["Parameter", "Used", "%"],
+    Object.entries(paramUsage).sort((a, b) => b[1] - a[1]).map(([p, c]) => [
+      `<code>${p}</code>`,
+      String(c),
+      successLogs.length > 0 ? `${((c / successLogs.length) * 100).toFixed(0)}%` : "0%"
+    ]),
+    "No data yet"
+  )}
       </div>
     </div>
 
@@ -1263,35 +1148,35 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       <div class="card">
         <h2>🏙️ Top Destinations</h2>
         ${renderTable(
-          ["City", "Count"],
-          Object.entries(destinationDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
-          "No data yet"
-        )}
+    ["City", "Count"],
+    Object.entries(destinationDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
+    "No data yet"
+  )}
       </div>
       <div class="card">
         <h2>🛫 Top Departure Cities</h2>
         ${renderTable(
-          ["City", "Count"],
-          Object.entries(departureCityDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
-          "No data yet"
-        )}
+    ["City", "Count"],
+    Object.entries(departureCityDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
+    "No data yet"
+  )}
       </div>
       <div class="card">
         <h2>🗺️ Popular Routes</h2>
         ${(() => {
-          const routes: Record<string, number> = {};
-          successLogs.forEach(l => {
-            if (l.params?.departure_city && l.params?.destination) {
-              const route = l.params.departure_city + " → " + l.params.destination;
-              routes[route] = (routes[route] || 0) + 1;
-            }
-          });
-          return renderTable(
-            ["Route", "Count"],
-            Object.entries(routes).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([r, c]) => [r, String(c)]),
-            "No data yet"
-          );
-        })()}
+      const routes: Record<string, number> = {};
+      successLogs.forEach(l => {
+        if (l.params?.departure_city && l.params?.destination) {
+          const route = l.params.departure_city + " → " + l.params.destination;
+          routes[route] = (routes[route] || 0) + 1;
+        }
+      });
+      return renderTable(
+        ["Route", "Count"],
+        Object.entries(routes).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([r, c]) => [r, String(c)]),
+        "No data yet"
+      );
+    })()}
       </div>
     </div>
 
@@ -1301,26 +1186,26 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       <div class="card">
         <h2>Trip Management</h2>
         ${renderTable(
-          ["Action", "Count"],
-          Object.entries(tripActions).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
-          "No in-app actions yet"
-        )}
+      ["Action", "Count"],
+      Object.entries(tripActions).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
+      "No in-app actions yet"
+    )}
       </div>
       <div class="card">
         <h2>Footer Buttons</h2>
         ${renderTable(
-          ["Button", "Clicks"],
-          Object.entries(footerClicks).sort((a, b) => b[1] - a[1]).map(([b, c]) => [b, String(c)]),
-          "No clicks yet"
-        )}
+      ["Button", "Clicks"],
+      Object.entries(footerClicks).sort((a, b) => b[1] - a[1]).map(([b, c]) => [b, String(c)]),
+      "No clicks yet"
+    )}
       </div>
       <div class="card">
         <h2>Related App Clicks</h2>
         ${renderTable(
-          ["App", "Clicks"],
-          Object.entries(relatedAppClicks).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
-          "No clicks yet"
-        )}
+      ["App", "Clicks"],
+      Object.entries(relatedAppClicks).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
+      "No clicks yet"
+    )}
       </div>
     </div>
 
@@ -1328,24 +1213,24 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       <div class="card">
         <h2>Input Mode Preference</h2>
         ${renderTable(
-          ["Mode", "Count"],
-          [
-            ["✨ Freeform (AI Describe)", String(freeformCount)],
-            ["✏️ Manual (Add Manually)", String(manualCount)],
-          ],
-          "No data yet"
-        )}
+      ["Mode", "Count"],
+      [
+        ["✨ Freeform (AI Describe)", String(freeformCount)],
+        ["✏️ Manual (Add Manually)", String(manualCount)],
+      ],
+      "No data yet"
+    )}
       </div>
       <div class="card">
         <h2>Leg Types Added</h2>
         ${renderTable(
-          ["Type", "Count"],
-          Object.entries(legTypeDist).sort((a, b) => b[1] - a[1]).map(([t, c]) => {
-            const icon = t === "flight" ? "✈️" : t === "hotel" ? "🏨" : t === "car" ? "🚗" : t === "train" ? "🚂" : t === "bus" ? "🚌" : "📌";
-            return [`${icon} ${t}`, String(c)];
-          }),
-          "No legs added yet"
-        )}
+      ["Type", "Count"],
+      Object.entries(legTypeDist).sort((a, b) => b[1] - a[1]).map(([t, c]) => {
+        const icon = t === "flight" ? "✈️" : t === "hotel" ? "🏨" : t === "car" ? "🚗" : t === "train" ? "🚂" : t === "bus" ? "🚌" : "📌";
+        return [`${icon} ${t}`, String(c)];
+      }),
+      "No legs added yet"
+    )}
       </div>
     </div>
 
@@ -1380,15 +1265,15 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       <div class="card">
         <h2>Feedback Submissions</h2>
         ${feedbackLogs.length > 0 ? renderTable(
-          ["Date", "Vote", "Feedback", "Trip"],
-          feedbackLogs.slice(0, 15).map(l => [
-            `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
-            l.enjoymentVote === "up" ? '<span class="badge badge-green">👍</span>' : l.enjoymentVote === "down" ? '<span class="badge badge-red">👎</span>' : "—",
-            `<div style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${l.feedback || "—"}</div>`,
-            l.tripName || "—"
-          ]),
-          "No feedback yet"
-        ) : '<p style="color:#9ca3af;font-size:13px;">No feedback submitted yet</p>'}
+      ["Date", "Vote", "Feedback", "Trip"],
+      feedbackLogs.slice(0, 15).map(l => [
+        `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
+        l.enjoymentVote === "up" ? '<span class="badge badge-green">👍</span>' : l.enjoymentVote === "down" ? '<span class="badge badge-red">👎</span>' : "—",
+        `<div style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${l.feedback || "—"}</div>`,
+        l.tripName || "—"
+      ]),
+      "No feedback yet"
+    ) : '<p style="color:#9ca3af;font-size:13px;">No feedback submitted yet</p>'}
       </div>
     </div>
 
@@ -1396,27 +1281,27 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     <div class="section-title">📋 Recent Queries</div>
     <div class="card" style="margin-bottom:20px;">
       ${renderTable(
-        ["Date", "Query", "Trip Type", "From → To", "Location", "Locale"],
-        successLogs.slice(0, 25).map(l => [
-          `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
-          `<div style="max-width:250px;overflow:hidden;text-overflow:ellipsis;">${l.inferredQuery || "—"}</div>`,
-          l.params?.trip_type ? `<span class="badge badge-blue">${l.params.trip_type}</span>` : "—",
-          l.params?.departure_city && l.params?.destination ? `${l.params.departure_city} → ${l.params.destination}` : (l.params?.destination || "—"),
-          l.userLocation ? `${l.userLocation.city || ""}${l.userLocation.region ? ", " + l.userLocation.region : ""}${l.userLocation.country ? ", " + l.userLocation.country : ""}`.replace(/^, /, "") : "—",
-          l.userLocale || "—"
-        ]),
-        "No queries yet"
-      )}
+      ["Date", "Query", "Trip Type", "From → To", "Location", "Locale"],
+      successLogs.slice(0, 25).map(l => [
+        `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
+        `<div style="max-width:250px;overflow:hidden;text-overflow:ellipsis;">${l.inferredQuery || "—"}</div>`,
+        l.params?.trip_type ? `<span class="badge badge-blue">${l.params.trip_type}</span>` : "—",
+        l.params?.departure_city && l.params?.destination ? `${l.params.departure_city} → ${l.params.destination}` : (l.params?.destination || "—"),
+        l.userLocation ? `${l.userLocation.city || ""}${l.userLocation.region ? ", " + l.userLocation.region : ""}${l.userLocation.country ? ", " + l.userLocation.country : ""}`.replace(/^, /, "") : "—",
+        l.userLocale || "—"
+      ]),
+      "No queries yet"
+    )}
     </div>
 
     <!-- ========== ALL WIDGET EVENTS ========== -->
     <div class="section-title">📊 All Widget Interactions (Aggregated)</div>
     <div class="card" style="margin-bottom:20px;">
       ${renderTable(
-        ["Event", "Count"],
-        Object.entries(allWidgetCounts).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
-        "No widget events yet"
-      )}
+      ["Event", "Count"],
+      Object.entries(allWidgetCounts).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
+      "No widget events yet"
+    )}
     </div>
 
     <!-- ========== RAW EVENT LOG ========== -->
@@ -1506,7 +1391,7 @@ async function handleTrackEvent(req: IncomingMessage, res: ServerResponse) {
 // Buttondown API integration
 async function subscribeToButtondown(email: string, topicId: string, topicName: string) {
   const BUTTONDOWN_API_KEY = process.env.BUTTONDOWN_API_KEY;
-  
+
   console.log("[Buttondown] subscribeToButtondown called", { email, topicId, topicName });
   console.log("[Buttondown] API key present:", !!BUTTONDOWN_API_KEY, "length:", BUTTONDOWN_API_KEY?.length ?? 0);
 
@@ -1542,7 +1427,7 @@ async function subscribeToButtondown(email: string, topicId: string, topicName: 
   if (!response.ok) {
     const errorText = await response.text();
     let errorMessage = "Failed to subscribe";
-    
+
     try {
       const errorData = JSON.parse(errorText);
       if (errorData.detail) {
@@ -1553,7 +1438,7 @@ async function subscribeToButtondown(email: string, topicId: string, topicName: 
     } catch {
       errorMessage = errorText;
     }
-    
+
     throw new Error(errorMessage);
   }
 
@@ -1563,7 +1448,7 @@ async function subscribeToButtondown(email: string, topicId: string, topicName: 
 // Update existing subscriber with new topic
 async function updateButtondownSubscriber(email: string, topicId: string, topicName: string) {
   const BUTTONDOWN_API_KEY = process.env.BUTTONDOWN_API_KEY;
-  
+
   if (!BUTTONDOWN_API_KEY) {
     throw new Error("BUTTONDOWN_API_KEY not set in environment variables");
   }
@@ -1602,7 +1487,7 @@ async function updateButtondownSubscriber(email: string, topicId: string, topicN
     name: topicName,
     subscribedAt: new Date().toISOString(),
   });
-  
+
   const updatedMetadata = {
     ...existingMetadata,
     [topicKey]: topicData,
@@ -1675,9 +1560,9 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
 
     try {
       await subscribeToButtondown(email, topicId, topicName);
-      res.writeHead(200).end(JSON.stringify({ 
-        success: true, 
-        message: "Successfully subscribed! You'll receive trip planning tips and updates." 
+      res.writeHead(200).end(JSON.stringify({
+        success: true,
+        message: "Successfully subscribed! You'll receive trip planning tips and updates."
       }));
     } catch (subscribeError: any) {
       const rawMessage = String(subscribeError?.message ?? "").trim();
@@ -1688,9 +1573,9 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
         console.log("Subscriber already on list, attempting update", { email, topicId, message: rawMessage });
         try {
           await updateButtondownSubscriber(email, topicId, topicName);
-          res.writeHead(200).end(JSON.stringify({ 
-            success: true, 
-            message: "You're now subscribed to this topic!" 
+          res.writeHead(200).end(JSON.stringify({
+            success: true,
+            message: "You're now subscribed to this topic!"
           }));
         } catch (updateError: any) {
           console.warn("Update subscriber failed, returning graceful success", {
@@ -1727,8 +1612,8 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
       email: undefined,
       error: error.message || "unknown_error",
     });
-    res.writeHead(500).end(JSON.stringify({ 
-      error: error.message || "Failed to subscribe. Please try again." 
+    res.writeHead(500).end(JSON.stringify({
+      error: error.message || "Failed to subscribe. Please try again."
     }));
   }
 }
@@ -1739,7 +1624,7 @@ async function handleParseTripAI(req: IncomingMessage, res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Headers", "content-type");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
   res.setHeader("Access-Control-Allow-Private-Network", "true");
-  
+
   if (req.method !== "POST") {
     res.writeHead(405).end("Method not allowed");
     return;
@@ -1754,14 +1639,14 @@ async function handleParseTripAI(req: IncomingMessage, res: ServerResponse) {
     });
 
     const { text } = JSON.parse(body);
-    
+
     if (!text || typeof text !== "string") {
       res.writeHead(400).end(JSON.stringify({ error: "Missing 'text' field" }));
       return;
     }
 
     const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-    
+
     if (!OPENAI_API_KEY) {
       // Fallback to basic parsing if no API key
       console.log("[Parse Trip] No OPENAI_API_KEY, using fallback parsing");
@@ -1829,7 +1714,7 @@ Return ONLY valid JSON array, no explanation.`;
 
     const data = await response.json() as any;
     const content = data.choices?.[0]?.message?.content || "[]";
-    
+
     // Parse the JSON response
     let legs;
     try {
@@ -1858,17 +1743,17 @@ Return ONLY valid JSON array, no explanation.`;
 function fallbackParseTripText(text: string): any[] {
   const legs: any[] = [];
   const lower = text.toLowerCase();
-  
+
   // Simple pattern matching
   const fromToMatch = lower.match(/from\s+([a-z\s]+?)\s+to\s+([a-z\s]+?)(?:\s|$|,|\.)/i);
   const toFromMatch = lower.match(/to\s+([a-z\s]+?)\s+from\s+([a-z\s]+?)(?:\s|$|,|\.)/i);
-  
+
   // Check for return/round trip
   const isRoundTrip = /return|round\s*trip|coming back|fly back|back to/i.test(lower);
-  
+
   let fromCity = "";
   let toCity = "";
-  
+
   if (fromToMatch) {
     fromCity = fromToMatch[1].trim();
     toCity = fromToMatch[2].trim();
@@ -1876,7 +1761,7 @@ function fallbackParseTripText(text: string): any[] {
     toCity = toFromMatch[1].trim();
     fromCity = toFromMatch[2].trim();
   }
-  
+
   if (fromCity && toCity) {
     // Add outbound flight
     legs.push({
@@ -1887,7 +1772,7 @@ function fallbackParseTripText(text: string): any[] {
       to: toCity,
       date: ""
     });
-    
+
     // Outbound transport: to departure airport
     legs.push({
       type: "car",
@@ -1896,7 +1781,7 @@ function fallbackParseTripText(text: string): any[] {
       to: `${fromCity} Airport`,
       date: ""
     });
-    
+
     // Outbound transport: from arrival airport to hotel
     legs.push({
       type: "car",
@@ -1905,7 +1790,7 @@ function fallbackParseTripText(text: string): any[] {
       from: `${toCity} Airport`,
       date: ""
     });
-    
+
     // If round trip, add return flight and transports
     if (isRoundTrip) {
       // Return flight
@@ -1917,7 +1802,7 @@ function fallbackParseTripText(text: string): any[] {
         to: fromCity,
         date: ""
       });
-      
+
       // Return transport: from hotel to departure airport
       legs.push({
         type: "car",
@@ -1926,7 +1811,7 @@ function fallbackParseTripText(text: string): any[] {
         to: `${toCity} Airport`,
         date: ""
       });
-      
+
       // Return transport: from arrival airport to home
       legs.push({
         type: "car",
@@ -1937,7 +1822,7 @@ function fallbackParseTripText(text: string): any[] {
       });
     }
   }
-  
+
   return legs;
 }
 
@@ -2101,7 +1986,7 @@ const httpServer = createServer(
           ".svg": "image/svg+xml"
         };
         const contentType = contentTypeMap[ext] || "application/octet-stream";
-        res.writeHead(200, { 
+        res.writeHead(200, {
           "Content-Type": contentType,
           "Access-Control-Allow-Origin": "*",
           "Cache-Control": "no-cache"
@@ -2127,7 +2012,7 @@ function startMonitoring() {
     try {
       const logs = getRecentLogs(7);
       const alerts = evaluateAlerts(logs);
-      
+
       if (alerts.length > 0) {
         console.log("\n=== 🚨 ACTIVE ALERTS 🚨 ===");
         alerts.forEach(alert => {
