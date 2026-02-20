@@ -24754,12 +24754,30 @@ var PROFILES = {
   structured_achiever: {
     label: "Structured Achiever",
     tag: "Data-friendly and routine-driven",
-    description: "You do best with clarity, measurable targets, and a weekly checkpoint rhythm.",
-    firstFocus: "Build a weekly scorecard and keep your plan visible.",
-    steps: [
-      "Set a daily protein minimum and calorie range.",
-      "Log meals for 7 days and review patterns nightly.",
-      "Do 3 strength sessions and track body weight trend."
+    description: [
+      "You perform best when your plan is measurable, visible, and easy to review each week.",
+      "Instead of relying on motivation, your progress accelerates when you use clear targets for protein, calories, and workouts.",
+      "Your edge is consistency through structure, not extreme dieting."
+    ],
+    firstFocus: "Build one simple dashboard this week: protein target, calorie range, steps, and strength sessions.",
+    weekPlan: [
+      { day: "Day 1", focus: "Set your scoreboard", details: "Define your calorie range, protein minimum, hydration goal, and daily step floor in one note app." },
+      { day: "Day 2", focus: "Lock your meal framework", details: "Pick breakfast, lunch, and dinner templates so your weekdays run on autopilot." },
+      { day: "Day 3", focus: "Strength session 1", details: "Complete a full-body lift and log sets/reps. Aim for 45-60 minutes." },
+      { day: "Day 4", focus: "Audit hunger triggers", details: "Review yesterday's food log and identify where cravings or low-protein meals appeared." },
+      { day: "Day 5", focus: "Strength session 2", details: "Repeat full-body or upper/lower split and keep progressive overload simple." },
+      { day: "Day 6", focus: "Weekend guardrails", details: "Pre-plan social meals and define an alcohol/dessert cap before the day starts." },
+      { day: "Day 7", focus: "Weekly review", details: "Check adherence, scale trend, and energy. Adjust one variable only for next week." }
+    ],
+    supplements: [
+      { name: "Protein powder (whey or plant)", how: "Use 1 serving (20-35g protein) to close protein gaps.", why: "Higher protein supports satiety and helps preserve muscle during fat loss.", note: "Choose products with third-party testing when possible." },
+      { name: "Creatine monohydrate", how: "3-5g daily, any time of day.", why: "Supports strength performance and lean mass while dieting.", note: "Can cause slight water retention; this is expected." },
+      { name: "Psyllium husk fiber", how: "5-10g daily with plenty of water.", why: "Improves fullness and can make appetite control easier.", note: "Start low and increase gradually to avoid GI discomfort." }
+    ],
+    mentoring: [
+      { label: "Noom", url: "https://www.noom.com/", note: "Behavior coaching and habit accountability for daily execution." },
+      { label: "Precision Nutrition Coaching", url: "https://www.precisionnutrition.com/coaching", note: "Structured coaching with clear nutrition milestones." },
+      { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Great option for personalized nutrition and medical context." }
     ],
     avoid: "Avoid perfection mode where one off-plan meal turns into an off-plan week.",
     timeline: "Expect visible momentum in 2-3 weeks with consistent tracking.",
@@ -24769,12 +24787,30 @@ var PROFILES = {
   busy_minimalist: {
     label: "Busy Minimalist",
     tag: "Low-friction habits win",
-    description: "You need fast defaults that survive packed days and decision fatigue.",
-    firstFocus: "Reduce choices by creating repeatable meals and movement defaults.",
-    steps: [
-      "Choose 3 go-to meals you can repeat all week.",
-      "Hit a non-negotiable step floor each day.",
-      "Use a simple evening cutoff for extra snacking."
+    description: [
+      "You are not lacking discipline; your schedule is simply overloaded and decision fatigue is high.",
+      "The best strategy for you is removing complexity so healthy choices happen automatically even on chaotic days.",
+      "When your system is simple, your consistency can outperform more aggressive plans."
+    ],
+    firstFocus: "Build a low-friction routine with repeatable meals, predictable shopping, and one movement minimum.",
+    weekPlan: [
+      { day: "Day 1", focus: "Create your emergency menu", details: "Write 3 quick meals and 2 snacks you can execute in under 10 minutes." },
+      { day: "Day 2", focus: "Batch-prep basics", details: "Cook protein, prep vegetables, and pre-portion grab-and-go snacks." },
+      { day: "Day 3", focus: "Movement minimum", details: "Set a realistic step floor and stack one 15-minute walk after a meal." },
+      { day: "Day 4", focus: "Calendar-proof your plan", details: "Identify your busiest 2 blocks and pre-assign meals for those windows." },
+      { day: "Day 5", focus: "Tighten your environment", details: "Place high-protein options at eye level and hide trigger snacks." },
+      { day: "Day 6", focus: "Social simplicity", details: "Use one ordering rule for restaurants: protein first, then fiber, then carbs." },
+      { day: "Day 7", focus: "Reset + refill", details: "Repeat grocery list, prep in 45 minutes, and lock in next week's defaults." }
+    ],
+    supplements: [
+      { name: "Protein shake or RTD protein", how: "Use 1 serving when meals are rushed.", why: "Helps prevent low-protein days that drive late cravings.", note: "Look for 20g+ protein with low added sugar." },
+      { name: "Magnesium glycinate", how: "200-350mg in the evening.", why: "May support sleep quality and recovery during stressful weeks.", note: "Avoid if it conflicts with your clinician's advice." },
+      { name: "Psyllium fiber or fiber blend", how: "5g once daily to start.", why: "Helps with fullness and consistency when meals are light on produce.", note: "Increase water intake when adding fiber." }
+    ],
+    mentoring: [
+      { label: "Noom", url: "https://www.noom.com/", note: "Good for behavior prompts and habit reminders on busy schedules." },
+      { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Simple structure with flexible food choices." },
+      { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Useful if you need a plan tailored to your weekly workflow." }
     ],
     avoid: "Avoid overcomplicated plans with too many rules.",
     timeline: "Expect consistency gains in the first week and fat-loss trend in 3-4 weeks.",
@@ -24784,12 +24820,30 @@ var PROFILES = {
   craving_crusher: {
     label: "Craving Crusher",
     tag: "Appetite and triggers are the lever",
-    description: "Your biggest progress unlock is hunger control and better trigger response.",
-    firstFocus: "Make every meal more filling and remove high-risk trigger setups.",
-    steps: [
-      "Anchor each meal with protein + fiber first.",
-      "Pre-plan a high-volume evening snack option.",
-      "Swap high-trigger foods at home for portion-safe versions."
+    description: [
+      "Your main challenge is not effort, it is appetite pressure and trigger exposure across the day.",
+      "When meals are more filling and your environment is engineered for success, cravings lose their power.",
+      "You will make the fastest progress by improving satiety before increasing restriction."
+    ],
+    firstFocus: "Design hunger-proof meals and reduce the number of high-trigger moments in your home and routine.",
+    weekPlan: [
+      { day: "Day 1", focus: "Satiety baseline", details: "Set a protein target per meal and add one high-fiber food at each eating occasion." },
+      { day: "Day 2", focus: "Craving map", details: "Identify your top 3 trigger times and write a replacement plan for each." },
+      { day: "Day 3", focus: "Kitchen reset", details: "Remove or portion high-trigger foods; place supportive options in front." },
+      { day: "Day 4", focus: "Evening strategy", details: "Pre-log dinner and a planned snack to avoid unplanned grazing." },
+      { day: "Day 5", focus: "Volume day", details: "Build high-volume plates (lean protein, vegetables, fruit, broth-based additions)." },
+      { day: "Day 6", focus: "Stress response", details: "Use a 10-minute pause routine (walk, hydration, breathing) before reactive eating." },
+      { day: "Day 7", focus: "Refine and repeat", details: "Review which swaps reduced cravings most and repeat those next week." }
+    ],
+    supplements: [
+      { name: "Protein powder", how: "1 serving when meals are protein-light.", why: "Helps improve fullness and reduce rebound hunger.", note: "Avoid replacing every meal; use as a support tool." },
+      { name: "Psyllium husk fiber", how: "5-10g daily split into 1-2 servings.", why: "Can improve satiety and reduce urge-driven snacking.", note: "Take with adequate water and separate from medications if advised." },
+      { name: "Magnesium glycinate", how: "200-350mg in evening.", why: "May support sleep and stress regulation, which can reduce cravings.", note: "Check suitability with your clinician." }
+    ],
+    mentoring: [
+      { label: "Noom", url: "https://www.noom.com/", note: "Helpful for mindset and trigger-awareness coaching." },
+      { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Structure with behavior support and community accountability." },
+      { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Useful for appetite strategy and medical personalization." }
     ],
     avoid: "Avoid long under-eating stretches that rebound into night overeating.",
     timeline: "Expect fewer cravings in 7-10 days and steadier fat loss by week 3.",
@@ -24799,12 +24853,30 @@ var PROFILES = {
   weekend_warrior: {
     label: "Weekend Warrior",
     tag: "Strong weekdays, loose weekends",
-    description: "You are close. Your key move is protecting progress in social situations.",
-    firstFocus: "Create a weekend strategy before social plans begin.",
-    steps: [
-      "Set a weekend alcohol and dessert ceiling in advance.",
-      "Front-load protein earlier on social days.",
-      "Use one reset routine Sunday evening: groceries, walk, meal prep."
+    description: [
+      "Your weekday structure is solid, which means your results are mostly decided by 48 weekend hours.",
+      "You do not need a stricter diet; you need a better social strategy before events begin.",
+      "Once weekends become controlled instead of chaotic, body composition changes quickly."
+    ],
+    firstFocus: "Install weekend guardrails early: pre-commitments for alcohol, portions, and post-event resets.",
+    weekPlan: [
+      { day: "Day 1", focus: "Weekend rules", details: "Set specific limits for drinks, desserts, and late-night eating." },
+      { day: "Day 2", focus: "Protein front-load", details: "Hit protein at breakfast/lunch so evening social meals are easier to control." },
+      { day: "Day 3", focus: "Restaurant playbook", details: "Use one plate method: protein anchor, vegetables, then optional extras." },
+      { day: "Day 4", focus: "Event buffer", details: "Take a pre-event walk and hydrate before social meals." },
+      { day: "Day 5", focus: "Alcohol strategy", details: "Alternate drinks with water and set a hard stop before the event starts." },
+      { day: "Day 6", focus: "Damage-control protocol", details: "If off-plan, return immediately at next meal instead of waiting for Monday." },
+      { day: "Day 7", focus: "Sunday reset", details: "Plan groceries, prep protein, and schedule workouts before bed." }
+    ],
+    supplements: [
+      { name: "Protein powder", how: "Use 1 serving before high-risk social windows.", why: "Reduces appetite and improves portion control later.", note: "Keep a ready-to-mix serving on hand." },
+      { name: "Electrolyte mix (sugar-free)", how: "Use in water around social events or after intense activity.", why: "Supports hydration and can reduce overeating driven by dehydration/fatigue.", note: "Pick lower-sodium options if medically needed." },
+      { name: "Omega-3 (EPA/DHA)", how: "Use daily with meals per label guidance.", why: "May support overall health and recovery while improving routine consistency.", note: "Discuss dosing if you use blood-thinning medications." }
+    ],
+    mentoring: [
+      { label: "Noom", url: "https://www.noom.com/", note: "Great for mindset around social eating patterns." },
+      { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Flexible social eating framework with accountability." },
+      { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Helpful for event-specific planning and sustainable fat loss." }
     ],
     avoid: "Avoid the all-or-nothing reset mentality every Monday.",
     timeline: "Expect faster visible changes once weekends are controlled (2-4 weeks).",
@@ -24814,12 +24886,30 @@ var PROFILES = {
   momentum_builder: {
     label: "Momentum Builder",
     tag: "Confidence and consistency first",
-    description: "Your best path is stacking small wins before intensity.",
-    firstFocus: "Build a streak you can protect, even on low-energy days.",
-    steps: [
-      "Pick one nutrition habit and one movement habit for 7 days.",
-      "Track only completion streaks, not perfection.",
-      "Celebrate non-scale wins: energy, sleep, confidence, fit of clothes."
+    description: [
+      "You will progress fastest by building confidence with repeatable wins, not by chasing extreme plans.",
+      "Your body and mindset respond best when goals are realistic enough to maintain through stress and low-energy days.",
+      "Once your streak is stable, intensity can increase without burnout."
+    ],
+    firstFocus: "Protect a daily streak with one food habit and one movement habit that are almost impossible to miss.",
+    weekPlan: [
+      { day: "Day 1", focus: "Choose your two non-negotiables", details: "Example: protein at breakfast + 20-minute walk daily." },
+      { day: "Day 2", focus: "Lower friction", details: "Place shoes and meal items where you can see them to reduce decision load." },
+      { day: "Day 3", focus: "Track streak only", details: "Mark completion daily. Do not track perfection or macro precision yet." },
+      { day: "Day 4", focus: "Energy checkpoint", details: "Rate mood, sleep, and hunger to spot what is already improving." },
+      { day: "Day 5", focus: "Add one upgrade", details: "Add a second walk or a brief strength session if momentum feels good." },
+      { day: "Day 6", focus: "Plan for hard days", details: "Define your minimum version of each habit for low-motivation days." },
+      { day: "Day 7", focus: "Weekly reflection", details: "Review streak consistency and choose one small progression for next week." }
+    ],
+    supplements: [
+      { name: "Protein powder", how: "1 serving on days protein intake is low.", why: "Supports satiety and habit consistency without complex meal prep.", note: "Use as support, not a replacement for whole foods." },
+      { name: "Creatine monohydrate", how: "3-5g daily.", why: "Supports strength and performance as activity increases.", note: "Safe for most people, but check with your clinician if needed." },
+      { name: "Magnesium glycinate", how: "200-350mg at night.", why: "Can help sleep quality and recovery, which improves follow-through.", note: "Stop if GI side effects occur and ask your clinician." }
+    ],
+    mentoring: [
+      { label: "Noom", url: "https://www.noom.com/", note: "Behavior-focused prompts help maintain momentum day to day." },
+      { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Simple framework with community accountability." },
+      { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Good next step when you are ready to personalize further." }
     ],
     avoid: "Avoid jumping into aggressive plans that are hard to sustain.",
     timeline: "Expect habit confidence in 1-2 weeks and physical changes over 4+ weeks.",
@@ -25340,10 +25430,14 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   const handleCopyPlan = async () => {
     const text = [
       `Weight-Loss Quiz Result: ${profile.label}`,
-      profile.description,
+      ...profile.description,
       `First focus: ${profile.firstFocus}`,
-      "7-day starter plan:",
-      ...profile.steps.map((step, idx) => `${idx + 1}. ${step}`),
+      "Detailed first 7 days:",
+      ...profile.weekPlan.map((entry) => `${entry.day}: ${entry.focus} - ${entry.details}`),
+      "Supplements to consider (with clinician approval):",
+      ...profile.supplements.map((item) => `- ${item.name}: ${item.how} ${item.why} Note: ${item.note}`),
+      "Mentoring and guidance options:",
+      ...profile.mentoring.map((item) => `- ${item.label}: ${item.url} (${item.note})`),
       `Avoid: ${profile.avoid}`,
       `Timeline: ${profile.timeline}`
     ].join("\n");
@@ -25649,7 +25743,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: profile.accent, textTransform: "uppercase", letterSpacing: 0.4 }, children: "Your profile" }),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "6px 0 4px", fontSize: 24 }, children: profile.label }),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 13, color: COLORS.textSecondary }, children: profile.tag }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "10px 0 0", fontSize: 14 }, children: profile.description })
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, display: "grid", gap: 8 }, children: profile.description.map((line, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 14, lineHeight: 1.45 }, children: line }, idx)) })
                         ]
                       }
                     ),
@@ -25666,8 +25760,69 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                         children: [
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 8px", fontSize: 15 }, children: "Your first focus" }),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 12px", fontSize: 13, color: COLORS.textSecondary }, children: profile.firstFocus }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "7-day starter plan" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ol", { style: { margin: 0, paddingLeft: 18, display: "grid", gap: 6, fontSize: 13, color: COLORS.textMain }, children: profile.steps.map((step, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: step }, idx)) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "Detailed first 7 days" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginBottom: 12 }, children: profile.weekPlan.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "div",
+                            {
+                              style: {
+                                border: `1px solid ${COLORS.borderLight}`,
+                                borderRadius: 10,
+                                padding: 10,
+                                backgroundColor: COLORS.card
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }, children: entry.day }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 13, fontWeight: 600 }, children: entry.focus }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 3, fontSize: 12, color: COLORS.textSecondary }, children: entry.details })
+                              ]
+                            },
+                            entry.day
+                          )) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "Supplements that may help" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginBottom: 10 }, children: profile.supplements.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, color: COLORS.textMain }, children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700 }, children: item.name }),
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
+                              "How: ",
+                              item.how
+                            ] }),
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
+                              "Why: ",
+                              item.why
+                            ] }),
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textMuted }, children: [
+                              "Note: ",
+                              item.note
+                            ] })
+                          ] }, item.name)) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                            "div",
+                            {
+                              style: {
+                                marginBottom: 12,
+                                padding: 10,
+                                borderRadius: 10,
+                                backgroundColor: "#F8F7F3",
+                                border: `1px solid ${COLORS.borderLight}`,
+                                fontSize: 11,
+                                color: COLORS.textSecondary
+                              },
+                              children: "Supplements are optional and not medical advice. Check with your clinician, especially if you use prescription medications or have health conditions."
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "Mentoring and guidance options" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8 }, children: profile.mentoring.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12 }, children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                              "a",
+                              {
+                                href: item.url,
+                                target: "_blank",
+                                rel: "noopener noreferrer",
+                                style: { color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none" },
+                                children: item.label
+                              }
+                            ),
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: item.note })
+                          ] }, item.label)) }),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                             "div",
                             {
