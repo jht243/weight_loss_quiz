@@ -24745,6 +24745,59 @@ var FONTS = {
   display: '"Avenir Next", "Futura", "Trebuchet MS", sans-serif',
   body: '"Avenir Next", "Segoe UI", sans-serif'
 };
+var makeSupplementImage = (title, subtitle, topColor, bottomColor) => {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 480">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="${topColor}" />
+      <stop offset="100%" stop-color="${bottomColor}" />
+    </linearGradient>
+  </defs>
+  <rect width="720" height="480" fill="url(#bg)" rx="24" />
+  <rect x="250" y="70" width="220" height="330" rx="38" fill="white" opacity="0.96" />
+  <rect x="295" y="34" width="130" height="52" rx="14" fill="#1B4332" />
+  <rect x="275" y="168" width="170" height="120" rx="18" fill="${topColor}" opacity="0.88" />
+  <text x="360" y="220" text-anchor="middle" font-size="34" font-family="Arial, sans-serif" font-weight="700" fill="#1B4332">${title}</text>
+  <text x="360" y="254" text-anchor="middle" font-size="20" font-family="Arial, sans-serif" fill="#1B4332">${subtitle}</text>
+  <text x="360" y="444" text-anchor="middle" font-size="26" font-family="Arial, sans-serif" fill="#FFFFFF" opacity="0.95">Supplement Pick</text>
+  </svg>`;
+  return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
+};
+var SUPPLEMENT_VISUAL_LIBRARY = {
+  protein: {
+    image: makeSupplementImage("Protein", "Whey / Plant", "#D7F0E3", "#84B59F"),
+    amazonUrl: "https://www.amazon.com/s?k=protein+powder"
+  },
+  creatine: {
+    image: makeSupplementImage("Creatine", "Monohydrate", "#DBEAFE", "#60A5FA"),
+    amazonUrl: "https://www.amazon.com/s?k=creatine+monohydrate"
+  },
+  fiber: {
+    image: makeSupplementImage("Fiber", "Psyllium", "#FEF3C7", "#F59E0B"),
+    amazonUrl: "https://www.amazon.com/s?k=psyllium+husk+fiber"
+  },
+  magnesium: {
+    image: makeSupplementImage("Magnesium", "Glycinate", "#EDE9FE", "#A78BFA"),
+    amazonUrl: "https://www.amazon.com/s?k=magnesium+glycinate"
+  },
+  electrolyte: {
+    image: makeSupplementImage("Electrolytes", "Sugar-Free", "#DCFCE7", "#34D399"),
+    amazonUrl: "https://www.amazon.com/s?k=sugar+free+electrolyte+powder"
+  },
+  omega3: {
+    image: makeSupplementImage("Omega-3", "EPA / DHA", "#FFE4E6", "#FB7185"),
+    amazonUrl: "https://www.amazon.com/s?k=omega+3+fish+oil"
+  }
+};
+var getSupplementVisual = (name) => {
+  const lowerName = name.toLowerCase();
+  if (lowerName.includes("creatine")) return SUPPLEMENT_VISUAL_LIBRARY.creatine;
+  if (lowerName.includes("psyllium") || lowerName.includes("fiber")) return SUPPLEMENT_VISUAL_LIBRARY.fiber;
+  if (lowerName.includes("magnesium")) return SUPPLEMENT_VISUAL_LIBRARY.magnesium;
+  if (lowerName.includes("electrolyte")) return SUPPLEMENT_VISUAL_LIBRARY.electrolyte;
+  if (lowerName.includes("omega")) return SUPPLEMENT_VISUAL_LIBRARY.omega3;
+  return SUPPLEMENT_VISUAL_LIBRARY.protein;
+};
 var QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
 var ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
 var PROFILE_ORDER = [
@@ -24991,6 +25044,275 @@ var PROFILES = {
     timeline: "Expect habit confidence in 1-2 weeks and physical changes over 4+ weeks.",
     accent: "#4C7D5A",
     bg: "#E7F1EB"
+  }
+};
+var RECIPE_DETAILS = {
+  "Macro Power Bowl": {
+    prepTime: "12 min",
+    cookTime: "18 min",
+    servings: "2",
+    ingredients: [
+      "10 oz chicken breast, cubed",
+      "1 cup cooked quinoa",
+      "2 cups mixed vegetables",
+      "1 tbsp olive oil",
+      "Lemon juice, salt, pepper"
+    ],
+    steps: [
+      "Season chicken with salt and pepper and sear in olive oil until cooked through.",
+      "Roast or saute vegetables until tender-crisp.",
+      "Build bowls with quinoa, chicken, and vegetables.",
+      "Finish with lemon juice and a drizzle of olive oil."
+    ]
+  },
+  "Greek Yogurt Protein Parfait": {
+    prepTime: "6 min",
+    cookTime: "0 min",
+    servings: "1",
+    ingredients: [
+      "1 cup plain Greek yogurt",
+      "1 scoop vanilla protein powder",
+      "1/2 cup berries",
+      "1 tbsp chia seeds",
+      "1 tbsp sliced almonds"
+    ],
+    steps: [
+      "Whisk protein powder into Greek yogurt until smooth.",
+      "Layer yogurt mix and berries in a bowl or jar.",
+      "Top with chia and almonds.",
+      "Chill for 5 minutes or eat immediately."
+    ]
+  },
+  "Sheet-Pan Salmon Plate": {
+    prepTime: "10 min",
+    cookTime: "20 min",
+    servings: "2",
+    ingredients: [
+      "2 salmon fillets",
+      "2 cups broccoli florets",
+      "1 medium sweet potato, cubed",
+      "1 tbsp olive oil",
+      "Garlic powder, paprika, salt, pepper"
+    ],
+    steps: [
+      "Heat oven to 425F and line a sheet pan.",
+      "Toss broccoli and sweet potato with half the oil and seasoning.",
+      "Roast vegetables for 10 minutes, then add salmon.",
+      "Brush salmon with remaining oil and roast 10-12 more minutes."
+    ]
+  },
+  "10-Minute Rotisserie Wrap": {
+    prepTime: "10 min",
+    cookTime: "0 min",
+    servings: "1",
+    ingredients: [
+      "1 whole-wheat wrap",
+      "4 oz rotisserie chicken",
+      "1 tbsp hummus",
+      "1 cup spinach",
+      "Cucumber slices"
+    ],
+    steps: [
+      "Spread hummus across the wrap.",
+      "Layer chicken, spinach, and cucumber.",
+      "Roll tightly and slice in half.",
+      "Serve with fruit or carrots for extra fiber."
+    ]
+  },
+  "Microwave Egg & Oats Bowl": {
+    prepTime: "4 min",
+    cookTime: "4 min",
+    servings: "1",
+    ingredients: [
+      "1/2 cup quick oats",
+      "3/4 cup water",
+      "3/4 cup egg whites",
+      "1 cup spinach",
+      "Salsa and shredded cheese"
+    ],
+    steps: [
+      "Microwave oats with water for 90 seconds.",
+      "Stir in egg whites and spinach.",
+      "Microwave in 30-second bursts until eggs set.",
+      "Top with salsa and a small amount of cheese."
+    ]
+  },
+  "Freezer Stir-Fry Shortcut": {
+    prepTime: "6 min",
+    cookTime: "10 min",
+    servings: "2",
+    ingredients: [
+      "3 cups frozen stir-fry vegetables",
+      "8 oz pre-cooked chicken or tofu",
+      "2 cups microwave rice",
+      "2 tbsp soy-ginger sauce"
+    ],
+    steps: [
+      "Saute frozen vegetables in a hot pan until softened.",
+      "Add protein and cook until heated through.",
+      "Microwave rice and fold into the pan.",
+      "Finish with soy-ginger sauce and serve."
+    ]
+  },
+  "Giant Crunch Salad": {
+    prepTime: "12 min",
+    cookTime: "0 min",
+    servings: "1",
+    ingredients: [
+      "2 cups chopped romaine",
+      "4 oz cooked chicken",
+      "1/3 cup chickpeas",
+      "Cucumber and tomato",
+      "2 tbsp light vinaigrette"
+    ],
+    steps: [
+      "Add greens to a large bowl.",
+      "Top with chicken, chickpeas, cucumber, and tomato.",
+      "Toss with vinaigrette right before eating.",
+      "Add extra veggies for more volume if needed."
+    ]
+  },
+  "Chocolate Protein Pudding": {
+    prepTime: "5 min",
+    cookTime: "0 min",
+    servings: "1",
+    ingredients: [
+      "3/4 cup plain Greek yogurt",
+      "1/2 scoop chocolate protein powder",
+      "1 tsp cocoa powder",
+      "1/3 cup berries"
+    ],
+    steps: [
+      "Mix yogurt, protein powder, and cocoa until thick.",
+      "Adjust thickness with a splash of milk if needed.",
+      "Top with berries.",
+      "Chill 10 minutes for a pudding texture."
+    ]
+  },
+  "Taco Cauliflower Skillet": {
+    prepTime: "8 min",
+    cookTime: "15 min",
+    servings: "2",
+    ingredients: [
+      "10 oz lean ground turkey",
+      "3 cups cauliflower rice",
+      "1/2 cup black beans",
+      "1/2 cup salsa",
+      "Taco seasoning and avocado"
+    ],
+    steps: [
+      "Brown turkey with taco seasoning in a skillet.",
+      "Add cauliflower rice and cook 4-5 minutes.",
+      "Stir in black beans and salsa until warm.",
+      "Serve topped with avocado slices."
+    ]
+  },
+  "Restaurant-Style Fajita Plate": {
+    prepTime: "10 min",
+    cookTime: "14 min",
+    servings: "2",
+    ingredients: [
+      "10 oz sliced chicken or steak",
+      "2 bell peppers, sliced",
+      "1 onion, sliced",
+      "Salsa, lettuce, and small tortillas",
+      "1 tbsp oil and fajita seasoning"
+    ],
+    steps: [
+      "Season protein and sear in a hot skillet.",
+      "Cook peppers and onions until softened.",
+      "Serve protein and vegetables over lettuce.",
+      "Add salsa and 1-2 small tortillas on the side."
+    ]
+  },
+  "High-Protein Brunch Omelet": {
+    prepTime: "6 min",
+    cookTime: "8 min",
+    servings: "1",
+    ingredients: [
+      "2 whole eggs + 1/2 cup egg whites",
+      "2 oz turkey or chicken sausage",
+      "1 cup spinach",
+      "Mushrooms",
+      "Fruit on the side"
+    ],
+    steps: [
+      "Saute mushrooms and spinach until tender.",
+      "Add turkey and warm through.",
+      "Pour in eggs and cook until set.",
+      "Fold omelet and serve with fruit."
+    ]
+  },
+  "Sunday Reset Chili": {
+    prepTime: "12 min",
+    cookTime: "28 min",
+    servings: "4",
+    ingredients: [
+      "1 lb lean beef or turkey",
+      "1 can diced tomatoes",
+      "1 can beans, drained",
+      "1 onion and 1 bell pepper",
+      "Chili powder, cumin, garlic"
+    ],
+    steps: [
+      "Brown meat with onion and bell pepper.",
+      "Add tomatoes, beans, and seasonings.",
+      "Simmer for 20 minutes, stirring occasionally.",
+      "Portion into meal-prep containers."
+    ]
+  },
+  "2-2-2 Smoothie": {
+    prepTime: "4 min",
+    cookTime: "0 min",
+    servings: "1",
+    ingredients: [
+      "2 scoops protein powder",
+      "2 cups spinach",
+      "2 cups frozen berries",
+      "Water and ice as needed"
+    ],
+    steps: [
+      "Add water first, then protein, spinach, and berries.",
+      "Blend until fully smooth.",
+      "Add extra ice for thicker texture.",
+      "Drink immediately or refrigerate up to 24 hours."
+    ]
+  },
+  "Build-Your-Own Nourish Bowl": {
+    prepTime: "10 min",
+    cookTime: "12 min",
+    servings: "2",
+    ingredients: [
+      "8 oz cooked protein",
+      "1 cup cooked grain",
+      "2 cups roasted vegetables",
+      "1/2 avocado",
+      "Simple olive-oil vinaigrette"
+    ],
+    steps: [
+      "Cook grain and roast vegetables.",
+      "Warm or cook your protein source.",
+      "Assemble bowls with grain, protein, and vegetables.",
+      "Top with avocado and vinaigrette."
+    ]
+  },
+  "One-Pan Chicken & Sweet Potato": {
+    prepTime: "10 min",
+    cookTime: "30 min",
+    servings: "3",
+    ingredients: [
+      "1 lb chicken thighs",
+      "2 medium sweet potatoes, cubed",
+      "2 cups broccoli florets",
+      "1 tbsp olive oil",
+      "Salt, pepper, garlic powder"
+    ],
+    steps: [
+      "Heat oven to 425F and prep a sheet pan.",
+      "Toss chicken, sweet potatoes, and broccoli with oil and seasoning.",
+      "Spread evenly and roast 25-30 minutes.",
+      "Flip midway through cooking for even browning."
+    ]
   }
 };
 var QUESTIONS = [
@@ -25465,6 +25787,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
     }
   });
   const [copied, setCopied] = (0, import_react3.useState)(false);
+  const [expandedRecipes, setExpandedRecipes] = (0, import_react3.useState)({});
   (0, import_react3.useEffect)(() => {
     try {
       localStorage.setItem(QUIZ_STATE_KEY, JSON.stringify({ answers, updatedAt: Date.now() }));
@@ -25502,6 +25825,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
     setCurrentIndex(0);
     setShowResults(false);
     setShowHomeScreen(true);
+    setExpandedRecipes({});
     setCopied(false);
     try {
       localStorage.removeItem(QUIZ_STATE_KEY);
@@ -25527,7 +25851,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
       ...profile.supplements.map((item) => `- ${item.name}: ${item.how} ${item.why} Note: ${item.note}`),
       "Guidance And Mentorship:",
       ...profile.mentoring.map((item) => `- ${item.label}: ${item.url} (${item.note})`),
-      "Personalized Recepies:",
+      "Personalized Recipes:",
       ...profile.recipes.map((item) => `- ${item.name}: ${item.why} Build: ${item.build}`),
       `Avoid: ${profile.avoid}`,
       `Timeline: ${profile.timeline}`
@@ -26061,28 +26385,68 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                 marginTop: 10
                               },
                               children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "Personalized Recepies" }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.recipes.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                                  "div",
-                                  {
-                                    style: {
-                                      padding: "8px 10px",
-                                      borderRadius: 9,
-                                      border: `1px solid ${COLORS.borderLight}`,
-                                      backgroundColor: "#FCFCFA"
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "Personalized Recipes" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.recipes.map((item) => {
+                                  const details = RECIPE_DETAILS[item.name];
+                                  const isExpanded = Boolean(expandedRecipes[item.name]);
+                                  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                                    "div",
+                                    {
+                                      style: {
+                                        padding: "10px 11px",
+                                        borderRadius: 9,
+                                        border: `1px solid ${COLORS.borderLight}`,
+                                        backgroundColor: "#FCFCFA"
+                                      },
+                                      children: [
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: 10, alignItems: "flex-start" }, children: [
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }, children: item.name }),
+                                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary, marginTop: 2 }, children: item.why })
+                                          ] }),
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                            "button",
+                                            {
+                                              className: "btn-press",
+                                              onClick: () => setExpandedRecipes((prev) => ({ ...prev, [item.name]: !isExpanded })),
+                                              style: {
+                                                borderRadius: 8,
+                                                border: `1px solid ${COLORS.border}`,
+                                                backgroundColor: "white",
+                                                color: COLORS.primaryDark,
+                                                fontSize: 12,
+                                                fontWeight: 700,
+                                                padding: "6px 10px",
+                                                cursor: "pointer",
+                                                whiteSpace: "nowrap"
+                                              },
+                                              children: isExpanded ? "Hide" : "Expand"
+                                            }
+                                          )
+                                        ] }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, lineHeight: 1.45, color: COLORS.textMain, marginTop: 5 }, children: [
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Build:" }),
+                                          " ",
+                                          item.build
+                                        ] }),
+                                        isExpanded && details && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { marginTop: 8, borderTop: `1px solid ${COLORS.borderLight}`, paddingTop: 8 }, children: [
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }, children: [
+                                            details.prepTime,
+                                            " prep \xB7 ",
+                                            details.cookTime,
+                                            " cook \xB7 Serves ",
+                                            details.servings
+                                          ] }),
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 8, fontSize: 13, fontWeight: 700, color: COLORS.textMain }, children: "Ingredients" }),
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ul", { style: { margin: "6px 0 0", paddingLeft: 18, fontSize: 13, color: COLORS.textSecondary, lineHeight: 1.45 }, children: details.ingredients.map((ingredient) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: ingredient }, ingredient)) }),
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 8, fontSize: 13, fontWeight: 700, color: COLORS.textMain }, children: "Recipe" }),
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("ol", { style: { margin: "6px 0 0", paddingLeft: 18, fontSize: 13, color: COLORS.textSecondary, lineHeight: 1.45 }, children: details.steps.map((step) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("li", { children: step }, step)) })
+                                        ] })
+                                      ]
                                     },
-                                    children: [
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }, children: item.name }),
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary, marginTop: 2 }, children: item.why }),
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, lineHeight: 1.45, color: COLORS.textMain, marginTop: 3 }, children: [
-                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Build:" }),
-                                        " ",
-                                        item.build
-                                      ] })
-                                    ]
-                                  },
-                                  item.name
-                                )) })
+                                    item.name
+                                  );
+                                }) })
                               ]
                             }
                           ),
@@ -26098,21 +26462,33 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                               },
                               children: [
                                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "Supplements" }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.supplements.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, color: COLORS.textMain, lineHeight: 1.45 }, children: [
-                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, fontFamily: FONTS.display }, children: item.name }),
-                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
-                                    "How: ",
-                                    item.how
-                                  ] }),
-                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
-                                    "Why: ",
-                                    item.why
-                                  ] }),
-                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
-                                    "Note: ",
-                                    item.note
-                                  ] })
-                                ] }, item.name)) }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginTop: 10 }, children: profile.supplements.slice(0, 3).map((item) => {
+                                  const visual = getSupplementVisual(item.name);
+                                  return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                                    "a",
+                                    {
+                                      href: visual.amazonUrl,
+                                      target: "_blank",
+                                      rel: "noopener noreferrer",
+                                      style: {
+                                        display: "block",
+                                        textDecoration: "none",
+                                        borderRadius: 10,
+                                        border: `1px solid ${COLORS.borderLight}`,
+                                        backgroundColor: "#FFFFFF",
+                                        overflow: "hidden"
+                                      },
+                                      children: [
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: visual.image, alt: item.name, style: { width: "100%", height: 120, objectFit: "cover", display: "block" } }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 9px" }, children: [
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, fontWeight: 700, color: COLORS.textMain, lineHeight: 1.3 }, children: item.name }),
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }, children: "Buy on Amazon" })
+                                        ] })
+                                      ]
+                                    },
+                                    item.name
+                                  );
+                                }) }),
                                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                                   "div",
                                   {
