@@ -26581,7 +26581,25 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                               children: item.name
                                             }
                                           ),
-                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }, children: "Buy on Amazon" })
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                            "span",
+                                            {
+                                              style: {
+                                                marginTop: 4,
+                                                alignSelf: "flex-start",
+                                                fontSize: 11,
+                                                color: COLORS.primaryDark,
+                                                fontWeight: 800,
+                                                textTransform: "uppercase",
+                                                letterSpacing: 0.3,
+                                                borderRadius: 999,
+                                                border: `1px solid ${COLORS.border}`,
+                                                padding: "4px 8px",
+                                                backgroundColor: COLORS.inputBg
+                                              },
+                                              children: "View details"
+                                            }
+                                          )
                                         ] })
                                       ]
                                     },
