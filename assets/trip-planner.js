@@ -24741,6 +24741,10 @@ var COLORS = {
   danger: "#C0392B",
   dangerBg: "#F5DEDA"
 };
+var FONTS = {
+  display: '"Avenir Next", "Futura", "Trebuchet MS", sans-serif',
+  body: '"Avenir Next", "Segoe UI", sans-serif'
+};
 var QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
 var ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
 var PROFILE_ORDER = [
@@ -25529,7 +25533,8 @@ function WeightLossQuiz({ initialData: initialData2 }) {
         minHeight: "100vh",
         background: `linear-gradient(160deg, ${COLORS.bg} 0%, #EFE8DD 45%, #E5EFE8 100%)`,
         padding: "20px 12px 32px",
-        color: COLORS.textMain
+        color: COLORS.textMain,
+        fontFamily: FONTS.body
       },
       children: [
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
@@ -25552,40 +25557,42 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                   boxShadow: "0 12px 30px rgba(26,26,26,0.07)"
                 },
                 children: [
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 14 }, children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, letterSpacing: 0.3, textTransform: "uppercase" }, children: "Weight-Loss Blueprint Quiz" }),
-                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: "6px 0 0", fontSize: 24, lineHeight: 1.15 }, children: "Find your easiest fat-loss strategy" })
+                  !showResults && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 14 }, children: [
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, letterSpacing: 0.3, textTransform: "uppercase" }, children: "Weight-Loss Blueprint Quiz" }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: "6px 0 0", fontSize: 24, lineHeight: 1.15, fontFamily: FONTS.display }, children: "Find your easiest fat-loss strategy" })
+                      ] }),
+                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                        "div",
+                        {
+                          style: {
+                            minWidth: 72,
+                            padding: "8px 10px",
+                            borderRadius: 999,
+                            backgroundColor: COLORS.inputBg,
+                            border: `1px solid ${COLORS.border}`,
+                            textAlign: "center",
+                            fontWeight: 700,
+                            fontSize: 12
+                          },
+                          children: `${answeredCount}/${QUESTIONS.length}`
+                        }
+                      )
                     ] }),
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginBottom: 18 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: 8, borderRadius: 999, backgroundColor: COLORS.inputBg, border: `1px solid ${COLORS.borderLight}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                       "div",
                       {
                         style: {
-                          minWidth: 72,
-                          padding: "8px 10px",
+                          width: `${progress}%`,
+                          height: "100%",
                           borderRadius: 999,
-                          backgroundColor: COLORS.inputBg,
-                          border: `1px solid ${COLORS.border}`,
-                          textAlign: "center",
-                          fontWeight: 700,
-                          fontSize: 12
-                        },
-                        children: showResults ? "Done" : `${answeredCount}/${QUESTIONS.length}`
+                          background: `linear-gradient(90deg, ${COLORS.primaryDark}, ${COLORS.primary})`,
+                          transition: "width 220ms ease"
+                        }
                       }
-                    )
+                    ) }) })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginBottom: 18 }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { height: 8, borderRadius: 999, backgroundColor: COLORS.inputBg, border: `1px solid ${COLORS.borderLight}` }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                    "div",
-                    {
-                      style: {
-                        width: `${showResults ? 100 : progress}%`,
-                        height: "100%",
-                        borderRadius: 999,
-                        background: `linear-gradient(90deg, ${COLORS.primaryDark}, ${COLORS.primary})`,
-                        transition: "width 220ms ease"
-                      }
-                    }
-                  ) }) }),
                   !showResults && activeQuestion && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
                     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                       "div",
@@ -25736,14 +25743,14 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                           background: `linear-gradient(145deg, ${profile.bg} 0%, #FFFFFF 100%)`,
                           border: `1px solid ${COLORS.border}`,
                           borderRadius: 16,
-                          padding: 16,
+                          padding: 18,
                           marginBottom: 14
                         },
                         children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: profile.accent, textTransform: "uppercase", letterSpacing: 0.4 }, children: "Your profile" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "6px 0 4px", fontSize: 24 }, children: profile.label }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 13, color: COLORS.textSecondary }, children: profile.tag }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, display: "grid", gap: 8 }, children: profile.description.map((line, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 14, lineHeight: 1.45 }, children: line }, idx)) })
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: profile.accent, textTransform: "uppercase", letterSpacing: 0.4 }, children: "Your archetype" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "6px 0 4px", fontSize: 40, lineHeight: 1.02, fontFamily: FONTS.display }, children: profile.label }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 16, color: COLORS.textSecondary }, children: profile.tag }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, display: "grid", gap: 8 }, children: profile.description.map((line, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 17, lineHeight: 1.45, fontFamily: FONTS.display, letterSpacing: -0.1 }, children: line }, idx)) })
                         ]
                       }
                     ),
@@ -25758,8 +25765,8 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                           marginBottom: 12
                         },
                         children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 8px", fontSize: 15 }, children: "Your first focus" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 12px", fontSize: 13, color: COLORS.textSecondary }, children: profile.firstFocus }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 8px", fontSize: 18, fontFamily: FONTS.display }, children: "Your first focus" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 12px", fontSize: 15, color: COLORS.textSecondary, lineHeight: 1.5 }, children: profile.firstFocus }),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                             "details",
                             {
@@ -25771,7 +25778,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                 padding: "8px 10px"
                               },
                               children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }, children: "Detailed first 7 days" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "Detailed first 7 days" }),
                                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.weekPlan.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                                   "div",
                                   {
@@ -25783,8 +25790,8 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                     },
                                     children: [
                                       /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }, children: entry.day }),
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 13, fontWeight: 600 }, children: entry.focus }),
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 3, fontSize: 12, color: COLORS.textSecondary }, children: entry.details })
+                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }, children: entry.focus }),
+                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 3, fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.45 }, children: entry.details })
                                     ]
                                   },
                                   entry.day
@@ -25803,9 +25810,9 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                 padding: "8px 10px"
                               },
                               children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }, children: "Supplements that may help" }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.supplements.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, color: COLORS.textMain }, children: [
-                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700 }, children: item.name }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "Supplements that may help" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.supplements.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, color: COLORS.textMain, lineHeight: 1.45 }, children: [
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700, fontFamily: FONTS.display }, children: item.name }),
                                   /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
                                     "How: ",
                                     item.how
@@ -25814,7 +25821,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                     "Why: ",
                                     item.why
                                   ] }),
-                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textMuted }, children: [
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
                                     "Note: ",
                                     item.note
                                   ] })
@@ -25828,7 +25835,8 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                       borderRadius: 10,
                                       backgroundColor: "#F8F7F3",
                                       border: `1px solid ${COLORS.borderLight}`,
-                                      fontSize: 11,
+                                      fontSize: 13,
+                                      lineHeight: 1.45,
                                       color: COLORS.textSecondary
                                     },
                                     children: "Supplements are optional and not medical advice. Check with your clinician, especially if you use prescription medications or have health conditions."
@@ -25848,15 +25856,15 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                 padding: "8px 10px"
                               },
                               children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }, children: "Mentoring and guidance options" }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.mentoring.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12 }, children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "Mentoring and guidance options" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.mentoring.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 14, lineHeight: 1.45 }, children: [
                                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                                     "a",
                                     {
                                       href: item.url,
                                       target: "_blank",
                                       rel: "noopener noreferrer",
-                                      style: { color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none" },
+                                      style: { color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none", fontFamily: FONTS.display },
                                       children: item.label
                                     }
                                   ),
@@ -25874,7 +25882,8 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                 borderRadius: 10,
                                 backgroundColor: COLORS.warningBg,
                                 border: `1px solid #EBD9BA`,
-                                fontSize: 12,
+                                fontSize: 14,
+                                lineHeight: 1.45,
                                 color: "#6F4D1A"
                               },
                               children: [
@@ -25884,7 +25893,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                               ]
                             }
                           ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, fontSize: 12, color: COLORS.textSecondary }, children: profile.timeline })
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary }, children: profile.timeline })
                         ]
                       }
                     ),

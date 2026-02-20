@@ -99,6 +99,11 @@ const COLORS = {
   dangerBg: "#F5DEDA",
 };
 
+const FONTS = {
+  display: '"Avenir Next", "Futura", "Trebuchet MS", sans-serif',
+  body: '"Avenir Next", "Segoe UI", sans-serif',
+};
+
 const QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
 const ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
 
@@ -935,6 +940,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
         background: `linear-gradient(160deg, ${COLORS.bg} 0%, #EFE8DD 45%, #E5EFE8 100%)`,
         padding: "20px 12px 32px",
         color: COLORS.textMain,
+        fontFamily: FONTS.body,
       }}
     >
       <div
@@ -954,42 +960,46 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
             boxShadow: "0 12px 30px rgba(26,26,26,0.07)",
           }}
         >
-          <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 14 }}>
-            <div>
-              <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, letterSpacing: 0.3, textTransform: "uppercase" }}>
-                Weight-Loss Blueprint Quiz
+          {!showResults && (
+            <>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 14 }}>
+                <div>
+                  <div style={{ fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, letterSpacing: 0.3, textTransform: "uppercase" }}>
+                    Weight-Loss Blueprint Quiz
+                  </div>
+                  <h1 style={{ margin: "6px 0 0", fontSize: 24, lineHeight: 1.15, fontFamily: FONTS.display }}>Find your easiest fat-loss strategy</h1>
+                </div>
+                <div
+                  style={{
+                    minWidth: 72,
+                    padding: "8px 10px",
+                    borderRadius: 999,
+                    backgroundColor: COLORS.inputBg,
+                    border: `1px solid ${COLORS.border}`,
+                    textAlign: "center",
+                    fontWeight: 700,
+                    fontSize: 12,
+                  }}
+                >
+                  {`${answeredCount}/${QUESTIONS.length}`}
+                </div>
               </div>
-              <h1 style={{ margin: "6px 0 0", fontSize: 24, lineHeight: 1.15 }}>Find your easiest fat-loss strategy</h1>
-            </div>
-            <div
-              style={{
-                minWidth: 72,
-                padding: "8px 10px",
-                borderRadius: 999,
-                backgroundColor: COLORS.inputBg,
-                border: `1px solid ${COLORS.border}`,
-                textAlign: "center",
-                fontWeight: 700,
-                fontSize: 12,
-              }}
-            >
-              {showResults ? "Done" : `${answeredCount}/${QUESTIONS.length}`}
-            </div>
-          </div>
 
-          <div style={{ marginBottom: 18 }}>
-            <div style={{ height: 8, borderRadius: 999, backgroundColor: COLORS.inputBg, border: `1px solid ${COLORS.borderLight}` }}>
-              <div
-                style={{
-                  width: `${showResults ? 100 : progress}%`,
-                  height: "100%",
-                  borderRadius: 999,
-                  background: `linear-gradient(90deg, ${COLORS.primaryDark}, ${COLORS.primary})`,
-                  transition: "width 220ms ease",
-                }}
-              />
-            </div>
-          </div>
+              <div style={{ marginBottom: 18 }}>
+                <div style={{ height: 8, borderRadius: 999, backgroundColor: COLORS.inputBg, border: `1px solid ${COLORS.borderLight}` }}>
+                  <div
+                    style={{
+                      width: `${progress}%`,
+                      height: "100%",
+                      borderRadius: 999,
+                      background: `linear-gradient(90deg, ${COLORS.primaryDark}, ${COLORS.primary})`,
+                      transition: "width 220ms ease",
+                    }}
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
           {!showResults && activeQuestion && (
             <>
@@ -1133,18 +1143,18 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   background: `linear-gradient(145deg, ${profile.bg} 0%, #FFFFFF 100%)`,
                   border: `1px solid ${COLORS.border}`,
                   borderRadius: 16,
-                  padding: 16,
+                  padding: 18,
                   marginBottom: 14,
                 }}
               >
                 <div style={{ fontSize: 12, fontWeight: 700, color: profile.accent, textTransform: "uppercase", letterSpacing: 0.4 }}>
-                  Your profile
+                  Your archetype
                 </div>
-                <h2 style={{ margin: "6px 0 4px", fontSize: 24 }}>{profile.label}</h2>
-                <p style={{ margin: 0, fontSize: 13, color: COLORS.textSecondary }}>{profile.tag}</p>
+                <h2 style={{ margin: "6px 0 4px", fontSize: 40, lineHeight: 1.02, fontFamily: FONTS.display }}>{profile.label}</h2>
+                <p style={{ margin: 0, fontSize: 16, color: COLORS.textSecondary }}>{profile.tag}</p>
                 <div style={{ marginTop: 10, display: "grid", gap: 8 }}>
                   {profile.description.map((line, idx) => (
-                    <p key={idx} style={{ margin: 0, fontSize: 14, lineHeight: 1.45 }}>
+                    <p key={idx} style={{ margin: 0, fontSize: 17, lineHeight: 1.45, fontFamily: FONTS.display, letterSpacing: -0.1 }}>
                       {line}
                     </p>
                   ))}
@@ -1160,8 +1170,8 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   marginBottom: 12,
                 }}
               >
-                <h3 style={{ margin: "0 0 8px", fontSize: 15 }}>Your first focus</h3>
-                <p style={{ margin: "0 0 12px", fontSize: 13, color: COLORS.textSecondary }}>{profile.firstFocus}</p>
+                <h3 style={{ margin: "0 0 8px", fontSize: 18, fontFamily: FONTS.display }}>Your first focus</h3>
+                <p style={{ margin: "0 0 12px", fontSize: 15, color: COLORS.textSecondary, lineHeight: 1.5 }}>{profile.firstFocus}</p>
 
                 <details
                   style={{
@@ -1172,7 +1182,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     padding: "8px 10px",
                   }}
                 >
-                  <summary style={{ cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }}>
+                  <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }}>
                     Detailed first 7 days
                   </summary>
                   <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
@@ -1187,8 +1197,8 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                         }}
                       >
                         <div style={{ fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }}>{entry.day}</div>
-                        <div style={{ marginTop: 2, fontSize: 13, fontWeight: 600 }}>{entry.focus}</div>
-                        <div style={{ marginTop: 3, fontSize: 12, color: COLORS.textSecondary }}>{entry.details}</div>
+                        <div style={{ marginTop: 2, fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }}>{entry.focus}</div>
+                        <div style={{ marginTop: 3, fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.45 }}>{entry.details}</div>
                       </div>
                     ))}
                   </div>
@@ -1203,16 +1213,16 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     padding: "8px 10px",
                   }}
                 >
-                  <summary style={{ cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }}>
+                  <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }}>
                     Supplements that may help
                   </summary>
                   <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
                     {profile.supplements.map((item) => (
-                      <div key={item.name} style={{ fontSize: 12, color: COLORS.textMain }}>
-                        <div style={{ fontWeight: 700 }}>{item.name}</div>
+                      <div key={item.name} style={{ fontSize: 14, color: COLORS.textMain, lineHeight: 1.45 }}>
+                        <div style={{ fontWeight: 700, fontFamily: FONTS.display }}>{item.name}</div>
                         <div style={{ color: COLORS.textSecondary }}>How: {item.how}</div>
                         <div style={{ color: COLORS.textSecondary }}>Why: {item.why}</div>
-                        <div style={{ color: COLORS.textMuted }}>Note: {item.note}</div>
+                        <div style={{ color: COLORS.textSecondary }}>Note: {item.note}</div>
                       </div>
                     ))}
                   </div>
@@ -1224,7 +1234,8 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                       borderRadius: 10,
                       backgroundColor: "#F8F7F3",
                       border: `1px solid ${COLORS.borderLight}`,
-                      fontSize: 11,
+                      fontSize: 13,
+                      lineHeight: 1.45,
                       color: COLORS.textSecondary,
                     }}
                   >
@@ -1241,17 +1252,17 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     padding: "8px 10px",
                   }}
                 >
-                  <summary style={{ cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }}>
+                  <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }}>
                     Mentoring and guidance options
                   </summary>
                   <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
                     {profile.mentoring.map((item) => (
-                      <div key={item.label} style={{ fontSize: 12 }}>
+                      <div key={item.label} style={{ fontSize: 14, lineHeight: 1.45 }}>
                         <a
                           href={item.url}
                           target="_blank"
                           rel="noopener noreferrer"
-                          style={{ color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none" }}
+                          style={{ color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none", fontFamily: FONTS.display }}
                         >
                           {item.label}
                         </a>
@@ -1268,14 +1279,15 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     borderRadius: 10,
                     backgroundColor: COLORS.warningBg,
                     border: `1px solid #EBD9BA`,
-                    fontSize: 12,
+                    fontSize: 14,
+                    lineHeight: 1.45,
                     color: "#6F4D1A",
                   }}
                 >
                   <strong>Avoid this:</strong> {profile.avoid}
                 </div>
 
-                <div style={{ marginTop: 10, fontSize: 12, color: COLORS.textSecondary }}>{profile.timeline}</div>
+                <div style={{ marginTop: 10, fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary }}>{profile.timeline}</div>
               </div>
 
               <div
