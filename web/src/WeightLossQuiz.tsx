@@ -1163,67 +1163,103 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                 <h3 style={{ margin: "0 0 8px", fontSize: 15 }}>Your first focus</h3>
                 <p style={{ margin: "0 0 12px", fontSize: 13, color: COLORS.textSecondary }}>{profile.firstFocus}</p>
 
-                <h4 style={{ margin: "0 0 8px", fontSize: 14 }}>Detailed first 7 days</h4>
-                <div style={{ display: "grid", gap: 8, marginBottom: 12 }}>
-                  {profile.weekPlan.map((entry) => (
-                    <div
-                      key={entry.day}
-                      style={{
-                        border: `1px solid ${COLORS.borderLight}`,
-                        borderRadius: 10,
-                        padding: 10,
-                        backgroundColor: COLORS.card,
-                      }}
-                    >
-                      <div style={{ fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }}>{entry.day}</div>
-                      <div style={{ marginTop: 2, fontSize: 13, fontWeight: 600 }}>{entry.focus}</div>
-                      <div style={{ marginTop: 3, fontSize: 12, color: COLORS.textSecondary }}>{entry.details}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <h4 style={{ margin: "0 0 8px", fontSize: 14 }}>Supplements that may help</h4>
-                <div style={{ display: "grid", gap: 8, marginBottom: 10 }}>
-                  {profile.supplements.map((item) => (
-                    <div key={item.name} style={{ fontSize: 12, color: COLORS.textMain }}>
-                      <div style={{ fontWeight: 700 }}>{item.name}</div>
-                      <div style={{ color: COLORS.textSecondary }}>How: {item.how}</div>
-                      <div style={{ color: COLORS.textSecondary }}>Why: {item.why}</div>
-                      <div style={{ color: COLORS.textMuted }}>Note: {item.note}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div
+                <details
                   style={{
-                    marginBottom: 12,
-                    padding: 10,
-                    borderRadius: 10,
-                    backgroundColor: "#F8F7F3",
+                    marginBottom: 10,
                     border: `1px solid ${COLORS.borderLight}`,
-                    fontSize: 11,
-                    color: COLORS.textSecondary,
+                    borderRadius: 10,
+                    backgroundColor: COLORS.card,
+                    padding: "8px 10px",
                   }}
                 >
-                  Supplements are optional and not medical advice. Check with your clinician, especially if you use prescription medications or have health conditions.
-                </div>
-
-                <h4 style={{ margin: "0 0 8px", fontSize: 14 }}>Mentoring and guidance options</h4>
-                <div style={{ display: "grid", gap: 8 }}>
-                  {profile.mentoring.map((item) => (
-                    <div key={item.label} style={{ fontSize: 12 }}>
-                      <a
-                        href={item.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        style={{ color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none" }}
+                  <summary style={{ cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }}>
+                    Detailed first 7 days
+                  </summary>
+                  <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
+                    {profile.weekPlan.map((entry) => (
+                      <div
+                        key={entry.day}
+                        style={{
+                          border: `1px solid ${COLORS.borderLight}`,
+                          borderRadius: 10,
+                          padding: 10,
+                          backgroundColor: COLORS.card,
+                        }}
                       >
-                        {item.label}
-                      </a>
-                      <div style={{ color: COLORS.textSecondary }}>{item.note}</div>
-                    </div>
-                  ))}
-                </div>
+                        <div style={{ fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }}>{entry.day}</div>
+                        <div style={{ marginTop: 2, fontSize: 13, fontWeight: 600 }}>{entry.focus}</div>
+                        <div style={{ marginTop: 3, fontSize: 12, color: COLORS.textSecondary }}>{entry.details}</div>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+
+                <details
+                  style={{
+                    marginBottom: 10,
+                    border: `1px solid ${COLORS.borderLight}`,
+                    borderRadius: 10,
+                    backgroundColor: COLORS.card,
+                    padding: "8px 10px",
+                  }}
+                >
+                  <summary style={{ cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }}>
+                    Supplements that may help
+                  </summary>
+                  <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
+                    {profile.supplements.map((item) => (
+                      <div key={item.name} style={{ fontSize: 12, color: COLORS.textMain }}>
+                        <div style={{ fontWeight: 700 }}>{item.name}</div>
+                        <div style={{ color: COLORS.textSecondary }}>How: {item.how}</div>
+                        <div style={{ color: COLORS.textSecondary }}>Why: {item.why}</div>
+                        <div style={{ color: COLORS.textMuted }}>Note: {item.note}</div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div
+                    style={{
+                      marginTop: 10,
+                      padding: 10,
+                      borderRadius: 10,
+                      backgroundColor: "#F8F7F3",
+                      border: `1px solid ${COLORS.borderLight}`,
+                      fontSize: 11,
+                      color: COLORS.textSecondary,
+                    }}
+                  >
+                    Supplements are optional and not medical advice. Check with your clinician, especially if you use prescription medications or have health conditions.
+                  </div>
+                </details>
+
+                <details
+                  style={{
+                    marginBottom: 2,
+                    border: `1px solid ${COLORS.borderLight}`,
+                    borderRadius: 10,
+                    backgroundColor: COLORS.card,
+                    padding: "8px 10px",
+                  }}
+                >
+                  <summary style={{ cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }}>
+                    Mentoring and guidance options
+                  </summary>
+                  <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
+                    {profile.mentoring.map((item) => (
+                      <div key={item.label} style={{ fontSize: 12 }}>
+                        <a
+                          href={item.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none" }}
+                        >
+                          {item.label}
+                        </a>
+                        <div style={{ color: COLORS.textSecondary }}>{item.note}</div>
+                      </div>
+                    ))}
+                  </div>
+                </details>
 
                 <div
                   style={{

@@ -25760,69 +25760,111 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                         children: [
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: "0 0 8px", fontSize: 15 }, children: "Your first focus" }),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 12px", fontSize: 13, color: COLORS.textSecondary }, children: profile.firstFocus }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "Detailed first 7 days" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginBottom: 12 }, children: profile.weekPlan.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                            "div",
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "details",
                             {
                               style: {
+                                marginBottom: 10,
                                 border: `1px solid ${COLORS.borderLight}`,
                                 borderRadius: 10,
-                                padding: 10,
-                                backgroundColor: COLORS.card
+                                backgroundColor: COLORS.card,
+                                padding: "8px 10px"
                               },
                               children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }, children: entry.day }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 13, fontWeight: 600 }, children: entry.focus }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 3, fontSize: 12, color: COLORS.textSecondary }, children: entry.details })
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }, children: "Detailed first 7 days" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.weekPlan.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                                  "div",
+                                  {
+                                    style: {
+                                      border: `1px solid ${COLORS.borderLight}`,
+                                      borderRadius: 10,
+                                      padding: 10,
+                                      backgroundColor: COLORS.card
+                                    },
+                                    children: [
+                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }, children: entry.day }),
+                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 13, fontWeight: 600 }, children: entry.focus }),
+                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 3, fontSize: 12, color: COLORS.textSecondary }, children: entry.details })
+                                    ]
+                                  },
+                                  entry.day
+                                )) })
                               ]
-                            },
-                            entry.day
-                          )) }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "Supplements that may help" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginBottom: 10 }, children: profile.supplements.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, color: COLORS.textMain }, children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700 }, children: item.name }),
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
-                              "How: ",
-                              item.how
-                            ] }),
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
-                              "Why: ",
-                              item.why
-                            ] }),
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textMuted }, children: [
-                              "Note: ",
-                              item.note
-                            ] })
-                          ] }, item.name)) }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                            "div",
-                            {
-                              style: {
-                                marginBottom: 12,
-                                padding: 10,
-                                borderRadius: 10,
-                                backgroundColor: "#F8F7F3",
-                                border: `1px solid ${COLORS.borderLight}`,
-                                fontSize: 11,
-                                color: COLORS.textSecondary
-                              },
-                              children: "Supplements are optional and not medical advice. Check with your clinician, especially if you use prescription medications or have health conditions."
                             }
                           ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h4", { style: { margin: "0 0 8px", fontSize: 14 }, children: "Mentoring and guidance options" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8 }, children: profile.mentoring.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12 }, children: [
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                              "a",
-                              {
-                                href: item.url,
-                                target: "_blank",
-                                rel: "noopener noreferrer",
-                                style: { color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none" },
-                                children: item.label
-                              }
-                            ),
-                            /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: item.note })
-                          ] }, item.label)) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "details",
+                            {
+                              style: {
+                                marginBottom: 10,
+                                border: `1px solid ${COLORS.borderLight}`,
+                                borderRadius: 10,
+                                backgroundColor: COLORS.card,
+                                padding: "8px 10px"
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }, children: "Supplements that may help" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.supplements.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12, color: COLORS.textMain }, children: [
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontWeight: 700 }, children: item.name }),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
+                                    "How: ",
+                                    item.how
+                                  ] }),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textSecondary }, children: [
+                                    "Why: ",
+                                    item.why
+                                  ] }),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { color: COLORS.textMuted }, children: [
+                                    "Note: ",
+                                    item.note
+                                  ] })
+                                ] }, item.name)) }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                  "div",
+                                  {
+                                    style: {
+                                      marginTop: 10,
+                                      padding: 10,
+                                      borderRadius: 10,
+                                      backgroundColor: "#F8F7F3",
+                                      border: `1px solid ${COLORS.borderLight}`,
+                                      fontSize: 11,
+                                      color: COLORS.textSecondary
+                                    },
+                                    children: "Supplements are optional and not medical advice. Check with your clinician, especially if you use prescription medications or have health conditions."
+                                  }
+                                )
+                              ]
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "details",
+                            {
+                              style: {
+                                marginBottom: 2,
+                                border: `1px solid ${COLORS.borderLight}`,
+                                borderRadius: 10,
+                                backgroundColor: COLORS.card,
+                                padding: "8px 10px"
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 14, fontWeight: 700, color: COLORS.textMain }, children: "Mentoring and guidance options" }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.mentoring.map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { fontSize: 12 }, children: [
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                    "a",
+                                    {
+                                      href: item.url,
+                                      target: "_blank",
+                                      rel: "noopener noreferrer",
+                                      style: { color: COLORS.primaryDark, fontWeight: 700, textDecoration: "none" },
+                                      children: item.label
+                                    }
+                                  ),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { color: COLORS.textSecondary }, children: item.note })
+                                ] }, item.label)) })
+                              ]
+                            }
+                          ),
                           /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                             "div",
                             {
