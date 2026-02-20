@@ -80,6 +80,12 @@ interface SupplementVisual {
 
 type SupplementKey = "protein" | "creatine" | "fiber" | "magnesium" | "electrolyte" | "omega3";
 
+interface FeaturedSupplement {
+  name: string;
+  amazonUrl: string;
+  photoLabels: string[];
+}
+
 interface WeightLossQuizProps {
   initialData?: any;
 }
@@ -183,6 +189,24 @@ const SUPPLEMENT_PHOTO_ALIASES: Record<SupplementKey, string[]> = {
   omega3: ["omega-3", "omega3", "fish-oil"],
 };
 
+const FEATURED_SUPPLEMENTS: FeaturedSupplement[] = [
+  {
+    name: "GLP-1 Burner Unleashed",
+    amazonUrl: "https://www.amazon.com/s?k=GLP-1+Burner+Unleashed",
+    photoLabels: ["glp1_burner"],
+  },
+  {
+    name: "Stripfast5000 Weight Management Support + Relaxation Capsules",
+    amazonUrl: "https://www.amazon.com/s?k=stripfast5000+weight+management+support+relaxation+capsules",
+    photoLabels: ["stripfast_night_bullets"],
+  },
+  {
+    name: "Metabolic Health - Gut Health Supplement to Aid Weight Management* - Formulated with Bergamot and Turmeric (Curcumin Phytosome)",
+    amazonUrl: "https://www.amazon.com/s?k=metabolic+health+gut+health+supplement+bergamot+turmeric+curcumin+phytosome",
+    photoLabels: ["metabolic health thorne"],
+  },
+];
+
 const getSupplementKey = (name: string): SupplementKey => {
   const lowerName = name.toLowerCase();
 
@@ -203,13 +227,20 @@ const normalizeSupplementFileLabel = (value: string): string => {
     .replace(/^-+|-+$/g, "");
 };
 
-const buildSupplementPhotoCandidates = (name: string): string[] => {
+const buildSupplementPhotoCandidates = (name: string, customLabels: string[] = []): string[] => {
   const key = getSupplementKey(name);
-  const normalizedLabel = normalizeSupplementFileLabel(name);
-  const labels = Array.from(new Set([normalizedLabel, ...SUPPLEMENT_PHOTO_ALIASES[key]]));
+  const labels = Array.from(
+    new Set([
+      ...customLabels,
+      ...customLabels.map((label) => normalizeSupplementFileLabel(label)),
+      name,
+      normalizeSupplementFileLabel(name),
+      ...SUPPLEMENT_PHOTO_ALIASES[key],
+    ])
+  ).filter(Boolean);
   const extensions = ["webp", "png", "jpg", "jpeg"];
 
-  return labels.flatMap((label) => extensions.map((ext) => `${SUPPLEMENT_PHOTO_DIR}/${label}.${ext}`));
+  return labels.flatMap((label) => extensions.map((ext) => `${SUPPLEMENT_PHOTO_DIR}/${encodeURIComponent(label)}.${ext}`));
 };
 
 const getSupplementVisual = (name: string): SupplementVisual => {
@@ -1139,15 +1170,23 @@ const buildApiUrl = (apiBaseUrl: string, path: string): string => {
   return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
 };
 
-function SupplementPhoto({ name, fallbackImage }: { name: string; fallbackImage: string }) {
-  const candidates = useMemo(() => buildSupplementPhotoCandidates(name), [name]);
+function SupplementPhoto({
+  name,
+  fallbackImage,
+  customLabels,
+}: {
+  name: string;
+  fallbackImage: string;
+  customLabels?: string[];
+}) {
+  const candidates = useMemo(() => buildSupplementPhotoCandidates(name, customLabels), [name, customLabels]);
   const [candidateIndex, setCandidateIndex] = useState(0);
   const [useFallback, setUseFallback] = useState(false);
 
   useEffect(() => {
     setCandidateIndex(0);
     setUseFallback(false);
-  }, [name]);
+  }, [name, customLabels]);
 
   const handleImageError = () => {
     if (useFallback) return;
@@ -1335,7 +1374,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       "7 Day Plan:",
       ...profile.weekPlan.map((entry) => `${entry.day}: ${entry.focus} - ${entry.details}`),
       "Supplements:",
-      ...profile.supplements.map((item) => `- ${item.name}: ${item.how} ${item.why} Note: ${item.note}`),
+      ...FEATURED_SUPPLEMENTS.map((item) => `- ${item.name}: ${item.amazonUrl}`),
       "Guidance And Mentorship:",
       ...profile.mentoring.map((item) => `- ${item.label}: ${item.url} (${item.note})`),
       "Personalized Recipes:",
@@ -1962,12 +2001,12 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     Supplements
                   </summary>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginTop: 10 }}>
-                    {profile.supplements.slice(0, 3).map((item) => {
+                    {FEATURED_SUPPLEMENTS.map((item) => {
                       const visual = getSupplementVisual(item.name);
                       return (
                         <a
                           key={item.name}
-                          href={visual.amazonUrl}
+                          href={item.amazonUrl}
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
@@ -1979,7 +2018,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                             overflow: "hidden",
                           }}
                         >
-                          <SupplementPhoto name={item.name} fallbackImage={visual.image} />
+                          <SupplementPhoto name={item.name} fallbackImage={visual.image} customLabels={item.photoLabels} />
                           <div style={{ padding: "8px 9px" }}>
                             <div style={{ fontSize: 13, fontWeight: 700, color: COLORS.textMain, lineHeight: 1.3 }}>{item.name}</div>
                             <div style={{ marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }}>Buy on Amazon</div>

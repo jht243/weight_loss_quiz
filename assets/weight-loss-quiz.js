@@ -24,9 +24,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// node_modules/react/cjs/react.development.js
+// web/node_modules/react/cjs/react.development.js
 var require_react_development = __commonJS({
-  "node_modules/react/cjs/react.development.js"(exports, module) {
+  "web/node_modules/react/cjs/react.development.js"(exports, module) {
     "use strict";
     if (true) {
       (function() {
@@ -1898,9 +1898,9 @@ var require_react_development = __commonJS({
   }
 });
 
-// node_modules/react/index.js
+// web/node_modules/react/index.js
 var require_react = __commonJS({
-  "node_modules/react/index.js"(exports, module) {
+  "web/node_modules/react/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -1910,9 +1910,9 @@ var require_react = __commonJS({
   }
 });
 
-// node_modules/scheduler/cjs/scheduler.development.js
+// web/node_modules/scheduler/cjs/scheduler.development.js
 var require_scheduler_development = __commonJS({
-  "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
+  "web/node_modules/scheduler/cjs/scheduler.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -2360,9 +2360,9 @@ var require_scheduler_development = __commonJS({
   }
 });
 
-// node_modules/scheduler/index.js
+// web/node_modules/scheduler/index.js
 var require_scheduler = __commonJS({
-  "node_modules/scheduler/index.js"(exports, module) {
+  "web/node_modules/scheduler/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -2372,9 +2372,9 @@ var require_scheduler = __commonJS({
   }
 });
 
-// node_modules/react-dom/cjs/react-dom.development.js
+// web/node_modules/react-dom/cjs/react-dom.development.js
 var require_react_dom_development = __commonJS({
-  "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
+  "web/node_modules/react-dom/cjs/react-dom.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -23478,9 +23478,9 @@ var require_react_dom_development = __commonJS({
   }
 });
 
-// node_modules/react-dom/index.js
+// web/node_modules/react-dom/index.js
 var require_react_dom = __commonJS({
-  "node_modules/react-dom/index.js"(exports, module) {
+  "web/node_modules/react-dom/index.js"(exports, module) {
     "use strict";
     if (false) {
       checkDCE();
@@ -23491,9 +23491,9 @@ var require_react_dom = __commonJS({
   }
 });
 
-// node_modules/react-dom/client.js
+// web/node_modules/react-dom/client.js
 var require_client = __commonJS({
-  "node_modules/react-dom/client.js"(exports) {
+  "web/node_modules/react-dom/client.js"(exports) {
     "use strict";
     var m = require_react_dom();
     if (false) {
@@ -23522,9 +23522,9 @@ var require_client = __commonJS({
   }
 });
 
-// node_modules/react/cjs/react-jsx-runtime.development.js
+// web/node_modules/react/cjs/react-jsx-runtime.development.js
 var require_react_jsx_runtime_development = __commonJS({
-  "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+  "web/node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -24415,9 +24415,9 @@ var require_react_jsx_runtime_development = __commonJS({
   }
 });
 
-// node_modules/react/jsx-runtime.js
+// web/node_modules/react/jsx-runtime.js
 var require_jsx_runtime = __commonJS({
-  "node_modules/react/jsx-runtime.js"(exports, module) {
+  "web/node_modules/react/jsx-runtime.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -24427,17 +24427,17 @@ var require_jsx_runtime = __commonJS({
   }
 });
 
-// src/main.tsx
+// web/src/main.tsx
 var import_react4 = __toESM(require_react(), 1);
 var import_client = __toESM(require_client(), 1);
 
-// src/WeightLossQuiz.tsx
+// web/src/WeightLossQuiz.tsx
 var import_react3 = __toESM(require_react(), 1);
 
-// node_modules/lucide-react/dist/esm/createLucideIcon.js
+// web/node_modules/lucide-react/dist/esm/createLucideIcon.js
 var import_react2 = __toESM(require_react());
 
-// node_modules/lucide-react/dist/esm/shared/src/utils.js
+// web/node_modules/lucide-react/dist/esm/shared/src/utils.js
 var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 var toCamelCase = (string) => string.replace(
   /^([A-Z])|[\s-_]+(\w)/g,
@@ -24458,10 +24458,10 @@ var hasA11yProp = (props) => {
   }
 };
 
-// node_modules/lucide-react/dist/esm/Icon.js
+// web/node_modules/lucide-react/dist/esm/Icon.js
 var import_react = __toESM(require_react());
 
-// node_modules/lucide-react/dist/esm/defaultAttributes.js
+// web/node_modules/lucide-react/dist/esm/defaultAttributes.js
 var defaultAttributes = {
   xmlns: "http://www.w3.org/2000/svg",
   width: 24,
@@ -24474,7 +24474,7 @@ var defaultAttributes = {
   strokeLinejoin: "round"
 };
 
-// node_modules/lucide-react/dist/esm/Icon.js
+// web/node_modules/lucide-react/dist/esm/Icon.js
 var Icon = (0, import_react.forwardRef)(
   ({
     color = "currentColor",
@@ -24505,7 +24505,7 @@ var Icon = (0, import_react.forwardRef)(
   )
 );
 
-// node_modules/lucide-react/dist/esm/createLucideIcon.js
+// web/node_modules/lucide-react/dist/esm/createLucideIcon.js
 var createLucideIcon = (iconName, iconNode) => {
   const Component = (0, import_react2.forwardRef)(
     ({ className, ...props }, ref) => (0, import_react2.createElement)(Icon, {
@@ -24523,7 +24523,7 @@ var createLucideIcon = (iconName, iconNode) => {
   return Component;
 };
 
-// node_modules/lucide-react/dist/esm/icons/activity.js
+// web/node_modules/lucide-react/dist/esm/icons/activity.js
 var __iconNode = [
   [
     "path",
@@ -24535,14 +24535,14 @@ var __iconNode = [
 ];
 var Activity = createLucideIcon("activity", __iconNode);
 
-// node_modules/lucide-react/dist/esm/icons/arrow-right.js
+// web/node_modules/lucide-react/dist/esm/icons/arrow-right.js
 var __iconNode2 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
 var ArrowRight = createLucideIcon("arrow-right", __iconNode2);
 
-// node_modules/lucide-react/dist/esm/icons/chart-column.js
+// web/node_modules/lucide-react/dist/esm/icons/chart-column.js
 var __iconNode3 = [
   ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
   ["path", { d: "M18 17V9", key: "2bz60n" }],
@@ -24551,18 +24551,18 @@ var __iconNode3 = [
 ];
 var ChartColumn = createLucideIcon("chart-column", __iconNode3);
 
-// node_modules/lucide-react/dist/esm/icons/chevron-left.js
+// web/node_modules/lucide-react/dist/esm/icons/chevron-left.js
 var __iconNode4 = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
 var ChevronLeft = createLucideIcon("chevron-left", __iconNode4);
 
-// node_modules/lucide-react/dist/esm/icons/circle-check.js
+// web/node_modules/lucide-react/dist/esm/icons/circle-check.js
 var __iconNode5 = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
 var CircleCheck = createLucideIcon("circle-check", __iconNode5);
 
-// node_modules/lucide-react/dist/esm/icons/flame.js
+// web/node_modules/lucide-react/dist/esm/icons/flame.js
 var __iconNode6 = [
   [
     "path",
@@ -24574,7 +24574,7 @@ var __iconNode6 = [
 ];
 var Flame = createLucideIcon("flame", __iconNode6);
 
-// node_modules/lucide-react/dist/esm/icons/footprints.js
+// web/node_modules/lucide-react/dist/esm/icons/footprints.js
 var __iconNode7 = [
   [
     "path",
@@ -24595,7 +24595,7 @@ var __iconNode7 = [
 ];
 var Footprints = createLucideIcon("footprints", __iconNode7);
 
-// node_modules/lucide-react/dist/esm/icons/heart.js
+// web/node_modules/lucide-react/dist/esm/icons/heart.js
 var __iconNode8 = [
   [
     "path",
@@ -24607,18 +24607,18 @@ var __iconNode8 = [
 ];
 var Heart = createLucideIcon("heart", __iconNode8);
 
-// node_modules/lucide-react/dist/esm/icons/loader-circle.js
+// web/node_modules/lucide-react/dist/esm/icons/loader-circle.js
 var __iconNode9 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
 var LoaderCircle = createLucideIcon("loader-circle", __iconNode9);
 
-// node_modules/lucide-react/dist/esm/icons/mail.js
+// web/node_modules/lucide-react/dist/esm/icons/mail.js
 var __iconNode10 = [
   ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
   ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
 ];
 var Mail = createLucideIcon("mail", __iconNode10);
 
-// node_modules/lucide-react/dist/esm/icons/message-square.js
+// web/node_modules/lucide-react/dist/esm/icons/message-square.js
 var __iconNode11 = [
   [
     "path",
@@ -24630,14 +24630,14 @@ var __iconNode11 = [
 ];
 var MessageSquare = createLucideIcon("message-square", __iconNode11);
 
-// node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
+// web/node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
 var __iconNode12 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
 var RotateCcw = createLucideIcon("rotate-ccw", __iconNode12);
 
-// node_modules/lucide-react/dist/esm/icons/sparkles.js
+// web/node_modules/lucide-react/dist/esm/icons/sparkles.js
 var __iconNode13 = [
   [
     "path",
@@ -24652,7 +24652,7 @@ var __iconNode13 = [
 ];
 var Sparkles = createLucideIcon("sparkles", __iconNode13);
 
-// node_modules/lucide-react/dist/esm/icons/target.js
+// web/node_modules/lucide-react/dist/esm/icons/target.js
 var __iconNode14 = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["circle", { cx: "12", cy: "12", r: "6", key: "1vlfrh" }],
@@ -24660,7 +24660,7 @@ var __iconNode14 = [
 ];
 var Target = createLucideIcon("target", __iconNode14);
 
-// node_modules/lucide-react/dist/esm/icons/thumbs-down.js
+// web/node_modules/lucide-react/dist/esm/icons/thumbs-down.js
 var __iconNode15 = [
   ["path", { d: "M17 14V2", key: "8ymqnk" }],
   [
@@ -24673,7 +24673,7 @@ var __iconNode15 = [
 ];
 var ThumbsDown = createLucideIcon("thumbs-down", __iconNode15);
 
-// node_modules/lucide-react/dist/esm/icons/thumbs-up.js
+// web/node_modules/lucide-react/dist/esm/icons/thumbs-up.js
 var __iconNode16 = [
   ["path", { d: "M7 10v12", key: "1qc93n" }],
   [
@@ -24686,7 +24686,7 @@ var __iconNode16 = [
 ];
 var ThumbsUp = createLucideIcon("thumbs-up", __iconNode16);
 
-// node_modules/lucide-react/dist/esm/icons/timer.js
+// web/node_modules/lucide-react/dist/esm/icons/timer.js
 var __iconNode17 = [
   ["line", { x1: "10", x2: "14", y1: "2", y2: "2", key: "14vaq8" }],
   ["line", { x1: "12", x2: "15", y1: "14", y2: "11", key: "17fdiu" }],
@@ -24694,7 +24694,7 @@ var __iconNode17 = [
 ];
 var Timer = createLucideIcon("timer", __iconNode17);
 
-// node_modules/lucide-react/dist/esm/icons/trophy.js
+// web/node_modules/lucide-react/dist/esm/icons/trophy.js
 var __iconNode18 = [
   ["path", { d: "M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978", key: "1n3hpd" }],
   ["path", { d: "M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978", key: "rfe1zi" }],
@@ -24705,7 +24705,7 @@ var __iconNode18 = [
 ];
 var Trophy = createLucideIcon("trophy", __iconNode18);
 
-// src/WeightLossQuiz.tsx
+// web/src/WeightLossQuiz.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 var injectedStyles = `
 @keyframes floatIn {
@@ -24798,6 +24798,23 @@ var SUPPLEMENT_PHOTO_ALIASES = {
   electrolyte: ["electrolyte", "electrolytes", "electrolyte-mix"],
   omega3: ["omega-3", "omega3", "fish-oil"]
 };
+var FEATURED_SUPPLEMENTS = [
+  {
+    name: "GLP-1 Burner Unleashed",
+    amazonUrl: "https://www.amazon.com/s?k=GLP-1+Burner+Unleashed",
+    photoLabels: ["glp1_burner"]
+  },
+  {
+    name: "Stripfast5000 Weight Management Support + Relaxation Capsules",
+    amazonUrl: "https://www.amazon.com/s?k=stripfast5000+weight+management+support+relaxation+capsules",
+    photoLabels: ["stripfast_night_bullets"]
+  },
+  {
+    name: "Metabolic Health - Gut Health Supplement to Aid Weight Management* - Formulated with Bergamot and Turmeric (Curcumin Phytosome)",
+    amazonUrl: "https://www.amazon.com/s?k=metabolic+health+gut+health+supplement+bergamot+turmeric+curcumin+phytosome",
+    photoLabels: ["metabolic health thorne"]
+  }
+];
 var getSupplementKey = (name) => {
   const lowerName = name.toLowerCase();
   if (lowerName.includes("creatine")) return "creatine";
@@ -24810,12 +24827,19 @@ var getSupplementKey = (name) => {
 var normalizeSupplementFileLabel = (value) => {
   return value.toLowerCase().replace(/&/g, "and").replace(/\+/g, "plus").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
 };
-var buildSupplementPhotoCandidates = (name) => {
+var buildSupplementPhotoCandidates = (name, customLabels = []) => {
   const key = getSupplementKey(name);
-  const normalizedLabel = normalizeSupplementFileLabel(name);
-  const labels = Array.from(/* @__PURE__ */ new Set([normalizedLabel, ...SUPPLEMENT_PHOTO_ALIASES[key]]));
+  const labels = Array.from(
+    /* @__PURE__ */ new Set([
+      ...customLabels,
+      ...customLabels.map((label) => normalizeSupplementFileLabel(label)),
+      name,
+      normalizeSupplementFileLabel(name),
+      ...SUPPLEMENT_PHOTO_ALIASES[key]
+    ])
+  ).filter(Boolean);
   const extensions = ["webp", "png", "jpg", "jpeg"];
-  return labels.flatMap((label) => extensions.map((ext) => `${SUPPLEMENT_PHOTO_DIR}/${label}.${ext}`));
+  return labels.flatMap((label) => extensions.map((ext) => `${SUPPLEMENT_PHOTO_DIR}/${encodeURIComponent(label)}.${ext}`));
 };
 var getSupplementVisual = (name) => {
   return SUPPLEMENT_VISUAL_LIBRARY[getSupplementKey(name)];
@@ -25728,14 +25752,18 @@ var buildApiUrl = (apiBaseUrl, path) => {
   if (/^https?:\/\//i.test(path)) return path;
   return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
 };
-function SupplementPhoto({ name, fallbackImage }) {
-  const candidates = (0, import_react3.useMemo)(() => buildSupplementPhotoCandidates(name), [name]);
+function SupplementPhoto({
+  name,
+  fallbackImage,
+  customLabels
+}) {
+  const candidates = (0, import_react3.useMemo)(() => buildSupplementPhotoCandidates(name, customLabels), [name, customLabels]);
   const [candidateIndex, setCandidateIndex] = (0, import_react3.useState)(0);
   const [useFallback, setUseFallback] = (0, import_react3.useState)(false);
   (0, import_react3.useEffect)(() => {
     setCandidateIndex(0);
     setUseFallback(false);
-  }, [name]);
+  }, [name, customLabels]);
   const handleImageError = () => {
     if (useFallback) return;
     if (candidateIndex < candidates.length - 1) {
@@ -25896,7 +25924,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
       "7 Day Plan:",
       ...profile.weekPlan.map((entry) => `${entry.day}: ${entry.focus} - ${entry.details}`),
       "Supplements:",
-      ...profile.supplements.map((item) => `- ${item.name}: ${item.how} ${item.why} Note: ${item.note}`),
+      ...FEATURED_SUPPLEMENTS.map((item) => `- ${item.name}: ${item.amazonUrl}`),
       "Guidance And Mentorship:",
       ...profile.mentoring.map((item) => `- ${item.label}: ${item.url} (${item.note})`),
       "Personalized Recipes:",
@@ -26515,12 +26543,12 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                               },
                               children: [
                                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "Supplements" }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginTop: 10 }, children: profile.supplements.slice(0, 3).map((item) => {
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 10, marginTop: 10 }, children: FEATURED_SUPPLEMENTS.map((item) => {
                                   const visual = getSupplementVisual(item.name);
                                   return /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                                     "a",
                                     {
-                                      href: visual.amazonUrl,
+                                      href: item.amazonUrl,
                                       target: "_blank",
                                       rel: "noopener noreferrer",
                                       style: {
@@ -26532,7 +26560,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                         overflow: "hidden"
                                       },
                                       children: [
-                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SupplementPhoto, { name: item.name, fallbackImage: visual.image }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SupplementPhoto, { name: item.name, fallbackImage: visual.image, customLabels: item.photoLabels }),
                                         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 9px" }, children: [
                                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, fontWeight: 700, color: COLORS.textMain, lineHeight: 1.3 }, children: item.name }),
                                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }, children: "Buy on Amazon" })
@@ -26990,7 +27018,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   );
 }
 
-// src/main.tsx
+// web/src/main.tsx
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
 var ErrorBoundary = class extends import_react4.default.Component {
   constructor(props) {
