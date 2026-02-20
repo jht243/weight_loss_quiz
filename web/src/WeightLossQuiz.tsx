@@ -82,6 +82,7 @@ type SupplementKey = "protein" | "creatine" | "fiber" | "magnesium" | "electroly
 
 interface FeaturedSupplement {
   name: string;
+  cardTitle: string;
   amazonUrl: string;
   photoLabels: string[];
 }
@@ -192,16 +193,19 @@ const SUPPLEMENT_PHOTO_ALIASES: Record<SupplementKey, string[]> = {
 const FEATURED_SUPPLEMENTS: FeaturedSupplement[] = [
   {
     name: "GLP-1 Burner Unleashed",
+    cardTitle: "GLP-1 Burner Unleashed",
     amazonUrl: "https://www.amazon.com/s?k=GLP-1+Burner+Unleashed",
     photoLabels: ["glp1_burner"],
   },
   {
     name: "Stripfast5000 Weight Management Support + Relaxation Capsules",
+    cardTitle: "Stripfast5000 Weight Management Support",
     amazonUrl: "https://www.amazon.com/s?k=stripfast5000+weight+management+support+relaxation+capsules",
     photoLabels: ["stripfast_night_bullets"],
   },
   {
     name: "Metabolic Health - Gut Health Supplement to Aid Weight Management* - Formulated with Bergamot and Turmeric (Curcumin Phytosome)",
+    cardTitle: "Metabolic Health - Gut Health Supplement",
     amazonUrl: "https://www.amazon.com/s?k=metabolic+health+gut+health+supplement+bergamot+turmeric+curcumin+phytosome",
     photoLabels: ["metabolic health thorne"],
   },
@@ -2041,18 +2045,21 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                           <div style={{ padding: "8px 9px", display: "flex", flexDirection: "column", gap: 6, flex: 1, justifyContent: "space-between" }}>
                             <div
                               style={{
-                                fontSize: 13,
-                                fontWeight: 700,
+                                fontSize: 12,
+                                fontWeight: 600,
                                 color: COLORS.textMain,
-                                lineHeight: 1.3,
-                                minHeight: 34,
+                                lineHeight: 1.35,
+                                minHeight: 32,
+                                maxHeight: 32,
                                 display: "-webkit-box",
                                 WebkitLineClamp: 2,
                                 WebkitBoxOrient: "vertical",
                                 overflow: "hidden",
+                                textOverflow: "ellipsis",
+                                wordBreak: "break-word",
                               }}
                             >
-                              {item.name}
+                              {item.cardTitle}
                             </div>
                             <span
                               style={{

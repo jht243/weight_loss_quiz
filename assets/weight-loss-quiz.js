@@ -24801,16 +24801,19 @@ var SUPPLEMENT_PHOTO_ALIASES = {
 var FEATURED_SUPPLEMENTS = [
   {
     name: "GLP-1 Burner Unleashed",
+    cardTitle: "GLP-1 Burner Unleashed",
     amazonUrl: "https://www.amazon.com/s?k=GLP-1+Burner+Unleashed",
     photoLabels: ["glp1_burner"]
   },
   {
     name: "Stripfast5000 Weight Management Support + Relaxation Capsules",
+    cardTitle: "Stripfast5000 Weight Management Support",
     amazonUrl: "https://www.amazon.com/s?k=stripfast5000+weight+management+support+relaxation+capsules",
     photoLabels: ["stripfast_night_bullets"]
   },
   {
     name: "Metabolic Health - Gut Health Supplement to Aid Weight Management* - Formulated with Bergamot and Turmeric (Curcumin Phytosome)",
+    cardTitle: "Metabolic Health - Gut Health Supplement",
     amazonUrl: "https://www.amazon.com/s?k=metabolic+health+gut+health+supplement+bergamot+turmeric+curcumin+phytosome",
     photoLabels: ["metabolic health thorne"]
   }
@@ -26591,17 +26594,20 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                             "div",
                                             {
                                               style: {
-                                                fontSize: 13,
-                                                fontWeight: 700,
+                                                fontSize: 12,
+                                                fontWeight: 600,
                                                 color: COLORS.textMain,
-                                                lineHeight: 1.3,
-                                                minHeight: 34,
+                                                lineHeight: 1.35,
+                                                minHeight: 32,
+                                                maxHeight: 32,
                                                 display: "-webkit-box",
                                                 WebkitLineClamp: 2,
                                                 WebkitBoxOrient: "vertical",
-                                                overflow: "hidden"
+                                                overflow: "hidden",
+                                                textOverflow: "ellipsis",
+                                                wordBreak: "break-word"
                                               },
-                                              children: item.name
+                                              children: item.cardTitle
                                             }
                                           ),
                                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
