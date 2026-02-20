@@ -26552,17 +26552,35 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                       target: "_blank",
                                       rel: "noopener noreferrer",
                                       style: {
-                                        display: "block",
+                                        display: "flex",
+                                        flexDirection: "column",
                                         textDecoration: "none",
                                         borderRadius: 10,
                                         border: `1px solid ${COLORS.borderLight}`,
                                         backgroundColor: "#FFFFFF",
-                                        overflow: "hidden"
+                                        overflow: "hidden",
+                                        minHeight: 214
                                       },
                                       children: [
                                         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SupplementPhoto, { name: item.name, fallbackImage: visual.image, customLabels: item.photoLabels }),
-                                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 9px" }, children: [
-                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, fontWeight: 700, color: COLORS.textMain, lineHeight: 1.3 }, children: item.name }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 9px", display: "flex", flexDirection: "column", gap: 6, flex: 1, justifyContent: "space-between" }, children: [
+                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                            "div",
+                                            {
+                                              style: {
+                                                fontSize: 13,
+                                                fontWeight: 700,
+                                                color: COLORS.textMain,
+                                                lineHeight: 1.3,
+                                                minHeight: 34,
+                                                display: "-webkit-box",
+                                                WebkitLineClamp: 2,
+                                                WebkitBoxOrient: "vertical",
+                                                overflow: "hidden"
+                                              },
+                                              children: item.name
+                                            }
+                                          ),
                                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }, children: "Buy on Amazon" })
                                         ] })
                                       ]

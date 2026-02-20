@@ -2010,17 +2010,33 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                           target="_blank"
                           rel="noopener noreferrer"
                           style={{
-                            display: "block",
+                            display: "flex",
+                            flexDirection: "column",
                             textDecoration: "none",
                             borderRadius: 10,
                             border: `1px solid ${COLORS.borderLight}`,
                             backgroundColor: "#FFFFFF",
                             overflow: "hidden",
+                            minHeight: 214,
                           }}
                         >
                           <SupplementPhoto name={item.name} fallbackImage={visual.image} customLabels={item.photoLabels} />
-                          <div style={{ padding: "8px 9px" }}>
-                            <div style={{ fontSize: 13, fontWeight: 700, color: COLORS.textMain, lineHeight: 1.3 }}>{item.name}</div>
+                          <div style={{ padding: "8px 9px", display: "flex", flexDirection: "column", gap: 6, flex: 1, justifyContent: "space-between" }}>
+                            <div
+                              style={{
+                                fontSize: 13,
+                                fontWeight: 700,
+                                color: COLORS.textMain,
+                                lineHeight: 1.3,
+                                minHeight: 34,
+                                display: "-webkit-box",
+                                WebkitLineClamp: 2,
+                                WebkitBoxOrient: "vertical",
+                                overflow: "hidden",
+                              }}
+                            >
+                              {item.name}
+                            </div>
                             <div style={{ marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }}>Buy on Amazon</div>
                           </div>
                         </a>

@@ -1927,7 +1927,14 @@ const httpServer = createServer(
 
     // Serve static assets from /assets directory
     if (req.method === "GET" && url.pathname.startsWith("/assets/")) {
-      const assetPath = path.join(ASSETS_DIR, url.pathname.slice(8));
+      const rawAssetPath = url.pathname.slice(8);
+      let decodedAssetPath = rawAssetPath;
+      try {
+        decodedAssetPath = decodeURIComponent(rawAssetPath);
+      } catch {
+        decodedAssetPath = rawAssetPath;
+      }
+      const assetPath = path.join(ASSETS_DIR, decodedAssetPath);
       if (fs.existsSync(assetPath) && fs.statSync(assetPath).isFile()) {
         const ext = path.extname(assetPath).toLowerCase();
         const contentTypeMap: Record<string, string> = {
