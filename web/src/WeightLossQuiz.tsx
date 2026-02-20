@@ -1903,6 +1903,23 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                         <div style={{ marginTop: 3, fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.45 }}>{entry.details}</div>
                       </div>
                     ))}
+
+                    <div
+                      style={{
+                        marginTop: 2,
+                        padding: 10,
+                        borderRadius: 10,
+                        backgroundColor: COLORS.warningBg,
+                        border: `1px solid #EBD9BA`,
+                        fontSize: 14,
+                        lineHeight: 1.45,
+                        color: "#6F4D1A",
+                      }}
+                    >
+                      <strong>Avoid this:</strong> {profile.avoid}
+                    </div>
+
+                    <div style={{ marginTop: 2, fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary }}>{profile.timeline}</div>
                   </div>
                 </details>
 
@@ -2040,10 +2057,10 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                             <span
                               style={{
                                 marginTop: 4,
-                                alignSelf: "flex-start",
+                                alignSelf: "center",
                                 fontSize: 11,
                                 color: COLORS.primaryDark,
-                                fontWeight: 800,
+                                fontWeight: 500,
                                 textTransform: "uppercase",
                                 letterSpacing: 0.3,
                                 borderRadius: 999,
@@ -2104,23 +2121,6 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     ))}
                   </div>
                 </details>
-
-                <div
-                  style={{
-                    marginTop: 12,
-                    padding: 10,
-                    borderRadius: 10,
-                    backgroundColor: COLORS.warningBg,
-                    border: `1px solid #EBD9BA`,
-                    fontSize: 14,
-                    lineHeight: 1.45,
-                    color: "#6F4D1A",
-                  }}
-                >
-                  <strong>Avoid this:</strong> {profile.avoid}
-                </div>
-
-                <div style={{ marginTop: 10, fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary }}>{profile.timeline}</div>
               </div>
 
               <div

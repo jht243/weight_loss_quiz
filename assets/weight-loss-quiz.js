@@ -26434,23 +26434,46 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                               },
                               children: [
                                 /* @__PURE__ */ (0, import_jsx_runtime.jsx)("summary", { style: { cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }, children: "7 Day Plan" }),
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: profile.weekPlan.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                                  "div",
-                                  {
-                                    style: {
-                                      border: `1px solid ${COLORS.borderLight}`,
-                                      borderRadius: 10,
-                                      padding: 10,
-                                      backgroundColor: COLORS.card
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "grid", gap: 8, marginTop: 10 }, children: [
+                                  profile.weekPlan.map((entry) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                                    "div",
+                                    {
+                                      style: {
+                                        border: `1px solid ${COLORS.borderLight}`,
+                                        borderRadius: 10,
+                                        padding: 10,
+                                        backgroundColor: COLORS.card
+                                      },
+                                      children: [
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }, children: entry.day }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }, children: entry.focus }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 3, fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.45 }, children: entry.details })
+                                      ]
                                     },
-                                    children: [
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: COLORS.primaryDark }, children: entry.day }),
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }, children: entry.focus }),
-                                      /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 3, fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.45 }, children: entry.details })
-                                    ]
-                                  },
-                                  entry.day
-                                )) })
+                                    entry.day
+                                  )),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                                    "div",
+                                    {
+                                      style: {
+                                        marginTop: 2,
+                                        padding: 10,
+                                        borderRadius: 10,
+                                        backgroundColor: COLORS.warningBg,
+                                        border: `1px solid #EBD9BA`,
+                                        fontSize: 14,
+                                        lineHeight: 1.45,
+                                        color: "#6F4D1A"
+                                      },
+                                      children: [
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Avoid this:" }),
+                                        " ",
+                                        profile.avoid
+                                      ]
+                                    }
+                                  ),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 2, fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary }, children: profile.timeline })
+                                ] })
                               ]
                             }
                           ),
@@ -26586,10 +26609,10 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                             {
                                               style: {
                                                 marginTop: 4,
-                                                alignSelf: "flex-start",
+                                                alignSelf: "center",
                                                 fontSize: 11,
                                                 color: COLORS.primaryDark,
-                                                fontWeight: 800,
+                                                fontWeight: 500,
                                                 textTransform: "uppercase",
                                                 letterSpacing: 0.3,
                                                 borderRadius: 999,
@@ -26652,28 +26675,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                 ] }, item.label)) })
                               ]
                             }
-                          ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                            "div",
-                            {
-                              style: {
-                                marginTop: 12,
-                                padding: 10,
-                                borderRadius: 10,
-                                backgroundColor: COLORS.warningBg,
-                                border: `1px solid #EBD9BA`,
-                                fontSize: 14,
-                                lineHeight: 1.45,
-                                color: "#6F4D1A"
-                              },
-                              children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("strong", { children: "Avoid this:" }),
-                                " ",
-                                profile.avoid
-                              ]
-                            }
-                          ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary }, children: profile.timeline })
+                          )
                         ]
                       }
                     ),
