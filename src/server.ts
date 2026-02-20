@@ -1868,6 +1868,12 @@ const httpServer = createServer(
       return;
     }
 
+    if (req.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) {
+      res.writeHead(302, { Location: "/assets/weight-loss-quiz.html" });
+      res.end();
+      return;
+    }
+
     if (req.method === "GET" && url.pathname === ssePath) {
       await handleSseRequest(res);
       return;
