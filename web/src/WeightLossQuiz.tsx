@@ -1265,7 +1265,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                 </div>
 
                 <div style={{ marginTop: 12, display: "grid", gap: 7 }}>
-                  {archetypeVisual.pillars.map((pillar) => (
+                  {archetypeVisual.pillars.map((pillar, idx) => (
                     <div
                       key={pillar.title}
                       style={{
@@ -1298,16 +1298,13 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                       <div>
                         <div style={{ fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }}>{pillar.title}</div>
                         <div style={{ fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.4 }}>{pillar.detail}</div>
+                        {profile.description[idx] && (
+                          <div style={{ marginTop: 6, fontSize: 14, color: COLORS.textMain, lineHeight: 1.45 }}>
+                            {profile.description[idx]}
+                          </div>
+                        )}
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                <div style={{ marginTop: 10, display: "grid", gap: 8 }}>
-                  {profile.description.map((line, idx) => (
-                    <p key={idx} style={{ margin: 0, fontSize: 15, lineHeight: 1.45, color: COLORS.textMain }}>
-                      {line}
-                    </p>
                   ))}
                 </div>
               </div>

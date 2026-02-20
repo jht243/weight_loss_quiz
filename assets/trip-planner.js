@@ -25856,7 +25856,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                               /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "10px 0 0", fontSize: 15, lineHeight: 1.45, color: COLORS.textMain }, children: archetypeVisual.headline })
                             ] })
                           ] }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 12, display: "grid", gap: 7 }, children: archetypeVisual.pillars.map((pillar) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 12, display: "grid", gap: 7 }, children: archetypeVisual.pillars.map((pillar, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                             "div",
                             {
                               style: {
@@ -25890,13 +25890,13 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                 ),
                                 /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }, children: pillar.title }),
-                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.4 }, children: pillar.detail })
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.4 }, children: pillar.detail }),
+                                  profile.description[idx] && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 6, fontSize: 14, color: COLORS.textMain, lineHeight: 1.45 }, children: profile.description[idx] })
                                 ] })
                               ]
                             },
                             pillar.title
-                          )) }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, display: "grid", gap: 8 }, children: profile.description.map((line, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 15, lineHeight: 1.45, color: COLORS.textMain }, children: line }, idx)) })
+                          )) })
                         ]
                       }
                     ),
