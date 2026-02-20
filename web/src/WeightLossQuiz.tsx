@@ -1116,27 +1116,6 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                 {isVisionStage ? `Vision step ${currentIndex + 1} of 3` : `Question ${currentIndex + 1}`}
               </div>
 
-              {isVisionStage && (
-                <div
-                  style={{
-                    marginBottom: 12,
-                    padding: "10px 12px",
-                    borderRadius: 12,
-                    background: `linear-gradient(135deg, ${COLORS.accentLight} 0%, #F6FBF8 100%)`,
-                    border: `1px solid ${COLORS.borderLight}`,
-                    display: "flex",
-                    alignItems: "center",
-                    gap: 8,
-                    fontSize: 12,
-                    color: COLORS.primaryDark,
-                    fontWeight: 600,
-                  }}
-                >
-                  <Sparkles size={14} />
-                  Build your vision first. Then we turn it into a practical weekly blueprint.
-                </div>
-              )}
-
               <h2 style={{ margin: "0 0 8px", fontSize: 21, lineHeight: 1.25 }}>{activeQuestion.prompt}</h2>
               <p style={{ margin: "0 0 16px", fontSize: 13, color: COLORS.textSecondary }}>{activeQuestion.hint}</p>
 
