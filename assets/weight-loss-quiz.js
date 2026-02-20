@@ -25371,7 +25371,7 @@ var resolveApiBaseUrl = (initialData2) => {
   const fromHydration = normalizeApiBaseUrl(initialData2?.api_base_url || initialData2?.apiBaseUrl);
   if (fromHydration) return fromHydration;
   if (typeof window !== "undefined") {
-    const fromGlobal = normalizeApiBaseUrl(window.__TRIP_PLANNER_API_BASE_URL__);
+    const fromGlobal = normalizeApiBaseUrl(window.__WEIGHT_LOSS_QUIZ_API_BASE_URL__);
     if (fromGlobal) return fromGlobal;
     const origin = window.location.origin;
     if (origin && origin !== "null" && !origin.includes("web-sandbox.oaiusercontent.com")) {
@@ -26534,9 +26534,9 @@ console.log("[Main] Weight Loss Quiz main.tsx loading...");
 function App({ initialData: initialData2 }) {
   return /* @__PURE__ */ (0, import_jsx_runtime2.jsx)(WeightLossQuiz, { initialData: initialData2 });
 }
-var container = document.getElementById("trip-planner-root");
+var container = document.getElementById("weight-loss-quiz-root");
 if (!container) {
-  throw new Error("trip-planner-root element not found");
+  throw new Error("weight-loss-quiz-root element not found");
 }
 var root = (0, import_client.createRoot)(container);
 var renderApp = (data) => {

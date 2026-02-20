@@ -30,7 +30,7 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 import { z } from "zod";
 
-type TripPlannerWidget = {
+type WeightLossQuizWidget = {
   id: string;
   title: string;
   templateUri: string;
@@ -86,7 +86,7 @@ const WIDGET_CONNECT_DOMAINS = Array.from(
     WIDGET_API_BASE_URL,
     LOCALHOST_API_ORIGIN,
     LOCALHOST_LOOPBACK_API_ORIGIN,
-    "https://trip-planner-da2g.onrender.com",
+    "https://weight-loss-quiz.onrender.com",
     "https://nominatim.openstreetmap.org",
     "https://api.open-meteo.com",
     "https://geocoding-api.open-meteo.com",
@@ -95,7 +95,7 @@ const WIDGET_CONNECT_DOMAINS = Array.from(
 
 const WIDGET_RESOURCE_DOMAINS = Array.from(
   new Set([
-    "https://trip-planner-da2g.onrender.com",
+    "https://weight-loss-quiz.onrender.com",
     ...(WIDGET_API_BASE_URL.startsWith("https://") ? [WIDGET_API_BASE_URL] : []),
   ])
 );
@@ -238,9 +238,9 @@ function readWidgetHtml(componentName: string): string {
 // Added timestamp suffix to force cache invalidation for width fix
 const VERSION = (process.env.RENDER_GIT_COMMIT?.slice(0, 7) || Date.now().toString()) + '-' + Date.now();
 
-function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
+function widgetMeta(widget: WeightLossQuizWidget, bustCache: boolean = false) {
   const templateUri = bustCache
-    ? `ui://widget/trip-planner.html?v=${VERSION}`
+    ? `ui://widget/weight-loss-quiz.html?v=${VERSION}`
     : widget.templateUri;
 
   return {
@@ -290,21 +290,21 @@ function widgetMeta(widget: TripPlannerWidget, bustCache: boolean = false) {
   } as const;
 }
 
-const widgets: TripPlannerWidget[] = [
+const widgets: WeightLossQuizWidget[] = [
   {
-    id: "trip-planner",
+    id: "weight-loss-quiz",
     title: "Weight-Loss Blueprint Quiz — Discover your best-fit strategy in minutes",
-    templateUri: `ui://widget/trip-planner.html?v=${VERSION}`,
+    templateUri: `ui://widget/weight-loss-quiz.html?v=${VERSION}`,
     invoking:
       "Opening Weight-Loss Blueprint Quiz...",
     invoked:
       "Here is your Weight-Loss Blueprint Quiz. Answer the visual prompts to get a personalized, realistic plan.",
-    html: readWidgetHtml("trip-planner"),
+    html: readWidgetHtml("weight-loss-quiz"),
   },
 ];
 
-const widgetsById = new Map<string, TripPlannerWidget>();
-const widgetsByUri = new Map<string, TripPlannerWidget>();
+const widgetsById = new Map<string, WeightLossQuizWidget>();
+const widgetsByUri = new Map<string, WeightLossQuizWidget>();
 
 widgets.forEach((widget) => {
   widgetsById.set(widget.id, widget);
@@ -400,10 +400,10 @@ const resourceTemplates: ResourceTemplate[] = widgets.map((widget) => ({
   _meta: widgetMeta(widget),
 }));
 
-function createTripPlannerServer(): Server {
+function createWeightLossQuizServer(): Server {
   const server = new Server(
     {
-      name: "trip-planner",
+      name: "weight-loss-quiz",
       version: "0.1.0",
       description:
         "Weight-Loss Blueprint Quiz — helps users discover a personalized and sustainable strategy through a modern interactive quiz.",
@@ -712,16 +712,16 @@ function humanizeEventName(event: string): string {
     tool_call_error: "Tool Call (Error)",
     tool_call_empty: "Tool Call (Empty)",
     parameter_parse_error: "Parameter Parse Error",
-    // In-app trip actions
-    widget_parse_trip: "Analyze Trip (AI)",
+    // In-app quiz actions
+    widget_parse_quiz: "Analyze Quiz Input (AI)",
     widget_add_leg: "Add Leg",
     widget_delete_leg: "Delete Leg",
-    widget_save_trip: "Save Trip",
-    widget_open_trip: "Open Trip",
-    widget_new_trip: "New Trip",
-    widget_delete_trip: "Delete Trip",
-    widget_duplicate_trip: "Duplicate Trip",
-    widget_reset: "Reset Trip",
+    widget_save_quiz: "Save Quiz",
+    widget_open_quiz: "Open Quiz",
+    widget_new_quiz: "New Quiz",
+    widget_delete_quiz: "Delete Quiz",
+    widget_duplicate_quiz: "Duplicate Quiz",
+    widget_reset: "Reset Quiz",
     widget_back_to_home: "Back to Home",
     widget_input_mode: "Input Mode Toggle",
     // Footer buttons
@@ -875,8 +875,8 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
 
   // --- Prompt-level analytics (from tool calls) ---
   const paramUsage: Record<string, number> = {};
-  const tripTypeDist: Record<string, number> = {};
-  const transportModeDist: Record<string, number> = {};
+  const quizProfileDist: Record<string, number> = {};
+  const activityLevelDist: Record<string, number> = {};
 
   successLogs.forEach((log) => {
     if (log.params) {
@@ -885,40 +885,40 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
           paramUsage[key] = (paramUsage[key] || 0) + 1;
         }
       });
-      if (log.params.trip_type) {
-        const tt = log.params.trip_type;
-        tripTypeDist[tt] = (tripTypeDist[tt] || 0) + 1;
+      const quizProfile = log.params.quiz_profile;
+      if (quizProfile) {
+        quizProfileDist[quizProfile] = (quizProfileDist[quizProfile] || 0) + 1;
       }
-      if (log.params.departure_mode) {
-        const mode = log.params.departure_mode;
-        transportModeDist[mode] = (transportModeDist[mode] || 0) + 1;
+      const activityLevel = log.params.activity_level;
+      if (activityLevel) {
+        activityLevelDist[activityLevel] = (activityLevelDist[activityLevel] || 0) + 1;
       }
     }
   });
 
-  // Destinations (top 10)
-  const destinationDist: Record<string, number> = {};
+  // Goals (top 10)
+  const goalDist: Record<string, number> = {};
   successLogs.forEach((log) => {
-    if (log.params?.destination) {
-      const dest = log.params.destination;
-      destinationDist[dest] = (destinationDist[dest] || 0) + 1;
+    const goal = log.params?.goal;
+    if (goal) {
+      goalDist[goal] = (goalDist[goal] || 0) + 1;
     }
   });
 
-  // Departure cities (top 10)
-  const departureCityDist: Record<string, number> = {};
+  // Biggest challenges (top 10)
+  const challengeDist: Record<string, number> = {};
   successLogs.forEach((log) => {
-    if (log.params?.departure_city) {
-      const city = log.params.departure_city;
-      departureCityDist[city] = (departureCityDist[city] || 0) + 1;
+    const challenge = log.params?.biggest_challenge;
+    if (challenge) {
+      challengeDist[challenge] = (challengeDist[challenge] || 0) + 1;
     }
   });
 
   // --- In-app analytics (from widget events) ---
-  // Trip management actions
-  const tripActions: Record<string, number> = {};
-  const tripActionEvents = ["widget_parse_trip", "widget_add_leg", "widget_delete_leg", "widget_save_trip", "widget_open_trip", "widget_new_trip", "widget_delete_trip", "widget_duplicate_trip", "widget_reset", "widget_back_to_home", "widget_input_mode"];
-  tripActionEvents.forEach(e => { tripActions[humanizeEventName(e)] = 0; });
+  // Quiz management actions
+  const quizActions: Record<string, number> = {};
+  const quizActionEvents = ["widget_parse_quiz", "widget_save_quiz", "widget_open_quiz", "widget_new_quiz", "widget_delete_quiz", "widget_duplicate_quiz", "widget_reset", "widget_back_to_home", "widget_input_mode"];
+  quizActionEvents.forEach(e => { quizActions[humanizeEventName(e)] = 0; });
 
   // Footer button clicks
   const footerClicks: Record<string, number> = {};
@@ -939,8 +939,8 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
   let freeformCount = 0;
   let manualCount = 0;
 
-  // Leg type distribution (from add_leg events)
-  const legTypeDist: Record<string, number> = {};
+  // Selection type distribution (from answer events)
+  const selectionTypeDist: Record<string, number> = {};
 
   // All widget interactions (catch-all)
   const allWidgetCounts: Record<string, number> = {};
@@ -949,9 +949,9 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     const humanName = humanizeEventName(log.event);
     allWidgetCounts[humanName] = (allWidgetCounts[humanName] || 0) + 1;
 
-    // Trip management
-    if (tripActionEvents.includes(log.event)) {
-      tripActions[humanName] = (tripActions[humanName] || 0) + 1;
+    // Quiz management
+    if (quizActionEvents.includes(log.event)) {
+      quizActions[humanName] = (quizActions[humanName] || 0) + 1;
     }
     // Footer
     if (footerEvents.includes(log.event)) {
@@ -976,9 +976,9 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       if (log.mode === "freeform") freeformCount++;
       else if (log.mode === "manual") manualCount++;
     }
-    // Leg types
-    if (log.event === "widget_add_leg" && log.legType) {
-      legTypeDist[log.legType] = (legTypeDist[log.legType] || 0) + 1;
+    // Selection types
+    if (log.event === "widget_answer_select" && log.answerType) {
+      selectionTypeDist[log.answerType] = (selectionTypeDist[log.answerType] || 0) + 1;
     }
   });
 
@@ -1012,7 +1012,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Trip Planner Analytics</title>
+  <title>Weight-Loss Quiz Analytics</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; padding: 20px; color: #1f2937; }
@@ -1051,7 +1051,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
 </head>
 <body>
   <div class="container">
-    <h1>📊 Trip Planner Analytics</h1>
+    <h1>📊 Weight-Loss Quiz Analytics</h1>
     <p class="subtitle">Last 7 days · ${logs.length} total events · Auto-refresh 60s</p>
 
     <!-- ========== ALERTS ========== -->
@@ -1108,24 +1108,23 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     <div class="section-title">🔍 Prompt Analytics (What's Being Called)</div>
     <div class="grid-3">
       <div class="card">
-        <h2>Trip Type Distribution</h2>
+        <h2>Quiz Profile Distribution</h2>
         ${renderTable(
-    ["Type", "Count", "%"],
-    Object.entries(tripTypeDist).sort((a, b) => b[1] - a[1]).map(([tt, count]) => {
+    ["Profile", "Count", "%"],
+    Object.entries(quizProfileDist).sort((a, b) => b[1] - a[1]).map(([profile, count]) => {
       const pct = successLogs.length > 0 ? ((count / successLogs.length) * 100).toFixed(0) : "0";
-      const label = tt === "round_trip" ? "🔄 Round Trip" : tt === "one_way" ? "➡️ One Way" : tt === "multi_city" ? "🌍 Multi-City" : tt;
+      const label = profile;
       return [label, String(count), `${pct}%`];
     }),
     "No data yet"
   )}
       </div>
       <div class="card">
-        <h2>Transport Mode</h2>
+        <h2>Activity Level</h2>
         ${renderTable(
-    ["Mode", "Count"],
-    Object.entries(transportModeDist).sort((a, b) => b[1] - a[1]).map(([mode, count]) => {
-      const icon = mode === "plane" ? "✈️" : mode === "car" ? "🚗" : mode === "train" ? "🚂" : mode === "bus" ? "🚌" : mode === "ferry" ? "⛴️" : "🚐";
-      return [`${icon} ${mode}`, String(count)];
+    ["Level", "Count"],
+    Object.entries(activityLevelDist).sort((a, b) => b[1] - a[1]).map(([level, count]) => {
+      return [level, String(count)];
     }),
     "No data yet"
   )}
@@ -1146,34 +1145,36 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
 
     <div class="grid-3">
       <div class="card">
-        <h2>🏙️ Top Destinations</h2>
+        <h2>� Top Goals</h2>
         ${renderTable(
-    ["City", "Count"],
-    Object.entries(destinationDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
+    ["Goal", "Count"],
+    Object.entries(goalDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
     "No data yet"
   )}
       </div>
       <div class="card">
-        <h2>🛫 Top Departure Cities</h2>
+        <h2>⚠️ Top Challenges</h2>
         ${renderTable(
-    ["City", "Count"],
-    Object.entries(departureCityDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
+    ["Challenge", "Count"],
+    Object.entries(challengeDist).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([d, c]) => [d, String(c)]),
     "No data yet"
   )}
       </div>
       <div class="card">
-        <h2>🗺️ Popular Routes</h2>
+        <h2>🧩 Goal × Challenge Combinations</h2>
         ${(() => {
-      const routes: Record<string, number> = {};
+      const combinations: Record<string, number> = {};
       successLogs.forEach(l => {
-        if (l.params?.departure_city && l.params?.destination) {
-          const route = l.params.departure_city + " → " + l.params.destination;
-          routes[route] = (routes[route] || 0) + 1;
+        const goal = l.params?.goal;
+        const challenge = l.params?.biggest_challenge;
+        if (goal && challenge) {
+          const combo = goal + " × " + challenge;
+          combinations[combo] = (combinations[combo] || 0) + 1;
         }
       });
       return renderTable(
-        ["Route", "Count"],
-        Object.entries(routes).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([r, c]) => [r, String(c)]),
+        ["Combination", "Count"],
+        Object.entries(combinations).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([r, c]) => [r, String(c)]),
         "No data yet"
       );
     })()}
@@ -1184,10 +1185,10 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     <div class="section-title">🖱️ In-App Actions (After Tool Call)</div>
     <div class="grid-3">
       <div class="card">
-        <h2>Trip Management</h2>
+        <h2>Quiz Management</h2>
         ${renderTable(
       ["Action", "Count"],
-      Object.entries(tripActions).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
+      Object.entries(quizActions).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
       "No in-app actions yet"
     )}
       </div>
@@ -1222,14 +1223,13 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     )}
       </div>
       <div class="card">
-        <h2>Leg Types Added</h2>
+        <h2>Answer Types Selected</h2>
         ${renderTable(
       ["Type", "Count"],
-      Object.entries(legTypeDist).sort((a, b) => b[1] - a[1]).map(([t, c]) => {
-        const icon = t === "flight" ? "✈️" : t === "hotel" ? "🏨" : t === "car" ? "🚗" : t === "train" ? "🚂" : t === "bus" ? "🚌" : "📌";
-        return [`${icon} ${t}`, String(c)];
+      Object.entries(selectionTypeDist).sort((a, b) => b[1] - a[1]).map(([t, c]) => {
+        return [t, String(c)];
       }),
-      "No legs added yet"
+      "No answer selections yet"
     )}
       </div>
     </div>
@@ -1265,12 +1265,12 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       <div class="card">
         <h2>Feedback Submissions</h2>
         ${feedbackLogs.length > 0 ? renderTable(
-      ["Date", "Vote", "Feedback", "Trip"],
+      ["Date", "Vote", "Feedback", "Quiz"],
       feedbackLogs.slice(0, 15).map(l => [
         `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
         l.enjoymentVote === "up" ? '<span class="badge badge-green">👍</span>' : l.enjoymentVote === "down" ? '<span class="badge badge-red">👎</span>' : "—",
         `<div style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${l.feedback || "—"}</div>`,
-        l.tripName || "—"
+        l.quizName || "—"
       ]),
       "No feedback yet"
     ) : '<p style="color:#9ca3af;font-size:13px;">No feedback submitted yet</p>'}
@@ -1281,12 +1281,14 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     <div class="section-title">📋 Recent Queries</div>
     <div class="card" style="margin-bottom:20px;">
       ${renderTable(
-      ["Date", "Query", "Trip Type", "From → To", "Location", "Locale"],
+      ["Date", "Query", "Profile", "Goal → Challenge", "Location", "Locale"],
       successLogs.slice(0, 25).map(l => [
         `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
         `<div style="max-width:250px;overflow:hidden;text-overflow:ellipsis;">${l.inferredQuery || "—"}</div>`,
-        l.params?.trip_type ? `<span class="badge badge-blue">${l.params.trip_type}</span>` : "—",
-        l.params?.departure_city && l.params?.destination ? `${l.params.departure_city} → ${l.params.destination}` : (l.params?.destination || "—"),
+        l.params?.quiz_profile ? `<span class="badge badge-blue">${l.params?.quiz_profile}</span>` : "—",
+        l.params?.goal && l.params?.biggest_challenge
+          ? `${l.params?.goal} → ${l.params?.biggest_challenge}`
+          : (l.params?.goal || "—"),
         l.userLocation ? `${l.userLocation.city || ""}${l.userLocation.region ? ", " + l.userLocation.region : ""}${l.userLocation.country ? ", " + l.userLocation.country : ""}`.replace(/^, /, "") : "—",
         l.userLocale || "—"
       ]),
@@ -1401,7 +1403,7 @@ async function subscribeToButtondown(email: string, topicId: string, topicName: 
 
   const metadata: Record<string, any> = {
     topicName,
-    source: "trip-planner",
+    source: "weight-loss-quiz",
     subscribedAt: new Date().toISOString(),
   };
 
@@ -1491,7 +1493,7 @@ async function updateButtondownSubscriber(email: string, topicId: string, topicN
   const updatedMetadata = {
     ...existingMetadata,
     [topicKey]: topicData,
-    source: "trip-planner",
+    source: "weight-loss-quiz",
   };
 
   const updateRequestBody = {
@@ -1545,8 +1547,8 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
 
     const parsed = JSON.parse(body);
     const email = parsed.email;
-    const topicId = parsed.topicId || "trip-planner";
-    const topicName = parsed.topicName || "Trip Planner Updates";
+    const topicId = parsed.topicId || "weight-loss-quiz";
+    const topicName = parsed.topicName || "Weight-Loss Quiz Updates";
     if (!email || !email.includes("@")) {
       res.writeHead(400).end(JSON.stringify({ error: "Invalid email address" }));
       return;
@@ -1562,7 +1564,7 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
       await subscribeToButtondown(email, topicId, topicName);
       res.writeHead(200).end(JSON.stringify({
         success: true,
-        message: "Successfully subscribed! You'll receive trip planning tips and updates."
+        message: "Successfully subscribed! You'll receive weight-loss quiz tips and updates."
       }));
     } catch (subscribeError: any) {
       const rawMessage = String(subscribeError?.message ?? "").trim();
@@ -1618,8 +1620,8 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
   }
 }
 
-// AI-powered trip parsing using OpenAI
-async function handleParseTripAI(req: IncomingMessage, res: ServerResponse) {
+// AI-powered quiz context parsing using OpenAI
+async function handleParseQuizAI(req: IncomingMessage, res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "content-type");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
@@ -1649,41 +1651,25 @@ async function handleParseTripAI(req: IncomingMessage, res: ServerResponse) {
 
     if (!OPENAI_API_KEY) {
       // Fallback to basic parsing if no API key
-      console.log("[Parse Trip] No OPENAI_API_KEY, using fallback parsing");
-      const legs = fallbackParseTripText(text);
+      console.log("[Parse Quiz] No OPENAI_API_KEY, using fallback parsing");
+      const fields = fallbackParseQuizText(text);
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ legs, source: "fallback" }));
+      res.end(JSON.stringify({ fields, source: "fallback" }));
       return;
     }
 
-    const systemPrompt = `You are a travel assistant that extracts trip information from natural language descriptions.
+    const systemPrompt = `You extract weight-loss quiz context from natural language.
 
-Extract all trip components (flights, hotels, transportation) from the user's text and return them as a JSON array.
+Return a JSON object with this shape:
+{
+  "goal": string | null,
+  "biggest_challenge": string | null,
+  "activity_level": "mostly_sitting" | "some_walking" | "regular_workouts" | "very_active" | null,
+  "tracking_preference": "data_friendly" | "short_term_tracking" | "simple_rules" | "no_tracking" | null,
+  "timeline": "slow_easy" | "moderate" | "aggressive" | "need_guidance" | null
+}
 
-Each item should have:
-- type: "flight" | "hotel" | "car" | "train" | "bus" | "ferry"
-- status: always "pending"
-- title: descriptive title (e.g., "Flight: Boston → Medellin")
-- date: ISO date string (YYYY-MM-DD) if mentioned, otherwise empty string
-- endDate: for hotels, the checkout date if mentioned
-- from: departure city/location (for transport)
-- to: arrival city/location (for transport)
-- location: for hotels, the city
-- time: departure time if mentioned (HH:MM format)
-
-Rules:
-1. If the user mentions a destination and duration but NO specific flights/hotels, create a basic trip structure:
-   - Add one "flight" leg with the destination as "to" (leave "from" empty if not specified)
-   - Add one "hotel" leg with the destination as "location"
-2. Only extract what the user explicitly mentions for specific flights/hotels/transport
-3. Think like a traveler - for each flight:
-   - You need transport TO the departure airport before the flight
-   - You need transport FROM the arrival airport after landing (to get to hotel or home)
-4. Do NOT duplicate transports - each leg of the journey needs exactly one transport to the airport and one from the airport
-5. Parse dates like "June 11th, 2026" to "2026-06-11"
-6. If no year mentioned, assume current year or next year if month has passed
-
-Return ONLY valid JSON array, no explanation.`;
+Use null for unknown fields. Return only valid JSON.`;
 
     const response = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
@@ -1704,11 +1690,11 @@ Return ONLY valid JSON array, no explanation.`;
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error("[Parse Trip] OpenAI API error:", response.status, errorText);
+      console.error("[Parse Quiz] OpenAI API error:", response.status, errorText);
       // Fallback on API error
-      const legs = fallbackParseTripText(text);
+      const fields = fallbackParseQuizText(text);
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ legs, source: "fallback" }));
+      res.end(JSON.stringify({ fields, source: "fallback" }));
       return;
     }
 
@@ -1716,119 +1702,89 @@ Return ONLY valid JSON array, no explanation.`;
     const content = data.choices?.[0]?.message?.content || "[]";
 
     // Parse the JSON response
-    let legs;
+    let fields;
     try {
       // Handle potential markdown code blocks
       const jsonStr = content.replace(/```json\n?/g, "").replace(/```\n?/g, "").trim();
-      legs = JSON.parse(jsonStr);
+      fields = JSON.parse(jsonStr);
     } catch (parseError) {
-      console.error("[Parse Trip] Failed to parse AI response:", content);
-      legs = fallbackParseTripText(text);
+      console.error("[Parse Quiz] Failed to parse AI response:", content);
+      fields = fallbackParseQuizText(text);
       res.writeHead(200, { "Content-Type": "application/json" });
-      res.end(JSON.stringify({ legs, source: "fallback" }));
+      res.end(JSON.stringify({ fields, source: "fallback" }));
       return;
     }
 
-    console.log("[Parse Trip] AI parsed legs:", legs.length);
+    console.log("[Parse Quiz] AI parsed fields");
     res.writeHead(200, { "Content-Type": "application/json" });
-    res.end(JSON.stringify({ legs, source: "ai" }));
+    res.end(JSON.stringify({ fields, source: "ai" }));
 
   } catch (error: any) {
-    console.error("[Parse Trip] Error:", error);
-    res.writeHead(500).end(JSON.stringify({ error: error.message || "Failed to parse trip" }));
+    console.error("[Parse Quiz] Error:", error);
+    res.writeHead(500).end(JSON.stringify({ error: error.message || "Failed to parse quiz context" }));
   }
 }
 
 // Fallback parsing when OpenAI is not available
-function fallbackParseTripText(text: string): any[] {
-  const legs: any[] = [];
+function fallbackParseQuizText(text: string): Record<string, string | null> {
   const lower = text.toLowerCase();
 
-  // Simple pattern matching
-  const fromToMatch = lower.match(/from\s+([a-z\s]+?)\s+to\s+([a-z\s]+?)(?:\s|$|,|\.)/i);
-  const toFromMatch = lower.match(/to\s+([a-z\s]+?)\s+from\s+([a-z\s]+?)(?:\s|$|,|\.)/i);
+  const goal = /lose\s*weight|fat\s*loss|lean|drop\s*weight/.test(lower)
+    ? "lose_weight"
+    : /energy|feel\s*better/.test(lower)
+      ? "more_energy"
+      : null;
 
-  // Check for return/round trip
-  const isRoundTrip = /return|round\s*trip|coming back|fly back|back to/i.test(lower);
+  const biggestChallenge = /craving|hunger|snack/.test(lower)
+    ? "cravings"
+    : /weekend|social|restaurant|party/.test(lower)
+      ? "social_events"
+      : /busy|schedule|time/.test(lower)
+        ? "schedule"
+        : /motivation|consisten/.test(lower)
+          ? "motivation"
+          : null;
 
-  let fromCity = "";
-  let toCity = "";
+  const activityLevel = /sit|desk|inactive/.test(lower)
+    ? "mostly_sitting"
+    : /walk|steps/.test(lower)
+      ? "some_walking"
+      : /gym|workout|train/.test(lower)
+        ? "regular_workouts"
+        : /athlete|very active|daily training/.test(lower)
+          ? "very_active"
+          : null;
 
-  if (fromToMatch) {
-    fromCity = fromToMatch[1].trim();
-    toCity = fromToMatch[2].trim();
-  } else if (toFromMatch) {
-    toCity = toFromMatch[1].trim();
-    fromCity = toFromMatch[2].trim();
-  }
+  const trackingPreference = /track|macro|calorie|data/.test(lower)
+    ? "data_friendly"
+    : /simple|easy|rules/.test(lower)
+      ? "simple_rules"
+      : /no\s*tracking|hate\s*tracking/.test(lower)
+        ? "no_tracking"
+        : null;
 
-  if (fromCity && toCity) {
-    // Add outbound flight
-    legs.push({
-      type: "flight",
-      status: "pending",
-      title: `Flight: ${fromCity} → ${toCity}`,
-      from: fromCity,
-      to: toCity,
-      date: ""
-    });
+  const timeline = /slow|sustainable|easy/.test(lower)
+    ? "slow_easy"
+    : /aggressive|fast|quick/.test(lower)
+      ? "aggressive"
+      : /moderate|balanced/.test(lower)
+        ? "moderate"
+        : /guide|not sure|unsure/.test(lower)
+          ? "need_guidance"
+          : null;
 
-    // Outbound transport: to departure airport
-    legs.push({
-      type: "car",
-      status: "pending",
-      title: `Transport to ${fromCity} Airport`,
-      to: `${fromCity} Airport`,
-      date: ""
-    });
-
-    // Outbound transport: from arrival airport to hotel
-    legs.push({
-      type: "car",
-      status: "pending",
-      title: `Transport from ${toCity} Airport`,
-      from: `${toCity} Airport`,
-      date: ""
-    });
-
-    // If round trip, add return flight and transports
-    if (isRoundTrip) {
-      // Return flight
-      legs.push({
-        type: "flight",
-        status: "pending",
-        title: `Flight: ${toCity} → ${fromCity}`,
-        from: toCity,
-        to: fromCity,
-        date: ""
-      });
-
-      // Return transport: from hotel to departure airport
-      legs.push({
-        type: "car",
-        status: "pending",
-        title: `Transport to ${toCity} Airport`,
-        to: `${toCity} Airport`,
-        date: ""
-      });
-
-      // Return transport: from arrival airport to home
-      legs.push({
-        type: "car",
-        status: "pending",
-        title: `Transport from ${fromCity} Airport`,
-        from: `${fromCity} Airport`,
-        date: ""
-      });
-    }
-  }
-
-  return legs;
+  return {
+    goal,
+    biggest_challenge: biggestChallenge,
+    activity_level: activityLevel,
+    tracking_preference: trackingPreference,
+    timeline,
+  };
 }
 
 async function handleSseRequest(res: ServerResponse) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  const server = createTripPlannerServer();
+  const server = createWeightLossQuizServer();
   const transport = new SSEServerTransport(postPath, res);
   const sessionId = transport.sessionId;
 
@@ -1937,13 +1893,13 @@ const httpServer = createServer(
       return;
     }
 
-    // AI-powered trip parsing endpoint
-    if (req.method === "POST" && url.pathname === "/api/parse-trip") {
-      await handleParseTripAI(req, res);
+    // AI-powered quiz context parsing endpoint
+    if (req.method === "POST" && url.pathname === "/api/parse-quiz") {
+      await handleParseQuizAI(req, res);
       return;
     }
 
-    if (req.method === "OPTIONS" && url.pathname === "/api/parse-trip") {
+    if (req.method === "OPTIONS" && url.pathname === "/api/parse-quiz") {
       res.writeHead(204, {
         "Access-Control-Allow-Origin": "*",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
@@ -1954,9 +1910,9 @@ const httpServer = createServer(
       return;
     }
 
-    // Serve alias for legacy loader path -> our main widget HTML
-    if (req.method === "GET" && url.pathname === "/assets/trip-planner.html") {
-      const mainAssetPath = path.join(ASSETS_DIR, "trip-planner.html");
+    // Serve primary widget HTML
+    if (req.method === "GET" && url.pathname === "/assets/weight-loss-quiz.html") {
+      const mainAssetPath = path.join(ASSETS_DIR, "weight-loss-quiz.html");
       console.log(`[Debug Legacy] Request: ${url.pathname}, Main Path: ${mainAssetPath}, Exists: ${fs.existsSync(mainAssetPath)}`);
       if (fs.existsSync(mainAssetPath) && fs.statSync(mainAssetPath).isFile()) {
         res.writeHead(200, {
@@ -2028,7 +1984,7 @@ function startMonitoring() {
 
 httpServer.listen(port, () => {
   startMonitoring();
-  console.log(`Trip Planner MCP server listening on http://localhost:${port}`);
+  console.log(`Weight-Loss Quiz MCP server listening on http://localhost:${port}`);
   console.log(`  SSE stream: GET http://localhost:${port}${ssePath}`);
   console.log(
     `  Message post endpoint: POST http://localhost:${port}${postPath}?sessionId=...`

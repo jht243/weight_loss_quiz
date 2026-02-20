@@ -115,10 +115,10 @@ function App({ initialData }: { initialData: any }) {
 }
 
 // Get initial data
-const container = document.getElementById("trip-planner-root");
+const container = document.getElementById("weight-loss-quiz-root");
 
 if (!container) {
-  throw new Error("trip-planner-root element not found");
+  throw new Error("weight-loss-quiz-root element not found");
 }
 
 const root = createRoot(container);

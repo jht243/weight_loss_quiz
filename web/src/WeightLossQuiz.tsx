@@ -747,7 +747,7 @@ const resolveApiBaseUrl = (initialData?: any): string => {
   if (fromHydration) return fromHydration;
 
   if (typeof window !== "undefined") {
-    const fromGlobal = normalizeApiBaseUrl((window as any).__TRIP_PLANNER_API_BASE_URL__);
+    const fromGlobal = normalizeApiBaseUrl((window as any).__WEIGHT_LOSS_QUIZ_API_BASE_URL__);
     if (fromGlobal) return fromGlobal;
 
     const origin = window.location.origin;
