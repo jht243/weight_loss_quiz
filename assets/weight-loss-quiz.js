@@ -24789,14 +24789,36 @@ var SUPPLEMENT_VISUAL_LIBRARY = {
     amazonUrl: "https://www.amazon.com/s?k=omega+3+fish+oil"
   }
 };
-var getSupplementVisual = (name) => {
+var SUPPLEMENT_PHOTO_DIR = "/assets/supplement-photos";
+var SUPPLEMENT_PHOTO_ALIASES = {
+  protein: ["protein", "protein-shake", "rtd-protein"],
+  creatine: ["creatine", "creatine-monohydrate"],
+  fiber: ["fiber", "fiber-blend", "psyllium-fiber"],
+  magnesium: ["magnesium", "magnesium-glycinate"],
+  electrolyte: ["electrolyte", "electrolytes", "electrolyte-mix"],
+  omega3: ["omega-3", "omega3", "fish-oil"]
+};
+var getSupplementKey = (name) => {
   const lowerName = name.toLowerCase();
-  if (lowerName.includes("creatine")) return SUPPLEMENT_VISUAL_LIBRARY.creatine;
-  if (lowerName.includes("psyllium") || lowerName.includes("fiber")) return SUPPLEMENT_VISUAL_LIBRARY.fiber;
-  if (lowerName.includes("magnesium")) return SUPPLEMENT_VISUAL_LIBRARY.magnesium;
-  if (lowerName.includes("electrolyte")) return SUPPLEMENT_VISUAL_LIBRARY.electrolyte;
-  if (lowerName.includes("omega")) return SUPPLEMENT_VISUAL_LIBRARY.omega3;
-  return SUPPLEMENT_VISUAL_LIBRARY.protein;
+  if (lowerName.includes("creatine")) return "creatine";
+  if (lowerName.includes("psyllium") || lowerName.includes("fiber")) return "fiber";
+  if (lowerName.includes("magnesium")) return "magnesium";
+  if (lowerName.includes("electrolyte")) return "electrolyte";
+  if (lowerName.includes("omega")) return "omega3";
+  return "protein";
+};
+var normalizeSupplementFileLabel = (value) => {
+  return value.toLowerCase().replace(/&/g, "and").replace(/\+/g, "plus").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+};
+var buildSupplementPhotoCandidates = (name) => {
+  const key = getSupplementKey(name);
+  const normalizedLabel = normalizeSupplementFileLabel(name);
+  const labels = Array.from(/* @__PURE__ */ new Set([normalizedLabel, ...SUPPLEMENT_PHOTO_ALIASES[key]]));
+  const extensions = ["webp", "png", "jpg", "jpeg"];
+  return labels.flatMap((label) => extensions.map((ext) => `${SUPPLEMENT_PHOTO_DIR}/${label}.${ext}`));
+};
+var getSupplementVisual = (name) => {
+  return SUPPLEMENT_VISUAL_LIBRARY[getSupplementKey(name)];
 };
 var QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
 var ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
@@ -25706,6 +25728,32 @@ var buildApiUrl = (apiBaseUrl, path) => {
   if (/^https?:\/\//i.test(path)) return path;
   return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
 };
+function SupplementPhoto({ name, fallbackImage }) {
+  const candidates = (0, import_react3.useMemo)(() => buildSupplementPhotoCandidates(name), [name]);
+  const [candidateIndex, setCandidateIndex] = (0, import_react3.useState)(0);
+  const [useFallback, setUseFallback] = (0, import_react3.useState)(false);
+  (0, import_react3.useEffect)(() => {
+    setCandidateIndex(0);
+    setUseFallback(false);
+  }, [name]);
+  const handleImageError = () => {
+    if (useFallback) return;
+    if (candidateIndex < candidates.length - 1) {
+      setCandidateIndex((prev) => prev + 1);
+      return;
+    }
+    setUseFallback(true);
+  };
+  return /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+    "img",
+    {
+      src: useFallback ? fallbackImage : candidates[candidateIndex],
+      alt: name,
+      style: { width: "100%", height: 120, objectFit: "cover", display: "block" },
+      onError: handleImageError
+    }
+  );
+}
 var sanitizeAnswers = (value) => {
   if (!value || typeof value !== "object") return {};
   const input = value;
@@ -26484,7 +26532,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                         overflow: "hidden"
                                       },
                                       children: [
-                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("img", { src: visual.image, alt: item.name, style: { width: "100%", height: 120, objectFit: "cover", display: "block" } }),
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SupplementPhoto, { name: item.name, fallbackImage: visual.image }),
                                         /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 9px" }, children: [
                                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 13, fontWeight: 700, color: COLORS.textMain, lineHeight: 1.3 }, children: item.name }),
                                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }, children: "Buy on Amazon" })

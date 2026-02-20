@@ -78,6 +78,8 @@ interface SupplementVisual {
   amazonUrl: string;
 }
 
+type SupplementKey = "protein" | "creatine" | "fiber" | "magnesium" | "electrolyte" | "omega3";
+
 interface WeightLossQuizProps {
   initialData?: any;
 }
@@ -143,7 +145,7 @@ const makeSupplementImage = (title: string, subtitle: string, topColor: string, 
   return `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`;
 };
 
-const SUPPLEMENT_VISUAL_LIBRARY: Record<string, SupplementVisual> = {
+const SUPPLEMENT_VISUAL_LIBRARY: Record<SupplementKey, SupplementVisual> = {
   protein: {
     image: makeSupplementImage("Protein", "Whey / Plant", "#D7F0E3", "#84B59F"),
     amazonUrl: "https://www.amazon.com/s?k=protein+powder",
@@ -170,15 +172,48 @@ const SUPPLEMENT_VISUAL_LIBRARY: Record<string, SupplementVisual> = {
   },
 };
 
-const getSupplementVisual = (name: string): SupplementVisual => {
+const SUPPLEMENT_PHOTO_DIR = "/assets/supplement-photos";
+
+const SUPPLEMENT_PHOTO_ALIASES: Record<SupplementKey, string[]> = {
+  protein: ["protein", "protein-shake", "rtd-protein"],
+  creatine: ["creatine", "creatine-monohydrate"],
+  fiber: ["fiber", "fiber-blend", "psyllium-fiber"],
+  magnesium: ["magnesium", "magnesium-glycinate"],
+  electrolyte: ["electrolyte", "electrolytes", "electrolyte-mix"],
+  omega3: ["omega-3", "omega3", "fish-oil"],
+};
+
+const getSupplementKey = (name: string): SupplementKey => {
   const lowerName = name.toLowerCase();
 
-  if (lowerName.includes("creatine")) return SUPPLEMENT_VISUAL_LIBRARY.creatine;
-  if (lowerName.includes("psyllium") || lowerName.includes("fiber")) return SUPPLEMENT_VISUAL_LIBRARY.fiber;
-  if (lowerName.includes("magnesium")) return SUPPLEMENT_VISUAL_LIBRARY.magnesium;
-  if (lowerName.includes("electrolyte")) return SUPPLEMENT_VISUAL_LIBRARY.electrolyte;
-  if (lowerName.includes("omega")) return SUPPLEMENT_VISUAL_LIBRARY.omega3;
-  return SUPPLEMENT_VISUAL_LIBRARY.protein;
+  if (lowerName.includes("creatine")) return "creatine";
+  if (lowerName.includes("psyllium") || lowerName.includes("fiber")) return "fiber";
+  if (lowerName.includes("magnesium")) return "magnesium";
+  if (lowerName.includes("electrolyte")) return "electrolyte";
+  if (lowerName.includes("omega")) return "omega3";
+  return "protein";
+};
+
+const normalizeSupplementFileLabel = (value: string): string => {
+  return value
+    .toLowerCase()
+    .replace(/&/g, "and")
+    .replace(/\+/g, "plus")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+};
+
+const buildSupplementPhotoCandidates = (name: string): string[] => {
+  const key = getSupplementKey(name);
+  const normalizedLabel = normalizeSupplementFileLabel(name);
+  const labels = Array.from(new Set([normalizedLabel, ...SUPPLEMENT_PHOTO_ALIASES[key]]));
+  const extensions = ["webp", "png", "jpg", "jpeg"];
+
+  return labels.flatMap((label) => extensions.map((ext) => `${SUPPLEMENT_PHOTO_DIR}/${label}.${ext}`));
+};
+
+const getSupplementVisual = (name: string): SupplementVisual => {
+  return SUPPLEMENT_VISUAL_LIBRARY[getSupplementKey(name)];
 };
 
 const QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
@@ -1104,6 +1139,35 @@ const buildApiUrl = (apiBaseUrl: string, path: string): string => {
   return `${apiBaseUrl}${path.startsWith("/") ? path : `/${path}`}`;
 };
 
+function SupplementPhoto({ name, fallbackImage }: { name: string; fallbackImage: string }) {
+  const candidates = useMemo(() => buildSupplementPhotoCandidates(name), [name]);
+  const [candidateIndex, setCandidateIndex] = useState(0);
+  const [useFallback, setUseFallback] = useState(false);
+
+  useEffect(() => {
+    setCandidateIndex(0);
+    setUseFallback(false);
+  }, [name]);
+
+  const handleImageError = () => {
+    if (useFallback) return;
+    if (candidateIndex < candidates.length - 1) {
+      setCandidateIndex((prev) => prev + 1);
+      return;
+    }
+    setUseFallback(true);
+  };
+
+  return (
+    <img
+      src={useFallback ? fallbackImage : candidates[candidateIndex]}
+      alt={name}
+      style={{ width: "100%", height: 120, objectFit: "cover", display: "block" }}
+      onError={handleImageError}
+    />
+  );
+}
+
 const sanitizeAnswers = (value: unknown): QuizAnswerMap => {
   if (!value || typeof value !== "object") return {};
   const input = value as Record<string, unknown>;
@@ -1915,7 +1979,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                             overflow: "hidden",
                           }}
                         >
-                          <img src={visual.image} alt={item.name} style={{ width: "100%", height: 120, objectFit: "cover", display: "block" }} />
+                          <SupplementPhoto name={item.name} fallbackImage={visual.image} />
                           <div style={{ padding: "8px 9px" }}>
                             <div style={{ fontSize: 13, fontWeight: 700, color: COLORS.textMain, lineHeight: 1.3 }}>{item.name}</div>
                             <div style={{ marginTop: 4, fontSize: 12, color: COLORS.primaryDark, fontWeight: 700 }}>Buy on Amazon</div>
