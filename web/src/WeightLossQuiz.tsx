@@ -1535,12 +1535,30 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                 </div>
 
                 <h1 style={{ margin: "12px 0 8px", fontSize: 30, lineHeight: 1.08, fontFamily: FONTS.display }}>
-                  Your fat-loss plan should fit your real life.
+                  Take the 2-minute quiz to get your fat-loss blueprint.
                 </h1>
-                <p style={{ margin: "0 0 14px", color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.5 }}>
-                  In about 2 minutes, you will identify your archetype and finish with a personalized 7-day plan, custom recipes,
+                <p style={{ margin: "0 0 10px", color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.5 }}>
+                  Start the quiz now to identify your archetype and finish with a personalized 7-day plan, custom recipes,
                   and supplement suggestions matched to your habits.
                 </p>
+
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 7,
+                    borderRadius: 999,
+                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "rgba(255,255,255,0.86)",
+                    padding: "7px 11px",
+                    marginBottom: 14,
+                    fontSize: 12,
+                    color: COLORS.primaryDark,
+                    fontWeight: 700,
+                  }}
+                >
+                  <ArrowRight size={13} /> Tap “Take the quiz now” to begin
+                </div>
 
                 <div style={{ display: "grid", gap: 9, marginBottom: 14 }}>
                   {[
@@ -1618,7 +1636,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     gap: 8,
                   }}
                 >
-                  {answeredCount > 0 ? "Resume quiz" : "Get started"}
+                  {answeredCount > 0 ? "Resume quiz" : "Take the quiz now"}
                   <ArrowRight size={16} />
                 </button>
               </div>

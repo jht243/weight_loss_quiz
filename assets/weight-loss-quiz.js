@@ -26080,8 +26080,30 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                             ]
                           }
                         ),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: "12px 0 8px", fontSize: 30, lineHeight: 1.08, fontFamily: FONTS.display }, children: "Your fat-loss plan should fit your real life." }),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 14px", color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.5 }, children: "In about 2 minutes, you will identify your archetype and finish with a personalized 7-day plan, custom recipes, and supplement suggestions matched to your habits." }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: "12px 0 8px", fontSize: 30, lineHeight: 1.08, fontFamily: FONTS.display }, children: "Take the 2-minute quiz to get your fat-loss blueprint." }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 10px", color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.5 }, children: "Start the quiz now to identify your archetype and finish with a personalized 7-day plan, custom recipes, and supplement suggestions matched to your habits." }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "div",
+                          {
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 7,
+                              borderRadius: 999,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "rgba(255,255,255,0.86)",
+                              padding: "7px 11px",
+                              marginBottom: 14,
+                              fontSize: 12,
+                              color: COLORS.primaryDark,
+                              fontWeight: 700
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 13 }),
+                              " Tap \u201CTake the quiz now\u201D to begin"
+                            ]
+                          }
+                        ),
                         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 9, marginBottom: 14 }, children: [
                           {
                             icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { size: 15, color: COLORS.primaryDark }),
@@ -26161,7 +26183,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                               gap: 8
                             },
                             children: [
-                              answeredCount > 0 ? "Resume quiz" : "Get started",
+                              answeredCount > 0 ? "Resume quiz" : "Take the quiz now",
                               /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 16 })
                             ]
                           }
