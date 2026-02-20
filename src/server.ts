@@ -1869,8 +1869,17 @@ const httpServer = createServer(
     }
 
     if (req.method === "GET" && (url.pathname === "/" || url.pathname === "/index.html")) {
-      res.writeHead(302, { Location: "/assets/weight-loss-quiz.html" });
-      res.end();
+      const mainAssetPath = path.join(ASSETS_DIR, "weight-loss-quiz.html");
+      if (fs.existsSync(mainAssetPath) && fs.statSync(mainAssetPath).isFile()) {
+        res.writeHead(200, {
+          "Content-Type": "text/html",
+          "Access-Control-Allow-Origin": "*",
+          "Cache-Control": "no-cache",
+        });
+        fs.createReadStream(mainAssetPath).pipe(res);
+        return;
+      }
+      res.writeHead(404).end("Not Found");
       return;
     }
 
