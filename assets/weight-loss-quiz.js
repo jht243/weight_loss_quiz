@@ -25445,6 +25445,10 @@ function WeightLossQuiz({ initialData: initialData2 }) {
     const saved = getSavedAnswers();
     return QUESTIONS.every((q) => Boolean(saved[q.id]));
   });
+  const [showHomeScreen, setShowHomeScreen] = (0, import_react3.useState)(() => {
+    const saved = getSavedAnswers();
+    return !QUESTIONS.every((q) => Boolean(saved[q.id]));
+  });
   const [showSubscribeModal, setShowSubscribeModal] = (0, import_react3.useState)(false);
   const [subscribeEmail, setSubscribeEmail] = (0, import_react3.useState)("");
   const [subscribeStatus, setSubscribeStatus] = (0, import_react3.useState)("idle");
@@ -25497,12 +25501,17 @@ function WeightLossQuiz({ initialData: initialData2 }) {
     setAnswers({});
     setCurrentIndex(0);
     setShowResults(false);
+    setShowHomeScreen(true);
     setCopied(false);
     try {
       localStorage.removeItem(QUIZ_STATE_KEY);
     } catch {
     }
     trackEvent("quiz_reset");
+  };
+  const handleStartQuiz = () => {
+    setShowHomeScreen(false);
+    trackEvent("quiz_started", { resumed: answeredCount > 0 });
   };
   const handleCopyPlan = async () => {
     const text = [
@@ -25635,7 +25644,124 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                   boxShadow: "0 12px 30px rgba(26,26,26,0.07)"
                 },
                 children: [
-                  !showResults && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                  !showResults && showHomeScreen && /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { animation: "floatIn 260ms ease" }, children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                    "div",
+                    {
+                      style: {
+                        borderRadius: 18,
+                        padding: 18,
+                        border: `1px solid ${COLORS.borderLight}`,
+                        background: `radial-gradient(circle at top right, #E5EFE8 0%, #F7F3EC 42%, #FFFFFF 100%)`
+                      },
+                      children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "div",
+                          {
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 6,
+                              borderRadius: 999,
+                              padding: "6px 10px",
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "rgba(255,255,255,0.8)",
+                              fontSize: 11,
+                              fontWeight: 700,
+                              textTransform: "uppercase",
+                              letterSpacing: 0.4,
+                              color: COLORS.primaryDark
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 13 }),
+                              " Weight-Loss Blueprint Quiz"
+                            ]
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h1", { style: { margin: "12px 0 8px", fontSize: 30, lineHeight: 1.08, fontFamily: FONTS.display }, children: "Your fat-loss plan should fit your real life." }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "0 0 14px", color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.5 }, children: "Take this 2-minute assessment to discover your archetype and get a practical first-week strategy built around your schedule, cravings, and consistency style." }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { display: "grid", gap: 9, marginBottom: 14 }, children: [
+                          {
+                            icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Target, { size: 15, color: COLORS.primaryDark }),
+                            title: "Know your archetype",
+                            detail: "Learn the exact behavior pattern that is driving your fat-loss results."
+                          },
+                          {
+                            icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ChartColumn, { size: 15, color: COLORS.primaryDark }),
+                            title: "Get a personalized 7-day blueprint",
+                            detail: "Receive concrete daily actions, not generic advice."
+                          },
+                          {
+                            icon: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Timer, { size: 15, color: COLORS.primaryDark }),
+                            title: "Start with the highest-impact move",
+                            detail: "Find your first focus so you can make progress this week."
+                          }
+                        ].map((item) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "div",
+                          {
+                            style: {
+                              display: "flex",
+                              gap: 9,
+                              alignItems: "flex-start",
+                              borderRadius: 11,
+                              border: `1px solid ${COLORS.borderLight}`,
+                              padding: "10px 11px",
+                              backgroundColor: "rgba(255,255,255,0.82)"
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                "div",
+                                {
+                                  style: {
+                                    width: 28,
+                                    height: 28,
+                                    flexShrink: 0,
+                                    borderRadius: 8,
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    backgroundColor: COLORS.accentLight
+                                  },
+                                  children: item.icon
+                                }
+                              ),
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, fontWeight: 700, color: COLORS.textMain }, children: item.title }),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, color: COLORS.textSecondary, lineHeight: 1.4 }, children: item.detail })
+                              ] })
+                            ]
+                          },
+                          item.title
+                        )) }),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: handleStartQuiz,
+                            style: {
+                              width: "100%",
+                              borderRadius: 12,
+                              border: "none",
+                              background: `linear-gradient(90deg, ${COLORS.primaryDark}, ${COLORS.primary})`,
+                              color: "white",
+                              fontWeight: 800,
+                              fontSize: 15,
+                              padding: "12px 14px",
+                              cursor: "pointer",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              gap: 8
+                            },
+                            children: [
+                              answeredCount > 0 ? "Resume quiz" : "Get started",
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ArrowRight, { size: 16 })
+                            ]
+                          }
+                        )
+                      ]
+                    }
+                  ) }),
+                  !showResults && !showHomeScreen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
                     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 14 }, children: [
                       /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
                         /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 600, color: COLORS.textSecondary, letterSpacing: 0.3, textTransform: "uppercase" }, children: "Weight-Loss Blueprint Quiz" }),
@@ -25671,7 +25797,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                       }
                     ) }) })
                   ] }),
-                  !showResults && activeQuestion && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                  !showResults && !showHomeScreen && activeQuestion && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
                     /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                       "div",
                       {
@@ -25701,28 +25827,6 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                             }
                           ),
                           isVisionStage ? `Vision step ${currentIndex + 1} of 3` : `Question ${currentIndex + 1}`
-                        ]
-                      }
-                    ),
-                    isVisionStage && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                      "div",
-                      {
-                        style: {
-                          marginBottom: 12,
-                          padding: "10px 12px",
-                          borderRadius: 12,
-                          background: `linear-gradient(135deg, ${COLORS.accentLight} 0%, #F6FBF8 100%)`,
-                          border: `1px solid ${COLORS.borderLight}`,
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 8,
-                          fontSize: 12,
-                          color: COLORS.primaryDark,
-                          fontWeight: 600
-                        },
-                        children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Sparkles, { size: 14 }),
-                          "Build your vision first. Then we turn it into a practical weekly blueprint."
                         ]
                       }
                     ),
@@ -26160,7 +26264,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                       )
                     ] })
                   ] }),
-                  /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                  !showHomeScreen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
                     "div",
                     {
                       style: {

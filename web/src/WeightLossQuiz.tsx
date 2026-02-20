@@ -834,6 +834,10 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
     const saved = getSavedAnswers();
     return QUESTIONS.every((q) => Boolean(saved[q.id]));
   });
+  const [showHomeScreen, setShowHomeScreen] = useState(() => {
+    const saved = getSavedAnswers();
+    return !QUESTIONS.every((q) => Boolean(saved[q.id]));
+  });
 
   const [showSubscribeModal, setShowSubscribeModal] = useState(false);
   const [subscribeEmail, setSubscribeEmail] = useState("");
@@ -899,6 +903,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
     setAnswers({});
     setCurrentIndex(0);
     setShowResults(false);
+    setShowHomeScreen(true);
     setCopied(false);
     try {
       localStorage.removeItem(QUIZ_STATE_KEY);
@@ -906,6 +911,11 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       // no-op
     }
     trackEvent("quiz_reset");
+  };
+
+  const handleStartQuiz = () => {
+    setShowHomeScreen(false);
+    trackEvent("quiz_started", { resumed: answeredCount > 0 });
   };
 
   const handleCopyPlan = async () => {
@@ -1046,7 +1056,122 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
             boxShadow: "0 12px 30px rgba(26,26,26,0.07)",
           }}
         >
-          {!showResults && (
+          {!showResults && showHomeScreen && (
+            <div style={{ animation: "floatIn 260ms ease" }}>
+              <div
+                style={{
+                  borderRadius: 18,
+                  padding: 18,
+                  border: `1px solid ${COLORS.borderLight}`,
+                  background: `radial-gradient(circle at top right, #E5EFE8 0%, #F7F3EC 42%, #FFFFFF 100%)`,
+                }}
+              >
+                <div
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    borderRadius: 999,
+                    padding: "6px 10px",
+                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "rgba(255,255,255,0.8)",
+                    fontSize: 11,
+                    fontWeight: 700,
+                    textTransform: "uppercase",
+                    letterSpacing: 0.4,
+                    color: COLORS.primaryDark,
+                  }}
+                >
+                  <Sparkles size={13} /> Weight-Loss Blueprint Quiz
+                </div>
+
+                <h1 style={{ margin: "12px 0 8px", fontSize: 30, lineHeight: 1.08, fontFamily: FONTS.display }}>
+                  Your fat-loss plan should fit your real life.
+                </h1>
+                <p style={{ margin: "0 0 14px", color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.5 }}>
+                  Take this 2-minute assessment to discover your archetype and get a practical first-week strategy built around your schedule,
+                  cravings, and consistency style.
+                </p>
+
+                <div style={{ display: "grid", gap: 9, marginBottom: 14 }}>
+                  {[
+                    {
+                      icon: <Target size={15} color={COLORS.primaryDark} />,
+                      title: "Know your archetype",
+                      detail: "Learn the exact behavior pattern that is driving your fat-loss results.",
+                    },
+                    {
+                      icon: <BarChart3 size={15} color={COLORS.primaryDark} />,
+                      title: "Get a personalized 7-day blueprint",
+                      detail: "Receive concrete daily actions, not generic advice.",
+                    },
+                    {
+                      icon: <Timer size={15} color={COLORS.primaryDark} />,
+                      title: "Start with the highest-impact move",
+                      detail: "Find your first focus so you can make progress this week.",
+                    },
+                  ].map((item) => (
+                    <div
+                      key={item.title}
+                      style={{
+                        display: "flex",
+                        gap: 9,
+                        alignItems: "flex-start",
+                        borderRadius: 11,
+                        border: `1px solid ${COLORS.borderLight}`,
+                        padding: "10px 11px",
+                        backgroundColor: "rgba(255,255,255,0.82)",
+                      }}
+                    >
+                      <div
+                        style={{
+                          width: 28,
+                          height: 28,
+                          flexShrink: 0,
+                          borderRadius: 8,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          backgroundColor: COLORS.accentLight,
+                        }}
+                      >
+                        {item.icon}
+                      </div>
+                      <div>
+                        <div style={{ fontSize: 14, fontWeight: 700, color: COLORS.textMain }}>{item.title}</div>
+                        <div style={{ fontSize: 12, color: COLORS.textSecondary, lineHeight: 1.4 }}>{item.detail}</div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <button
+                  className="btn-press"
+                  onClick={handleStartQuiz}
+                  style={{
+                    width: "100%",
+                    borderRadius: 12,
+                    border: "none",
+                    background: `linear-gradient(90deg, ${COLORS.primaryDark}, ${COLORS.primary})`,
+                    color: "white",
+                    fontWeight: 800,
+                    fontSize: 15,
+                    padding: "12px 14px",
+                    cursor: "pointer",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 8,
+                  }}
+                >
+                  {answeredCount > 0 ? "Resume quiz" : "Get started"}
+                  <ArrowRight size={16} />
+                </button>
+              </div>
+            </div>
+          )}
+
+          {!showResults && !showHomeScreen && (
             <>
               <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "center", marginBottom: 14 }}>
                 <div>
@@ -1087,7 +1212,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
             </>
           )}
 
-          {!showResults && activeQuestion && (
+          {!showResults && !showHomeScreen && activeQuestion && (
             <>
               <div
                 style={{
@@ -1527,84 +1652,86 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
             </div>
           )}
 
-          <div
-            style={{
-              marginTop: 18,
-              paddingTop: 14,
-              borderTop: `1px solid ${COLORS.borderLight}`,
-              display: "flex",
-              flexWrap: "wrap",
-              gap: 8,
-            }}
-          >
-            <button
-              className="btn-press"
-              onClick={() => setShowSubscribeModal(true)}
+          {!showHomeScreen && (
+            <div
               style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 7,
-                borderRadius: 10,
-                border: `1px solid ${COLORS.border}`,
-                backgroundColor: "white",
-                padding: "8px 10px",
-                fontSize: 12,
-                cursor: "pointer",
+                marginTop: 18,
+                paddingTop: 14,
+                borderTop: `1px solid ${COLORS.borderLight}`,
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 8,
               }}
             >
-              <Mail size={14} /> Weekly tips
-            </button>
-
-            <button
-              className="btn-press"
-              onClick={() => setShowFeedbackModal(true)}
-              style={{
-                display: "inline-flex",
-                alignItems: "center",
-                gap: 7,
-                borderRadius: 10,
-                border: `1px solid ${COLORS.border}`,
-                backgroundColor: "white",
-                padding: "8px 10px",
-                fontSize: 12,
-                cursor: "pointer",
-              }}
-            >
-              <MessageSquare size={14} /> Feedback
-            </button>
-
-            {!enjoyVote && (
-              <div
+              <button
+                className="btn-press"
+                onClick={() => setShowSubscribeModal(true)}
                 style={{
-                  marginLeft: "auto",
                   display: "inline-flex",
                   alignItems: "center",
-                  gap: 6,
-                  backgroundColor: COLORS.inputBg,
-                  border: `1px solid ${COLORS.border}`,
+                  gap: 7,
                   borderRadius: 10,
-                  padding: "6px 8px",
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: "white",
+                  padding: "8px 10px",
                   fontSize: 12,
+                  cursor: "pointer",
                 }}
               >
-                <span style={{ color: COLORS.textSecondary }}>Enjoying this quiz?</span>
-                <button
-                  onClick={() => handleEnjoyVote("up")}
-                  className="btn-press"
-                  style={{ border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.primaryDark }}
+                <Mail size={14} /> Weekly tips
+              </button>
+
+              <button
+                className="btn-press"
+                onClick={() => setShowFeedbackModal(true)}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 7,
+                  borderRadius: 10,
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: "white",
+                  padding: "8px 10px",
+                  fontSize: 12,
+                  cursor: "pointer",
+                }}
+              >
+                <MessageSquare size={14} /> Feedback
+              </button>
+
+              {!enjoyVote && (
+                <div
+                  style={{
+                    marginLeft: "auto",
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 6,
+                    backgroundColor: COLORS.inputBg,
+                    border: `1px solid ${COLORS.border}`,
+                    borderRadius: 10,
+                    padding: "6px 8px",
+                    fontSize: 12,
+                  }}
                 >
-                  <ThumbsUp size={14} />
-                </button>
-                <button
-                  onClick={() => handleEnjoyVote("down")}
-                  className="btn-press"
-                  style={{ border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.danger }}
-                >
-                  <ThumbsDown size={14} />
-                </button>
-              </div>
-            )}
-          </div>
+                  <span style={{ color: COLORS.textSecondary }}>Enjoying this quiz?</span>
+                  <button
+                    onClick={() => handleEnjoyVote("up")}
+                    className="btn-press"
+                    style={{ border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.primaryDark }}
+                  >
+                    <ThumbsUp size={14} />
+                  </button>
+                  <button
+                    onClick={() => handleEnjoyVote("down")}
+                    className="btn-press"
+                    style={{ border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.danger }}
+                  >
+                    <ThumbsDown size={14} />
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
 
