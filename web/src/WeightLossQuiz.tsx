@@ -194,19 +194,19 @@ const FEATURED_SUPPLEMENTS: FeaturedSupplement[] = [
   {
     name: "GLP-1 Burner Unleashed",
     cardTitle: "GLP-1 Burner Unleashed",
-    amazonUrl: "https://www.amazon.com/s?k=GLP-1+Burner+Unleashed",
+    amazonUrl: "https://amzn.to/4aucMBu",
     photoLabels: ["glp1_burner"],
   },
   {
     name: "Stripfast5000 Weight Management Support + Relaxation Capsules",
     cardTitle: "Stripfast5000 Weight Management Support",
-    amazonUrl: "https://www.amazon.com/s?k=stripfast5000+weight+management+support+relaxation+capsules",
+    amazonUrl: "https://amzn.to/4r6WPq1",
     photoLabels: ["stripfast_night_bullets"],
   },
   {
     name: "Metabolic Health - Gut Health Supplement to Aid Weight Management* - Formulated with Bergamot and Turmeric (Curcumin Phytosome)",
     cardTitle: "Metabolic Health - Gut Health Supplement",
-    amazonUrl: "https://www.amazon.com/s?k=metabolic+health+gut+health+supplement+bergamot+turmeric+curcumin+phytosome",
+    amazonUrl: "https://amzn.to/4aHnXFP",
     photoLabels: ["metabolic health thorne"],
   },
 ];
