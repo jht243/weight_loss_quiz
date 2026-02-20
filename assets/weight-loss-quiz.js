@@ -27013,13 +27013,15 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                       onChange: (e) => setFeedbackText(e.target.value),
                       placeholder: "What felt useful, confusing, or missing?",
                       style: {
+                        display: "block",
                         width: "100%",
                         minHeight: 110,
                         borderRadius: 10,
                         border: `1px solid ${COLORS.border}`,
                         padding: 10,
                         fontSize: 13,
-                        resize: "vertical"
+                        resize: "vertical",
+                        boxSizing: "border-box"
                       }
                     }
                   ),

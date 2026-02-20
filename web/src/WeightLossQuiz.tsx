@@ -2422,6 +2422,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
               onChange={(e) => setFeedbackText(e.target.value)}
               placeholder="What felt useful, confusing, or missing?"
               style={{
+                display: "block",
                 width: "100%",
                 minHeight: 110,
                 borderRadius: 10,
@@ -2429,6 +2430,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                 padding: 10,
                 fontSize: 13,
                 resize: "vertical",
+                boxSizing: "border-box",
               }}
             />
             {feedbackStatus === "error" && <div style={{ marginTop: 8, color: COLORS.danger, fontSize: 12 }}>Could not submit feedback.</div>}
