@@ -1431,8 +1431,8 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   Your fat-loss plan should fit your real life.
                 </h1>
                 <p style={{ margin: "0 0 14px", color: COLORS.textSecondary, fontSize: 14, lineHeight: 1.5 }}>
-                  Take this 2-minute assessment to discover your archetype and get a practical first-week strategy built around your schedule,
-                  cravings, and consistency style.
+                  In about 2 minutes, you will identify your archetype and finish with a personalized 7-day plan, custom recipes,
+                  and supplement suggestions matched to your habits.
                 </p>
 
                 <div style={{ display: "grid", gap: 9, marginBottom: 14 }}>
@@ -1444,13 +1444,18 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                     },
                     {
                       icon: <BarChart3 size={15} color={COLORS.primaryDark} />,
-                      title: "Get a personalized 7-day blueprint",
-                      detail: "Receive concrete daily actions, not generic advice.",
+                      title: "Get a personalized 7-day plan",
+                      detail: "Receive clear daily actions for your first week.",
+                    },
+                    {
+                      icon: <Heart size={15} color={COLORS.primaryDark} />,
+                      title: "Unlock custom recipes",
+                      detail: "See practical recipe ideas built for your profile.",
                     },
                     {
                       icon: <Timer size={15} color={COLORS.primaryDark} />,
-                      title: "Start with the highest-impact move",
-                      detail: "Find your first focus so you can make progress this week.",
+                      title: "Get supplement suggestions",
+                      detail: "Review 3 tailored supplement picks with buy links.",
                     },
                   ].map((item) => (
                     <div
