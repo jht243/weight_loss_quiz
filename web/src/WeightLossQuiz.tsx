@@ -52,6 +52,7 @@ interface QuizProfile {
   weekPlan: { day: string; focus: string; details: string }[];
   supplements: { name: string; how: string; why: string; note: string }[];
   mentoring: { label: string; url: string; note: string }[];
+  recipes: { name: string; why: string; build: string }[];
   avoid: string;
   timeline: string;
   accent: string;
@@ -198,6 +199,11 @@ const PROFILES: Record<ProfileType, QuizProfile> = {
       { label: "Precision Nutrition Coaching", url: "https://www.precisionnutrition.com/coaching", note: "Structured coaching with clear nutrition milestones." },
       { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Great option for personalized nutrition and medical context." },
     ],
+    recipes: [
+      { name: "Macro Power Bowl", why: "High-protein and easy to track for consistency.", build: "Chicken breast, quinoa, roasted vegetables, olive oil, and lemon." },
+      { name: "Greek Yogurt Protein Parfait", why: "Fast, measurable breakfast with high satiety.", build: "Greek yogurt, whey scoop, berries, chia seeds, and almonds." },
+      { name: "Sheet-Pan Salmon Plate", why: "Structured dinner template with protein + fiber.", build: "Salmon fillet, broccoli, sweet potato, garlic, and olive oil." },
+    ],
     avoid: "Avoid perfection mode where one off-plan meal turns into an off-plan week.",
     timeline: "Expect visible momentum in 2-3 weeks with consistent tracking.",
     accent: COLORS.primary,
@@ -230,6 +236,11 @@ const PROFILES: Record<ProfileType, QuizProfile> = {
       { label: "Noom", url: "https://www.noom.com/", note: "Good for behavior prompts and habit reminders on busy schedules." },
       { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Simple structure with flexible food choices." },
       { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Useful if you need a plan tailored to your weekly workflow." },
+    ],
+    recipes: [
+      { name: "10-Minute Rotisserie Wrap", why: "Minimal prep for packed weekdays.", build: "Rotisserie chicken, whole-wheat wrap, spinach, hummus, cucumber." },
+      { name: "Microwave Egg & Oats Bowl", why: "One-bowl breakfast with protein and fiber.", build: "Egg whites, spinach, quick oats, salsa, and shredded cheese." },
+      { name: "Freezer Stir-Fry Shortcut", why: "Reliable low-friction dinner default.", build: "Frozen veggie mix, pre-cooked protein, microwave rice, soy-ginger sauce." },
     ],
     avoid: "Avoid overcomplicated plans with too many rules.",
     timeline: "Expect consistency gains in the first week and fat-loss trend in 3-4 weeks.",
@@ -264,6 +275,11 @@ const PROFILES: Record<ProfileType, QuizProfile> = {
       { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Structure with behavior support and community accountability." },
       { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Useful for appetite strategy and medical personalization." },
     ],
+    recipes: [
+      { name: "Giant Crunch Salad", why: "High volume + protein to curb appetite.", build: "Lettuce, chicken, chickpeas, cucumbers, tomatoes, light dressing." },
+      { name: "Chocolate Protein Pudding", why: "Satisfies dessert cravings in a controlled way.", build: "Greek yogurt, cocoa powder, protein powder, berries." },
+      { name: "Taco Cauliflower Skillet", why: "Craving-friendly comfort meal with fewer calories.", build: "Lean ground turkey, cauliflower rice, salsa, black beans, avocado." },
+    ],
     avoid: "Avoid long under-eating stretches that rebound into night overeating.",
     timeline: "Expect fewer cravings in 7-10 days and steadier fat loss by week 3.",
     accent: COLORS.warning,
@@ -297,6 +313,11 @@ const PROFILES: Record<ProfileType, QuizProfile> = {
       { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Flexible social eating framework with accountability." },
       { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Helpful for event-specific planning and sustainable fat loss." },
     ],
+    recipes: [
+      { name: "Restaurant-Style Fajita Plate", why: "Social-feel meal with built-in portion control.", build: "Grilled steak/chicken, peppers, onions, salsa, lettuce, small tortillas." },
+      { name: "High-Protein Brunch Omelet", why: "Pre-social protein helps reduce later overeating.", build: "Eggs + egg whites, turkey, spinach, mushrooms, fruit on side." },
+      { name: "Sunday Reset Chili", why: "Meal-prep anchor for post-weekend reset.", build: "Lean beef/turkey, tomatoes, beans, onions, bell peppers." },
+    ],
     avoid: "Avoid the all-or-nothing reset mentality every Monday.",
     timeline: "Expect faster visible changes once weekends are controlled (2-4 weeks).",
     accent: "#A68A64",
@@ -329,6 +350,11 @@ const PROFILES: Record<ProfileType, QuizProfile> = {
       { label: "Noom", url: "https://www.noom.com/", note: "Behavior-focused prompts help maintain momentum day to day." },
       { label: "WW (WeightWatchers)", url: "https://www.weightwatchers.com/", note: "Simple framework with community accountability." },
       { label: "Find a Registered Dietitian", url: "https://www.eatright.org/find-a-nutrition-expert", note: "Good next step when you are ready to personalize further." },
+    ],
+    recipes: [
+      { name: "2-2-2 Smoothie", why: "Easy repeatable meal to maintain streaks.", build: "2 scoops protein, 2 cups spinach, 2 cups frozen berries + water." },
+      { name: "Build-Your-Own Nourish Bowl", why: "Flexible and forgiving for consistency days.", build: "Protein base, grain, roasted vegetables, avocado, simple dressing." },
+      { name: "One-Pan Chicken & Sweet Potato", why: "Simple prep that feels like a complete win.", build: "Chicken thighs, sweet potato cubes, broccoli, olive oil, seasoning." },
     ],
     avoid: "Avoid jumping into aggressive plans that are hard to sustain.",
     timeline: "Expect habit confidence in 1-2 weeks and physical changes over 4+ weeks.",
@@ -890,12 +916,14 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       ...archetypeVisual.pillars.map((pillar) => `${pillar.letter} - ${pillar.title}: ${pillar.detail}`),
       ...profile.description,
       `First focus: ${profile.firstFocus}`,
-      "Detailed first 7 days:",
+      "7 Day Plan:",
       ...profile.weekPlan.map((entry) => `${entry.day}: ${entry.focus} - ${entry.details}`),
-      "Supplements to consider (with clinician approval):",
+      "Supplements:",
       ...profile.supplements.map((item) => `- ${item.name}: ${item.how} ${item.why} Note: ${item.note}`),
-      "Mentoring and guidance options:",
+      "Guidance And Mentorship:",
       ...profile.mentoring.map((item) => `- ${item.label}: ${item.url} (${item.note})`),
+      "Personalized Recepies:",
+      ...profile.recipes.map((item) => `- ${item.name}: ${item.why} Build: ${item.build}`),
       `Avoid: ${profile.avoid}`,
       `Timeline: ${profile.timeline}`,
     ].join("\n");
@@ -1306,7 +1334,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   }}
                 >
                   <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }}>
-                    Detailed first 7 days
+                    7 Day Plan
                   </summary>
                   <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
                     {profile.weekPlan.map((entry) => (
@@ -1329,6 +1357,40 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
 
                 <details
                   style={{
+                    marginBottom: 2,
+                    border: `1px solid ${COLORS.borderLight}`,
+                    borderRadius: 10,
+                    backgroundColor: COLORS.card,
+                    padding: "8px 10px",
+                    marginTop: 10,
+                  }}
+                >
+                  <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }}>
+                    Personalized Recepies
+                  </summary>
+                  <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
+                    {profile.recipes.map((item) => (
+                      <div
+                        key={item.name}
+                        style={{
+                          padding: "8px 10px",
+                          borderRadius: 9,
+                          border: `1px solid ${COLORS.borderLight}`,
+                          backgroundColor: "#FCFCFA",
+                        }}
+                      >
+                        <div style={{ fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }}>{item.name}</div>
+                        <div style={{ fontSize: 14, lineHeight: 1.45, color: COLORS.textSecondary, marginTop: 2 }}>{item.why}</div>
+                        <div style={{ fontSize: 14, lineHeight: 1.45, color: COLORS.textMain, marginTop: 3 }}>
+                          <strong>Build:</strong> {item.build}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </details>
+
+                <details
+                  style={{
                     marginBottom: 10,
                     border: `1px solid ${COLORS.borderLight}`,
                     borderRadius: 10,
@@ -1337,7 +1399,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   }}
                 >
                   <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }}>
-                    Supplements that may help
+                    Supplements
                   </summary>
                   <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
                     {profile.supplements.map((item) => (
@@ -1376,7 +1438,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   }}
                 >
                   <summary style={{ cursor: "pointer", fontSize: 15, fontWeight: 700, color: COLORS.textMain, fontFamily: FONTS.display }}>
-                    Mentoring and guidance options
+                    Guidance And Mentorship
                   </summary>
                   <div style={{ display: "grid", gap: 8, marginTop: 10 }}>
                     {profile.mentoring.map((item) => (
