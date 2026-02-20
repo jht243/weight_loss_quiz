@@ -24754,6 +24754,53 @@ var PROFILE_ORDER = [
   "weekend_warrior",
   "momentum_builder"
 ];
+var ARCHETYPE_VISUALS = {
+  structured_achiever: {
+    code: "SA",
+    headline: "Built for precision, structure, and visible progress.",
+    pillars: [
+      { letter: "S", title: "Systems", detail: "You thrive on clear rules, routines, and checklists.", color: "#2F80ED" },
+      { letter: "A", title: "Adjustments", detail: "You improve quickly when reviewing data weekly.", color: "#27AE60" },
+      { letter: "R", title: "Results", detail: "Seeing measurable wins keeps motivation high.", color: "#F2994A" }
+    ]
+  },
+  busy_minimalist: {
+    code: "BM",
+    headline: "Simple defaults beat complicated plans every time.",
+    pillars: [
+      { letter: "B", title: "Baselines", detail: "You need non-negotiable minimums that fit busy days.", color: "#1F78B4" },
+      { letter: "M", title: "Minimalism", detail: "Low-friction meals and routines reduce decision fatigue.", color: "#33A02C" },
+      { letter: "F", title: "Flow", detail: "Momentum comes from repeatable systems, not willpower spikes.", color: "#FF7F00" }
+    ]
+  },
+  craving_crusher: {
+    code: "CC",
+    headline: "Satiety and trigger control are your superpower.",
+    pillars: [
+      { letter: "C", title: "Control", detail: "You win when high-risk trigger moments are pre-planned.", color: "#E31A1C" },
+      { letter: "S", title: "Satiety", detail: "Protein + fiber structure lowers urge-driven eating.", color: "#FB9A99" },
+      { letter: "R", title: "Resilience", detail: "One better response beats all-or-nothing cycles.", color: "#6A3D9A" }
+    ]
+  },
+  weekend_warrior: {
+    code: "WW",
+    headline: "Your weekdays are strong; weekends are the unlock.",
+    pillars: [
+      { letter: "W", title: "Weekday Base", detail: "You already have a solid baseline routine in place.", color: "#1D4E89" },
+      { letter: "G", title: "Guardrails", detail: "Pre-committed social rules prevent weekend drift.", color: "#F59E0B" },
+      { letter: "R", title: "Recovery", detail: "Fast resets keep one event from becoming a lost week.", color: "#10B981" }
+    ]
+  },
+  momentum_builder: {
+    code: "MB",
+    headline: "Small wins compound into long-term transformation.",
+    pillars: [
+      { letter: "M", title: "Momentum", detail: "Short daily wins create a streak worth protecting.", color: "#0EA5E9" },
+      { letter: "C", title: "Confidence", detail: "You progress when goals feel achievable and repeatable.", color: "#22C55E" },
+      { letter: "P", title: "Progression", detail: "Add intensity only after consistency is stable.", color: "#8B5CF6" }
+    ]
+  }
+};
 var PROFILES = {
   structured_achiever: {
     label: "Structured Achiever",
@@ -25405,6 +25452,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   const scores = (0, import_react3.useMemo)(() => scoreQuiz(answers), [answers]);
   const topProfile = (0, import_react3.useMemo)(() => pickTopProfile(scores), [scores]);
   const profile = PROFILES[topProfile];
+  const archetypeVisual = ARCHETYPE_VISUALS[topProfile];
   const maxScore = Math.max(...Object.values(scores), 1);
   const handleAnswer = (questionId, choiceId) => {
     const nextAnswers = { ...answers, [questionId]: choiceId };
@@ -25434,6 +25482,9 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   const handleCopyPlan = async () => {
     const text = [
       `Weight-Loss Quiz Result: ${profile.label}`,
+      `Archetype code: ${archetypeVisual.code}`,
+      archetypeVisual.headline,
+      ...archetypeVisual.pillars.map((pillar) => `${pillar.letter} - ${pillar.title}: ${pillar.detail}`),
       ...profile.description,
       `First focus: ${profile.firstFocus}`,
       "Detailed first 7 days:",
@@ -25748,9 +25799,77 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                         },
                         children: [
                           /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 12, fontWeight: 700, color: profile.accent, textTransform: "uppercase", letterSpacing: 0.4 }, children: "Your archetype" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "6px 0 4px", fontSize: 40, lineHeight: 1.02, fontFamily: FONTS.display }, children: profile.label }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 16, color: COLORS.textSecondary }, children: profile.tag }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, display: "grid", gap: 8 }, children: profile.description.map((line, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 17, lineHeight: 1.45, fontFamily: FONTS.display, letterSpacing: -0.1 }, children: line }, idx)) })
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { display: "flex", gap: 14, flexWrap: "wrap", marginTop: 8 }, children: [
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                              "div",
+                              {
+                                style: {
+                                  minWidth: 120,
+                                  flex: "0 0 120px",
+                                  borderRadius: 14,
+                                  background: `linear-gradient(160deg, ${profile.accent} 0%, ${COLORS.primaryDark} 100%)`,
+                                  color: "#fff",
+                                  padding: "10px 8px",
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  boxShadow: "0 10px 22px rgba(0,0,0,0.16)"
+                                },
+                                children: [
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 10, textTransform: "uppercase", letterSpacing: 1, opacity: 0.9 }, children: "Type" }),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 52, lineHeight: 1, fontWeight: 800, fontFamily: FONTS.display }, children: archetypeVisual.code }),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 10, textTransform: "uppercase", letterSpacing: 0.8, opacity: 0.9 }, children: "Archetype" })
+                                ]
+                              }
+                            ),
+                            /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { flex: "1 1 280px" }, children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h2", { style: { margin: "0 0 4px", fontSize: 40, lineHeight: 1.02, fontFamily: FONTS.display }, children: profile.label }),
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 16, color: COLORS.textSecondary }, children: profile.tag }),
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: "10px 0 0", fontSize: 15, lineHeight: 1.45, color: COLORS.textMain }, children: archetypeVisual.headline })
+                            ] })
+                          ] }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 12, display: "grid", gap: 7 }, children: archetypeVisual.pillars.map((pillar) => /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "div",
+                            {
+                              style: {
+                                display: "flex",
+                                gap: 10,
+                                alignItems: "flex-start",
+                                padding: "8px 10px",
+                                borderRadius: 10,
+                                border: `1px solid ${COLORS.borderLight}`,
+                                backgroundColor: "#FCFCFA"
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                  "div",
+                                  {
+                                    style: {
+                                      width: 34,
+                                      height: 34,
+                                      borderRadius: 9,
+                                      backgroundColor: pillar.color,
+                                      color: "#fff",
+                                      fontSize: 20,
+                                      fontWeight: 800,
+                                      lineHeight: "34px",
+                                      textAlign: "center",
+                                      flexShrink: 0,
+                                      fontFamily: FONTS.display
+                                    },
+                                    children: pillar.letter
+                                  }
+                                ),
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { children: [
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 15, fontWeight: 700, fontFamily: FONTS.display }, children: pillar.title }),
+                                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { fontSize: 14, color: COLORS.textSecondary, lineHeight: 1.4 }, children: pillar.detail })
+                                ] })
+                              ]
+                            },
+                            pillar.title
+                          )) }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("div", { style: { marginTop: 10, display: "grid", gap: 8 }, children: profile.description.map((line, idx) => /* @__PURE__ */ (0, import_jsx_runtime.jsx)("p", { style: { margin: 0, fontSize: 15, lineHeight: 1.45, color: COLORS.textMain }, children: line }, idx)) })
                         ]
                       }
                     ),
