@@ -2042,7 +2042,17 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                           }}
                         >
                           <SupplementPhoto name={item.name} fallbackImage={visual.image} customLabels={item.photoLabels} />
-                          <div style={{ padding: "8px 9px", display: "flex", flexDirection: "column", gap: 6, flex: 1, justifyContent: "space-between" }}>
+                          <div
+                            style={{
+                              padding: "11px 10px 9px",
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: 6,
+                              flex: 1,
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
                             <div
                               style={{
                                 fontSize: 12,
@@ -2051,6 +2061,8 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                                 lineHeight: 1.35,
                                 minHeight: 32,
                                 maxHeight: 32,
+                                width: "100%",
+                                textAlign: "center",
                                 display: "-webkit-box",
                                 WebkitLineClamp: 2,
                                 WebkitBoxOrient: "vertical",

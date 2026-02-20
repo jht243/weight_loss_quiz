@@ -26589,47 +26589,63 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                                       },
                                       children: [
                                         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(SupplementPhoto, { name: item.name, fallbackImage: visual.image, customLabels: item.photoLabels }),
-                                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)("div", { style: { padding: "8px 9px", display: "flex", flexDirection: "column", gap: 6, flex: 1, justifyContent: "space-between" }, children: [
-                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                                            "div",
-                                            {
-                                              style: {
-                                                fontSize: 12,
-                                                fontWeight: 600,
-                                                color: COLORS.textMain,
-                                                lineHeight: 1.35,
-                                                minHeight: 32,
-                                                maxHeight: 32,
-                                                display: "-webkit-box",
-                                                WebkitLineClamp: 2,
-                                                WebkitBoxOrient: "vertical",
-                                                overflow: "hidden",
-                                                textOverflow: "ellipsis",
-                                                wordBreak: "break-word"
-                                              },
-                                              children: item.cardTitle
-                                            }
-                                          ),
-                                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                                            "span",
-                                            {
-                                              style: {
-                                                marginTop: 4,
-                                                alignSelf: "center",
-                                                fontSize: 11,
-                                                color: COLORS.primaryDark,
-                                                fontWeight: 500,
-                                                textTransform: "uppercase",
-                                                letterSpacing: 0.3,
-                                                borderRadius: 999,
-                                                border: `1px solid ${COLORS.border}`,
-                                                padding: "4px 8px",
-                                                backgroundColor: COLORS.inputBg
-                                              },
-                                              children: "View details"
-                                            }
-                                          )
-                                        ] })
+                                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                                          "div",
+                                          {
+                                            style: {
+                                              padding: "11px 10px 9px",
+                                              display: "flex",
+                                              flexDirection: "column",
+                                              gap: 6,
+                                              flex: 1,
+                                              justifyContent: "space-between",
+                                              alignItems: "center"
+                                            },
+                                            children: [
+                                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                                "div",
+                                                {
+                                                  style: {
+                                                    fontSize: 12,
+                                                    fontWeight: 600,
+                                                    color: COLORS.textMain,
+                                                    lineHeight: 1.35,
+                                                    minHeight: 32,
+                                                    maxHeight: 32,
+                                                    width: "100%",
+                                                    textAlign: "center",
+                                                    display: "-webkit-box",
+                                                    WebkitLineClamp: 2,
+                                                    WebkitBoxOrient: "vertical",
+                                                    overflow: "hidden",
+                                                    textOverflow: "ellipsis",
+                                                    wordBreak: "break-word"
+                                                  },
+                                                  children: item.cardTitle
+                                                }
+                                              ),
+                                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                                                "span",
+                                                {
+                                                  style: {
+                                                    marginTop: 4,
+                                                    alignSelf: "center",
+                                                    fontSize: 11,
+                                                    color: COLORS.primaryDark,
+                                                    fontWeight: 500,
+                                                    textTransform: "uppercase",
+                                                    letterSpacing: 0.3,
+                                                    borderRadius: 999,
+                                                    border: `1px solid ${COLORS.border}`,
+                                                    padding: "4px 8px",
+                                                    backgroundColor: COLORS.inputBg
+                                                  },
+                                                  children: "View details"
+                                                }
+                                              )
+                                            ]
+                                          }
+                                        )
                                       ]
                                     },
                                     item.name
