@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Activity,
   ArrowRight,
@@ -252,7 +252,8 @@ const getSupplementVisual = (name: string): SupplementVisual => {
 };
 
 const QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
-const ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
+const ENJOY_VOTE_KEY = "enjoyVote";
+const LEGACY_ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
 
 const PROFILE_ORDER: ProfileType[] = [
   "structured_achiever",
@@ -1272,6 +1273,7 @@ const pickTopProfile = (scores: Record<ProfileType, number>): ProfileType => {
 
 export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
   const apiBaseUrl = useMemo(() => resolveApiBaseUrl(initialData), [initialData]);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [answers, setAnswers] = useState<QuizAnswerMap>(() => getSavedAnswers());
   const [currentIndex, setCurrentIndex] = useState(() => {
     const saved = getSavedAnswers();
@@ -1295,10 +1297,11 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
   const [showFeedbackModal, setShowFeedbackModal] = useState(false);
   const [feedbackText, setFeedbackText] = useState("");
   const [feedbackStatus, setFeedbackStatus] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [pillRight, setPillRight] = useState(16);
 
   const [enjoyVote, setEnjoyVote] = useState<"up" | "down" | null>(() => {
     try {
-      const saved = localStorage.getItem(ENJOY_VOTE_KEY);
+      const saved = localStorage.getItem(ENJOY_VOTE_KEY) || localStorage.getItem(LEGACY_ENJOY_VOTE_KEY);
       return saved === "up" || saved === "down" ? saved : null;
     } catch {
       return null;
@@ -1319,6 +1322,38 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
   useEffect(() => {
     track("quiz_view", { fromHydration: Boolean(initialData && Object.keys(initialData).length > 0) });
   }, [initialData]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const updatePillPosition = () => {
+      const container = containerRef.current;
+      if (!container) {
+        setPillRight(16);
+        return;
+      }
+      const rect = container.getBoundingClientRect();
+      const nextRight = Math.max(16, window.innerWidth - rect.right + 16);
+      setPillRight((prev) => (Math.abs(prev - nextRight) < 1 ? prev : nextRight));
+    };
+
+    updatePillPosition();
+
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined" && containerRef.current) {
+      resizeObserver = new ResizeObserver(updatePillPosition);
+      resizeObserver.observe(containerRef.current);
+    }
+
+    window.addEventListener("resize", updatePillPosition);
+    window.addEventListener("scroll", updatePillPosition, true);
+
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updatePillPosition);
+      window.removeEventListener("scroll", updatePillPosition, true);
+    };
+  }, [showHomeScreen, showResults]);
 
   const answeredCount = Math.min(Object.keys(answers).length, QUESTIONS.length);
   const progress = Math.min(100, Math.round((answeredCount / QUESTIONS.length) * 100));
@@ -1435,6 +1470,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
     setEnjoyVote(vote);
     try {
       localStorage.setItem(ENJOY_VOTE_KEY, vote);
+      localStorage.setItem(LEGACY_ENJOY_VOTE_KEY, vote);
     } catch {
       // no-op
     }
@@ -1541,6 +1577,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       }}
     >
       <div
+        ref={containerRef}
         style={{
           width: "100%",
           maxWidth: 600,
@@ -2389,42 +2426,77 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   Print
                 </button>
               </div>
-
-              {!enjoyVote && (
-                <div
-                  style={{
-                    marginTop: 8,
-                    display: "inline-flex",
-                    alignItems: "center",
-                    gap: 6,
-                    backgroundColor: COLORS.inputBg,
-                    border: `1px solid ${COLORS.border}`,
-                    borderRadius: 10,
-                    padding: "6px 8px",
-                    fontSize: 12,
-                  }}
-                >
-                  <span style={{ color: COLORS.textSecondary }}>Enjoying this quiz?</span>
-                  <button
-                    onClick={() => handleEnjoyVote("up")}
-                    className="btn-press"
-                    style={{ border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.primaryDark }}
-                  >
-                    <ThumbsUp size={14} />
-                  </button>
-                  <button
-                    onClick={() => handleEnjoyVote("down")}
-                    className="btn-press"
-                    style={{ border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.danger }}
-                  >
-                    <ThumbsDown size={14} />
-                  </button>
-                </div>
-              )}
             </>
           )}
         </div>
       </div>
+
+      {!showHomeScreen && !enjoyVote && (
+        <div
+          className="no-print"
+          style={{
+            position: "fixed",
+            right: pillRight,
+            bottom: 16,
+            zIndex: 15,
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            style={{
+              pointerEvents: "auto",
+              display: "inline-flex",
+              alignItems: "center",
+              gap: 8,
+              borderRadius: 999,
+              border: `1px solid ${COLORS.border}`,
+              backgroundColor: "white",
+              boxShadow: "0 8px 24px rgba(26,26,26,0.12)",
+              padding: "8px 10px",
+            }}
+          >
+            <span style={{ color: COLORS.textMain, fontWeight: 700, fontSize: 13 }}>Enjoying this app?</span>
+            <button
+              onClick={() => handleEnjoyVote("up")}
+              className="btn-press"
+              aria-label="Thumbs up"
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 10,
+                border: `1px solid ${COLORS.border}`,
+                backgroundColor: "#EFFAF4",
+                color: COLORS.primary,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              <ThumbsUp size={16} />
+            </button>
+            <button
+              onClick={() => handleEnjoyVote("down")}
+              className="btn-press"
+              aria-label="Thumbs down"
+              style={{
+                width: 34,
+                height: 34,
+                borderRadius: 10,
+                border: `1px solid ${COLORS.border}`,
+                backgroundColor: "#FFF1F0",
+                color: COLORS.danger,
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                cursor: "pointer",
+              }}
+            >
+              <ThumbsDown size={16} />
+            </button>
+          </div>
+        </div>
+      )}
 
       {showSubscribeModal && (
         <div
@@ -2542,10 +2614,34 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
               <Heart size={16} color={COLORS.primaryDark} />
               <h3 style={{ margin: 0, fontSize: 18 }}>Share quick feedback</h3>
             </div>
+            {enjoyVote && (
+              <div
+                style={{
+                  marginBottom: 10,
+                  borderRadius: 10,
+                  border: `1px solid ${enjoyVote === "up" ? "#BCE3C7" : "#F1C2BD"}`,
+                  backgroundColor: enjoyVote === "up" ? "#EFFAF4" : "#FFF1F0",
+                  color: enjoyVote === "up" ? COLORS.primaryDark : COLORS.danger,
+                  fontSize: 12,
+                  fontWeight: 700,
+                  padding: "8px 10px",
+                }}
+              >
+                {enjoyVote === "up"
+                  ? "Thanks for the thumbs up. What did you enjoy most?"
+                  : "Thanks for the honest feedback. What should we improve first?"}
+              </div>
+            )}
             <textarea
               value={feedbackText}
               onChange={(e) => setFeedbackText(e.target.value)}
-              placeholder="What felt useful, confusing, or missing?"
+              placeholder={
+                enjoyVote === "up"
+                  ? "What worked best for you? Any ideas to make it even better?"
+                  : enjoyVote === "down"
+                    ? "What felt confusing, broken, or missing?"
+                    : "What felt useful, confusing, or missing?"
+              }
               style={{
                 display: "block",
                 width: "100%",

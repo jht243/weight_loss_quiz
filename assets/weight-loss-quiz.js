@@ -1091,7 +1091,7 @@ var require_react_development = __commonJS({
           var dispatcher = resolveDispatcher();
           return dispatcher.useReducer(reducer, initialArg, init);
         }
-        function useRef(initialValue) {
+        function useRef2(initialValue) {
           var dispatcher = resolveDispatcher();
           return dispatcher.useRef(initialValue);
         }
@@ -1885,7 +1885,7 @@ var require_react_development = __commonJS({
         exports.useLayoutEffect = useLayoutEffect;
         exports.useMemo = useMemo2;
         exports.useReducer = useReducer;
-        exports.useRef = useRef;
+        exports.useRef = useRef2;
         exports.useState = useState2;
         exports.useSyncExternalStore = useSyncExternalStore;
         exports.useTransition = useTransition;
@@ -24848,7 +24848,8 @@ var getSupplementVisual = (name) => {
   return SUPPLEMENT_VISUAL_LIBRARY[getSupplementKey(name)];
 };
 var QUIZ_STATE_KEY = "WEIGHT_LOSS_QUIZ_STATE";
-var ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
+var ENJOY_VOTE_KEY = "enjoyVote";
+var LEGACY_ENJOY_VOTE_KEY = "WEIGHT_LOSS_QUIZ_ENJOY_VOTE";
 var PROFILE_ORDER = [
   "structured_achiever",
   "busy_minimalist",
@@ -25837,6 +25838,7 @@ var pickTopProfile = (scores) => {
 };
 function WeightLossQuiz({ initialData: initialData2 }) {
   const apiBaseUrl = (0, import_react3.useMemo)(() => resolveApiBaseUrl(initialData2), [initialData2]);
+  const containerRef = (0, import_react3.useRef)(null);
   const [answers, setAnswers] = (0, import_react3.useState)(() => getSavedAnswers());
   const [currentIndex, setCurrentIndex] = (0, import_react3.useState)(() => {
     const saved = getSavedAnswers();
@@ -25858,9 +25860,10 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   const [showFeedbackModal, setShowFeedbackModal] = (0, import_react3.useState)(false);
   const [feedbackText, setFeedbackText] = (0, import_react3.useState)("");
   const [feedbackStatus, setFeedbackStatus] = (0, import_react3.useState)("idle");
+  const [pillRight, setPillRight] = (0, import_react3.useState)(16);
   const [enjoyVote, setEnjoyVote] = (0, import_react3.useState)(() => {
     try {
-      const saved = localStorage.getItem(ENJOY_VOTE_KEY);
+      const saved = localStorage.getItem(ENJOY_VOTE_KEY) || localStorage.getItem(LEGACY_ENJOY_VOTE_KEY);
       return saved === "up" || saved === "down" ? saved : null;
     } catch {
       return null;
@@ -25877,6 +25880,32 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   (0, import_react3.useEffect)(() => {
     track("quiz_view", { fromHydration: Boolean(initialData2 && Object.keys(initialData2).length > 0) });
   }, [initialData2]);
+  (0, import_react3.useEffect)(() => {
+    if (typeof window === "undefined") return;
+    const updatePillPosition = () => {
+      const container2 = containerRef.current;
+      if (!container2) {
+        setPillRight(16);
+        return;
+      }
+      const rect = container2.getBoundingClientRect();
+      const nextRight = Math.max(16, window.innerWidth - rect.right + 16);
+      setPillRight((prev) => Math.abs(prev - nextRight) < 1 ? prev : nextRight);
+    };
+    updatePillPosition();
+    let resizeObserver = null;
+    if (typeof ResizeObserver !== "undefined" && containerRef.current) {
+      resizeObserver = new ResizeObserver(updatePillPosition);
+      resizeObserver.observe(containerRef.current);
+    }
+    window.addEventListener("resize", updatePillPosition);
+    window.addEventListener("scroll", updatePillPosition, true);
+    return () => {
+      resizeObserver?.disconnect();
+      window.removeEventListener("resize", updatePillPosition);
+      window.removeEventListener("scroll", updatePillPosition, true);
+    };
+  }, [showHomeScreen, showResults]);
   const answeredCount = Math.min(Object.keys(answers).length, QUESTIONS.length);
   const progress = Math.min(100, Math.round(answeredCount / QUESTIONS.length * 100));
   const activeQuestion = QUESTIONS[Math.min(currentIndex, QUESTIONS.length - 1)];
@@ -25977,6 +26006,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
     setEnjoyVote(vote);
     try {
       localStorage.setItem(ENJOY_VOTE_KEY, vote);
+      localStorage.setItem(LEGACY_ENJOY_VOTE_KEY, vote);
     } catch {
     }
     track("enjoy_vote", { vote, tool: "weight-loss-quiz" });
@@ -26077,6 +26107,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
         /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           "div",
           {
+            ref: containerRef,
             style: {
               width: "100%",
               maxWidth: 600,
@@ -26850,163 +26881,198 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                       )
                     ] })
                   ] }),
-                  !showHomeScreen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
-                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                      "div",
-                      {
-                        style: {
-                          marginTop: 18,
-                          paddingTop: 14,
-                          borderTop: `1px solid ${COLORS.borderLight}`,
-                          display: "flex",
-                          flexWrap: "wrap",
-                          gap: 8,
-                          justifyContent: "center"
-                        },
-                        children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                            "button",
-                            {
-                              className: "btn-press",
-                              onClick: handleOpenSubscribeModal,
-                              style: {
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: 7,
-                                borderRadius: 10,
-                                border: `1px solid ${COLORS.border}`,
-                                backgroundColor: "white",
-                                padding: "8px 10px",
-                                fontSize: 12,
-                                cursor: "pointer"
-                              },
-                              children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
-                                " Subscribe"
-                              ]
-                            }
-                          ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                            "button",
-                            {
-                              className: "btn-press",
-                              onClick: handleFooterReset,
-                              style: {
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: 7,
-                                borderRadius: 10,
-                                border: `1px solid ${COLORS.border}`,
-                                backgroundColor: "white",
-                                padding: "8px 10px",
-                                fontSize: 12,
-                                cursor: "pointer"
-                              },
-                              children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 14 }),
-                                " Reset"
-                              ]
-                            }
-                          ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                            "button",
-                            {
-                              className: "btn-press",
-                              onClick: handleDonateClick,
-                              style: {
-                                display: "inline-flex",
-                                alignItems: "center",
-                                borderRadius: 10,
-                                border: `1px solid ${COLORS.border}`,
-                                backgroundColor: "white",
-                                padding: "8px 10px",
-                                fontSize: 12,
-                                cursor: "pointer"
-                              },
-                              children: "Donate"
-                            }
-                          ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                            "button",
-                            {
-                              className: "btn-press",
-                              onClick: handleOpenFeedbackModal,
-                              style: {
-                                display: "inline-flex",
-                                alignItems: "center",
-                                gap: 7,
-                                borderRadius: 10,
-                                border: `1px solid ${COLORS.border}`,
-                                backgroundColor: "white",
-                                padding: "8px 10px",
-                                fontSize: 12,
-                                cursor: "pointer"
-                              },
-                              children: [
-                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 14 }),
-                                " Feedback"
-                              ]
-                            }
-                          ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                            "button",
-                            {
-                              className: "btn-press",
-                              onClick: handlePrint,
-                              style: {
-                                display: "inline-flex",
-                                alignItems: "center",
-                                borderRadius: 10,
-                                border: `1px solid ${COLORS.border}`,
-                                backgroundColor: "white",
-                                padding: "8px 10px",
-                                fontSize: 12,
-                                cursor: "pointer"
-                              },
-                              children: "Print"
-                            }
-                          )
-                        ]
-                      }
-                    ),
-                    !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                      "div",
-                      {
-                        style: {
-                          marginTop: 8,
-                          display: "inline-flex",
-                          alignItems: "center",
-                          gap: 6,
-                          backgroundColor: COLORS.inputBg,
-                          border: `1px solid ${COLORS.border}`,
-                          borderRadius: 10,
-                          padding: "6px 8px",
-                          fontSize: 12
-                        },
-                        children: [
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textSecondary }, children: "Enjoying this quiz?" }),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                            "button",
-                            {
-                              onClick: () => handleEnjoyVote("up"),
-                              className: "btn-press",
-                              style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.primaryDark },
-                              children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 14 })
-                            }
-                          ),
-                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                            "button",
-                            {
-                              onClick: () => handleEnjoyVote("down"),
-                              className: "btn-press",
-                              style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.danger },
-                              children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 14 })
-                            }
-                          )
-                        ]
-                      }
-                    )
-                  ] })
+                  !showHomeScreen && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(import_jsx_runtime.Fragment, { children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                    "div",
+                    {
+                      style: {
+                        marginTop: 18,
+                        paddingTop: 14,
+                        borderTop: `1px solid ${COLORS.borderLight}`,
+                        display: "flex",
+                        flexWrap: "wrap",
+                        gap: 8,
+                        justifyContent: "center"
+                      },
+                      children: [
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: handleOpenSubscribeModal,
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 7,
+                              borderRadius: 10,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "white",
+                              padding: "8px 10px",
+                              fontSize: 12,
+                              cursor: "pointer"
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
+                              " Subscribe"
+                            ]
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: handleFooterReset,
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 7,
+                              borderRadius: 10,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "white",
+                              padding: "8px 10px",
+                              fontSize: 12,
+                              cursor: "pointer"
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 14 }),
+                              " Reset"
+                            ]
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: handleDonateClick,
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              borderRadius: 10,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "white",
+                              padding: "8px 10px",
+                              fontSize: 12,
+                              cursor: "pointer"
+                            },
+                            children: "Donate"
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: handleOpenFeedbackModal,
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              gap: 7,
+                              borderRadius: 10,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "white",
+                              padding: "8px 10px",
+                              fontSize: 12,
+                              cursor: "pointer"
+                            },
+                            children: [
+                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 14 }),
+                              " Feedback"
+                            ]
+                          }
+                        ),
+                        /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                          "button",
+                          {
+                            className: "btn-press",
+                            onClick: handlePrint,
+                            style: {
+                              display: "inline-flex",
+                              alignItems: "center",
+                              borderRadius: 10,
+                              border: `1px solid ${COLORS.border}`,
+                              backgroundColor: "white",
+                              padding: "8px 10px",
+                              fontSize: 12,
+                              cursor: "pointer"
+                            },
+                            children: "Print"
+                          }
+                        )
+                      ]
+                    }
+                  ) })
+                ]
+              }
+            )
+          }
+        ),
+        !showHomeScreen && !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+          "div",
+          {
+            className: "no-print",
+            style: {
+              position: "fixed",
+              right: pillRight,
+              bottom: 16,
+              zIndex: 15,
+              pointerEvents: "none"
+            },
+            children: /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+              "div",
+              {
+                style: {
+                  pointerEvents: "auto",
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: 8,
+                  borderRadius: 999,
+                  border: `1px solid ${COLORS.border}`,
+                  backgroundColor: "white",
+                  boxShadow: "0 8px 24px rgba(26,26,26,0.12)",
+                  padding: "8px 10px"
+                },
+                children: [
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textMain, fontWeight: 700, fontSize: 13 }, children: "Enjoying this app?" }),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "button",
+                    {
+                      onClick: () => handleEnjoyVote("up"),
+                      className: "btn-press",
+                      "aria-label": "Thumbs up",
+                      style: {
+                        width: 34,
+                        height: 34,
+                        borderRadius: 10,
+                        border: `1px solid ${COLORS.border}`,
+                        backgroundColor: "#EFFAF4",
+                        color: COLORS.primary,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer"
+                      },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 16 })
+                    }
+                  ),
+                  /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "button",
+                    {
+                      onClick: () => handleEnjoyVote("down"),
+                      className: "btn-press",
+                      "aria-label": "Thumbs down",
+                      style: {
+                        width: 34,
+                        height: 34,
+                        borderRadius: 10,
+                        border: `1px solid ${COLORS.border}`,
+                        backgroundColor: "#FFF1F0",
+                        color: COLORS.danger,
+                        display: "inline-flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        cursor: "pointer"
+                      },
+                      children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 16 })
+                    }
+                  )
                 ]
               }
             )
@@ -27136,12 +27202,28 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Heart, { size: 16, color: COLORS.primaryDark }),
                     /* @__PURE__ */ (0, import_jsx_runtime.jsx)("h3", { style: { margin: 0, fontSize: 18 }, children: "Share quick feedback" })
                   ] }),
+                  enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                    "div",
+                    {
+                      style: {
+                        marginBottom: 10,
+                        borderRadius: 10,
+                        border: `1px solid ${enjoyVote === "up" ? "#BCE3C7" : "#F1C2BD"}`,
+                        backgroundColor: enjoyVote === "up" ? "#EFFAF4" : "#FFF1F0",
+                        color: enjoyVote === "up" ? COLORS.primaryDark : COLORS.danger,
+                        fontSize: 12,
+                        fontWeight: 700,
+                        padding: "8px 10px"
+                      },
+                      children: enjoyVote === "up" ? "Thanks for the thumbs up. What did you enjoy most?" : "Thanks for the honest feedback. What should we improve first?"
+                    }
+                  ),
                   /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
                     "textarea",
                     {
                       value: feedbackText,
                       onChange: (e) => setFeedbackText(e.target.value),
-                      placeholder: "What felt useful, confusing, or missing?",
+                      placeholder: enjoyVote === "up" ? "What worked best for you? Any ideas to make it even better?" : enjoyVote === "down" ? "What felt confusing, broken, or missing?" : "What felt useful, confusing, or missing?",
                       style: {
                         display: "block",
                         width: "100%",
