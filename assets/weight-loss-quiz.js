@@ -27004,7 +27004,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
             )
           }
         ),
-        !showHomeScreen && !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+        showResults && !showHomeScreen && !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
           "div",
           {
             className: "no-print",

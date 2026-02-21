@@ -2431,7 +2431,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
         </div>
       </div>
 
-      {!showHomeScreen && !enjoyVote && (
+      {showResults && !showHomeScreen && !enjoyVote && (
         <div
           className="no-print"
           style={{
