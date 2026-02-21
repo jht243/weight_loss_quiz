@@ -1135,8 +1135,9 @@ const QUESTION_CHOICE_LOOKUP = new Map(
   ])
 );
 
-const trackEvent = (event: string, data?: Record<string, any>) => {
-  fetch("/api/track", {
+const trackEvent = (event: string, data?: Record<string, any>, apiBaseUrl?: string) => {
+  const endpoint = buildApiUrl(apiBaseUrl || "", "/api/track");
+  fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ event, data: data || {} }),
@@ -1316,7 +1317,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
   }, [answers]);
 
   useEffect(() => {
-    trackEvent("quiz_view", { fromHydration: Boolean(initialData && Object.keys(initialData).length > 0) });
+    track("quiz_view", { fromHydration: Boolean(initialData && Object.keys(initialData).length > 0) });
   }, [initialData]);
 
   const answeredCount = Math.min(Object.keys(answers).length, QUESTIONS.length);
@@ -1330,16 +1331,19 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
   const archetypeVisual = ARCHETYPE_VISUALS[topProfile];
   const maxScore = Math.max(...Object.values(scores), 1);
   const currentScreen = showHomeScreen ? "home" : showResults ? "results" : "quiz";
+  const track = (event: string, data?: Record<string, any>) => {
+    trackEvent(event, data, apiBaseUrl);
+  };
 
   const handleAnswer = (questionId: string, choiceId: string) => {
     const nextAnswers = { ...answers, [questionId]: choiceId };
     setAnswers(nextAnswers);
-    trackEvent("quiz_answered", { questionId, choiceId, answeredCount: Object.keys(nextAnswers).length });
+    track("quiz_answered", { questionId, choiceId, answeredCount: Object.keys(nextAnswers).length });
 
     const isLastQuestion = currentIndex >= QUESTIONS.length - 1;
     if (isLastQuestion) {
       setShowResults(true);
-      trackEvent("quiz_completed", { profile: pickTopProfile(scoreQuiz(nextAnswers)) });
+      track("quiz_completed", { profile: pickTopProfile(scoreQuiz(nextAnswers)) });
       return;
     }
 
@@ -1360,38 +1364,38 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
     } catch {
       // no-op
     }
-    trackEvent("quiz_reset");
+    track("quiz_reset");
   };
 
   const handleStartQuiz = () => {
     setShowHomeScreen(false);
-    trackEvent("quiz_started", { resumed: answeredCount > 0 });
+    track("quiz_started", { resumed: answeredCount > 0 });
   };
 
   const handleOpenSubscribeModal = () => {
     setShowSubscribeModal(true);
     setSubscribeStatus("idle");
     setSubscribeMessage("");
-    trackEvent("subscribe_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    track("subscribe_click", { tool: "weight-loss-quiz", screen: currentScreen });
   };
 
   const handleOpenFeedbackModal = () => {
     setShowFeedbackModal(true);
     setFeedbackStatus("idle");
-    trackEvent("feedback_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    track("feedback_click", { tool: "weight-loss-quiz", screen: currentScreen });
   };
 
   const handleFooterReset = () => {
-    trackEvent("reset_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    track("reset_click", { tool: "weight-loss-quiz", screen: currentScreen });
     handleRestart();
   };
 
   const handleDonateClick = () => {
-    trackEvent("donate_click", { tool: "weight-loss-quiz", screen: currentScreen, status: "coming_soon" });
+    track("donate_click", { tool: "weight-loss-quiz", screen: currentScreen, status: "coming_soon" });
   };
 
   const handlePrint = () => {
-    trackEvent("print_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    track("print_click", { tool: "weight-loss-quiz", screen: currentScreen });
     window.setTimeout(() => {
       window.print();
     }, 40);
@@ -1421,7 +1425,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
-      trackEvent("quiz_copy_plan", { profile: profile.label });
+      track("quiz_copy_plan", { profile: profile.label });
     } catch {
       setCopied(false);
     }
@@ -1434,7 +1438,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
     } catch {
       // no-op
     }
-    trackEvent("enjoy_vote", { vote, tool: "weight-loss-quiz" });
+    track("enjoy_vote", { vote, tool: "weight-loss-quiz" });
     setShowFeedbackModal(true);
   };
 
@@ -1463,7 +1467,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       if (response.ok && data.success) {
         setSubscribeStatus("success");
         setSubscribeMessage(data.message || "Subscribed.");
-        trackEvent("notify_me_subscribe", {
+        track("notify_me_subscribe", {
           topic: "weight-loss-quiz-news",
           sourceWidget: "weight-loss-quiz",
           sourceScreen: currentScreen,
@@ -1471,7 +1475,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       } else {
         setSubscribeStatus("error");
         setSubscribeMessage(data.error || "Unable to subscribe right now.");
-        trackEvent("notify_me_subscribe_error", {
+        track("notify_me_subscribe_error", {
           topic: "weight-loss-quiz-news",
           sourceWidget: "weight-loss-quiz",
           sourceScreen: currentScreen,
@@ -1481,7 +1485,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
     } catch {
       setSubscribeStatus("error");
       setSubscribeMessage("Network error. Please try again.");
-      trackEvent("notify_me_subscribe_error", {
+      track("notify_me_subscribe_error", {
         topic: "weight-loss-quiz-news",
         sourceWidget: "weight-loss-quiz",
         sourceScreen: currentScreen,
@@ -1515,7 +1519,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       }
 
       setFeedbackStatus("success");
-      trackEvent("user_feedback", { profile: profile.label, enjoymentVote: enjoyVote || null });
+      track("user_feedback", { profile: profile.label, enjoymentVote: enjoyVote || null });
       window.setTimeout(() => {
         setShowFeedbackModal(false);
         setFeedbackText("");
@@ -1820,7 +1824,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   onClick={() => {
                     if (currentIndex >= QUESTIONS.length - 1) {
                       setShowResults(true);
-                      trackEvent("quiz_completed", { profile: topProfile });
+                      track("quiz_completed", { profile: topProfile });
                     } else {
                       setCurrentIndex((p) => Math.min(QUESTIONS.length - 1, p + 1));
                     }
@@ -2294,6 +2298,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   display: "flex",
                   flexWrap: "wrap",
                   gap: 8,
+                  justifyContent: "center",
                 }}
               >
                 <button

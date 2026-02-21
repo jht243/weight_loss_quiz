@@ -24,9 +24,9 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 
-// web/node_modules/react/cjs/react.development.js
+// node_modules/react/cjs/react.development.js
 var require_react_development = __commonJS({
-  "web/node_modules/react/cjs/react.development.js"(exports, module) {
+  "node_modules/react/cjs/react.development.js"(exports, module) {
     "use strict";
     if (true) {
       (function() {
@@ -1898,9 +1898,9 @@ var require_react_development = __commonJS({
   }
 });
 
-// web/node_modules/react/index.js
+// node_modules/react/index.js
 var require_react = __commonJS({
-  "web/node_modules/react/index.js"(exports, module) {
+  "node_modules/react/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -1910,9 +1910,9 @@ var require_react = __commonJS({
   }
 });
 
-// web/node_modules/scheduler/cjs/scheduler.development.js
+// node_modules/scheduler/cjs/scheduler.development.js
 var require_scheduler_development = __commonJS({
-  "web/node_modules/scheduler/cjs/scheduler.development.js"(exports) {
+  "node_modules/scheduler/cjs/scheduler.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -2360,9 +2360,9 @@ var require_scheduler_development = __commonJS({
   }
 });
 
-// web/node_modules/scheduler/index.js
+// node_modules/scheduler/index.js
 var require_scheduler = __commonJS({
-  "web/node_modules/scheduler/index.js"(exports, module) {
+  "node_modules/scheduler/index.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -2372,9 +2372,9 @@ var require_scheduler = __commonJS({
   }
 });
 
-// web/node_modules/react-dom/cjs/react-dom.development.js
+// node_modules/react-dom/cjs/react-dom.development.js
 var require_react_dom_development = __commonJS({
-  "web/node_modules/react-dom/cjs/react-dom.development.js"(exports) {
+  "node_modules/react-dom/cjs/react-dom.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -23478,9 +23478,9 @@ var require_react_dom_development = __commonJS({
   }
 });
 
-// web/node_modules/react-dom/index.js
+// node_modules/react-dom/index.js
 var require_react_dom = __commonJS({
-  "web/node_modules/react-dom/index.js"(exports, module) {
+  "node_modules/react-dom/index.js"(exports, module) {
     "use strict";
     if (false) {
       checkDCE();
@@ -23491,9 +23491,9 @@ var require_react_dom = __commonJS({
   }
 });
 
-// web/node_modules/react-dom/client.js
+// node_modules/react-dom/client.js
 var require_client = __commonJS({
-  "web/node_modules/react-dom/client.js"(exports) {
+  "node_modules/react-dom/client.js"(exports) {
     "use strict";
     var m = require_react_dom();
     if (false) {
@@ -23522,9 +23522,9 @@ var require_client = __commonJS({
   }
 });
 
-// web/node_modules/react/cjs/react-jsx-runtime.development.js
+// node_modules/react/cjs/react-jsx-runtime.development.js
 var require_react_jsx_runtime_development = __commonJS({
-  "web/node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
+  "node_modules/react/cjs/react-jsx-runtime.development.js"(exports) {
     "use strict";
     if (true) {
       (function() {
@@ -24415,9 +24415,9 @@ var require_react_jsx_runtime_development = __commonJS({
   }
 });
 
-// web/node_modules/react/jsx-runtime.js
+// node_modules/react/jsx-runtime.js
 var require_jsx_runtime = __commonJS({
-  "web/node_modules/react/jsx-runtime.js"(exports, module) {
+  "node_modules/react/jsx-runtime.js"(exports, module) {
     "use strict";
     if (false) {
       module.exports = null;
@@ -24427,17 +24427,17 @@ var require_jsx_runtime = __commonJS({
   }
 });
 
-// web/src/main.tsx
+// src/main.tsx
 var import_react4 = __toESM(require_react(), 1);
 var import_client = __toESM(require_client(), 1);
 
-// web/src/WeightLossQuiz.tsx
+// src/WeightLossQuiz.tsx
 var import_react3 = __toESM(require_react(), 1);
 
-// web/node_modules/lucide-react/dist/esm/createLucideIcon.js
+// node_modules/lucide-react/dist/esm/createLucideIcon.js
 var import_react2 = __toESM(require_react());
 
-// web/node_modules/lucide-react/dist/esm/shared/src/utils.js
+// node_modules/lucide-react/dist/esm/shared/src/utils.js
 var toKebabCase = (string) => string.replace(/([a-z0-9])([A-Z])/g, "$1-$2").toLowerCase();
 var toCamelCase = (string) => string.replace(
   /^([A-Z])|[\s-_]+(\w)/g,
@@ -24458,10 +24458,10 @@ var hasA11yProp = (props) => {
   }
 };
 
-// web/node_modules/lucide-react/dist/esm/Icon.js
+// node_modules/lucide-react/dist/esm/Icon.js
 var import_react = __toESM(require_react());
 
-// web/node_modules/lucide-react/dist/esm/defaultAttributes.js
+// node_modules/lucide-react/dist/esm/defaultAttributes.js
 var defaultAttributes = {
   xmlns: "http://www.w3.org/2000/svg",
   width: 24,
@@ -24474,7 +24474,7 @@ var defaultAttributes = {
   strokeLinejoin: "round"
 };
 
-// web/node_modules/lucide-react/dist/esm/Icon.js
+// node_modules/lucide-react/dist/esm/Icon.js
 var Icon = (0, import_react.forwardRef)(
   ({
     color = "currentColor",
@@ -24505,7 +24505,7 @@ var Icon = (0, import_react.forwardRef)(
   )
 );
 
-// web/node_modules/lucide-react/dist/esm/createLucideIcon.js
+// node_modules/lucide-react/dist/esm/createLucideIcon.js
 var createLucideIcon = (iconName, iconNode) => {
   const Component = (0, import_react2.forwardRef)(
     ({ className, ...props }, ref) => (0, import_react2.createElement)(Icon, {
@@ -24523,7 +24523,7 @@ var createLucideIcon = (iconName, iconNode) => {
   return Component;
 };
 
-// web/node_modules/lucide-react/dist/esm/icons/activity.js
+// node_modules/lucide-react/dist/esm/icons/activity.js
 var __iconNode = [
   [
     "path",
@@ -24535,14 +24535,14 @@ var __iconNode = [
 ];
 var Activity = createLucideIcon("activity", __iconNode);
 
-// web/node_modules/lucide-react/dist/esm/icons/arrow-right.js
+// node_modules/lucide-react/dist/esm/icons/arrow-right.js
 var __iconNode2 = [
   ["path", { d: "M5 12h14", key: "1ays0h" }],
   ["path", { d: "m12 5 7 7-7 7", key: "xquz4c" }]
 ];
 var ArrowRight = createLucideIcon("arrow-right", __iconNode2);
 
-// web/node_modules/lucide-react/dist/esm/icons/chart-column.js
+// node_modules/lucide-react/dist/esm/icons/chart-column.js
 var __iconNode3 = [
   ["path", { d: "M3 3v16a2 2 0 0 0 2 2h16", key: "c24i48" }],
   ["path", { d: "M18 17V9", key: "2bz60n" }],
@@ -24551,18 +24551,18 @@ var __iconNode3 = [
 ];
 var ChartColumn = createLucideIcon("chart-column", __iconNode3);
 
-// web/node_modules/lucide-react/dist/esm/icons/chevron-left.js
+// node_modules/lucide-react/dist/esm/icons/chevron-left.js
 var __iconNode4 = [["path", { d: "m15 18-6-6 6-6", key: "1wnfg3" }]];
 var ChevronLeft = createLucideIcon("chevron-left", __iconNode4);
 
-// web/node_modules/lucide-react/dist/esm/icons/circle-check.js
+// node_modules/lucide-react/dist/esm/icons/circle-check.js
 var __iconNode5 = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["path", { d: "m9 12 2 2 4-4", key: "dzmm74" }]
 ];
 var CircleCheck = createLucideIcon("circle-check", __iconNode5);
 
-// web/node_modules/lucide-react/dist/esm/icons/flame.js
+// node_modules/lucide-react/dist/esm/icons/flame.js
 var __iconNode6 = [
   [
     "path",
@@ -24574,7 +24574,7 @@ var __iconNode6 = [
 ];
 var Flame = createLucideIcon("flame", __iconNode6);
 
-// web/node_modules/lucide-react/dist/esm/icons/footprints.js
+// node_modules/lucide-react/dist/esm/icons/footprints.js
 var __iconNode7 = [
   [
     "path",
@@ -24595,7 +24595,7 @@ var __iconNode7 = [
 ];
 var Footprints = createLucideIcon("footprints", __iconNode7);
 
-// web/node_modules/lucide-react/dist/esm/icons/heart.js
+// node_modules/lucide-react/dist/esm/icons/heart.js
 var __iconNode8 = [
   [
     "path",
@@ -24607,18 +24607,18 @@ var __iconNode8 = [
 ];
 var Heart = createLucideIcon("heart", __iconNode8);
 
-// web/node_modules/lucide-react/dist/esm/icons/loader-circle.js
+// node_modules/lucide-react/dist/esm/icons/loader-circle.js
 var __iconNode9 = [["path", { d: "M21 12a9 9 0 1 1-6.219-8.56", key: "13zald" }]];
 var LoaderCircle = createLucideIcon("loader-circle", __iconNode9);
 
-// web/node_modules/lucide-react/dist/esm/icons/mail.js
+// node_modules/lucide-react/dist/esm/icons/mail.js
 var __iconNode10 = [
   ["path", { d: "m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7", key: "132q7q" }],
   ["rect", { x: "2", y: "4", width: "20", height: "16", rx: "2", key: "izxlao" }]
 ];
 var Mail = createLucideIcon("mail", __iconNode10);
 
-// web/node_modules/lucide-react/dist/esm/icons/message-square.js
+// node_modules/lucide-react/dist/esm/icons/message-square.js
 var __iconNode11 = [
   [
     "path",
@@ -24630,14 +24630,14 @@ var __iconNode11 = [
 ];
 var MessageSquare = createLucideIcon("message-square", __iconNode11);
 
-// web/node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
+// node_modules/lucide-react/dist/esm/icons/rotate-ccw.js
 var __iconNode12 = [
   ["path", { d: "M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8", key: "1357e3" }],
   ["path", { d: "M3 3v5h5", key: "1xhq8a" }]
 ];
 var RotateCcw = createLucideIcon("rotate-ccw", __iconNode12);
 
-// web/node_modules/lucide-react/dist/esm/icons/sparkles.js
+// node_modules/lucide-react/dist/esm/icons/sparkles.js
 var __iconNode13 = [
   [
     "path",
@@ -24652,7 +24652,7 @@ var __iconNode13 = [
 ];
 var Sparkles = createLucideIcon("sparkles", __iconNode13);
 
-// web/node_modules/lucide-react/dist/esm/icons/target.js
+// node_modules/lucide-react/dist/esm/icons/target.js
 var __iconNode14 = [
   ["circle", { cx: "12", cy: "12", r: "10", key: "1mglay" }],
   ["circle", { cx: "12", cy: "12", r: "6", key: "1vlfrh" }],
@@ -24660,7 +24660,7 @@ var __iconNode14 = [
 ];
 var Target = createLucideIcon("target", __iconNode14);
 
-// web/node_modules/lucide-react/dist/esm/icons/thumbs-down.js
+// node_modules/lucide-react/dist/esm/icons/thumbs-down.js
 var __iconNode15 = [
   ["path", { d: "M17 14V2", key: "8ymqnk" }],
   [
@@ -24673,7 +24673,7 @@ var __iconNode15 = [
 ];
 var ThumbsDown = createLucideIcon("thumbs-down", __iconNode15);
 
-// web/node_modules/lucide-react/dist/esm/icons/thumbs-up.js
+// node_modules/lucide-react/dist/esm/icons/thumbs-up.js
 var __iconNode16 = [
   ["path", { d: "M7 10v12", key: "1qc93n" }],
   [
@@ -24686,7 +24686,7 @@ var __iconNode16 = [
 ];
 var ThumbsUp = createLucideIcon("thumbs-up", __iconNode16);
 
-// web/node_modules/lucide-react/dist/esm/icons/timer.js
+// node_modules/lucide-react/dist/esm/icons/timer.js
 var __iconNode17 = [
   ["line", { x1: "10", x2: "14", y1: "2", y2: "2", key: "14vaq8" }],
   ["line", { x1: "12", x2: "15", y1: "14", y2: "11", key: "17fdiu" }],
@@ -24694,7 +24694,7 @@ var __iconNode17 = [
 ];
 var Timer = createLucideIcon("timer", __iconNode17);
 
-// web/node_modules/lucide-react/dist/esm/icons/trophy.js
+// node_modules/lucide-react/dist/esm/icons/trophy.js
 var __iconNode18 = [
   ["path", { d: "M10 14.66v1.626a2 2 0 0 1-.976 1.696A5 5 0 0 0 7 21.978", key: "1n3hpd" }],
   ["path", { d: "M14 14.66v1.626a2 2 0 0 0 .976 1.696A5 5 0 0 1 17 21.978", key: "rfe1zi" }],
@@ -24705,7 +24705,7 @@ var __iconNode18 = [
 ];
 var Trophy = createLucideIcon("trophy", __iconNode18);
 
-// web/src/WeightLossQuiz.tsx
+// src/WeightLossQuiz.tsx
 var import_jsx_runtime = __toESM(require_jsx_runtime(), 1);
 var injectedStyles = `
 @keyframes floatIn {
@@ -25724,8 +25724,9 @@ var QUESTION_CHOICE_LOOKUP = new Map(
     new Set(question.choices.map((choice) => choice.id))
   ])
 );
-var trackEvent = (event, data) => {
-  fetch("/api/track", {
+var trackEvent = (event, data, apiBaseUrl) => {
+  const endpoint = buildApiUrl(apiBaseUrl || "", "/api/track");
+  fetch(endpoint, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ event, data: data || {} })
@@ -25874,7 +25875,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
     }
   }, [answers]);
   (0, import_react3.useEffect)(() => {
-    trackEvent("quiz_view", { fromHydration: Boolean(initialData2 && Object.keys(initialData2).length > 0) });
+    track("quiz_view", { fromHydration: Boolean(initialData2 && Object.keys(initialData2).length > 0) });
   }, [initialData2]);
   const answeredCount = Math.min(Object.keys(answers).length, QUESTIONS.length);
   const progress = Math.min(100, Math.round(answeredCount / QUESTIONS.length * 100));
@@ -25885,14 +25886,18 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   const profile = PROFILES[topProfile];
   const archetypeVisual = ARCHETYPE_VISUALS[topProfile];
   const maxScore = Math.max(...Object.values(scores), 1);
+  const currentScreen = showHomeScreen ? "home" : showResults ? "results" : "quiz";
+  const track = (event, data) => {
+    trackEvent(event, data, apiBaseUrl);
+  };
   const handleAnswer = (questionId, choiceId) => {
     const nextAnswers = { ...answers, [questionId]: choiceId };
     setAnswers(nextAnswers);
-    trackEvent("quiz_answered", { questionId, choiceId, answeredCount: Object.keys(nextAnswers).length });
+    track("quiz_answered", { questionId, choiceId, answeredCount: Object.keys(nextAnswers).length });
     const isLastQuestion = currentIndex >= QUESTIONS.length - 1;
     if (isLastQuestion) {
       setShowResults(true);
-      trackEvent("quiz_completed", { profile: pickTopProfile(scoreQuiz(nextAnswers)) });
+      track("quiz_completed", { profile: pickTopProfile(scoreQuiz(nextAnswers)) });
       return;
     }
     window.setTimeout(() => {
@@ -25910,11 +25915,35 @@ function WeightLossQuiz({ initialData: initialData2 }) {
       localStorage.removeItem(QUIZ_STATE_KEY);
     } catch {
     }
-    trackEvent("quiz_reset");
+    track("quiz_reset");
   };
   const handleStartQuiz = () => {
     setShowHomeScreen(false);
-    trackEvent("quiz_started", { resumed: answeredCount > 0 });
+    track("quiz_started", { resumed: answeredCount > 0 });
+  };
+  const handleOpenSubscribeModal = () => {
+    setShowSubscribeModal(true);
+    setSubscribeStatus("idle");
+    setSubscribeMessage("");
+    track("subscribe_click", { tool: "weight-loss-quiz", screen: currentScreen });
+  };
+  const handleOpenFeedbackModal = () => {
+    setShowFeedbackModal(true);
+    setFeedbackStatus("idle");
+    track("feedback_click", { tool: "weight-loss-quiz", screen: currentScreen });
+  };
+  const handleFooterReset = () => {
+    track("reset_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    handleRestart();
+  };
+  const handleDonateClick = () => {
+    track("donate_click", { tool: "weight-loss-quiz", screen: currentScreen, status: "coming_soon" });
+  };
+  const handlePrint = () => {
+    track("print_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    window.setTimeout(() => {
+      window.print();
+    }, 40);
   };
   const handleCopyPlan = async () => {
     const text = [
@@ -25939,7 +25968,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       window.setTimeout(() => setCopied(false), 1800);
-      trackEvent("quiz_copy_plan", { profile: profile.label });
+      track("quiz_copy_plan", { profile: profile.label });
     } catch {
       setCopied(false);
     }
@@ -25950,7 +25979,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
       localStorage.setItem(ENJOY_VOTE_KEY, vote);
     } catch {
     }
-    trackEvent("enjoy_vote", { vote, tool: "weight-loss-quiz" });
+    track("enjoy_vote", { vote, tool: "weight-loss-quiz" });
     setShowFeedbackModal(true);
   };
   const handleSubscribe = async () => {
@@ -25967,21 +25996,39 @@ function WeightLossQuiz({ initialData: initialData2 }) {
         body: JSON.stringify({
           email: subscribeEmail,
           topicId: "weight-loss-quiz-news",
-          topicName: "Weight-Loss Quiz Updates"
+          topicName: "Weight-Loss Quiz Updates",
+          sourceWidget: "weight-loss-quiz",
+          sourceScreen: currentScreen
         })
       });
       const data = await response.json();
       if (response.ok && data.success) {
         setSubscribeStatus("success");
         setSubscribeMessage(data.message || "Subscribed.");
-        trackEvent("notify_me_subscribe", { topic: "weight-loss-quiz-news" });
+        track("notify_me_subscribe", {
+          topic: "weight-loss-quiz-news",
+          sourceWidget: "weight-loss-quiz",
+          sourceScreen: currentScreen
+        });
       } else {
         setSubscribeStatus("error");
         setSubscribeMessage(data.error || "Unable to subscribe right now.");
+        track("notify_me_subscribe_error", {
+          topic: "weight-loss-quiz-news",
+          sourceWidget: "weight-loss-quiz",
+          sourceScreen: currentScreen,
+          reason: data.error || "unknown_error"
+        });
       }
     } catch {
       setSubscribeStatus("error");
       setSubscribeMessage("Network error. Please try again.");
+      track("notify_me_subscribe_error", {
+        topic: "weight-loss-quiz-news",
+        sourceWidget: "weight-loss-quiz",
+        sourceScreen: currentScreen,
+        reason: "network_error"
+      });
     }
   };
   const handleFeedbackSubmit = async () => {
@@ -26006,7 +26053,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
         return;
       }
       setFeedbackStatus("success");
-      trackEvent("user_feedback", { profile: profile.label, enjoymentVote: enjoyVote || null });
+      track("user_feedback", { profile: profile.label, enjoymentVote: enjoyVote || null });
       window.setTimeout(() => {
         setShowFeedbackModal(false);
         setFeedbackText("");
@@ -26321,7 +26368,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                           onClick: () => {
                             if (currentIndex >= QUESTIONS.length - 1) {
                               setShowResults(true);
-                              trackEvent("quiz_completed", { profile: topProfile });
+                              track("quiz_completed", { profile: topProfile });
                             } else {
                               setCurrentIndex((p) => Math.min(QUESTIONS.length - 1, p + 1));
                             }
@@ -26803,102 +26850,163 @@ function WeightLossQuiz({ initialData: initialData2 }) {
                       )
                     ] })
                   ] }),
-                  !showHomeScreen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                    "div",
-                    {
-                      style: {
-                        marginTop: 18,
-                        paddingTop: 14,
-                        borderTop: `1px solid ${COLORS.borderLight}`,
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 8
-                      },
-                      children: [
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                          "button",
-                          {
-                            className: "btn-press",
-                            onClick: () => setShowSubscribeModal(true),
-                            style: {
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: 7,
-                              borderRadius: 10,
-                              border: `1px solid ${COLORS.border}`,
-                              backgroundColor: "white",
-                              padding: "8px 10px",
-                              fontSize: 12,
-                              cursor: "pointer"
-                            },
-                            children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
-                              " Weekly tips"
-                            ]
-                          }
-                        ),
-                        /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                          "button",
-                          {
-                            className: "btn-press",
-                            onClick: () => setShowFeedbackModal(true),
-                            style: {
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: 7,
-                              borderRadius: 10,
-                              border: `1px solid ${COLORS.border}`,
-                              backgroundColor: "white",
-                              padding: "8px 10px",
-                              fontSize: 12,
-                              cursor: "pointer"
-                            },
-                            children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 14 }),
-                              " Feedback"
-                            ]
-                          }
-                        ),
-                        !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
-                          "div",
-                          {
-                            style: {
-                              marginLeft: "auto",
-                              display: "inline-flex",
-                              alignItems: "center",
-                              gap: 6,
-                              backgroundColor: COLORS.inputBg,
-                              border: `1px solid ${COLORS.border}`,
-                              borderRadius: 10,
-                              padding: "6px 8px",
-                              fontSize: 12
-                            },
-                            children: [
-                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textSecondary }, children: "Enjoying this quiz?" }),
-                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                                "button",
-                                {
-                                  onClick: () => handleEnjoyVote("up"),
-                                  className: "btn-press",
-                                  style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.primaryDark },
-                                  children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 14 })
-                                }
-                              ),
-                              /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
-                                "button",
-                                {
-                                  onClick: () => handleEnjoyVote("down"),
-                                  className: "btn-press",
-                                  style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.danger },
-                                  children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 14 })
-                                }
-                              )
-                            ]
-                          }
-                        )
-                      ]
-                    }
-                  )
+                  !showHomeScreen && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(import_jsx_runtime.Fragment, { children: [
+                    /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "div",
+                      {
+                        style: {
+                          marginTop: 18,
+                          paddingTop: 14,
+                          borderTop: `1px solid ${COLORS.borderLight}`,
+                          display: "flex",
+                          flexWrap: "wrap",
+                          gap: 8,
+                          justifyContent: "center"
+                        },
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "button",
+                            {
+                              className: "btn-press",
+                              onClick: handleOpenSubscribeModal,
+                              style: {
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 7,
+                                borderRadius: 10,
+                                border: `1px solid ${COLORS.border}`,
+                                backgroundColor: "white",
+                                padding: "8px 10px",
+                                fontSize: 12,
+                                cursor: "pointer"
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(Mail, { size: 14 }),
+                                " Subscribe"
+                              ]
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "button",
+                            {
+                              className: "btn-press",
+                              onClick: handleFooterReset,
+                              style: {
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 7,
+                                borderRadius: 10,
+                                border: `1px solid ${COLORS.border}`,
+                                backgroundColor: "white",
+                                padding: "8px 10px",
+                                fontSize: 12,
+                                cursor: "pointer"
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(RotateCcw, { size: 14 }),
+                                " Reset"
+                              ]
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                            "button",
+                            {
+                              className: "btn-press",
+                              onClick: handleDonateClick,
+                              style: {
+                                display: "inline-flex",
+                                alignItems: "center",
+                                borderRadius: 10,
+                                border: `1px solid ${COLORS.border}`,
+                                backgroundColor: "white",
+                                padding: "8px 10px",
+                                fontSize: 12,
+                                cursor: "pointer"
+                              },
+                              children: "Donate"
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                            "button",
+                            {
+                              className: "btn-press",
+                              onClick: handleOpenFeedbackModal,
+                              style: {
+                                display: "inline-flex",
+                                alignItems: "center",
+                                gap: 7,
+                                borderRadius: 10,
+                                border: `1px solid ${COLORS.border}`,
+                                backgroundColor: "white",
+                                padding: "8px 10px",
+                                fontSize: 12,
+                                cursor: "pointer"
+                              },
+                              children: [
+                                /* @__PURE__ */ (0, import_jsx_runtime.jsx)(MessageSquare, { size: 14 }),
+                                " Feedback"
+                              ]
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                            "button",
+                            {
+                              className: "btn-press",
+                              onClick: handlePrint,
+                              style: {
+                                display: "inline-flex",
+                                alignItems: "center",
+                                borderRadius: 10,
+                                border: `1px solid ${COLORS.border}`,
+                                backgroundColor: "white",
+                                padding: "8px 10px",
+                                fontSize: 12,
+                                cursor: "pointer"
+                              },
+                              children: "Print"
+                            }
+                          )
+                        ]
+                      }
+                    ),
+                    !enjoyVote && /* @__PURE__ */ (0, import_jsx_runtime.jsxs)(
+                      "div",
+                      {
+                        style: {
+                          marginTop: 8,
+                          display: "inline-flex",
+                          alignItems: "center",
+                          gap: 6,
+                          backgroundColor: COLORS.inputBg,
+                          border: `1px solid ${COLORS.border}`,
+                          borderRadius: 10,
+                          padding: "6px 8px",
+                          fontSize: 12
+                        },
+                        children: [
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)("span", { style: { color: COLORS.textSecondary }, children: "Enjoying this quiz?" }),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                            "button",
+                            {
+                              onClick: () => handleEnjoyVote("up"),
+                              className: "btn-press",
+                              style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.primaryDark },
+                              children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsUp, { size: 14 })
+                            }
+                          ),
+                          /* @__PURE__ */ (0, import_jsx_runtime.jsx)(
+                            "button",
+                            {
+                              onClick: () => handleEnjoyVote("down"),
+                              className: "btn-press",
+                              style: { border: "none", background: "transparent", cursor: "pointer", display: "flex", color: COLORS.danger },
+                              children: /* @__PURE__ */ (0, import_jsx_runtime.jsx)(ThumbsDown, { size: 14 })
+                            }
+                          )
+                        ]
+                      }
+                    )
+                  ] })
                 ]
               }
             )
@@ -27102,7 +27210,7 @@ function WeightLossQuiz({ initialData: initialData2 }) {
   );
 }
 
-// web/src/main.tsx
+// src/main.tsx
 var import_jsx_runtime2 = __toESM(require_jsx_runtime(), 1);
 var ErrorBoundary = class extends import_react4.default.Component {
   constructor(props) {
