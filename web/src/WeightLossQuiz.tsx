@@ -1329,6 +1329,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
   const profile = PROFILES[topProfile];
   const archetypeVisual = ARCHETYPE_VISUALS[topProfile];
   const maxScore = Math.max(...Object.values(scores), 1);
+  const currentScreen = showHomeScreen ? "home" : showResults ? "results" : "quiz";
 
   const handleAnswer = (questionId: string, choiceId: string) => {
     const nextAnswers = { ...answers, [questionId]: choiceId };
@@ -1365,6 +1366,35 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
   const handleStartQuiz = () => {
     setShowHomeScreen(false);
     trackEvent("quiz_started", { resumed: answeredCount > 0 });
+  };
+
+  const handleOpenSubscribeModal = () => {
+    setShowSubscribeModal(true);
+    setSubscribeStatus("idle");
+    setSubscribeMessage("");
+    trackEvent("subscribe_click", { tool: "weight-loss-quiz", screen: currentScreen });
+  };
+
+  const handleOpenFeedbackModal = () => {
+    setShowFeedbackModal(true);
+    setFeedbackStatus("idle");
+    trackEvent("feedback_click", { tool: "weight-loss-quiz", screen: currentScreen });
+  };
+
+  const handleFooterReset = () => {
+    trackEvent("reset_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    handleRestart();
+  };
+
+  const handleDonateClick = () => {
+    trackEvent("donate_click", { tool: "weight-loss-quiz", screen: currentScreen, status: "coming_soon" });
+  };
+
+  const handlePrint = () => {
+    trackEvent("print_click", { tool: "weight-loss-quiz", screen: currentScreen });
+    window.setTimeout(() => {
+      window.print();
+    }, 40);
   };
 
   const handleCopyPlan = async () => {
@@ -1424,6 +1454,8 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
           email: subscribeEmail,
           topicId: "weight-loss-quiz-news",
           topicName: "Weight-Loss Quiz Updates",
+          sourceWidget: "weight-loss-quiz",
+          sourceScreen: currentScreen,
         }),
       });
       const data = await response.json();
@@ -1431,14 +1463,30 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
       if (response.ok && data.success) {
         setSubscribeStatus("success");
         setSubscribeMessage(data.message || "Subscribed.");
-        trackEvent("notify_me_subscribe", { topic: "weight-loss-quiz-news" });
+        trackEvent("notify_me_subscribe", {
+          topic: "weight-loss-quiz-news",
+          sourceWidget: "weight-loss-quiz",
+          sourceScreen: currentScreen,
+        });
       } else {
         setSubscribeStatus("error");
         setSubscribeMessage(data.error || "Unable to subscribe right now.");
+        trackEvent("notify_me_subscribe_error", {
+          topic: "weight-loss-quiz-news",
+          sourceWidget: "weight-loss-quiz",
+          sourceScreen: currentScreen,
+          reason: data.error || "unknown_error",
+        });
       }
     } catch {
       setSubscribeStatus("error");
       setSubscribeMessage("Network error. Please try again.");
+      trackEvent("notify_me_subscribe_error", {
+        topic: "weight-loss-quiz-news",
+        sourceWidget: "weight-loss-quiz",
+        sourceScreen: currentScreen,
+        reason: "network_error",
+      });
     }
   };
 
@@ -2237,56 +2285,110 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
           )}
 
           {!showHomeScreen && (
-            <div
-              style={{
-                marginTop: 18,
-                paddingTop: 14,
-                borderTop: `1px solid ${COLORS.borderLight}`,
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 8,
-              }}
-            >
-              <button
-                className="btn-press"
-                onClick={() => setShowSubscribeModal(true)}
+            <>
+              <div
                 style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 7,
-                  borderRadius: 10,
-                  border: `1px solid ${COLORS.border}`,
-                  backgroundColor: "white",
-                  padding: "8px 10px",
-                  fontSize: 12,
-                  cursor: "pointer",
+                  marginTop: 18,
+                  paddingTop: 14,
+                  borderTop: `1px solid ${COLORS.borderLight}`,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  gap: 8,
                 }}
               >
-                <Mail size={14} /> Weekly tips
-              </button>
+                <button
+                  className="btn-press"
+                  onClick={handleOpenSubscribeModal}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 7,
+                    borderRadius: 10,
+                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "white",
+                    padding: "8px 10px",
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  <Mail size={14} /> Subscribe
+                </button>
 
-              <button
-                className="btn-press"
-                onClick={() => setShowFeedbackModal(true)}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: 7,
-                  borderRadius: 10,
-                  border: `1px solid ${COLORS.border}`,
-                  backgroundColor: "white",
-                  padding: "8px 10px",
-                  fontSize: 12,
-                  cursor: "pointer",
-                }}
-              >
-                <MessageSquare size={14} /> Feedback
-              </button>
+                <button
+                  className="btn-press"
+                  onClick={handleFooterReset}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 7,
+                    borderRadius: 10,
+                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "white",
+                    padding: "8px 10px",
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  <RotateCcw size={14} /> Reset
+                </button>
+
+                <button
+                  className="btn-press"
+                  onClick={handleDonateClick}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    borderRadius: 10,
+                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "white",
+                    padding: "8px 10px",
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  Donate
+                </button>
+
+                <button
+                  className="btn-press"
+                  onClick={handleOpenFeedbackModal}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 7,
+                    borderRadius: 10,
+                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "white",
+                    padding: "8px 10px",
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  <MessageSquare size={14} /> Feedback
+                </button>
+
+                <button
+                  className="btn-press"
+                  onClick={handlePrint}
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    borderRadius: 10,
+                    border: `1px solid ${COLORS.border}`,
+                    backgroundColor: "white",
+                    padding: "8px 10px",
+                    fontSize: 12,
+                    cursor: "pointer",
+                  }}
+                >
+                  Print
+                </button>
+              </div>
 
               {!enjoyVote && (
                 <div
                   style={{
-                    marginLeft: "auto",
+                    marginTop: 8,
                     display: "inline-flex",
                     alignItems: "center",
                     gap: 6,
@@ -2314,7 +2416,7 @@ export default function WeightLossQuiz({ initialData }: WeightLossQuizProps) {
                   </button>
                 </div>
               )}
-            </div>
+            </>
           )}
         </div>
       </div>

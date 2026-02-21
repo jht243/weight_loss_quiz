@@ -742,6 +742,12 @@ function humanizeEventName(event: string): string {
     widget_quiz_completed: "Quiz Completed",
     widget_quiz_reset: "Quiz Reset",
     widget_quiz_copy_plan: "Plan Copied",
+    // Footer buttons
+    widget_subscribe_click: "Subscribe (Click)",
+    widget_reset_click: "Reset (Click)",
+    widget_donate_click: "Donate (Click)",
+    widget_feedback_click: "Feedback (Click)",
+    widget_print_click: "Print (Click)",
     // Feedback & rating
     widget_enjoy_vote: "Enjoy Vote",
     widget_user_feedback: "Feedback (Submitted)",
@@ -932,7 +938,17 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
 
   // Engagement actions
   const engagementActions: Record<string, number> = {};
-  const engagementEvents = ["widget_enjoy_vote", "widget_user_feedback", "widget_notify_me_subscribe", "widget_notify_me_subscribe_error"];
+  const engagementEvents = [
+    "widget_subscribe_click",
+    "widget_reset_click",
+    "widget_donate_click",
+    "widget_feedback_click",
+    "widget_print_click",
+    "widget_enjoy_vote",
+    "widget_user_feedback",
+    "widget_notify_me_subscribe",
+    "widget_notify_me_subscribe_error",
+  ];
   engagementEvents.forEach(e => { engagementActions[humanizeEventName(e)] = 0; });
 
   // Completion funnel
@@ -1399,7 +1415,12 @@ async function handleTrackEvent(req: IncomingMessage, res: ServerResponse) {
 }
 
 // Buttondown API integration
-async function subscribeToButtondown(email: string, topicId: string, topicName: string) {
+async function subscribeToButtondown(
+  email: string,
+  topicId: string,
+  topicName: string,
+  sourceMetadata: Record<string, string> = {}
+) {
   const BUTTONDOWN_API_KEY = process.env.BUTTONDOWN_API_KEY;
 
   console.log("[Buttondown] subscribeToButtondown called", { email, topicId, topicName });
@@ -1413,6 +1434,7 @@ async function subscribeToButtondown(email: string, topicId: string, topicName: 
     topicName,
     source: "weight-loss-quiz",
     subscribedAt: new Date().toISOString(),
+    ...sourceMetadata,
   };
 
   const requestBody = {
@@ -1456,7 +1478,12 @@ async function subscribeToButtondown(email: string, topicId: string, topicName: 
 }
 
 // Update existing subscriber with new topic
-async function updateButtondownSubscriber(email: string, topicId: string, topicName: string) {
+async function updateButtondownSubscriber(
+  email: string,
+  topicId: string,
+  topicName: string,
+  sourceMetadata: Record<string, string> = {}
+) {
   const BUTTONDOWN_API_KEY = process.env.BUTTONDOWN_API_KEY;
 
   if (!BUTTONDOWN_API_KEY) {
@@ -1502,6 +1529,7 @@ async function updateButtondownSubscriber(email: string, topicId: string, topicN
     ...existingMetadata,
     [topicKey]: topicData,
     source: "weight-loss-quiz",
+    ...sourceMetadata,
   };
 
   const updateRequestBody = {
@@ -1557,6 +1585,18 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
     const email = parsed.email;
     const topicId = parsed.topicId || "weight-loss-quiz";
     const topicName = parsed.topicName || "Weight-Loss Quiz Updates";
+    const sourceWidget = typeof parsed.sourceWidget === "string" && parsed.sourceWidget.trim().length > 0
+      ? parsed.sourceWidget.trim()
+      : "weight-loss-quiz";
+    const sourceScreen = typeof parsed.sourceScreen === "string" && parsed.sourceScreen.trim().length > 0
+      ? parsed.sourceScreen.trim()
+      : "unknown";
+
+    const subscribeMetadata = {
+      sourceWidget,
+      sourceScreen,
+    };
+
     if (!email || !email.includes("@")) {
       res.writeHead(400).end(JSON.stringify({ error: "Invalid email address" }));
       return;
@@ -1569,7 +1609,14 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
     }
 
     try {
-      await subscribeToButtondown(email, topicId, topicName);
+      await subscribeToButtondown(email, topicId, topicName, subscribeMetadata);
+      logAnalytics("widget_notify_me_subscribe", {
+        email,
+        topicId,
+        sourceWidget,
+        sourceScreen,
+        stage: "subscribe",
+      });
       res.writeHead(200).end(JSON.stringify({
         success: true,
         message: "Successfully subscribed! You'll receive weight-loss quiz tips and updates."
@@ -1582,7 +1629,14 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
       if (already) {
         console.log("Subscriber already on list, attempting update", { email, topicId, message: rawMessage });
         try {
-          await updateButtondownSubscriber(email, topicId, topicName);
+          await updateButtondownSubscriber(email, topicId, topicName, subscribeMetadata);
+          logAnalytics("widget_notify_me_subscribe", {
+            email,
+            topicId,
+            sourceWidget,
+            sourceScreen,
+            stage: "update",
+          });
           res.writeHead(200).end(JSON.stringify({
             success: true,
             message: "You're now subscribed to this topic!"
@@ -1596,6 +1650,9 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
           logAnalytics("widget_notify_me_subscribe_error", {
             stage: "update",
             email,
+            topicId,
+            sourceWidget,
+            sourceScreen,
             error: updateError?.message,
           });
           res.writeHead(200).end(JSON.stringify({
@@ -1609,6 +1666,9 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
       logAnalytics("widget_notify_me_subscribe_error", {
         stage: "subscribe",
         email,
+        topicId,
+        sourceWidget,
+        sourceScreen,
         error: rawMessage || "unknown_error",
       });
       throw subscribeError;
@@ -1620,6 +1680,9 @@ async function handleSubscribe(req: IncomingMessage, res: ServerResponse) {
     logAnalytics("widget_notify_me_subscribe_error", {
       stage: "handler",
       email: undefined,
+      topicId: undefined,
+      sourceWidget: undefined,
+      sourceScreen: undefined,
       error: error.message || "unknown_error",
     });
     res.writeHead(500).end(JSON.stringify({
