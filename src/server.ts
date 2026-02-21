@@ -87,14 +87,12 @@ const WIDGET_CONNECT_DOMAINS = Array.from(
     LOCALHOST_API_ORIGIN,
     LOCALHOST_LOOPBACK_API_ORIGIN,
     "https://weight-loss-quiz.onrender.com",
-    "https://weight-loss-quiz-da2g.onrender.com",
   ])
 );
 
 const WIDGET_RESOURCE_DOMAINS = Array.from(
   new Set([
     "https://weight-loss-quiz.onrender.com",
-    "https://weight-loss-quiz-da2g.onrender.com",
     ...(WIDGET_API_BASE_URL.startsWith("https://") ? [WIDGET_API_BASE_URL] : []),
   ])
 );
