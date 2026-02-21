@@ -70,6 +70,33 @@ BUTTONDOWN_API_KEY=your_api_key   # Email subscriptions
 ANALYTICS_PASSWORD=your_password  # /analytics dashboard
 ```
 
+## Privacy & Data Use
+
+This app follows the policy in [PRIVACY.md](PRIVACY.md).
+
+### Analytics data logged
+
+For reliability and product analytics, server logs may include:
+- `openai/userLocation` (city, region, country when available)
+- `openai/locale`
+- Device/browser via `openai/userAgent`
+- Inferred query summary (for example: goal/challenge/activity/timeline)
+- Log timestamp and server response time
+
+### Retention
+
+- Analytics logs are retained for **30 days**.
+
+### Deletion requests
+
+- To request deletion of server-side analytics data, email: **support@layer3labs.io**
+- Include the approximate UTC date/time of your session so logs can be located.
+
+### Support channel
+
+- For privacy, support, and deletion requests, contact **support@layer3labs.io**.
+- Do **not** use GitHub issues for support requests.
+
 ## License
 
 MIT

@@ -18,7 +18,7 @@ When the widget is invoked inside ChatGPT, the following data may be received by
 | **Location** (city, region, country) | `openai/userLocation` | "Boston, MA, US" |
 | **Locale** | `openai/locale` | "en-US" |
 | **Device / browser fingerprint** | `openai/userAgent` | "Mozilla/5.0 … Safari/537.36" |
-| **Inferred quiz context** | Parsed from tool arguments | "Goal: fat loss, challenge: cravings" |
+| **Inferred query context** | Parsed from tool arguments and metadata | "goal=lose_weight, challenge=cravings" |
 | **Log timestamp** | Server clock (UTC) | "2026-02-07T19:14:00Z" |
 | **Response time** | Server-measured latency | "42 ms" |
 | **App enjoyment vote** | User-initiated thumbs up/down | "up" or "down" |
@@ -60,9 +60,19 @@ We do not sell, rent, or share your data with third parties for marketing purpos
 | Data type | Retention period | How to delete |
 |---|---|---|
 | **localStorage quiz data** | Indefinite (until user action) | Use "Retake quiz" / reset state |
-| **Server analytics logs** | 30 days | Automatic rotation; or email us for early deletion |
+| **Server analytics logs** | 30 days | Email support for early deletion |
 | **Email subscriptions** | Until unsubscribed | Unsubscribe link in emails, or email us |
 | **Feedback submissions** | 30 days (in server logs) | Email us for deletion |
+
+## Deletion Requests
+
+To request deletion of server-side analytics data, email **support@layer3labs.io**.
+
+Include:
+- Approximate UTC date/time of the session
+- Any relevant context (for example: locale, quiz profile, or feedback submission timing)
+
+We process deletion requests within **7 business days**.
 
 ## Your Rights
 
@@ -94,6 +104,8 @@ We may update this policy periodically. The "Last Updated" date at the top of th
 For privacy questions, support, or data deletion requests:
 - **Email**: support@layer3labs.io
 - **Deletion requests**: Include the approximate UTC date/time of your ChatGPT session; we will delete associated server logs within **7 business days**.
+
+There is no GitHub-based support workflow for privacy requests.
 
 **Note:** Please contact us via email for all inquiries. GitHub issues are not monitored for support requests.
 
