@@ -87,15 +87,14 @@ const WIDGET_CONNECT_DOMAINS = Array.from(
     LOCALHOST_API_ORIGIN,
     LOCALHOST_LOOPBACK_API_ORIGIN,
     "https://weight-loss-quiz.onrender.com",
-    "https://nominatim.openstreetmap.org",
-    "https://api.open-meteo.com",
-    "https://geocoding-api.open-meteo.com",
+    "https://weight-loss-quiz-da2g.onrender.com",
   ])
 );
 
 const WIDGET_RESOURCE_DOMAINS = Array.from(
   new Set([
     "https://weight-loss-quiz.onrender.com",
+    "https://weight-loss-quiz-da2g.onrender.com",
     ...(WIDGET_API_BASE_URL.startsWith("https://") ? [WIDGET_API_BASE_URL] : []),
   ])
 );
@@ -161,6 +160,12 @@ function classifyDevice(userAgent?: string | null): string {
   return "Other";
 }
 
+const GOAL_OPTIONS = ["lose_weight", "more_energy", "build_consistency", "improve_fitness"] as const;
+const CHALLENGE_OPTIONS = ["cravings", "hunger", "social_events", "weekends", "schedule", "motivation"] as const;
+const ACTIVITY_OPTIONS = ["mostly_sitting", "some_walking", "regular_workouts", "very_active"] as const;
+const TRACKING_OPTIONS = ["data_friendly", "short_term_tracking", "simple_rules", "no_tracking"] as const;
+const TIMELINE_OPTIONS = ["slow_easy", "moderate", "aggressive", "need_guidance"] as const;
+
 function computeSummary(args: any) {
   const goal = typeof args.goal === "string" ? args.goal : null;
   const biggestChallenge = typeof args.biggest_challenge === "string" ? args.biggest_challenge : null;
@@ -169,10 +174,13 @@ function computeSummary(args: any) {
   const timeline = typeof args.timeline === "string" ? args.timeline : null;
 
   let suggestedProfile = "momentum_builder";
-  if (trackingPreference === "data_friendly") suggestedProfile = "structured_achiever";
-  if (trackingPreference === "simple_rules") suggestedProfile = "busy_minimalist";
+  if (trackingPreference === "data_friendly" || trackingPreference === "short_term_tracking") suggestedProfile = "structured_achiever";
+  if (trackingPreference === "simple_rules" || trackingPreference === "no_tracking") suggestedProfile = "busy_minimalist";
   if (biggestChallenge === "cravings" || biggestChallenge === "hunger") suggestedProfile = "craving_crusher";
   if (biggestChallenge === "social_events" || biggestChallenge === "weekends") suggestedProfile = "weekend_warrior";
+  if ((biggestChallenge === "schedule" || biggestChallenge === "motivation") && activityLevel === "mostly_sitting") {
+    suggestedProfile = "momentum_builder";
+  }
 
   const starterFocusMap: Record<string, string> = {
     structured_achiever: "Set measurable daily nutrition targets and weekly check-ins.",
@@ -235,8 +243,7 @@ function readWidgetHtml(componentName: string): string {
 }
 
 // Use git commit hash for deterministic cache-busting across deploys
-// Added timestamp suffix to force cache invalidation for width fix
-const VERSION = (process.env.RENDER_GIT_COMMIT?.slice(0, 7) || Date.now().toString()) + '-' + Date.now();
+const VERSION = process.env.RENDER_GIT_COMMIT?.slice(0, 7) || Date.now().toString();
 
 function widgetMeta(widget: WeightLossQuizWidget, bustCache: boolean = false) {
   const templateUri = bustCache
@@ -246,15 +253,20 @@ function widgetMeta(widget: WeightLossQuizWidget, bustCache: boolean = false) {
   return {
     "openai/outputTemplate": templateUri,
     "openai/widgetDescription":
-      "Weight-Loss Blueprint Quiz — a modern visual quiz that helps users identify the easiest weight-loss strategy for their lifestyle. Call this tool immediately with NO arguments so the user can complete the interactive quiz.",
+      "Weight-Loss Blueprint Quiz — a guided quiz that identifies the user's behavior archetype and returns a practical 7-day fat-loss plan, tailored recipes, and supplement suggestions.",
     "openai/componentDescriptions": {
+      "home-screen": "Clear quiz value proposition with an explicit call to action to begin the quiz.",
       "quiz-flow": "Interactive question-by-question flow with visual answer cards and progress tracking.",
-      "result-profile": "Personalized result profile with a practical 7-day starter plan.",
-      "action-plan": "Simple behavior-first recommendations based on user-selected constraints and goals.",
+      "result-profile": "Personalized archetype result with first-focus guidance and behavior explanation.",
+      "week-plan": "Actionable 7-day starter plan with avoid guidance and timeline expectations.",
+      "nutrition-support": "Custom recipes and featured supplement cards with external buy links.",
     },
     "openai/widgetKeywords": [
       "weight loss quiz",
       "fat loss",
+      "weight loss archetype",
+      "7 day fat loss plan",
+      "habit-first weight loss",
       "healthy habits",
       "nutrition",
       "fitness",
@@ -264,18 +276,18 @@ function widgetMeta(widget: WeightLossQuizWidget, bustCache: boolean = false) {
       "behavior change"
     ],
     "openai/sampleConversations": [
-      { "user": "Help me figure out the best way to lose weight", "assistant": "Here is your Weight-Loss Blueprint Quiz. Answer the visual prompts to get your personalized strategy." },
-      { "user": "I keep falling off on weekends and at social events", "assistant": "Open the Weight-Loss Blueprint Quiz to identify your profile and get a realistic 7-day action plan." },
-      { "user": "I want a simple plan I can actually stick to", "assistant": "Take the quiz and I will tailor a low-friction fat-loss approach to your lifestyle." },
+      { "user": "I need a realistic way to lose weight without all-or-nothing dieting", "assistant": "Let's run the Weight-Loss Blueprint Quiz so you get an archetype and a practical 7-day plan." },
+      { "user": "I do fine during the week but lose control on weekends", "assistant": "Open the quiz and we'll map your biggest challenge to a plan you can actually follow." },
+      { "user": "Give me a simple fat-loss plan with meals and supplement options", "assistant": "Start the quiz and you'll get a tailored profile, recipes, and supplement suggestions." },
     ],
     "openai/starterPrompts": [
-      "Help me find the best weight-loss strategy for me",
-      "I want a personalized fat-loss plan I can stick to",
-      "Make me a modern visual quiz for losing weight",
-      "I struggle with cravings at night",
-      "I need a simple plan for a busy schedule",
-      "Help me stop weekend overeating",
-      "Guide me through a quick lifestyle-based weight-loss quiz",
+      "Take me through the weight-loss quiz",
+      "I want a personalized 7-day fat-loss plan",
+      "Help me identify my weight-loss archetype",
+      "I struggle with cravings late at night",
+      "I need a plan that works with a busy schedule",
+      "I keep slipping on weekends and social events",
+      "Give me a simple sustainable fat-loss strategy",
     ],
     "openai/widgetPrefersBorder": true,
     "openai/widgetCSP": {
@@ -314,11 +326,31 @@ widgets.forEach((widget) => {
 const toolInputSchema = {
   type: "object",
   properties: {
-    goal: { type: "string", description: "User's primary weight-loss goal." },
-    biggest_challenge: { type: "string", description: "Main obstacle to consistency (e.g. cravings, schedule, social events)." },
-    activity_level: { type: "string", enum: ["mostly_sitting", "some_walking", "regular_workouts", "very_active"], description: "Current movement baseline." },
-    tracking_preference: { type: "string", enum: ["data_friendly", "short_term_tracking", "simple_rules", "no_tracking"], description: "User preference for structure and tracking." },
-    timeline: { type: "string", enum: ["slow_easy", "moderate", "aggressive", "need_guidance"], description: "Preferred pace for progress." },
+    goal: {
+      type: "string",
+      enum: [...GOAL_OPTIONS],
+      description: "Primary outcome the user wants from the weight-loss quiz.",
+    },
+    biggest_challenge: {
+      type: "string",
+      enum: [...CHALLENGE_OPTIONS],
+      description: "Main behavior obstacle that prevents consistency.",
+    },
+    activity_level: {
+      type: "string",
+      enum: [...ACTIVITY_OPTIONS],
+      description: "Current movement baseline.",
+    },
+    tracking_preference: {
+      type: "string",
+      enum: [...TRACKING_OPTIONS],
+      description: "User preference for structure and tracking.",
+    },
+    timeline: {
+      type: "string",
+      enum: [...TIMELINE_OPTIONS],
+      description: "Preferred pace for progress.",
+    },
   },
   required: [],
   additionalProperties: true,
@@ -326,11 +358,11 @@ const toolInputSchema = {
 } as const;
 
 const toolInputParser = z.object({
-  goal: z.string().optional(),
-  biggest_challenge: z.string().optional(),
-  activity_level: z.enum(["mostly_sitting", "some_walking", "regular_workouts", "very_active"]).optional(),
-  tracking_preference: z.enum(["data_friendly", "short_term_tracking", "simple_rules", "no_tracking"]).optional(),
-  timeline: z.enum(["slow_easy", "moderate", "aggressive", "need_guidance"]).optional(),
+  goal: z.enum(GOAL_OPTIONS).optional(),
+  biggest_challenge: z.enum(CHALLENGE_OPTIONS).optional(),
+  activity_level: z.enum(ACTIVITY_OPTIONS).optional(),
+  tracking_preference: z.enum(TRACKING_OPTIONS).optional(),
+  timeline: z.enum(TIMELINE_OPTIONS).optional(),
 }).passthrough();
 
 const tools: Tool[] = widgets.map((widget) => ({
@@ -519,16 +551,22 @@ function createWeightLossQuizServer(): Server {
           const userText = candidates.find((t) => typeof t === "string" && t.trim().length > 0) || "";
 
           if (!args.goal) {
-            if (/weight|fat\s*loss|lose\s*weight/i.test(userText)) {
+            if (/weight|fat\s*loss|lose\s*weight|lean/i.test(userText)) {
               args.goal = "lose_weight";
-            } else if (/energy|feel\s*better/i.test(userText)) {
+            } else if (/energy|feel\s*better|less\s*tired/i.test(userText)) {
               args.goal = "more_energy";
+            } else if (/consisten|routine|habit|stick\s*to/i.test(userText)) {
+              args.goal = "build_consistency";
+            } else if (/fitness|performance|workout/i.test(userText)) {
+              args.goal = "improve_fitness";
             }
           }
 
           if (!args.biggest_challenge) {
-            if (/craving|hunger|snack/i.test(userText)) args.biggest_challenge = "cravings";
-            else if (/weekend|social|restaurant|party/i.test(userText)) args.biggest_challenge = "social_events";
+            if (/hunger|always\s*hungry/i.test(userText)) args.biggest_challenge = "hunger";
+            else if (/craving|snack|sweet|sugar/i.test(userText)) args.biggest_challenge = "cravings";
+            else if (/weekend|social|restaurant|party|vacation/i.test(userText)) args.biggest_challenge = "social_events";
+            else if (/weekends?/i.test(userText)) args.biggest_challenge = "weekends";
             else if (/busy|schedule|time/i.test(userText)) args.biggest_challenge = "schedule";
             else if (/motivation|consisten/i.test(userText)) args.biggest_challenge = "motivation";
           }
@@ -542,6 +580,7 @@ function createWeightLossQuizServer(): Server {
 
           if (!args.tracking_preference) {
             if (/track|macro|calorie|data/i.test(userText)) args.tracking_preference = "data_friendly";
+            else if (/short\s*term|temporary|few\s*weeks/i.test(userText)) args.tracking_preference = "short_term_tracking";
             else if (/simple|easy|rules/i.test(userText)) args.tracking_preference = "simple_rules";
             else if (/no\s*tracking|hate\s*tracking/i.test(userText)) args.tracking_preference = "no_tracking";
           }
@@ -559,36 +598,18 @@ function createWeightLossQuizServer(): Server {
 
 
         const responseTime = Date.now() - startTime;
+        const summary = computeSummary(args);
 
         // Check if we are using defaults (i.e. no arguments provided)
         const usedDefaults = Object.keys(args).length === 0;
 
         // Infer likely user query from parameters
         const inferredQuery = [] as string[];
-        if (args.goal) inferredQuery.push(`Goal: ${args.goal}`);
-        if (args.biggest_challenge) inferredQuery.push(`Challenge: ${args.biggest_challenge}`);
-        if (args.activity_level) inferredQuery.push(`Activity: ${args.activity_level}`);
-        if (args.tracking_preference) inferredQuery.push(`Tracking: ${args.tracking_preference}`);
-        if (args.timeline) inferredQuery.push(`Timeline: ${args.timeline}`);
-
-        logAnalytics("tool_call_success", {
-          toolName: request.params.name,
-          params: args,
-          inferredQuery: inferredQuery.length > 0 ? inferredQuery.join(", ") : "Weight Loss Quiz",
-          responseTime,
-
-          device: deviceCategory,
-          userLocation: userLocation
-            ? {
-              city: userLocation.city,
-              region: userLocation.region,
-              country: userLocation.country,
-              timezone: userLocation.timezone,
-            }
-            : null,
-          userLocale,
-          userAgent,
-        });
+        if (args.goal) inferredQuery.push(`goal=${args.goal}`);
+        if (args.biggest_challenge) inferredQuery.push(`challenge=${args.biggest_challenge}`);
+        if (args.activity_level) inferredQuery.push(`activity=${args.activity_level}`);
+        if (args.tracking_preference) inferredQuery.push(`tracking=${args.tracking_preference}`);
+        if (args.timeline) inferredQuery.push(`timeline=${args.timeline}`);
 
         // Use a stable template URI so toolOutput reliably hydrates the component
         const widgetMetadata = widgetMeta(widget, false);
@@ -598,11 +619,10 @@ function createWeightLossQuizServer(): Server {
         const structured = {
           ready: true,
           timestamp: new Date().toISOString(),
-          api_base_url: WIDGET_API_BASE_URL,
           ...args,
           input_source: usedDefaults ? "default" : "user",
           // Summary + follow-ups for natural language UX
-          summary: computeSummary(args),
+          summary,
           suggested_followups: [
             "Show me a high-protein meal framework",
             "Give me a simple weekly movement plan",
@@ -636,17 +656,20 @@ function createWeightLossQuizServer(): Server {
           if (!hasMainInputs) {
             logAnalytics("tool_call_empty", {
               toolName: request.params.name,
-              params: request.params.arguments || {},
+              params: args,
               reason: "No quiz context provided"
             });
           } else {
             logAnalytics("tool_call_success", {
+              toolName: request.params.name,
               responseTime,
-              params: request.params.arguments || {},
-              inferredQuery: inferredQuery.join(", "),
+              params: args,
+              summary,
+              inferredQuery: inferredQuery.length > 0 ? inferredQuery.join(", ") : "weight-loss-quiz",
               userLocation,
               userLocale,
               device: deviceCategory,
+              userAgent,
             });
           }
         } catch { }
@@ -713,28 +736,15 @@ function humanizeEventName(event: string): string {
     tool_call_empty: "Tool Call (Empty)",
     parameter_parse_error: "Parameter Parse Error",
     // In-app quiz actions
-    widget_parse_quiz: "Analyze Quiz Input (AI)",
-    widget_add_leg: "Add Leg",
-    widget_delete_leg: "Delete Leg",
-    widget_save_quiz: "Save Quiz",
-    widget_open_quiz: "Open Quiz",
-    widget_new_quiz: "New Quiz",
-    widget_delete_quiz: "Delete Quiz",
-    widget_duplicate_quiz: "Duplicate Quiz",
-    widget_reset: "Reset Quiz",
-    widget_back_to_home: "Back to Home",
-    widget_input_mode: "Input Mode Toggle",
-    // Footer buttons
-    widget_subscribe_click: "Subscribe (Click)",
-    widget_donate_click: "Donate (Click)",
-    widget_feedback_click: "Feedback (Click)",
-    widget_print_click: "Print (Click)",
+    widget_quiz_view: "Quiz Viewed",
+    widget_quiz_started: "Quiz Started",
+    widget_quiz_answered: "Question Answered",
+    widget_quiz_completed: "Quiz Completed",
+    widget_quiz_reset: "Quiz Reset",
+    widget_quiz_copy_plan: "Plan Copied",
     // Feedback & rating
     widget_enjoy_vote: "Enjoy Vote",
     widget_user_feedback: "Feedback (Submitted)",
-    widget_app_enjoyment_vote: "Enjoy Vote (Legacy)",
-    // Related apps
-    widget_related_app_click: "Related App (Click)",
     // Subscriptions
     widget_notify_me_subscribe: "Email Subscribe",
     widget_notify_me_subscribe_error: "Email Subscribe (Error)",
@@ -803,7 +813,7 @@ function evaluateAlerts(logs: AnalyticsEvent[]): AlertEntry[] {
     });
   }
 
-  // 3. Empty Result Sets (or equivalent for calculator - e.g. missing inputs)
+  // 3. Empty result sets (missing quiz context)
   const successCalls = logs.filter(
     (l) => l.event === "tool_call_success" && new Date(l.timestamp).getTime() >= weekAgo
   );
@@ -875,7 +885,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
 
   // --- Prompt-level analytics (from tool calls) ---
   const paramUsage: Record<string, number> = {};
-  const quizProfileDist: Record<string, number> = {};
+  const suggestedProfileDist: Record<string, number> = {};
   const activityLevelDist: Record<string, number> = {};
 
   successLogs.forEach((log) => {
@@ -885,9 +895,9 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
           paramUsage[key] = (paramUsage[key] || 0) + 1;
         }
       });
-      const quizProfile = log.params.quiz_profile;
-      if (quizProfile) {
-        quizProfileDist[quizProfile] = (quizProfileDist[quizProfile] || 0) + 1;
+      const suggestedProfile = log.summary?.suggested_profile || computeSummary(log.params || {}).suggested_profile;
+      if (suggestedProfile) {
+        suggestedProfileDist[suggestedProfile] = (suggestedProfileDist[suggestedProfile] || 0) + 1;
       }
       const activityLevel = log.params.activity_level;
       if (activityLevel) {
@@ -917,16 +927,21 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
   // --- In-app analytics (from widget events) ---
   // Quiz management actions
   const quizActions: Record<string, number> = {};
-  const quizActionEvents = ["widget_parse_quiz", "widget_save_quiz", "widget_open_quiz", "widget_new_quiz", "widget_delete_quiz", "widget_duplicate_quiz", "widget_reset", "widget_back_to_home", "widget_input_mode"];
+  const quizActionEvents = ["widget_quiz_view", "widget_quiz_started", "widget_quiz_answered", "widget_quiz_completed", "widget_quiz_reset", "widget_quiz_copy_plan"];
   quizActionEvents.forEach(e => { quizActions[humanizeEventName(e)] = 0; });
 
-  // Footer button clicks
-  const footerClicks: Record<string, number> = {};
-  const footerEvents = ["widget_subscribe_click", "widget_donate_click", "widget_feedback_click", "widget_print_click"];
-  footerEvents.forEach(e => { footerClicks[humanizeEventName(e)] = 0; });
+  // Engagement actions
+  const engagementActions: Record<string, number> = {};
+  const engagementEvents = ["widget_enjoy_vote", "widget_user_feedback", "widget_notify_me_subscribe", "widget_notify_me_subscribe_error"];
+  engagementEvents.forEach(e => { engagementActions[humanizeEventName(e)] = 0; });
 
-  // Related app clicks
-  const relatedAppClicks: Record<string, number> = {};
+  // Completion funnel
+  const completionStages: Record<string, number> = {
+    "Quiz Viewed": 0,
+    "Quiz Started": 0,
+    "Quiz Completed": 0,
+    "Plan Copied": 0,
+  };
 
   // Enjoy votes
   let enjoyUp = 0;
@@ -934,13 +949,6 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
 
   // Feedback with votes
   const feedbackLogs: AnalyticsEvent[] = [];
-
-  // Input mode preferences
-  let freeformCount = 0;
-  let manualCount = 0;
-
-  // Selection type distribution (from answer events)
-  const selectionTypeDist: Record<string, number> = {};
 
   // All widget interactions (catch-all)
   const allWidgetCounts: Record<string, number> = {};
@@ -953,32 +961,31 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     if (quizActionEvents.includes(log.event)) {
       quizActions[humanName] = (quizActions[humanName] || 0) + 1;
     }
-    // Footer
-    if (footerEvents.includes(log.event)) {
-      footerClicks[humanName] = (footerClicks[humanName] || 0) + 1;
+    // Engagement
+    if (engagementEvents.includes(log.event)) {
+      engagementActions[humanName] = (engagementActions[humanName] || 0) + 1;
     }
-    // Related apps
-    if (log.event === "widget_related_app_click") {
-      const app = log.app || "Unknown";
-      relatedAppClicks[app] = (relatedAppClicks[app] || 0) + 1;
+    // Funnel stages
+    if (log.event === "widget_quiz_view") {
+      completionStages["Quiz Viewed"]++;
+    }
+    if (log.event === "widget_quiz_started") {
+      completionStages["Quiz Started"]++;
+    }
+    if (log.event === "widget_quiz_completed") {
+      completionStages["Quiz Completed"]++;
+    }
+    if (log.event === "widget_quiz_copy_plan") {
+      completionStages["Plan Copied"]++;
     }
     // Enjoy votes
-    if (log.event === "widget_enjoy_vote" || log.event === "widget_app_enjoyment_vote") {
+    if (log.event === "widget_enjoy_vote") {
       if (log.vote === "up") enjoyUp++;
       else if (log.vote === "down") enjoyDown++;
     }
     // Feedback
     if (log.event === "widget_user_feedback") {
       feedbackLogs.push(log);
-    }
-    // Input mode
-    if (log.event === "widget_input_mode") {
-      if (log.mode === "freeform") freeformCount++;
-      else if (log.mode === "manual") manualCount++;
-    }
-    // Selection types
-    if (log.event === "widget_answer_select" && log.answerType) {
-      selectionTypeDist[log.answerType] = (selectionTypeDist[log.answerType] || 0) + 1;
     }
   });
 
@@ -1108,10 +1115,10 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     <div class="section-title">🔍 Prompt Analytics (What's Being Called)</div>
     <div class="grid-3">
       <div class="card">
-        <h2>Quiz Profile Distribution</h2>
+        <h2>Suggested Profile Distribution</h2>
         ${renderTable(
     ["Profile", "Count", "%"],
-    Object.entries(quizProfileDist).sort((a, b) => b[1] - a[1]).map(([profile, count]) => {
+    Object.entries(suggestedProfileDist).sort((a, b) => b[1] - a[1]).map(([profile, count]) => {
       const pct = successLogs.length > 0 ? ((count / successLogs.length) * 100).toFixed(0) : "0";
       const label = profile;
       return [label, String(count), `${pct}%`];
@@ -1185,7 +1192,7 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     <div class="section-title">🖱️ In-App Actions (After Tool Call)</div>
     <div class="grid-3">
       <div class="card">
-        <h2>Quiz Management</h2>
+        <h2>Quiz Journey Actions</h2>
         ${renderTable(
       ["Action", "Count"],
       Object.entries(quizActions).filter(([, c]) => c > 0).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
@@ -1193,43 +1200,42 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
     )}
       </div>
       <div class="card">
-        <h2>Footer Buttons</h2>
+        <h2>Engagement Actions</h2>
         ${renderTable(
-      ["Button", "Clicks"],
-      Object.entries(footerClicks).sort((a, b) => b[1] - a[1]).map(([b, c]) => [b, String(c)]),
+      ["Action", "Count"],
+      Object.entries(engagementActions).sort((a, b) => b[1] - a[1]).map(([b, c]) => [b, String(c)]),
       "No clicks yet"
     )}
       </div>
       <div class="card">
-        <h2>Related App Clicks</h2>
+        <h2>Completion Funnel</h2>
         ${renderTable(
-      ["App", "Clicks"],
-      Object.entries(relatedAppClicks).sort((a, b) => b[1] - a[1]).map(([a, c]) => [a, String(c)]),
-      "No clicks yet"
+      ["Stage", "Count"],
+      Object.entries(completionStages).map(([a, c]) => [a, String(c)]),
+      "No funnel data yet"
     )}
       </div>
     </div>
 
     <div class="grid-2" style="margin-bottom:20px;">
       <div class="card">
-        <h2>Input Mode Preference</h2>
+        <h2>Funnel Conversion Snapshot</h2>
         ${renderTable(
-      ["Mode", "Count"],
+      ["Metric", "Value"],
       [
-        ["✨ Freeform (AI Describe)", String(freeformCount)],
-        ["✏️ Manual (Add Manually)", String(manualCount)],
+        ["Start rate from views", completionStages["Quiz Viewed"] > 0 ? `${((completionStages["Quiz Started"] / completionStages["Quiz Viewed"]) * 100).toFixed(0)}%` : "—"],
+        ["Completion rate from starts", completionStages["Quiz Started"] > 0 ? `${((completionStages["Quiz Completed"] / completionStages["Quiz Started"]) * 100).toFixed(0)}%` : "—"],
+        ["Copy-plan rate from completions", completionStages["Quiz Completed"] > 0 ? `${((completionStages["Plan Copied"] / completionStages["Quiz Completed"]) * 100).toFixed(0)}%` : "—"],
       ],
       "No data yet"
     )}
       </div>
       <div class="card">
-        <h2>Answer Types Selected</h2>
+        <h2>Most Frequent Widget Events</h2>
         ${renderTable(
-      ["Type", "Count"],
-      Object.entries(selectionTypeDist).sort((a, b) => b[1] - a[1]).map(([t, c]) => {
-        return [t, String(c)];
-      }),
-      "No answer selections yet"
+      ["Event", "Count"],
+      Object.entries(allWidgetCounts).sort((a, b) => b[1] - a[1]).slice(0, 10).map(([t, c]) => [t, String(c)]),
+      "No widget events yet"
     )}
       </div>
     </div>
@@ -1265,12 +1271,12 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       <div class="card">
         <h2>Feedback Submissions</h2>
         ${feedbackLogs.length > 0 ? renderTable(
-      ["Date", "Vote", "Feedback", "Quiz"],
+      ["Date", "Vote", "Feedback", "Profile"],
       feedbackLogs.slice(0, 15).map(l => [
         `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
         l.enjoymentVote === "up" ? '<span class="badge badge-green">👍</span>' : l.enjoymentVote === "down" ? '<span class="badge badge-red">👎</span>' : "—",
         `<div style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${l.feedback || "—"}</div>`,
-        l.quizName || "—"
+        l.profile || "—"
       ]),
       "No feedback yet"
     ) : '<p style="color:#9ca3af;font-size:13px;">No feedback submitted yet</p>'}
@@ -1285,7 +1291,9 @@ function generateAnalyticsDashboard(logs: AnalyticsEvent[], alerts: AlertEntry[]
       successLogs.slice(0, 25).map(l => [
         `<span class="timestamp">${new Date(l.timestamp).toLocaleString()}</span>`,
         `<div style="max-width:250px;overflow:hidden;text-overflow:ellipsis;">${l.inferredQuery || "—"}</div>`,
-        l.params?.quiz_profile ? `<span class="badge badge-blue">${l.params?.quiz_profile}</span>` : "—",
+        (l.summary?.suggested_profile || computeSummary(l.params || {}).suggested_profile)
+          ? `<span class="badge badge-blue">${l.summary?.suggested_profile || computeSummary(l.params || {}).suggested_profile}</span>`
+          : "—",
         l.params?.goal && l.params?.biggest_challenge
           ? `${l.params?.goal} → ${l.params?.biggest_challenge}`
           : (l.params?.goal || "—"),
@@ -1662,8 +1670,8 @@ async function handleParseQuizAI(req: IncomingMessage, res: ServerResponse) {
 
 Return a JSON object with this shape:
 {
-  "goal": string | null,
-  "biggest_challenge": string | null,
+  "goal": "lose_weight" | "more_energy" | "build_consistency" | "improve_fitness" | null,
+  "biggest_challenge": "cravings" | "hunger" | "social_events" | "weekends" | "schedule" | "motivation" | null,
   "activity_level": "mostly_sitting" | "some_walking" | "regular_workouts" | "very_active" | null,
   "tracking_preference": "data_friendly" | "short_term_tracking" | "simple_rules" | "no_tracking" | null,
   "timeline": "slow_easy" | "moderate" | "aggressive" | "need_guidance" | null
@@ -1757,6 +1765,8 @@ function fallbackParseQuizText(text: string): Record<string, string | null> {
 
   const trackingPreference = /track|macro|calorie|data/.test(lower)
     ? "data_friendly"
+    : /short\s*term|temporary|few\s*weeks/.test(lower)
+      ? "short_term_tracking"
     : /simple|easy|rules/.test(lower)
       ? "simple_rules"
       : /no\s*tracking|hate\s*tracking/.test(lower)
@@ -1928,7 +1938,7 @@ const httpServer = createServer(
     // Serve primary widget HTML
     if (req.method === "GET" && url.pathname === "/assets/weight-loss-quiz.html") {
       const mainAssetPath = path.join(ASSETS_DIR, "weight-loss-quiz.html");
-      console.log(`[Debug Legacy] Request: ${url.pathname}, Main Path: ${mainAssetPath}, Exists: ${fs.existsSync(mainAssetPath)}`);
+      console.log(`[Debug Asset] Request: ${url.pathname}, Main Path: ${mainAssetPath}, Exists: ${fs.existsSync(mainAssetPath)}`);
       if (fs.existsSync(mainAssetPath) && fs.statSync(mainAssetPath).isFile()) {
         res.writeHead(200, {
           "Content-Type": "text/html",
